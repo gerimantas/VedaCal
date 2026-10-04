@@ -1,20 +1,21 @@
 # VedaCal — CONTEXT
 
 ## Status
-P0 done: Vite + Svelte 5 + PWA skeleton live at https://gerimantas.github.io/VedaCal/,
-CI green (audit, signatures, dependency scan, tests, type check, build, Pages deploy).
-The placeholder page computes today's Vilnius tithi and sunrise with `panchangam-js`
-in the browser (sunrise matches Drik). Next is P1: the adapter and its validation.
-Engine: `panchangam-js` 3.0.0 behind our own adapter; Drik upper-limb sunrise; English UI.
+P0 and P1 done. The calculation core (`src/core/panchang.ts`: `computeDay`, `computeMonth`)
+passes 383 tests against 39 Drik days, 22 mypanchang days and Drik's Ekadashi lists for
+2026 + 2027 (147 dates). Accuracy vs mypanchang: 8–12 s mean per element. Month computes in
+140–206 ms at 4× CPU throttle. Live page is still the placeholder (shows today's Vilnius
+tithi via the new core). No UI or content yet.
 
 ## Next Tasks
-- P1: fixture fetchers (Drik + mypanchang), then the adapter in `src/core/` meeting
-  SPEC 4 and the SPEC 8 contract. plan: `.planning/PLAN.md` P1; library quirks: SPEC 11
-  "Library behaviour found in P0" (0-based indexes, karana names, CJS/ESM alias).
+- P2 content (113 plain-English entries, user approves) and P3 design mockups with real
+  engine values (user approves) — both before any UI code. plan: `.planning/PLAN.md` P2, P3;
+  rules: `.planning/SPEC.md` sections 5 and 7.
 
 ## Done Log
 
 ### 2026-10-04 (S1)
+- P1: core validated (Drik + mypanchang fixtures, Ekadashi rule, edge cases, speed, bundle check)
 - Analysed the NotebookLM notebook; audience chosen: Western wellness users
 - PWA + `astronomy-engine` chosen; calibrated against Drik (SPEC 4.9)
 - `.planning/SPEC.md` (what/how) and `.planning/PLAN.md` (P0–P7 with gates) written
@@ -32,6 +33,9 @@ Engine: `panchangam-js` 3.0.0 behind our own adapter; Drik upper-limb sunrise; E
 - Deploy = push to `main`; `.github/workflows/ci.yml` tests and publishes. Check:
   `gh run list --limit 1`
 - After any dependency change: `npm run scan` (security scan, also runs in CI)
+- Accuracy vs references: `npm run accuracy`. Refetch references: `node scripts/fetch-drik.ts`,
+  `fetch-mypanchang.ts`, `fetch-ekadashi.ts` (fixtures in `tests/fixtures/`, never hand-typed)
+- Speed: `npm run dev`, open `/VedaCal/tests/perf/perf.html` (dev-only harness)
 - NotebookLM notebook "VedaCal": `2a0fad75-caeb-4d03-9f73-7c91e341d1f2`
   (5 Panchang websites, 1 research report, 1 YouTube video; 9 notes, 2 PRD reports)
 - Local copies: `.planning/notebooklm/PRD-en.md`, `PRD-lt.md`, `notes/`
