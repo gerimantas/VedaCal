@@ -10,7 +10,8 @@ lists what in it is wrong.
 ## Next Tasks
 - P0 project setup, then P1 calculation core validated against 36 Drik fixtures.
   plan: `.planning/PLAN.md` (P0, P1); rules: `.planning/SPEC.md` section 4.
-- Decide default sunrise rule (Drik upper limb vs mypanchang centre) — PLAN "Decisions pending".
+- Decide engine: wrap `@ishubhamx/panchangam-js` vs own core — PLAN "Decisions pending",
+  evidence SPEC section 11.
 
 ## Done Log
 
@@ -18,6 +19,8 @@ lists what in it is wrong.
 - Analysed the NotebookLM notebook; audience chosen: Western wellness users
 - PWA + `astronomy-engine` chosen; calibrated against Drik (SPEC 4.8)
 - `.planning/SPEC.md` (what/how) and `.planning/PLAN.md` (P0–P7 with gates) written
+- Checked plan against the 7 NotebookLM sources + mypanchang; decided: Drik sunrise,
+  English UI, public repo; GitHub prior art searched (SPEC 11)
 
 ## Key Facts
 - NotebookLM notebook "VedaCal": `2a0fad75-caeb-4d03-9f73-7c91e341d1f2`
