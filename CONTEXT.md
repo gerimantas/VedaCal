@@ -10,6 +10,7 @@ lists what in it is wrong.
 ## Next Tasks
 - P0 project setup, then P1 calculation core validated against 36 Drik fixtures.
   plan: `.planning/PLAN.md` (P0, P1); rules: `.planning/SPEC.md` section 4.
+- Decide default sunrise rule (Drik upper limb vs mypanchang centre) — PLAN "Decisions pending".
 
 ## Done Log
 
@@ -26,7 +27,7 @@ lists what in it is wrong.
 - Reference for validation: Drik day page, fetch with firecrawl:
   `https://www.drikpanchang.com/panchang/day-panchang.html?geoname-id=<id>&date=DD/MM/YYYY`
   (Vilnius `593116`, New York `5128581`, New Delhi `1261481`)
-- Drik default sunrise = upper limb + refraction, NOT Madhyabimb (centre) — ~2 min apart
+- Sunrise: Drik = upper limb, mypanchang = centre (Madhyabimb); ~2 min apart, both measured (SPEC 4.8)
 - Swiss Ephemeris is AGPL — closed paid app needs a commercial licence
 - No medical claims in product text (app-store and EU risk) — SPEC section 7
 
