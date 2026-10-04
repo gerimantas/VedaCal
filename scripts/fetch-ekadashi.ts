@@ -4,6 +4,7 @@
 // "Vaishnava" alternatives. We store all, and `smarta` = the first day carrying a plain name.
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { CITIES, type CityKey } from './cities.ts'
+import { drikPage } from './drik-page.ts'
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
@@ -13,9 +14,7 @@ const text = (html: string) =>
 export async function fetchEkadashi(city: CityKey, year: number) {
   const c = CITIES[city]
   const url = `https://www.drikpanchang.com/vrats/ekadashidates.html?geoname-id=${c.drikId}&year=${year}`
-  const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 (VedaCal test fixtures)' } })
-  if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`)
-  const html = await res.text()
+  const html = await drikPage(url)
   if (!html.includes(c.drikName)) throw new Error(`${url}: page is not for ${c.drikName}`)
   const body = text(html.slice(html.indexOf(`${year} Ekadashi Dates`)))
 

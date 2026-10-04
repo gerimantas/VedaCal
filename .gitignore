@@ -14,3 +14,5 @@ __pycache__/
 # Planning docs are a separate local-only repository (see CONTEXT.md)
 .planning/
 .playwright-mcp/
+# Pages fetched from drikpanchang.com by scripts/drik-page.ts (re-parse without re-fetching)
+.cache/

@@ -13,6 +13,11 @@ placeholder.
   the live site) once the user says so. Then P5 (month screen + settings) — its speed gate
   is already over budget at 4× throttle, measure on a real phone first.
   plan: `.planning/PLAN.md` P4 notes, P5; rules: `.planning/SPEC.md` 4.10.
+- Fetch the Drik evidence the reCAPTCHA cut off (2026-10-05), in the background (~15 min at
+  12 s per page): `node scripts/fetch-parana.ts new-york 2027`, `… new-delhi 2027`, and
+  `node scripts/fetch-drik.ts <vilnius|new-york|new-delhi> 2026-05-10 2026-05-25 2026-06-08`
+  (adhika month). Then `npm test`; a mismatch is a finding, not a fixture to edit.
+  rules: `.planning/SPEC.md` 4.10 (Evidence).
 
 ## Done Log
 
@@ -41,6 +46,9 @@ placeholder.
 - Deploy = push to `main`; `.github/workflows/ci.yml` tests and publishes. Check:
   `gh run list --limit 1`
 - After any dependency change: `npm run scan` (security scan, also runs in CI)
+- Drik fixture scripts go through `scripts/drik-page.ts`: pages cached in `.cache/drik/`
+  (re-parse without re-fetching), 12 s between requests (`DRIK_DELAY_MS`), stop at the first
+  reCAPTCHA. Drik blocks after ~150 quick requests.
 - Accuracy vs references: `npm run accuracy`. Refetch references: `node scripts/fetch-drik.ts`,
   `fetch-mypanchang.ts`, `fetch-ekadashi.ts` (fixtures in `tests/fixtures/`, never hand-typed)
 - Speed: `npm run dev`, open `/VedaCal/tests/perf/perf.html` (dev-only harness)

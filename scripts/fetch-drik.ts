@@ -3,6 +3,7 @@
 // Fixtures are evidence: values come from the page, never typed by hand.
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { CITIES, type CityKey } from './cities.ts'
+import { drikPage } from './drik-page.ts'
 import { addDays, zonedTimeToUtc } from '../src/core/time.ts'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -81,10 +82,7 @@ export async function fetchDrik(city: CityKey, date: string) {
   const c = CITIES[city]
   const [y, m, d] = date.split('-')
   const url = `https://www.drikpanchang.com/panchang/day-panchang.html?geoname-id=${c.drikId}&date=${d}/${m}/${y}`
-  await new Promise((r) => setTimeout(r, 1500)) // be polite to drikpanchang.com
-  const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 (VedaCal test fixtures)' } })
-  if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`)
-  const html = await res.text()
+  const html = await drikPage(url)
   if (!html.includes(c.drikName)) throw new Error(`${url}: page is not for ${c.drikName}`)
   const cards = parseCards(html)
   const sun = cards['Sunrise and Moonrise']

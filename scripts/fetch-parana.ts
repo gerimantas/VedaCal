@@ -4,19 +4,12 @@
 // Fixtures are evidence: values come from the pages, never typed by hand.
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { CITIES, type CityKey } from './cities.ts'
+import { drikPage as get } from './drik-page.ts'
 import { zonedTimeToUtc } from '../src/core/time.ts'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-const UA = { 'User-Agent': 'Mozilla/5.0 (VedaCal test fixtures)' }
 
 const text = (html: string) => html.replace(/<[^>]*>/g, ' ').replace(/&[#\w]+;/g, ' ').replace(/\s+/g, ' ')
-
-async function get(url: string): Promise<string> {
-  await new Promise((r) => setTimeout(r, 1500)) // be polite to drikpanchang.com
-  const res = await fetch(url, { headers: UA })
-  if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`)
-  return res.text()
-}
 
 /** "07:32 AM" on a civil date → ISO instant. */
 function instant(tz: string, date: string, s: string): string {
