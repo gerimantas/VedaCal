@@ -23,12 +23,16 @@ lists what in it is wrong.
   Ritu — no health claims); concept coverage table in SPEC 12
 - Engine: `@ishubhamx/panchangam-js` 3.0.0 behind own adapter; security-checked
   (SPEC 11); new-moon rest day = the new-moon day only
+- `.planning/` split into its own local repo (history kept); removed from main-repo history
 
 ## Key Facts
 - NotebookLM notebook "VedaCal": `2a0fad75-caeb-4d03-9f73-7c91e341d1f2`
   (5 Panchang websites, 1 research report, 1 YouTube video; 9 notes, 2 PRD reports)
 - Local copies: `.planning/notebooklm/PRD-en.md`, `PRD-lt.md`, `notes/`
 - Spec: `.planning/SPEC.md` · build order + gates: `.planning/PLAN.md`
+- `.planning/` is a **separate local-only git repo** (ignored by the main repo, never
+  pushed — user decision 2026-10-04: plans stay private, code is public). Commit planning
+  changes with `git -C .planning commit`; session end must commit both repos.
 - Reference for validation: Drik day page, fetch with firecrawl:
   `https://www.drikpanchang.com/panchang/day-panchang.html?geoname-id=<id>&date=DD/MM/YYYY`
   (Vilnius `593116`, New York `5128581`, New Delhi `1261481`)
