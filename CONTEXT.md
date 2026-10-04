@@ -8,7 +8,7 @@ within ~1.5 min on every element. NotebookLM material is input only — SPEC sec
 lists what in it is wrong.
 
 ## Next Tasks
-- P0 project setup, then P1 calculation core validated against 36 Drik fixtures.
+- P0 project setup, then P1 adapter validated against 39 Drik + 26 mypanchang fixtures.
   plan: `.planning/PLAN.md` (P0, P1); rules: `.planning/SPEC.md` section 4.
 
 ## Done Log
