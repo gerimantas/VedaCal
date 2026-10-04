@@ -2,19 +2,23 @@
 
 ## Status
 P0, P1, P2 done; P3 in progress. The calculation core (`src/core/panchang.ts`) passes 504
-tests (Drik + mypanchang fixtures, 147 Ekadashi dates, content rules). P2 texts approved.
-P3 mockups are at v4 — the "dashboard" direction the user picked from their reference
-image (realistic moon hero, six icon tiles, sun arc, green/red window cards, card month
-grid). The user does not like the design yet and will say what to fix next session; P4
-(real app UI) waits for P3 approval. Live site is still the placeholder.
+tests. P3 mockups are at v21 after a full session of the user's fixes: NASA moon photo,
+24-hour sun dial with calm/good/avoid rows, plain-English fact rows (Sanskrit same size,
+gold), tap-to-explain sheets, About tab, photo moons in the month grid. Design rules are in
+`.planning/SPEC.md` 5.1. Not approved yet; P4 waits for approval. Live site is still the
+placeholder.
 
 ## Next Tasks
-- P3 design fixes: ask the user for concrete changes to mockups v4, apply, bump
-  `MOCKUP_VERSION`, get approval. Mockups: `npm run dev` → `/VedaCal/mockups/`.
-  plan: `.planning/PLAN.md` P3; design rules: `.planning/SPEC.md` section 5.
+- P3: show the user mockups v21, apply further fixes, get approval; decide whether
+  moonrise/moonset return (SPEC 5.1 note). `npm run dev` → `/VedaCal/mockups/`.
+  plan: `.planning/PLAN.md` P3; design rules: `.planning/SPEC.md` 5.1–5.4.
 - P4 after P3 approval: Svelte screens + GeoNames city search. plan: `.planning/PLAN.md` P4.
 
 ## Done Log
+
+### 2026-10-04 (S2)
+- P3 mockups v5–v21: NASA moon photo, sun dial, fact rows, sheets, About tab, month photo moons
+- Plain-English rule written into SPEC 5.1; user page idea recorded in SPEC 10 backlog
 
 ### 2026-10-04 (S1)
 - P3: mockups v1–v4 (day, month, location; dark + light); version badge + no-store dev server
@@ -43,6 +47,12 @@ grid). The user does not like the design yet and will say what to fix next sessi
 - Mockups (P3): `npm run dev` → http://localhost:5173/VedaCal/mockups/ . Bump `MOCKUP_VERSION`
   in `mockups/version.ts` on every visible change — each screen shows a version badge so the
   user can tell a stale browser copy from a real change. Dev server sends `Cache-Control: no-store`.
+- Mockups are NOT covered by `npm run check` (tsconfig.app includes `src/` only). Type-check
+  them with: `node_modules/.bin/tsc --ignoreConfig --noEmit --strict --noUnusedLocals --module esnext
+  --moduleResolution bundler --target es2022 --lib es2022,dom,dom.iterable --skipLibCheck
+  --resolveJsonModule --types vite/client mockups/*.ts src/globals.d.ts`
+- Browser auto-dark (Chrome force-dark) ignores `color-scheme` and inverts SVG fills; reproduce
+  with Chromium arg `--blink-settings=forceDarkModeEnabled=true`. Photos are left alone.
 - App shows `v<package version> · <git commit> · built <time>` (vite `define`, `src/globals.d.ts`)
 - NotebookLM notebook "VedaCal": `2a0fad75-caeb-4d03-9f73-7c91e341d1f2`
   (5 Panchang websites, 1 research report, 1 YouTube video; 9 notes, 2 PRD reports)
@@ -63,6 +73,23 @@ grid). The user does not like the design yet and will say what to fix next sessi
   is wrong; real value is Krishna Navami, waning. Only computed or Drik-fetched values count.
 
 ## Archive
+
+### Session 2026-10-04 (S2) — P3 mockups v4 → v21 from the user's fixes
+
+- **Done:** real NASA moon photo (public domain) replaces the fake SVG moon; night side drawn
+  as the dimmed photo so browser auto-dark cannot invert it; 24-hour sun dial with live sun,
+  calm/good/avoid rows as its key; six Sanskrit tiles → plain-English fact rows ("More
+  details" folds yoga/karana); tap-to-explain sheets; About tab; month grid uses photo moons,
+  no tithi number; duplicates removed (legend, window cards, footer, season card).
+- **Decided / overturned:** rule — plain English first, Sanskrit name same size in gold,
+  never alone, one fact one place (SPEC 5.1); user page (birth data, horoscope, biorhythms)
+  deferred to backlog (SPEC 10); six-tile grid and half sun arc overturned.
+- **Code:** `src/ui/moon.ts`, `src/ui/format.ts` (moonSvg removed), `src/styles/tokens.css`
+  (`--color-calm`), `src/content/en.json` (new ui keys), `mockups/{day,month,common,about,
+  version}.ts`, `mockups/{about,index}.html`, `mockups/screens.css`, `public/moon-full.webp`.
+- **Entry point:** `npm run dev` → `/VedaCal/mockups/day.html` (`?at=HH:MM`, `?date=`).
+- **Not measured:** user has not approved v21; moonrise/moonset not in mockups (decide
+  before P4); forced-dark fix verified only in headless Chromium, not the user's browser.
 
 ### Session 2026-10-04 (S1) — project start through P0, P1, P2 and P3 mockups v4
 

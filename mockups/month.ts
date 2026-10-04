@@ -1,6 +1,7 @@
 // P3 mockup — Month screen (SPEC 5.2), filled live from the calculation core. v4 dashboard style.
 import { computeMonth } from '../src/core/panchang'
-import { content, entry, moonSvg, t, time } from '../src/ui/format'
+import { content, entry, t, time } from '../src/ui/format'
+import { realisticMoon } from '../src/ui/moon'
 import { date, icon, link, mount, tabs, today, vilnius as loc } from './common'
 
 const [y, m] = date.split('-').map(Number)
@@ -26,12 +27,13 @@ const cells = days.map((d) => {
   return `<a class="${classes}" href="${dayLink(d.date)}" aria-label="${label}">
     ${d.ekadashi ? '<span class="dot"></span>' : ''}
     <span class="d num">${n}</span>
-    ${moonSvg(d.moon.illumination, d.moon.waxing, 18, '')}
-    <span class="ti num">${tithi > 15 && tithi < 30 ? tithi - 15 : tithi}</span>
+    ${realisticMoon(d.moon.illumination, d.moon.waxing, 24, '')}
   </a>`
 })
 
-// Key dates: moon phases, Ekadashi, season and half-year changes.
+// Key dates: moon phases, Ekadashi, season and half-year changes — plain English first.
+const ekadashiTitle = content.rhythm.ekadashi.title.split(' — ')[1] ?? 'Ekadashi'
+const lighterDay = ekadashiTitle[0].toUpperCase() + ekadashiTitle.slice(1)
 const short = new Intl.DateTimeFormat(undefined, { day: 'numeric', month: 'short', timeZone: loc.tz })
 type Ev = { at: Date; date: string; svg: string; cls: string; title: string; sub: string; when: string }
 const events: Ev[] = []
@@ -39,7 +41,7 @@ for (const d of days) {
   const noon = new Date(`${d.date}T12:00:00Z`)
   if (d.newMoon) events.push({ at: d.newMoon, date: d.date, svg: icon.newMoon, cls: '', title: t('newMoon'), sub: 'Amavasya', when: time(d.newMoon, loc) })
   if (d.fullMoon) events.push({ at: d.fullMoon, date: d.date, svg: icon.fullMoon, cls: '', title: t('fullMoon'), sub: 'Purnima', when: time(d.fullMoon, loc) })
-  if (d.ekadashi) events.push({ at: noon, date: d.date, svg: icon.leaf, cls: 'ekadashi', title: 'Ekadashi', sub: entry('tithi', d.tithi[0].index).name, when: '' })
+  if (d.ekadashi) events.push({ at: noon, date: d.date, svg: icon.leaf, cls: 'ekadashi', title: lighterDay, sub: 'Ekadashi', when: '' })
   for (const e of d.rhythm.events) {
     const next = e.kind === 'ritu' ? content.rhythm[`ritu${(d.rhythm.ritu % 6) + 1}` as 'ritu1'] : content.rhythm[d.rhythm.ayana === 'uttarayana' ? 'dakshinayana' : 'uttarayana']
     events.push({ at: e.at, date: d.date, svg: icon.season, cls: '', title: e.kind === 'ritu' ? `${next.title} begins` : next.title, sub: next.name, when: time(e.at, loc) })
@@ -64,8 +66,9 @@ mount(`
     ${cells.join('')}
   </div>
   <p class="legend">
+    <span>${realisticMoon(0.6, true, 14, '')}${t('legendMoonShape')}</span>
     <span><i style="background:var(--color-paper-3);border:1px solid var(--color-card-line)"></i>${t('legendRest')}</span>
-    <span><i style="background:var(--color-accent);border-radius:50%;width:6px;height:6px"></i>${t('legendEkadashi')}</span>
+    <span><i style="background:var(--color-accent);border-radius:50%;width:6px;height:6px"></i>${t('legendEkadashi')} <span class="sk">Ekadashi</span></span>
     <span><i style="border:1px solid var(--color-moon)"></i>${t('legendToday')}</span>
   </p>
 

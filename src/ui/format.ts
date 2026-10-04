@@ -46,24 +46,4 @@ export function current(spans: Span[]): { now: Span | undefined; next: Span | un
 export const progress = (s: Span, at: Date) =>
   Math.min(1, Math.max(0, (at.getTime() - s.start.getTime()) / (s.end.getTime() - s.start.getTime())))
 
-/**
- * The Moon as an SVG: a dark disc with the lit part drawn on the right while waxing and on
- * the left while waning (as seen from the northern hemisphere).
- */
-export function moonSvg(illumination: number, waxing: boolean, size: number, label: string): string {
-  const r = size / 2 - 1
-  const c = size / 2
-  const rx = Math.abs(1 - 2 * illumination) * r
-  const crescent = illumination < 0.5
-  const outer = waxing ? 1 : 0
-  const inner = waxing ? (crescent ? 0 : 1) : crescent ? 1 : 0
-  const lit =
-    illumination < 0.005
-      ? ''
-      : illumination > 0.995
-        ? `<circle cx="${c}" cy="${c}" r="${r}" fill="var(--color-moon)"/>`
-        : `<path d="M ${c} ${c - r} A ${r} ${r} 0 0 ${outer} ${c} ${c + r} A ${rx} ${r} 0 0 ${inner} ${c} ${c - r} Z" fill="var(--color-moon)"/>`
-  return `<svg class="moon" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" role="img" aria-label="${label}"><circle cx="${c}" cy="${c}" r="${r}" fill="var(--color-moon-dark)"/>${lit}</svg>`
-}
-
 export const percent = (x: number) => Math.round(x * 100)
