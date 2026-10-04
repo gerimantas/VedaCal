@@ -1,6 +1,16 @@
 node_modules/
-.env
+dist/
+dist-ssr/
+*.local
 *.log
+.env
 __pycache__/
 .venv/
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# Planning docs are a separate local-only repository (see CONTEXT.md)
 .planning/
+.playwright-mcp/
