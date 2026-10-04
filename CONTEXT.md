@@ -17,10 +17,12 @@ lists what in it is wrong.
 
 ### 2026-10-04 (S1)
 - Analysed the NotebookLM notebook; audience chosen: Western wellness users
-- PWA + `astronomy-engine` chosen; calibrated against Drik (SPEC 4.8)
+- PWA + `astronomy-engine` chosen; calibrated against Drik (SPEC 4.9)
 - `.planning/SPEC.md` (what/how) and `.planning/PLAN.md` (P0–P7 with gates) written
 - Checked plan against the 7 NotebookLM sources + mypanchang; decided: Drik sunrise,
   English UI, public repo; GitHub prior art searched (SPEC 11)
+- Concept module 3 kept in v1 as "Traditional rhythm" (rest days, Ekadashi, Ayana,
+  Ritu — no health claims); concept coverage table in SPEC 12
 
 ## Key Facts
 - NotebookLM notebook "VedaCal": `2a0fad75-caeb-4d03-9f73-7c91e341d1f2`
@@ -30,7 +32,7 @@ lists what in it is wrong.
 - Reference for validation: Drik day page, fetch with firecrawl:
   `https://www.drikpanchang.com/panchang/day-panchang.html?geoname-id=<id>&date=DD/MM/YYYY`
   (Vilnius `593116`, New York `5128581`, New Delhi `1261481`)
-- Sunrise: Drik = upper limb, mypanchang = centre (Madhyabimb); ~2 min apart, both measured (SPEC 4.8)
+- Sunrise: Drik = upper limb, mypanchang = centre (Madhyabimb); ~2 min apart, both measured (SPEC 4.9)
 - Swiss Ephemeris is AGPL — closed paid app needs a commercial licence
 - No medical claims in product text (app-store and EU risk) — SPEC section 7
 
