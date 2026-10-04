@@ -9,10 +9,7 @@ gold), tap-to-explain sheets, About tab, photo moons in the month grid. Design r
 placeholder.
 
 ## Next Tasks
-- P3: show the user mockups v21, apply further fixes, get approval; decide whether
-  moonrise/moonset return (SPEC 5.1 note). `npm run dev` → `/VedaCal/mockups/`.
-  plan: `.planning/PLAN.md` P3; design rules: `.planning/SPEC.md` 5.1–5.4.
-- P4 after P3 approval: Svelte screens + GeoNames city search. plan: `.planning/PLAN.md` P4.
+- P4 (P3 approved 2026-10-04 at mockups v22): Svelte screens + GeoNames city search. plan: `.planning/PLAN.md` P4.
 
 ## Done Log
 
