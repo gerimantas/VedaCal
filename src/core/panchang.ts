@@ -84,15 +84,16 @@ function crossing(angle: (t: Date) => number, target: number, a: Date, b: Date):
 
 /**
  * Contiguous spans of an angle split into `step`-degree sectors, covering [from, to), with
- * true boundaries (the first may start before `from`, the last end after `to`). Every
- * element lasts under 1.3 days, so the brackets below hold exactly one crossing.
+ * true boundaries (the first may start before `from`, the last end after `to`). `maxDays`
+ * is the longest a sector can last — 1.3 days for the five elements, longer for the signs —
+ * so the brackets below hold exactly one crossing.
  */
-function sectorSpans(angle: (t: Date) => number, step: number, from: Date, to: Date, indexOf: (k: number) => number): Span[] {
+function sectorSpans(angle: (t: Date) => number, step: number, from: Date, to: Date, indexOf: (k: number) => number, maxDays = 1.3): Span[] {
   let k = Math.floor(angle(from) / step)
-  let start = crossing(angle, k * step, new Date(from.getTime() - 1.3 * DAY_MS), from)
+  let start = crossing(angle, k * step, new Date(from.getTime() - maxDays * DAY_MS), from)
   const out: Span[] = []
   while (start < to) {
-    const end = crossing(angle, ((k + 1) * step) % 360, new Date(start.getTime() + 1000), new Date(start.getTime() + 1.5 * DAY_MS))
+    const end = crossing(angle, ((k + 1) * step) % 360, new Date(start.getTime() + 1000), new Date(start.getTime() + (maxDays + 0.2) * DAY_MS))
     out.push({ index: indexOf(k), start, end })
     start = end
     k = (k + 1) % Math.round(360 / step)
@@ -108,6 +109,10 @@ function karanaType(h: number): number {
 }
 
 const NAKSHATRA = 360 / 27
+const SIGN = 30
+// Longest stay in one sign: the Moon ~2.5 days.
+const MOON_SIGN_DAYS = 2.8
+const siderealSun = (ayanamsa: number) => (t: Date) => norm(tropical(Body.Sun, t) - ayanamsa)
 
 // ── Moon and Sun events ─────────────────────────────────────────────────────────
 
@@ -120,6 +125,45 @@ function moonPhaseIn(phase: number, from: Date, to: Date): Date | null {
 function sunLongitudeIn(lon: number, from: Date, to: Date): Date | null {
   const t = SearchSunLongitude(lon, from, (to.getTime() - from.getTime()) / DAY_MS)
   return t && t.date < to ? t.date : null
+}
+
+/**
+ * Spans of the Sun's sign — 30° sectors of its longitude minus `offset` (the ayanamsha for
+ * Vedic signs, 0 for Western) — covering [from, to). The Sun crosses each longitude once a
+ * year, so SearchSunLongitude over a month finds the one boundary; the generic bracketing
+ * search over 32 days cost a month view ~2× its time budget.
+ */
+function sunSignSpans(offset: number, from: Date, to: Date): Span[] {
+  const lon = (t: Date) => norm(SunPosition(t).elon - offset)
+  let k = Math.floor(lon(from) / SIGN)
+  let start = sunLongitudeIn(norm(k * SIGN + offset), new Date(from.getTime() - 32 * DAY_MS), new Date(from.getTime() + 1))!
+  const out: Span[] = []
+  while (start < to) {
+    const end = sunLongitudeIn(norm((k + 1) * SIGN + offset), new Date(start.getTime() + 1000), new Date(start.getTime() + 33 * DAY_MS))!
+    out.push({ index: k + 1, start, end })
+    start = end
+    k = (k + 1) % 12
+  }
+  return out
+}
+
+/** New moons found so far, sorted: each lunation is searched once, not once per day. */
+const newMoons: Date[] = []
+
+/** The new moons that open and close the lunation containing `t`. */
+function lunation(t: Date): [Date, Date] {
+  for (let i = 0; i + 1 < newMoons.length; i++) {
+    const [a, b] = [newMoons[i], newMoons[i + 1]]
+    // Neighbours in the list are one lunation apart only if none is missing between them.
+    if (a <= t && t < b && b.getTime() - a.getTime() < 31 * DAY_MS) return [a, b]
+  }
+  const first = moonPhaseIn(0, new Date(t.getTime() - 30 * DAY_MS), t)!
+  const opened = moonPhaseIn(0, new Date(first.getTime() + DAY_MS), t) ?? first
+  const closes = moonPhaseIn(0, new Date(t.getTime() + 1), new Date(t.getTime() + 31 * DAY_MS))!
+  if (newMoons.length > 200) newMoons.length = 0
+  for (const m of [opened, closes]) if (!newMoons.some((n) => Math.abs(n.getTime() - m.getTime()) < DAY_MS)) newMoons.push(m)
+  newMoons.sort((a, b) => a.getTime() - b.getTime())
+  return [opened, closes]
 }
 
 // ── Traditional rhythm (SPEC 4.8) ───────────────────────────────────────────────
@@ -168,6 +212,27 @@ function rhythm(loc: Location, date: string): DayPanchang['rhythm'] {
   }
 }
 
+// ── Lunar month (SPEC 4.10) ─────────────────────────────────────────────────────
+
+/** Sidereal sign of the Sun at `t`, 0 Mesha … 11 Meena. */
+const sunSignAt = (t: Date) => Math.floor(siderealSun(getAyanamsa(t))(t) / SIGN)
+
+/**
+ * Amanta month: new moon to new moon, named by the Sun's sidereal sign at the new moon that
+ * opens it (Sun in Meena → Chaitra, in Simha → Bhadrapada). A month with no Sankranti — the
+ * Sun in the same sign at both new moons — is adhika (leap) and takes the next month's name.
+ * Purnimanta months end at the full moon, so in the waning half they already carry the next
+ * month's name; an adhika month keeps its span in both systems (Drik).
+ */
+function masaAt(t: Date): DayPanchang['masa'] {
+  const [opened, closes] = lunation(t)
+  const sign = sunSignAt(opened)
+  const amanta = ((sign + 1) % 12) + 1
+  const adhika = sign === sunSignAt(closes)
+  const waning = elongation(t) >= 180
+  return { amanta, purnimanta: waning && !adhika ? (amanta % 12) + 1 : amanta, adhika }
+}
+
 // ── Ekadashi (SPEC 4.7) ─────────────────────────────────────────────────────────
 
 const isEkadashi = (tithi: number) => tithi === 11 || tithi === 26
@@ -194,6 +259,45 @@ export function isSmartaEkadashi(prev: number, cur: number, next: number, next2:
   return isEkadashi(cur + 1) && next === cur + 2 // skipped Ekadashi begins today
 }
 
+const smartaEkadashiOn = (loc: Location, date: string) =>
+  isSmartaEkadashi(
+    sunriseTithi(loc, addDays(date, -1)),
+    sunriseTithi(loc, date),
+    sunriseTithi(loc, addDays(date, 1)),
+    sunriseTithi(loc, addDays(date, 2)),
+  )
+
+/**
+ * Parana — when to end the fast kept on Ekadashi day `date`: on the next day, inside Dwadashi
+ * (the 12th tithi) but after its first quarter (Hari Vasara), in the morning (Pratahkala, the
+ * first fifth of daylight). If Hari Vasara outlasts the morning, after midday instead
+ * (Aparahna, the fourth fifth); if it outlasts that too, from its end until Dwadashi ends. Rules from Drik's Ekadashi pages; tests/fixtures/parana.
+ */
+function paranaAfter(loc: Location, date: string): Interval | null {
+  const day = addDays(date, 1)
+  const rise = sunriseOn(loc, day)
+  const set = sunsetOn(loc, day)
+  if (!rise || !set) return null
+  const ref = anchor(loc, date)
+  const dwadashi = elongation(ref) < 180 ? 12 : 27
+  const dw = sectorSpans(elongation, 12, ref, set, (k) => k + 1).find((s) => s.index === dwadashi)
+  if (!dw) return null
+  const part = (set.getTime() - rise.getTime()) / 5
+  const after = (n: number) => new Date(rise.getTime() + n * part)
+  const later = (a: Date, b: Date) => (a > b ? a : b)
+  const sooner = (a: Date, b: Date) => (a < b ? a : b)
+  // Dwadashi already over at sunrise: nothing to wait for or to stay inside.
+  if (dw.end <= rise) return { start: rise, end: after(1) }
+  const hariVasara = new Date(dw.start.getTime() + (dw.end.getTime() - dw.start.getTime()) / 4)
+  const start = later(rise, hariVasara)
+  if (start < after(1)) return { start, end: sooner(after(1), dw.end) }
+  const afternoon = later(after(3), hariVasara)
+  if (afternoon < after(4)) return { start: afternoon, end: sooner(after(4), dw.end) }
+  // Hari Vasara outlasts the afternoon too: any time after it while Dwadashi lasts (Drik
+  // then gives only the start, "Parana Time - 03:43 PM").
+  return { start: hariVasara, end: dw.end }
+}
+
 // ── The day ─────────────────────────────────────────────────────────────────────
 
 const interval = (w: { start: Date; end: Date } | null | undefined): Interval | null =>
@@ -214,9 +318,14 @@ export function computeDay(date: string, loc: Location): DayPanchang {
     const vara = getVara(ref, observer, options.timezoneOffset)
     const e = elongation(middle)
 
-    // Without a sunrise (polar day/night) there is no Panchang day to divide.
-    const span = (angle: (t: Date) => number, step: number, indexOf: (k: number) => number) =>
-      sunrise && nextSunrise ? sectorSpans(angle, step, sunrise, nextSunrise, indexOf) : []
+    // Without a sunrise (polar day/night) there is no Panchang day; the civil day stands in,
+    // so the elements are still shown.
+    const from = sunrise ?? midnight(loc, date)
+    const to = nextSunrise ?? midnight(loc, addDays(date, 1))
+    const span = (angle: (t: Date) => number, step: number, indexOf: (k: number) => number, maxDays?: number) =>
+      sectorSpans(angle, step, from, to, indexOf, maxDays)
+    const sign = (k: number) => k + 1
+    const ekadashi = smartaEkadashiOn(loc, date)
     const rahu = sunrise && sunset ? calculateRahuKalam(sunrise, sunset, vara) : null
 
     return {
@@ -241,12 +350,19 @@ export function computeDay(date: string, loc: Location): DayPanchang {
         abhijit: sunrise && sunset && vara !== 3 ? interval(calculateAbhijitMuhurta(sunrise, sunset)) : null,
         rahuKaal: interval(rahu),
       },
-      ekadashi: isSmartaEkadashi(
-        sunriseTithi(loc, addDays(date, -1)),
-        sunriseTithi(loc, date),
-        sunriseTithi(loc, addDays(date, 1)),
-        sunriseTithi(loc, addDays(date, 2)),
-      ),
+      ekadashi,
+      parana: ekadashi ? paranaAfter(loc, date) : smartaEkadashiOn(loc, addDays(date, -1)) ? paranaAfter(loc, addDays(date, -1)) : null,
+      masa: masaAt(ref),
+      signs: {
+        vedic: {
+          moon: span(siderealMoon(ayanamsa), SIGN, sign, MOON_SIGN_DAYS),
+          sun: sunSignSpans(ayanamsa, from, to),
+        },
+        western: {
+          moon: span((t) => tropical(Body.Moon, t), SIGN, sign, MOON_SIGN_DAYS),
+          sun: sunSignSpans(0, from, to),
+        },
+      },
       newMoon: moonPhaseIn(0, midnight(loc, date), midnight(loc, addDays(date, 1))),
       fullMoon: moonPhaseIn(180, midnight(loc, date), midnight(loc, addDays(date, 1))),
       rhythm: rhythm(loc, date),

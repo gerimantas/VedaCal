@@ -24,7 +24,7 @@ const now = at
 const v = dayView(day, loc, now)
 
 const fact = (f: Fact) =>
-  `<li class="fact" data-sheet="${f.term}">${f.icon}<div><span class="label">${f.label}</span><strong>${f.value}</strong><span class="sk">${f.sanskrit}</span></div>${f.right ? `<span class="right num">${f.right}</span>` : ''}</li>`
+  `<li class="fact" data-sheet="${f.term}">${f.icon}<div><span class="label">${f.label}</span><strong>${f.value}</strong><span class="sk">${f.sanskrit}</span>${f.next ? `<span class="next">${f.next}</span>` : ''}</div>${f.right ? `<span class="right num">${f.right}</span>` : ''}</li>`
 
 // "12:44–13:29"; breaks only at the dash, never inside a time (matters with 12-hour clocks).
 const windowRows = v.windows

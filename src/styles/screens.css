@@ -312,6 +312,12 @@ h3 {
   font-size: var(--text-base);
 }
 
+/* "then …": what follows when the element changes before the next sunrise. */
+.fact .next {
+  color: var(--color-neutral);
+  font-size: var(--text-xs);
+}
+
 .fact .right {
   max-width: 7rem;
   padding-top: 0.1rem;
@@ -808,6 +814,35 @@ h3 {
   font: inherit;
   font-weight: 600;
   cursor: pointer;
+}
+
+/* Two-way choice (zodiac signs): one pill per option, the chosen one filled. */
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3xs);
+  margin-top: var(--space-2xs);
+}
+
+.segmented + .quiet {
+  margin-top: var(--space-xs);
+}
+
+.segmented button {
+  min-height: 2.75rem;
+  border: var(--rule-hair) solid var(--color-card-line);
+  border-radius: var(--radius-md);
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.segmented button[aria-pressed='true'] {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-paper);
+  font-weight: 600;
 }
 
 .cities {

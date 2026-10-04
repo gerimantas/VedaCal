@@ -28,11 +28,13 @@ export function time(d: Date | null, loc: Location): string {
   return f.format(d)
 }
 
-/** "until 21:43", "until 01:23 tomorrow", or "until Tue 03:10" for later days. */
+/** "until 21:43", "until 01:23 tomorrow", "until Tue 03:10" within a week, "until Oct 17" later (the Sun's sign). */
 export function until(end: Date, day: DayPanchang, loc: Location): string {
   const endDay = civilDate(loc.tz, end)
   if (endDay === day.date) return t('until', { time: time(end, loc) })
   if (endDay === addDays(day.date, 1)) return t('untilTomorrow', { time: time(end, loc) })
+  if (endDay > addDays(day.date, 6))
+    return t('untilDate', { date: new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', timeZone: loc.tz }).format(end) })
   const weekday = new Intl.DateTimeFormat(undefined, { weekday: 'short', timeZone: loc.tz }).format(end)
   return t('until', { time: `${weekday} ${time(end, loc)}` })
 }

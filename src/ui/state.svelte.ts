@@ -1,8 +1,10 @@
-// App state shared by the screens: the chosen location (kept in localStorage — the only
-// thing stored, SPEC 6) and the current route.
+// App state shared by the screens: the chosen location and settings (kept in localStorage —
+// the only things stored, SPEC 6) and the current route.
 import type { Place } from './cities'
+import type { Zodiac } from './day'
 
 const KEY = 'vedacal.location'
+const SETTINGS = 'vedacal.settings'
 
 export const VILNIUS: Place = {
   name: 'Vilnius', country: 'Lithuania', cc: 'LT', region: 'Vilnius', population: 542366,
@@ -20,7 +22,26 @@ function stored(): Place | null {
 
 const saved = stored()
 
-export const app = $state({ location: saved ?? VILNIUS })
+type Settings = { zodiac: Zodiac }
+function storedSettings(): Settings {
+  try {
+    const s = JSON.parse(localStorage.getItem(SETTINGS) ?? '{}')
+    return { zodiac: s.zodiac === 'western' ? 'western' : 'vedic' }
+  } catch {
+    return { zodiac: 'vedic' }
+  }
+}
+
+export const app = $state({ location: saved ?? VILNIUS, settings: storedSettings() })
+
+export function setSetting<K extends keyof Settings>(key: K, value: Settings[K]) {
+  app.settings[key] = value
+  try {
+    localStorage.setItem(SETTINGS, JSON.stringify(app.settings))
+  } catch {
+    // Storage blocked: the choice holds until the page closes.
+  }
+}
 
 /** First visit from outside Vilnius's time zone: ask for a location instead of guessing. */
 export const needsLocation = !saved && Intl.DateTimeFormat().resolvedOptions().timeZone !== VILNIUS.tz

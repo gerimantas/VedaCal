@@ -2,19 +2,21 @@
 // one DayPanchang. The app's Day.svelte and the P3 mockup both render this, so the approved
 // mockup and the app cannot drift apart, and tests can compare the screen with the engine.
 import { civilDate } from '../core/time'
-import type { DayPanchang, Interval, Location } from '../core/types'
+import type { DayPanchang, Interval, Location, Span } from '../core/types'
 import { content, entry, percent, progress, t, time, until } from './format'
 import { icon } from './icons'
 import { terms, type Term } from './terms'
 
-export type Fact = { term: Term; icon: string; label: string; value: string; sanskrit: string; right: string }
+/** `next`: "then …" when the element changes before the Panchang day ends (next sunrise). */
+export type Fact = { term: Term; icon: string; label: string; value: string; sanskrit: string; right: string; next: string }
+export type Zodiac = 'vedic' | 'western'
 export type WindowKind = 'calm' | 'good' | 'avoid'
 export type WindowRow = { kind: WindowKind; term: Term; name: string; sanskrit: string; start: string; end: string; none: string; active: boolean }
 
 export type DayView = {
   shortDate: string
   moon: { illumination: number; waxing: boolean; label: string }
-  tithi: { title: string; name: string; percent: number; progress: number; ends: string; meaning: string }
+  tithi: { index: number; title: string; name: string; percent: number; progress: number; ends: string; meaning: string }
   sunrise: string
   sunset: string
   /** 24-hour sun dial as SVG markup; '' when the Sun does not rise or set (polar day/night). */
@@ -43,34 +45,66 @@ export function duration(ms: number): string {
   return h ? t('hoursMinutes', { h, m }) : t('minutes', { m })
 }
 
-export function dayView(day: DayPanchang, loc: Location, now: Date): DayView {
+/**
+ * The span of an element in force at `at`: the screen is live, so once the Moon's star (or
+ * any element) changes during the day, the new one shows. Before the first span starts —
+ * early morning, before sunrise — the day's first span stands.
+ */
+export const activeAt = (spans: Span[], at: Date): Span => spans.find((s) => at >= s.start && at < s.end) ?? spans[0]
+
+/** The span after `s`, if it begins before the Panchang day ends. */
+const following = (spans: Span[], s: Span, day: DayPanchang) => {
+  const n = spans[spans.indexOf(s) + 1]
+  return n && (!day.nextSunrise || n.start < day.nextSunrise) ? n : undefined
+}
+
+export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodiac = 'vedic'): DayView {
   const noonish = day.sunrise ?? new Date(`${day.date}T12:00:00Z`)
   const shortDate = new Intl.DateTimeFormat(undefined, { weekday: 'short', day: 'numeric', month: 'short', timeZone: loc.tz }).format(noonish)
 
-  const tithi = day.tithi[0]
+  const tithi = activeAt(day.tithi, now)
   const te = entry('tithi', tithi.index)
+  const nextTithi = following(day.tithi, tithi, day)
   const state = t(day.moon.waxing ? 'stateWaxing' : 'stateWaning')
 
   // ── Day facts: one row each, plain English first, Sanskrit name beneath ─────────
   // The lunar day is not repeated here — the hero above already shows it.
   const ends = (end: Date) => until(end, day, loc)
-  const fact = (term: Term, svg: string, label: string, value: string, sanskrit: string, right = ''): Fact =>
-    ({ term, icon: svg, label, value, sanskrit, right })
+  const fact = (term: Term, svg: string, label: string, value: string, sanskrit: string, right = '', next = ''): Fact =>
+    ({ term, icon: svg, label, value, sanskrit, right, next })
+  /** A row for a changing element: the span in force now, its end, and what follows it. */
+  const element = (term: Term, svg: string, label: string, spans: Span[], name: (i: number) => { title: string; name: string }) => {
+    const s = activeAt(spans, now)
+    const n = following(spans, s, day)
+    return fact(term, svg, label, name(s.index).title, name(s.index).name, ends(s.end), n ? t('then', { name: name(n.index).title }) : '')
+  }
   const r = day.rhythm
   const ritu = content.rhythm[`ritu${r.ritu}` as 'ritu1']
-  const nak = day.nakshatra[0]
   const vara = entry('vara', day.vara)
+  const m = day.masa
+  const month = content.masa[String(m.purnimanta) as '1']
+  // Signs: the English name is already a plain word; the line beneath says which zodiac.
+  const signs = day.signs[zodiac]
+  const sign = (i: number) => {
+    const e = content.rashi[String(i) as '1']
+    return { title: e.title, name: zodiac === 'vedic' ? e.name : t('westernZodiac') }
+  }
+
   const facts = [
+    ...(day.parana ? [paranaFact(day, loc)] : []),
     fact('vara', icon.vara, t('labelWeekday'), vara.title, vara.name),
-    fact('nakshatra', icon.nakshatra, t('labelStar'), entry('nakshatra', nak.index).title, entry('nakshatra', nak.index).name, ends(nak.end)),
+    fact('masa', icon.month, t('labelMonth'), m.adhika ? t('extraMonth') : month.title, m.adhika ? t('adhika', { name: month.name }) : month.name),
+    element('nakshatra', icon.nakshatra, t('labelStar'), day.nakshatra, (i) => entry('nakshatra', i)),
+    element('rashi', icon.tithi, t('labelMoonSign'), signs.moon, sign),
     fact('rhythm', icon.leaf, t('legendSeason'), ritu.title, ritu.name, t('seasonDay', { day: r.rituDay, length: r.rituLength })),
   ]
   // Yoga and karana are poetic names with little everyday meaning for a Western reader, so
-  // they sit behind "More details".
-  const yoga = entry('yoga', day.yoga[0].index), karana = entry('karana', day.karana[0].index)
+  // they sit behind "More details", with the Sun's sign, which changes only once a month.
+  const sun = activeAt(signs.sun, now)
   const moreFacts = [
-    fact('yoga', icon.yoga, t('labelYoga'), yoga.title, yoga.name, ends(day.yoga[0].end)),
-    fact('karana', icon.karana, t('labelKarana'), karana.title, karana.name, ends(day.karana[0].end)),
+    fact('rashi', icon.vara, t('labelSunSign'), sign(sun.index).title, sign(sun.index).name, ends(sun.end)),
+    element('yoga', icon.yoga, t('labelYoga'), day.yoga, (i) => entry('yoga', i)),
+    element('karana', icon.karana, t('labelKarana'), day.karana, (i) => entry('karana', i)),
   ]
 
   // ── Calm / good / avoid windows ─────────────────────────────────────────────
@@ -117,12 +151,15 @@ export function dayView(day: DayPanchang, loc: Location, now: Date): DayView {
     shortDate,
     moon: { illumination: day.moon.illumination, waxing: day.moon.waxing, label: t('lit', { state, percent: percent(day.moon.illumination) }) },
     tithi: {
+      index: tithi.index,
       title: te.title,
       name: te.name,
       percent: percent(day.moon.illumination),
       progress: progress(tithi, now),
       // The bar under the moon is unlabeled on its own, so one short line says what it measures.
-      ends: t('lunarDayEnds', { when: until(tithi.end, day, loc).replace(/^until /, '') }),
+      ends:
+        t('lunarDayEnds', { when: until(tithi.end, day, loc).replace(/^until /, '') }) +
+        (nextTithi ? `, ${t('then', { name: entry('tithi', nextTithi.index).title })}` : ''),
       meaning: te.meaning,
     },
     sunrise: time(day.sunrise, loc),
@@ -136,6 +173,15 @@ export function dayView(day: DayPanchang, loc: Location, now: Date): DayView {
     tradition,
     polar: !day.sunrise || !day.sunset,
   }
+}
+
+/** "Tomorrow, 7:32–9:46 AM" on the Ekadashi day, "Today, …" on the day after. */
+function paranaFact(day: DayPanchang, loc: Location): Fact {
+  const p = day.parana!
+  const sameDay = civilDate(loc.tz, p.start) === civilDate(loc.tz, p.end)
+  const range = sameDay ? `${time(p.start, loc)}–${time(p.end, loc)}` : t('paranaAfter', { time: time(p.start, loc) })
+  const value = t(civilDate(loc.tz, p.start) === day.date ? 'paranaToday' : 'paranaTomorrow', { range })
+  return { term: 'parana', icon: icon.dawn, label: t('labelParana'), value, sanskrit: 'Parana', right: '', next: '' }
 }
 
 // A 24-hour dial, live like the moon: solar noon at the top, solar midnight at the bottom,

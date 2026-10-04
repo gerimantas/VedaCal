@@ -9,8 +9,10 @@ gold), tap-to-explain sheets, About tab, photo moons in the month grid. Design r
 placeholder.
 
 ## Next Tasks
-- P4 done and committed, not pushed: push to `main` (= deploy to the live site) once the user
-  says so. Then P5 (month screen + settings). plan: `.planning/PLAN.md` P4 note, P5.
+- P4 + source-audit additions done and committed, not pushed: push to `main` (= deploy to
+  the live site) once the user says so. Then P5 (month screen + settings) — its speed gate
+  is already over budget at 4× throttle, measure on a real phone first.
+  plan: `.planning/PLAN.md` P4 notes, P5; rules: `.planning/SPEC.md` 4.10.
 
 ## Done Log
 

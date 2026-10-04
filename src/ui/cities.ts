@@ -9,8 +9,12 @@ export type Place = Location & { cc: string; region: string; population: number 
 type Row = [name: string, country: number, region: number, lat: number, lon: number, elevation: number, tz: number, population: number]
 export type CityData = { countries: string[][]; regions: string[]; zones: string[]; cities: Row[] }
 
-/** Lower case, accents removed: "Klaipėda" and "klaipeda" match. */
-export const fold = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase()
+// Letters that are not a base letter plus an accent, so NFD leaves them alone.
+const LETTERS: Record<string, string> = { ø: 'o', æ: 'ae', œ: 'oe', ł: 'l', ß: 'ss', đ: 'd', ð: 'd', þ: 'th', ı: 'i' }
+
+/** Lower case, accents removed: "Klaipėda" matches "klaipeda", "Tromsø" matches "tromso". */
+export const fold = (s: string) =>
+  s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[øæœłßđðþı]/g, (c) => LETTERS[c])
 
 export type CityIndex = { places: Place[]; names: string[] }
 

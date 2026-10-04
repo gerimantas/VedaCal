@@ -1,10 +1,11 @@
 <script lang="ts">
-  // Location picker (SPEC 6), the approved P3 mockup (mockups/location.ts) with the real
-  // GeoNames search: offline, every city above 15,000 people.
+  // Settings tab: the location picker (SPEC 6) — the approved P3 mockup (mockups/location.ts)
+  // with the real GeoNames search, offline, every city above 15,000 people — and the zodiac
+  // choice (Vedic by default). P5 adds time format and theme here.
   import { inZone, loadCities, nearest, search, type CityIndex, type Place } from './cities'
   import { t } from './format'
   import { icon } from './icons'
-  import { app, setLocation } from './state.svelte'
+  import { app, setLocation, setSetting } from './state.svelte'
 
   const deviceTz = Intl.DateTimeFormat().resolvedOptions().timeZone
   let index = $state<CityIndex | null>(null)
@@ -81,4 +82,14 @@
   {:else if query.trim() && !places.length}
     <p class="footnote">{t('noCities')}</p>
   {/if}
+
+  <h2 class="about-head">{t('zodiac')}</h2>
+  <section class="card about-intro">
+    <div class="segmented" role="group" aria-label={t('zodiac')}>
+      {#each [['vedic', t('zodiacVedic')], ['western', t('zodiacWestern')]] as const as [value, label] (value)}
+        <button aria-pressed={app.settings.zodiac === value} onclick={() => setSetting('zodiac', value)}>{label}</button>
+      {/each}
+    </div>
+    <p class="quiet">{t('zodiacNote')}</p>
+  </section>
 </main>

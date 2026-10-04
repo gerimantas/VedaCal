@@ -5,12 +5,15 @@ import { t } from './format'
 export const terms = {
   tithi: ['Lunar day', 'Tithi'],
   vara: [t('labelWeekday'), 'Vara'],
+  masa: [t('labelMonth'), 'Masa'],
   nakshatra: [t('labelStar'), 'Nakshatra'],
+  rashi: ['Moon & Sun signs', 'Rashi'],
   yoga: [t('labelYoga'), 'Yoga'],
   karana: [t('labelKarana'), 'Karana'],
   brahma: [t('legendCalmTime'), 'Brahma Muhurta'],
   abhijit: [t('legendGoodTime'), 'Abhijit Muhurta'],
   rahuKaal: [t('legendAvoidTime'), 'Rahu Kaal'],
+  parana: [t('labelParana'), 'Parana'],
   rhythm: [t('sectionTradition'), ''],
 } as const
 export type Term = keyof typeof terms

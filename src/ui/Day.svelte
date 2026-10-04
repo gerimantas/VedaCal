@@ -29,7 +29,7 @@
   let picked = $state<string | null>(null)
   const date = $derived(picked ?? today)
   const day = $derived(computeDay(date, loc))
-  const v = $derived(dayView(day, loc, momentFor(day, loc, clock)))
+  const v = $derived(dayView(day, loc, momentFor(day, loc, clock), app.settings.zodiac))
 
   const go = (days: number) => {
     const d = addDays(date, days)
@@ -40,7 +40,10 @@
 {#snippet fact(f: Fact)}
   <li class="fact" data-sheet={f.term}>
     {@html f.icon}
-    <div><span class="label">{f.label}</span><strong>{f.value}</strong><span class="sk">{f.sanskrit}</span></div>
+    <div>
+      <span class="label">{f.label}</span><strong>{f.value}</strong><span class="sk">{f.sanskrit}</span>
+      {#if f.next}<span class="next">{f.next}</span>{/if}
+    </div>
     {#if f.right}<span class="right num">{f.right}</span>{/if}
   </li>
 {/snippet}

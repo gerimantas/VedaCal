@@ -19,6 +19,9 @@ export type Interval = { start: Date; end: Date }
  */
 export type Span = { index: number; start: Date; end: Date }
 
+/** Spans covering the Panchang day, like the five elements; the Sun's sign usually has one span lasting weeks. */
+export type SignSpans = { moon: Span[]; sun: Span[] }
+
 export type Ayana = 'uttarayana' | 'dakshinayana'
 
 export type DayPanchang = {
@@ -36,6 +39,15 @@ export type DayPanchang = {
   karana: Span[] // index 1-11, see KARANA_NAMES
   windows: { brahma: Interval | null; abhijit: Interval | null; rahuKaal: Interval | null }
   ekadashi: boolean
+  /**
+   * When to end the Ekadashi fast (Parana), on the morning after the Ekadashi day. Set on the
+   * Ekadashi day and on the day after it (the window lies on the day after); null otherwise.
+   */
+  parana: Interval | null
+  /** Lunar month, 1 Chaitra … 12 Phalguna, at sunrise (SPEC 4.10). An adhika (leap) month carries the name of the month it precedes. */
+  masa: { amanta: number; purnimanta: number; adhika: boolean }
+  /** Sign (1 Aries/Mesha … 12 Pisces) of the Moon and the Sun: Vedic (sidereal, Lahiri) and Western (tropical). */
+  signs: { vedic: SignSpans; western: SignSpans }
   newMoon: Date | null // instant inside this civil day
   fullMoon: Date | null
   rhythm: {

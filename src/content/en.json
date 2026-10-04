@@ -587,7 +587,10 @@
     "rahuKaal": "Rahu Kaal is one-eighth of the daylight hours, a different part on each weekday. Tradition avoids starting new ventures in it; work already under way can continue.",
     "rhythm": "The traditional rhythm follows the Moon and the Sun: rest days around the full and new moon, Ekadashi twice a month, the six seasons and the Sun's two half-years.",
     "times": "All times are for {city} and calculated on your device. Sunrise is when the top edge of the Sun appears, as on Drik Panchang.",
-    "about": "VedaCal shows the traditional Hindu lunar calendar (Panchang) in plain words. Everything is calculated on your device and nothing is sent anywhere. The guidance describes tradition and is not medical or professional advice. City data © GeoNames, CC BY 4.0."
+    "about": "VedaCal shows the traditional Hindu lunar calendar (Panchang) in plain words. Everything is calculated on your device and nothing is sent anywhere. The guidance describes tradition and is not medical or professional advice. City data © GeoNames, CC BY 4.0.",
+    "masa": "The lunar month runs from one moon to the next and is named after the sign the Sun is in when it begins. VedaCal counts months from full moon to full moon, as Drik Panchang does for North India; in South and West India they run from new moon to new moon, so in the waning half the month there carries the previous name. About every three years a month passes without the Sun changing sign: it becomes an extra month (Adhika) and the calendar catches up with the seasons.",
+    "rashi": "The sky the Sun and Moon cross is divided into twelve signs. Vedic astrology measures them from the fixed stars (sidereal), so today they sit about 24° behind the Western signs, which follow the seasons (tropical): a Vedic Gemini Moon is often a Western Cancer one. Choose Vedic or Western in Settings.",
+    "parana": "Those who keep the Ekadashi fast traditionally end it the next morning, inside the twelfth lunar day (Dwadashi) and after its first quarter (Hari Vasara). When that quarter lasts past the morning, the fast is ended in the afternoon instead. Times follow Drik Panchang."
   },
   "ui": {
     "today": "Today",
@@ -675,6 +678,121 @@
     "locationError": "Your location is not available. Search for a city instead.",
     "noCities": "No city found",
     "loadingCities": "Loading cities…",
-    "monthSoon": "The month view arrives in the next update."
+    "monthSoon": "The month view arrives in the next update.",
+    "labelMonth": "Lunar month",
+    "labelMoonSign": "Moon's sign",
+    "labelSunSign": "Sun's sign",
+    "labelParana": "Ekadashi fast ends",
+    "extraMonth": "Extra month",
+    "adhika": "Adhika {name}",
+    "westernZodiac": "Western sign",
+    "paranaToday": "Today, {range}",
+    "paranaTomorrow": "Tomorrow, {range}",
+    "paranaAfter": "after {time}",
+    "untilDate": "until {date}",
+    "zodiac": "Zodiac signs",
+    "zodiacVedic": "Vedic",
+    "zodiacWestern": "Western",
+    "zodiacNote": "Vedic signs follow the stars; Western signs follow the seasons and sit about one sign ahead."
+  },
+  "masa": {
+    "1": {
+      "name": "Chaitra",
+      "title": "March–April"
+    },
+    "2": {
+      "name": "Vaishakha",
+      "title": "April–May"
+    },
+    "3": {
+      "name": "Jyeshtha",
+      "title": "May–June"
+    },
+    "4": {
+      "name": "Ashadha",
+      "title": "June–July"
+    },
+    "5": {
+      "name": "Shravana",
+      "title": "July–August"
+    },
+    "6": {
+      "name": "Bhadrapada",
+      "title": "August–September"
+    },
+    "7": {
+      "name": "Ashwina",
+      "title": "September–October"
+    },
+    "8": {
+      "name": "Kartika",
+      "title": "October–November"
+    },
+    "9": {
+      "name": "Margashirsha",
+      "title": "November–December"
+    },
+    "10": {
+      "name": "Pausha",
+      "title": "December–January"
+    },
+    "11": {
+      "name": "Magha",
+      "title": "January–February"
+    },
+    "12": {
+      "name": "Phalguna",
+      "title": "February–March"
+    }
+  },
+  "rashi": {
+    "1": {
+      "name": "Mesha",
+      "title": "Aries"
+    },
+    "2": {
+      "name": "Vrishabha",
+      "title": "Taurus"
+    },
+    "3": {
+      "name": "Mithuna",
+      "title": "Gemini"
+    },
+    "4": {
+      "name": "Karka",
+      "title": "Cancer"
+    },
+    "5": {
+      "name": "Simha",
+      "title": "Leo"
+    },
+    "6": {
+      "name": "Kanya",
+      "title": "Virgo"
+    },
+    "7": {
+      "name": "Tula",
+      "title": "Libra"
+    },
+    "8": {
+      "name": "Vrishchika",
+      "title": "Scorpio"
+    },
+    "9": {
+      "name": "Dhanu",
+      "title": "Sagittarius"
+    },
+    "10": {
+      "name": "Makara",
+      "title": "Capricorn"
+    },
+    "11": {
+      "name": "Kumbha",
+      "title": "Aquarius"
+    },
+    "12": {
+      "name": "Meena",
+      "title": "Pisces"
+    }
   }
 }
