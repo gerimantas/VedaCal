@@ -573,3 +573,227 @@ section > h2 {
     transition-duration: 0ms !important;
   }
 }
+
+/* ── Day v2 (from the user's reference image) ───────────────────────────── */
+.hero2 {
+  display: grid;
+  justify-items: center;
+  margin-top: var(--space-md);
+  text-align: center;
+}
+
+/* The one atmospheric bloom: a soft moonlit halo behind the Moon. */
+.halo {
+  display: grid;
+  place-items: center;
+  width: 15rem;
+  height: 15rem;
+  margin-bottom: var(--space-2xs);
+  background: radial-gradient(closest-side, color-mix(in oklch, var(--color-moon) 16%, transparent), transparent);
+}
+
+.hero2 h2 {
+  font-size: var(--text-3xl);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.hero2 .sanskrit {
+  margin: var(--space-2xs) 0 0;
+  color: var(--color-muted);
+}
+
+.hero2 .track {
+  width: 100%;
+  margin-top: var(--space-md);
+}
+
+.hero2 .track-label {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.hero2 .meaning {
+  margin-top: var(--space-sm);
+  text-align: left;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  min-width: 0;
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  background: var(--color-paper-2);
+}
+
+.tile.wide {
+  grid-column: 1 / -1;
+}
+
+.tile .label {
+  display: block;
+  margin-bottom: var(--space-3xs);
+  color: var(--color-neutral);
+  font-size: var(--text-xs);
+}
+
+.tile h3 {
+  font-size: var(--text-lg);
+  line-height: 1.25;
+}
+
+.tile .detail {
+  margin: var(--space-2xs) 0 0;
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+}
+
+.tile .then {
+  color: var(--color-neutral);
+}
+
+.tile .flag {
+  display: inline-block;
+  margin-bottom: var(--space-2xs);
+  padding: 0.1rem var(--space-2xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.arc {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: var(--space-xs);
+}
+
+.arc .horizon {
+  stroke: var(--color-rule);
+  stroke-width: 1;
+}
+
+.arc path {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.arc .path {
+  stroke: var(--color-rule);
+  stroke-width: 2;
+  stroke-dasharray: 2 5;
+}
+
+.arc .elapsed {
+  stroke: var(--color-muted);
+  stroke-width: 2;
+}
+
+.arc .good {
+  stroke: var(--color-accent);
+  stroke-width: 6;
+}
+
+.arc .avoid {
+  stroke: var(--color-hatch);
+  stroke-width: 6;
+  stroke-dasharray: 3 3;
+  stroke-linecap: butt;
+}
+
+.arc .sun {
+  fill: var(--color-moon);
+  stroke: var(--color-paper);
+  stroke-width: 3;
+}
+
+.arc-times {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--space-2xs) 0 0;
+}
+
+.arc-times dt {
+  color: var(--color-neutral);
+  font-size: var(--text-xs);
+}
+
+.arc-times dd {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+
+.arc-times .end {
+  text-align: right;
+}
+
+.wcards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2xs);
+  margin: var(--space-md) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wcard {
+  position: relative;
+  min-width: 0;
+  padding: var(--space-sm);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-md);
+}
+
+.wcard.good {
+  border-color: var(--color-accent);
+}
+
+.wcard .swatch {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  margin: 0;
+}
+
+.wcard .label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.wcard.good .label {
+  color: var(--color-accent);
+}
+
+.wcard.avoid .label {
+  color: var(--color-muted);
+}
+
+.wcard h3 {
+  margin-top: var(--space-3xs);
+  font-size: var(--text-base);
+}
+
+.wcard p {
+  margin: var(--space-3xs) 0 0;
+  font-size: var(--text-base);
+}
+
+.wcard.none .label {
+  color: var(--color-neutral);
+}
+
+.swatch.moonmark {
+  border-radius: 50%;
+  background: var(--color-moon);
+}

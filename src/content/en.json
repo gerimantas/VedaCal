@@ -648,6 +648,7 @@
     "nextMonth": "Next month",
     "legendRest": "Rest day",
     "legendEkadashi": "Ekadashi",
-    "legendToday": "Today"
+    "legendToday": "Today",
+    "notOnWednesdays": "Not on Wednesdays"
   }
 }
