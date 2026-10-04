@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VedaCal — P3 mockups</title>
+    <link rel="stylesheet" href="../src/styles/tokens.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: var(--space-lg);
+        background: var(--color-paper-3);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+      }
+      h1 {
+        font-family: var(--font-display);
+        font-weight: 450;
+        margin: 0 0 var(--space-2xs);
+      }
+      p {
+        margin: 0 0 var(--space-lg);
+        color: var(--color-muted);
+        max-width: 44rem;
+      }
+      .wall {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-lg);
+      }
+      figure {
+        margin: 0;
+      }
+      figcaption {
+        margin-bottom: var(--space-2xs);
+        font-size: var(--text-sm);
+        color: var(--color-muted);
+      }
+      iframe {
+        display: block;
+        width: 390px;
+        height: 844px;
+        border: var(--rule-hair) solid var(--color-rule);
+        border-radius: var(--radius-sm);
+        background: var(--color-paper);
+      }
+      iframe.narrow {
+        width: 320px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>VedaCal — screen mockups (P3)</h1>
+    <p>
+      Live values for Vilnius today from the calculation core, with the approved P2 texts. Each frame is 390 px wide
+      (a typical phone); the last one checks the narrowest phones at 320 px. Click inside a frame to navigate.
+    </p>
+    <div class="wall">
+      <figure><figcaption>Day · dark</figcaption><iframe src="day.html?theme=dark" title="Day, dark"></iframe></figure>
+      <figure><figcaption>Month · dark</figcaption><iframe src="month.html?theme=dark" title="Month, dark"></iframe></figure>
+      <figure><figcaption>Location · dark</figcaption><iframe src="location.html?theme=dark" title="Location, dark"></iframe></figure>
+      <figure><figcaption>Day · light</figcaption><iframe src="day.html?theme=light" title="Day, light"></iframe></figure>
+      <figure><figcaption>Month · light</figcaption><iframe src="month.html?theme=light" title="Month, light"></iframe></figure>
+      <figure><figcaption>Location · light</figcaption><iframe src="location.html?theme=light" title="Location, light"></iframe></figure>
+      <figure><figcaption>Day · dark · 320 px</figcaption><iframe class="narrow" src="day.html?theme=dark" title="Day, 320 px"></iframe></figure>
+    </div>
+  </body>
+</html>

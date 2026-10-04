@@ -8,7 +8,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
 const ENGINE = 'node_modules/@ishubhamx/panchangam-js/dist'
-const RUNTIME = ['@ishubhamx/panchangam-js', 'astronomy-engine', 'luxon']
+const RUNTIME = ['@ishubhamx/panchangam-js', 'astronomy-engine', 'luxon', '@fontsource-variable/fraunces', '@fontsource-variable/instrument-sans']
 const INSTALL_HOOKS = ['preinstall', 'install', 'postinstall']
 
 const PATTERNS = {
