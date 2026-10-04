@@ -9,11 +9,18 @@
 import {
   Body,
   Ecliptic,
+  Equator,
   GeoVector,
+  Horizon,
   Illumination,
   MakeTime,
+  NextGlobalSolarEclipse,
+  NextLunarEclipse,
   Observer,
   Search,
+  SearchGlobalSolarEclipse,
+  SearchLocalSolarEclipse,
+  SearchLunarEclipse,
   SearchMoonPhase,
   SearchSunLongitude,
   SunPosition,
@@ -25,7 +32,7 @@ import { calculateAbhijitMuhurta, calculateBrahmaMuhurta } from '@ishubhamx/panc
 import { calculateRahuKalam } from '@ishubhamx/panchangam-js/dist/muhurta/rahu-kaal'
 import { getVara } from '@ishubhamx/panchangam-js/dist/calendar/vara'
 import { addDays, civilDate, tzOffsetMinutes, zonedTimeToUtc } from './time'
-import type { Ayana, DayPanchang, Interval, Location, MonthDay, Span } from './types'
+import type { Ayana, DayMark, DayPanchang, Interval, Location, MonthDay, Span } from './types'
 
 const DAY_MS = 86_400_000
 
@@ -165,6 +172,80 @@ function lunation(t: Date): [Date, Date] {
   newMoons.sort((a, b) => a.getTime() - b.getTime())
   return [opened, closes]
 }
+
+// ── Day marks: eclipses, Sankranti, Guru/Ravi Pushya (SPEC 4.11) ─────────────────
+
+const MIN_MS = 60_000
+const PUSHYA = 8
+
+/** Is the Moon above the horizon here at any of these instants? */
+const moonUp = (loc: Location, times: Date[]) =>
+  times.some((t) => {
+    const eq = Equator(Body.Moon, t, observerOf(loc), true, true)
+    return Horizon(t, observerOf(loc), eq.ra, eq.dec, 'normal').altitude > 0
+  })
+
+/**
+ * Marks for every civil day of a month, found once per month: each search below spans the
+ * month, not a day, so the month screen stays inside its speed budget.
+ */
+function monthMarks(loc: Location, first: string): Map<string, DayMark[]> {
+  return remember(marksByMonth, key(loc, first), () => {
+    const next = `${first.slice(0, 5)}${String(Number(first.slice(5, 7)) + 1).padStart(2, '0')}-01`
+    const start = midnight(loc, first)
+    const end = first.slice(5, 7) === '12' ? midnight(loc, `${Number(first.slice(0, 4)) + 1}-01-01`) : midnight(loc, next)
+    const out = new Map<string, DayMark[]>()
+    const add = (at: Date, m: DayMark) => {
+      const d = civilDate(loc.tz, at)
+      out.set(d, [...(out.get(d) ?? []), m])
+    }
+
+    // Eclipses, dated by their peak. Visible = any part above the horizon here.
+    for (let e = SearchLunarEclipse(start); e.peak.date < end; e = NextLunarEclipse(e.peak)) {
+      if (e.peak.date < start) continue
+      const half = (e.kind === 'penumbral' ? e.sd_penum : e.sd_partial) * MIN_MS
+      const p = e.peak.date.getTime()
+      const times = [-1, -0.5, 0, 0.5, 1].map((f) => new Date(p + f * half))
+      add(e.peak.date, { kind: 'eclipse', body: 'moon', type: e.kind, peak: e.peak.date, visible: moonUp(loc, times) })
+    }
+    for (let e = SearchGlobalSolarEclipse(start); e.peak.date < end; e = NextGlobalSolarEclipse(e.peak)) {
+      if (e.peak.date < start) continue
+      const local = SearchLocalSolarEclipse(new Date(e.peak.date.getTime() - DAY_MS), observerOf(loc))
+      const same = Math.abs(local.peak.time.date.getTime() - e.peak.date.getTime()) < DAY_MS
+      const visible = same && [local.partial_begin, local.peak, local.partial_end].some((x) => x.altitude > 0)
+      // Seen from here, a total eclipse is usually partial: report what this place gets.
+      const type = (visible ? local.kind : e.kind) as 'partial' | 'annular' | 'total'
+      add(e.peak.date, { kind: 'eclipse', body: 'sun', type, peak: e.peak.date, visible })
+    }
+
+    // Sankranti: the start of each Vedic Sun-sign span inside the month.
+    for (const s of sunSignSpans(getAyanamsa(start), start, end)) {
+      if (s.start >= start && s.start < end) add(s.start, { kind: 'sankranti', sign: s.index, at: s.start })
+    }
+
+    // Guru / Ravi Pushya: Pushya overlapping a Thursday or Sunday Panchang day.
+    const moon = siderealMoon(getAyanamsa(start))
+    const lo = (PUSHYA - 1) * NAKSHATRA
+    for (let t = new Date(start.getTime() - 2 * DAY_MS); t < end; ) {
+      const days = norm(lo - moon(t)) / 13.2 // the Moon moves ~13.2°/day
+      const from = crossing(moon, lo, new Date(t.getTime() + (days - 1.5) * DAY_MS), new Date(t.getTime() + (days + 1.5) * DAY_MS))
+      const to = crossing(moon, lo + NAKSHATRA, new Date(from.getTime() + 0.5 * DAY_MS), new Date(from.getTime() + 1.6 * DAY_MS))
+      // A Panchang day runs sunrise to sunrise, so Pushya starting before dawn on Monday still
+      // belongs to Sunday: start one civil day early.
+      for (let d = addDays(civilDate(loc.tz, from), -1); d <= civilDate(loc.tz, to); d = addDays(d, 1)) {
+        const weekday = new Date(`${d}T12:00:00Z`).getUTCDay()
+        const rise = sunriseOn(loc, d), nextRise = sunriseOn(loc, addDays(d, 1))
+        if ((weekday !== 4 && weekday !== 0) || !rise || !nextRise || d < first || d >= next) continue
+        const a = from > rise ? from : rise, b = to < nextRise ? to : nextRise
+        if (a < b) out.set(d, [...(out.get(d) ?? []), { kind: 'pushya', weekday, start: a, end: b }])
+      }
+      t = new Date(to.getTime() + DAY_MS)
+    }
+    return out
+  })
+}
+const marksByMonth = new Map<string, Map<string, DayMark[]>>()
+const marksOn = (loc: Location, date: string) => monthMarks(loc, `${date.slice(0, 7)}-01`).get(date) ?? []
 
 // ── Traditional rhythm (SPEC 4.8) ───────────────────────────────────────────────
 
@@ -366,6 +447,7 @@ export function computeDay(date: string, loc: Location): DayPanchang {
       newMoon: moonPhaseIn(0, midnight(loc, date), midnight(loc, addDays(date, 1))),
       fullMoon: moonPhaseIn(180, midnight(loc, date), midnight(loc, addDays(date, 1))),
       rhythm: rhythm(loc, date),
+      marks: marksOn(loc, date),
       ayanamsha: ayanamsa,
     }
   })
@@ -405,6 +487,7 @@ export function computeMonth(year: number, month: number, loc: Location): MonthD
         newMoon: inDay(newMoons, date),
         fullMoon: inDay(fullMoons, date),
         rhythm: rhythm(loc, date),
+        marks: marksOn(loc, date),
       }
     })
   })

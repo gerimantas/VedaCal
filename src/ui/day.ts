@@ -5,6 +5,7 @@ import { civilDate } from '../core/time'
 import type { DayPanchang, Interval, Location, Span } from '../core/types'
 import { LOCALE, content, entry, percent, progress, t, time, until } from './format'
 import { icon } from './icons'
+import { markText } from './marks'
 import { terms, type Term } from './terms'
 
 /** `next`: "then …" when the element changes before the Panchang day ends (next sunrise). */
@@ -103,7 +104,13 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     }
   }
 
+  // Eclipses, Sankranti and Guru/Ravi Pushya on this day lead the facts (SPEC 4.11).
+  const marks = day.marks.map((mk): Fact => {
+    const x = markText(mk, loc, zodiac)
+    return { term: x.term, icon: x.svg, label: x.label, value: x.title, sanskrit: x.sanskrit, right: x.when, next: x.note }
+  })
   const facts = [
+    ...marks,
     ...(day.parana ? [paranaFact(day, loc)] : []),
     fact('vara', icon.vara, t('labelWeekday'), vara.title, vara.name),
     fact('masa', icon.month, t('labelMonth'), m.adhika ? t('extraMonth') : month.title, m.adhika ? t('adhika', { name: month.name }) : month.name),

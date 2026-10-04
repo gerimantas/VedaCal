@@ -1,10 +1,13 @@
 // Month screen (SPEC 5.2) as plain data, from computeMonth(). The app's Month.svelte and the
 // P3 mockup both render it, like the day screen and ./day.ts.
 import type { Location, MonthDay } from '../core/types'
+import type { Zodiac } from './day'
 import { LOCALE, content, entry, t, time } from './format'
 import { icon } from './icons'
+import { markText } from './marks'
 
-export type Cell = { date: string; n: number; rest: boolean; today: boolean; ekadashi: boolean; illumination: number; waxing: boolean; label: string }
+/** `favoured`: Guru/Ravi Pushya; `eclipse`: an eclipse peaks that day. */
+export type Cell = { date: string; n: number; rest: boolean; today: boolean; ekadashi: boolean; favoured: boolean; eclipse: boolean; illumination: number; waxing: boolean; label: string }
 export type KeyDate = { at: Date; date: string; svg: string; cls: string; title: string; sub: string; when: string }
 export type MonthView = { title: string; lead: number; weekdays: string[]; cells: Cell[]; events: KeyDate[] }
 
@@ -15,7 +18,7 @@ export function shiftMonth(ym: string, n: number): string {
   return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`
 }
 
-export function monthView(days: MonthDay[], loc: Location, today: string): MonthView {
+export function monthView(days: MonthDay[], loc: Location, today: string, zodiac: Zodiac = 'vedic'): MonthView {
   const [y, m] = days[0].date.split('-').map(Number)
   const title = new Intl.DateTimeFormat(LOCALE, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(Date.UTC(y, m - 1, 15)))
   // Monday-first grid (ISO week, as in Lithuania); blanks before the first weekday.
@@ -30,9 +33,13 @@ export function monthView(days: MonthDay[], loc: Location, today: string): Month
     rest: !!d.rhythm.restDay,
     today: d.date === today,
     ekadashi: d.ekadashi,
+    favoured: d.marks.some((m) => m.kind === 'pushya'),
+    eclipse: d.marks.some((m) => m.kind === 'eclipse'),
     illumination: d.moon.illumination,
     waxing: d.moon.waxing,
-    label: `${d.date}: ${entry('tithi', d.tithi).name}${d.ekadashi ? ', Ekadashi' : ''}${d.rhythm.restDay ? `, ${t('restDay')}` : ''}`,
+    label: [`${d.date}: ${entry('tithi', d.tithi).name}`, d.ekadashi && 'Ekadashi', d.rhythm.restDay && t('restDay'), ...d.marks.map((m) => markText(m, loc, zodiac).title)]
+      .filter(Boolean)
+      .join(', '),
   }))
 
   // Key dates: moon phases, Ekadashi, season and half-year changes — plain English first.
@@ -52,6 +59,14 @@ export function monthView(days: MonthDay[], loc: Location, today: string): Month
       events.push({ at: e.at, date: d.date, svg: icon.season, cls: '', title: e.kind === 'ritu' ? `${next.title} begins` : next.title, sub: next.name, when: time(e.at, loc) })
     }
   }
+  // Eclipses, Sankranti and Guru/Ravi Pushya (SPEC 4.11).
+  for (const d of days)
+    for (const m of d.marks) {
+      const x = markText(m, loc, zodiac)
+      const at = m.kind === 'eclipse' ? m.peak : m.kind === 'sankranti' ? m.at : m.start
+      const title = x.note ? `${x.title}, ${x.note}` : x.title
+      events.push({ at, date: d.date, svg: x.svg, cls: x.cls, title, sub: x.sanskrit, when: m.kind === 'eclipse' ? time(m.peak, loc) : x.when })
+    }
   events.sort((a, b) => a.at.getTime() - b.at.getTime())
   return { title, lead, weekdays, cells, events }
 }

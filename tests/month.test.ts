@@ -45,7 +45,7 @@ it('the month summary agrees with computeDay for every day', () => {
   for (const d of days) {
     const full = computeDay(d.date, loc)
     expect({ ...d, tithi: undefined }, d.date).toEqual({
-      date: full.date, moon: full.moon, ekadashi: full.ekadashi, newMoon: full.newMoon, fullMoon: full.fullMoon, rhythm: full.rhythm, tithi: undefined,
+      date: full.date, moon: full.moon, ekadashi: full.ekadashi, newMoon: full.newMoon, fullMoon: full.fullMoon, rhythm: full.rhythm, marks: full.marks, tithi: undefined,
     })
     expect(d.tithi, d.date).toBe(full.tithi[0].index)
   }

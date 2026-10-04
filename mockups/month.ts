@@ -17,6 +17,8 @@ const dayLink = (d: string) => {
 const cells = v.cells.map(
   (c) => `<a class="${['cell', c.rest ? 'rest' : '', c.today ? 'today' : ''].filter(Boolean).join(' ')}" href="${dayLink(c.date)}" aria-label="${c.label}">
     ${c.ekadashi ? '<span class="dot"></span>' : ''}
+    ${c.favoured ? '<span class="flag favoured"></span>' : ''}
+    ${c.eclipse ? '<span class="flag warning"></span>' : ''}
     <span class="d num">${c.n}</span>
     ${realisticMoon(c.illumination, c.waxing, 24, '')}
   </a>`,
@@ -43,6 +45,8 @@ mount(`
     <span><i class="rest-swatch"></i>${t('legendRest')}</span>
     <span><i style="background:var(--color-accent);border-radius:50%;width:6px;height:6px"></i>${t('legendEkadashi')} <span class="sk">Ekadashi</span></span>
     <span><i style="border:1px solid var(--color-moon)"></i>${t('legendToday')}</span>
+    <span><i class="flag-swatch favoured"></i>${t('legendFavoured')}</span>
+    <span><i class="flag-swatch warning"></i>${t('legendEclipse')}</span>
   </p>
 
   <h2 class="section-title">${t('keyDates')}</h2>

@@ -15,7 +15,9 @@ placeholder.
 - Fetch the Drik evidence the reCAPTCHA cut off (2026-10-05), in the background (~15 min at
   12 s per page): `node scripts/fetch-parana.ts new-york 2027`, `… new-delhi 2027`, and
   `node scripts/fetch-drik.ts <vilnius|new-york|new-delhi> 2026-05-10 2026-05-25 2026-06-08`
-  (adhika month). Then `npm test`; a mismatch is a finding, not a fixture to edit.
+  (adhika month); plus Drik's Grahan (eclipse), Sankranti and Guru/Ravi Pushya pages for
+  2026 — needs a new small fetch script on `scripts/drik-page.ts` and tests (SPEC 4.11).
+  Then `npm test`; a mismatch is a finding, not a fixture to edit.
   rules: `.planning/SPEC.md` 4.10 (Evidence).
 
 ## Done Log

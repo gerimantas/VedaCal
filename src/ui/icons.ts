@@ -28,6 +28,8 @@ export const icon = {
   sunrise: stroke('<path d="M6.5 19a5.5 5.5 0 0 1 11 0z" fill="currentColor"/><path d="M2 19h20M4.6 11.6l1.5 1.5M19.4 11.6l-1.5 1.5M2.5 15.5h1.6M19.9 15.5h1.6M12 10V3M9.5 5.5 12 3l2.5 2.5"/>', 28),
   sunset: stroke('<path d="M6.5 19a5.5 5.5 0 0 1 11 0z" fill="currentColor"/><path d="M2 19h20M4.6 11.6l1.5 1.5M19.4 11.6l-1.5 1.5M2.5 15.5h1.6M19.9 15.5h1.6M12 3v7M9.5 7.5 12 10l2.5-2.5"/>', 28),
   dawn: stroke('<path d="M3 18h18M6.5 14.5a5.5 5.5 0 0 1 11 0"/><path d="M12 6v2M5 9l1.4 1.4M19 9l-1.4 1.4"/>', 18),
+  // Eclipse: the Sun's ring with the Moon's dark disc sliding over it.
+  eclipse: stroke('<circle cx="12" cy="12" r="8"/><circle cx="13.5" cy="11" r="6.5" fill="currentColor" stroke="none"/>', 20),
   newMoon: stroke('<circle cx="12" cy="12" r="7.5"/>', 20),
   fullMoon: stroke('<circle cx="12" cy="12" r="7.5" fill="currentColor"/>', 20),
   season: stroke('<path d="M12 3v18M5 7l14 10M19 7L5 17"/>', 20),

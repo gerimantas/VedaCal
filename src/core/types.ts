@@ -22,6 +22,19 @@ export type Span = { index: number; start: Date; end: Date }
 /** Spans covering the Panchang day, like the five elements; the Sun's sign usually has one span lasting weeks. */
 export type SignSpans = { moon: Span[]; sun: Span[] }
 
+/**
+ * Day-level markers for the month and day screens (SPEC 4.11):
+ * - eclipse on this civil day (peak), and whether any of it is above the horizon here; for a
+ *   visible solar eclipse `type` is what this place sees (partial where the path is total);
+ * - Sankranti: the Sun enters the next Vedic (sidereal) sign at `at`;
+ * - Pushya: Pushya nakshatra overlaps a Thursday (Guru Pushya) or Sunday (Ravi Pushya)
+ *   Panchang day, sunrise to sunrise — traditionally favoured for beginnings.
+ */
+export type DayMark =
+  | { kind: 'eclipse'; body: 'sun' | 'moon'; type: 'penumbral' | 'partial' | 'annular' | 'total'; peak: Date; visible: boolean }
+  | { kind: 'sankranti'; sign: number; at: Date }
+  | { kind: 'pushya'; weekday: 0 | 4; start: Date; end: Date }
+
 export type Ayana = 'uttarayana' | 'dakshinayana'
 
 export type DayPanchang = {
@@ -48,6 +61,7 @@ export type DayPanchang = {
   masa: { amanta: number; purnimanta: number; adhika: boolean }
   /** Sign (1 Aries/Mesha … 12 Pisces) of the Moon and the Sun: Vedic (sidereal, Lahiri) and Western (tropical). */
   signs: { vedic: SignSpans; western: SignSpans }
+  marks: DayMark[]
   newMoon: Date | null // instant inside this civil day
   fullMoon: Date | null
   rhythm: {
@@ -62,7 +76,7 @@ export type DayPanchang = {
 }
 
 /** One day of the month screen (SPEC 8): a calendar cell and its key dates. `tithi` is the one at sunrise. */
-export type MonthDay = Pick<DayPanchang, 'date' | 'moon' | 'ekadashi' | 'newMoon' | 'fullMoon' | 'rhythm'> & { tithi: number }
+export type MonthDay = Pick<DayPanchang, 'date' | 'moon' | 'ekadashi' | 'newMoon' | 'fullMoon' | 'rhythm' | 'marks'> & { tithi: number }
 
 /** Karana types by index 1-11 (names are keys into the content file). */
 export const KARANA_NAMES = [

@@ -590,7 +590,10 @@
     "about": "VedaCal shows the traditional Hindu lunar calendar (Panchang) in plain words. Everything is calculated on your device and nothing is sent anywhere. The guidance describes tradition and is not medical or professional advice. City data © GeoNames, CC BY 4.0.",
     "masa": "The lunar month runs from one moon to the next and is named after the sign the Sun is in when it begins. VedaCal counts months from full moon to full moon, as Drik Panchang does for North India; in South and West India they run from new moon to new moon, so in the waning half the month there carries the previous name. About every three years a month passes without the Sun changing sign: it becomes an extra month (Adhika) and the calendar catches up with the seasons.",
     "rashi": "The sky the Sun and Moon cross is divided into twelve signs. Vedic astrology measures them from the fixed stars (sidereal), so today they sit about 24° behind the Western signs, which follow the seasons (tropical): a Vedic Gemini Moon is often a Western Cancer one. Choose Vedic or Western in Settings.",
-    "parana": "Those who keep the Ekadashi fast traditionally end it the next morning, inside the twelfth lunar day (Dwadashi) and after its first quarter (Hari Vasara). When that quarter lasts past the morning, the fast is ended in the afternoon instead. Times follow Drik Panchang."
+    "parana": "Those who keep the Ekadashi fast traditionally end it the next morning, inside the twelfth lunar day (Dwadashi) and after its first quarter (Hari Vasara). When that quarter lasts past the morning, the fast is ended in the afternoon instead. Times follow Drik Panchang.",
+    "eclipse": "An eclipse (Grahan) is traditionally a time to pause: new undertakings and meals are put off until it ends, and many spend it in quiet prayer or meditation. VedaCal shows the moment of greatest eclipse and whether any of it can be seen from your location.",
+    "sankranti": "Sankranti is the moment the Sun moves into the next Vedic sign, twelve times a year. Each one opens a solar month; Makara Sankranti in January is celebrated across India.",
+    "pushya": "Pushya, the Moon's star of nourishment, is held the most favourable of the 27. When it falls on a Thursday (Guru Pushya) or a Sunday (Ravi Pushya), tradition sees that time as good for beginnings, for buying gold and for starting to learn. The times shown are when the two overlap."
   },
   "ui": {
     "today": "Today",
@@ -694,7 +697,25 @@
     "moonIn": "Moon in {sign}",
     "sunIn": "Sun in {sign}",
     "hours12": "12 h",
-    "hours24": "24 h"
+    "hours24": "24 h",
+    "labelEclipse": "Eclipse",
+    "labelSankranti": "Sun changes sign",
+    "labelFavoured": "Favoured for beginnings",
+    "eclipseTitle": "{type} {what} eclipse",
+    "eclipseTotal": "Total",
+    "eclipsePartial": "Partial",
+    "eclipseAnnular": "Annular",
+    "eclipsePenumbral": "Penumbral",
+    "lunar": "lunar",
+    "solar": "solar",
+    "peakAt": "peak {time}",
+    "visibleHere": "visible here",
+    "notVisibleHere": "not visible here",
+    "sunEnters": "Sun enters {sign}",
+    "sunEntersVedic": "Sun enters {sign} (Vedic)",
+    "favoured": "Favoured for beginnings",
+    "legendFavoured": "Favoured day",
+    "legendEclipse": "Eclipse"
   },
   "masa": {
     "1": {

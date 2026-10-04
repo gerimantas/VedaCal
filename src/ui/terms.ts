@@ -14,6 +14,9 @@ export const terms = {
   abhijit: [t('legendGoodTime'), 'Abhijit Muhurta'],
   rahuKaal: [t('legendAvoidTime'), 'Rahu Kaal'],
   parana: [t('labelParana'), 'Parana'],
+  eclipse: [t('labelEclipse'), 'Grahan'],
+  sankranti: [t('labelSankranti'), 'Sankranti'],
+  pushya: [t('labelFavoured'), 'Guru / Ravi Pushya'],
   rhythm: [t('sectionTradition'), ''],
 } as const
 export type Term = keyof typeof terms

@@ -717,6 +717,44 @@ h3 {
   background: var(--color-accent);
 }
 
+/* Day marks (SPEC 4.11): green = traditionally favoured (Guru/Ravi Pushya), red ring = eclipse. */
+.cell .flag {
+  position: absolute;
+  top: 0.3rem;
+  left: 0.3rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.cell .flag + .flag {
+  left: 0.85rem;
+}
+
+.flag.favoured,
+.flag-swatch.favoured {
+  background: var(--color-good);
+}
+
+.flag.warning,
+.flag-swatch.warning {
+  border: 2px solid var(--color-avoid);
+}
+
+.legend .flag-swatch {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.event.favoured svg {
+  color: var(--color-good);
+}
+
+.event.warning svg {
+  color: var(--color-avoid);
+}
+
 .legend {
   display: flex;
   flex-wrap: wrap;

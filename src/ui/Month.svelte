@@ -16,7 +16,7 @@
   const v = $derived.by(() => {
     void app.settings.hour12 // key-date times are formatted inside monthView
     const [y, m] = shown.split('-').map(Number)
-    return monthView(computeMonth(y, m, loc), loc, today)
+    return monthView(computeMonth(y, m, loc), loc, today, app.settings.zodiac)
   })
 
   function open(date: string) {
@@ -41,6 +41,8 @@
     {#each v.cells as c (c.date)}
       <a class="cell" class:rest={c.rest} class:today={c.today} href="#/day" aria-label={c.label} onclick={(e) => (e.preventDefault(), open(c.date))}>
         {#if c.ekadashi}<span class="dot"></span>{/if}
+        {#if c.favoured}<span class="flag favoured"></span>{/if}
+        {#if c.eclipse}<span class="flag warning"></span>{/if}
         <span class="d num">{c.n}</span>
         {@html realisticMoon(c.illumination, c.waxing, 24, '')}
       </a>
@@ -51,6 +53,8 @@
     <span><i class="rest-swatch"></i>{t('legendRest')}</span>
     <span><i style="background:var(--color-accent);border-radius:50%;width:6px;height:6px"></i>{t('legendEkadashi')} <span class="sk">Ekadashi</span></span>
     <span><i style="border:1px solid var(--color-moon)"></i>{t('legendToday')}</span>
+    <span><i class="flag-swatch favoured"></i>{t('legendFavoured')}</span>
+    <span><i class="flag-swatch warning"></i>{t('legendEclipse')}</span>
   </p>
 
   <h2 class="section-title">{t('keyDates')}</h2>
