@@ -912,11 +912,14 @@ h3 {
   cursor: pointer;
 }
 
+/* The chosen option: a bright amber outline with a soft glow and amber text, no fill (user, 2026-10-05). */
 .segmented button[aria-pressed='true'] {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
-  color: var(--color-paper);
-  font-weight: 600;
+  border: 1.5px solid var(--color-accent);
+  color: var(--color-accent);
+  font-weight: 650;
+  box-shadow:
+    0 0 0.7rem color-mix(in oklch, var(--color-accent) 40%, transparent),
+    inset 0 0 0.5rem color-mix(in oklch, var(--color-accent) 15%, transparent);
 }
 
 .cities {
