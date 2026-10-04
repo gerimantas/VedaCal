@@ -9,9 +9,9 @@ gold), tap-to-explain sheets, About tab, photo moons in the month grid. Design r
 placeholder.
 
 ## Next Tasks
-- P4, the source-audit additions and P5 (month screen + settings) are done and committed,
-  not pushed: push to `main` (= deploy to the live site) once the user says so. Then P6
-  (PWA, offline — precache misses the moon photo and fonts). plan: `.planning/PLAN.md` P6.
+- P6 (PWA, offline — precache misses the moon photo and fonts). P4, P5, the source-audit
+  additions, day marks and the Lithuanian version are live since 2026-10-05 (commit
+  38d2853, CI green). plan: `.planning/PLAN.md` P6.
 - Fetch the Drik evidence the reCAPTCHA cut off (2026-10-05), in the background (~15 min at
   12 s per page): `node scripts/fetch-parana.ts new-york 2027`, `… new-delhi 2027`, and
   `node scripts/fetch-drik.ts <vilnius|new-york|new-delhi> 2026-05-10 2026-05-25 2026-06-08`
