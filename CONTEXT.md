@@ -10,8 +10,6 @@ lists what in it is wrong.
 ## Next Tasks
 - P0 project setup, then P1 calculation core validated against 36 Drik fixtures.
   plan: `.planning/PLAN.md` (P0, P1); rules: `.planning/SPEC.md` section 4.
-- Decide engine: wrap `@ishubhamx/panchangam-js` vs own core — PLAN "Decisions pending",
-  evidence SPEC section 11.
 
 ## Done Log
 
@@ -23,6 +21,8 @@ lists what in it is wrong.
   English UI, public repo; GitHub prior art searched (SPEC 11)
 - Concept module 3 kept in v1 as "Traditional rhythm" (rest days, Ekadashi, Ayana,
   Ritu — no health claims); concept coverage table in SPEC 12
+- Engine: `@ishubhamx/panchangam-js` 3.0.0 behind own adapter; security-checked
+  (SPEC 11); new-moon rest day = the new-moon day only
 
 ## Key Facts
 - NotebookLM notebook "VedaCal": `2a0fad75-caeb-4d03-9f73-7c91e341d1f2`
