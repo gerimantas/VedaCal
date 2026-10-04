@@ -678,7 +678,6 @@
     "locationError": "Your location is not available. Search for a city instead.",
     "noCities": "No city found",
     "loadingCities": "Loading cities…",
-    "monthSoon": "The month view arrives in the next update.",
     "labelMonth": "Lunar month",
     "labelParana": "Ekadashi fast ends",
     "extraMonth": "Extra month",
@@ -693,7 +692,9 @@
     "zodiacWestern": "Western",
     "zodiacNote": "Vedic signs follow the stars; Western signs follow the seasons and sit about one sign ahead.",
     "moonIn": "Moon in {sign}",
-    "sunIn": "Sun in {sign}"
+    "sunIn": "Sun in {sign}",
+    "hours12": "12 h",
+    "hours24": "24 h"
   },
   "masa": {
     "1": {

@@ -1,9 +1,9 @@
 <script lang="ts">
-  // Settings tab: the location picker (SPEC 6) — the approved P3 mockup (mockups/location.ts)
-  // with the real GeoNames search, offline, every city above 15,000 people — and the zodiac
-  // choice (Vedic by default). P5 adds time format and theme here.
+  // Settings tab (SPEC 5.3, 6): the location picker — the approved P3 mockup
+  // (mockups/location.ts) with the real GeoNames search, offline, every city above 15,000
+  // people — then zodiac signs (Vedic by default), time format and theme.
   import { inZone, loadCities, nearest, search, type CityIndex, type Place } from './cities'
-  import { t } from './format'
+  import { deviceHour12, t, time } from './format'
   import { icon } from './icons'
   import { app, setLocation, setSetting } from './state.svelte'
 
@@ -42,7 +42,7 @@
     )
   }
 
-  const localTime = (tz: string) => new Intl.DateTimeFormat(undefined, { timeStyle: 'short', timeZone: tz }).format(new Date())
+  const hour12 = $derived(app.settings.hour12 ?? deviceHour12())
   const onKey = (e: KeyboardEvent, p: Place) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), choose(p))
 </script>
 
@@ -50,7 +50,8 @@
   <header class="appbar">
     <a class="chip" href="#/day" aria-label={t('back')}>{@html icon.left}<span>{t('back')}</span></a>
   </header>
-  <h1 class="page-title">{t('location')}</h1>
+  <h1 class="page-title">{t('settings')}</h1>
+  <h2 class="about-head">{t('location')}</h2>
 
   <label class="card search">
     {@html icon.search}
@@ -73,7 +74,7 @@
       >
         {@html icon.pin}
         <div><b>{p.name}</b><small>{p.region && p.region !== p.name ? `${p.region}, ` : ''}{p.country}</small></div>
-        <span class="quiet num">{localTime(p.tz)}</span>
+        <span class="quiet num">{(void app.settings.hour12, time(new Date(), p))}</span>
       </li>
     {/each}
   </ul>
@@ -91,5 +92,23 @@
       {/each}
     </div>
     <p class="quiet">{t('zodiacNote')}</p>
+  </section>
+
+  <h2 class="about-head">{t('timeFormat')}</h2>
+  <section class="card about-intro">
+    <div class="segmented" role="group" aria-label={t('timeFormat')}>
+      {#each [[true, t('hours12')], [false, t('hours24')]] as const as [value, label] (label)}
+        <button aria-pressed={hour12 === value} onclick={() => setSetting('hour12', value)}>{label}</button>
+      {/each}
+    </div>
+  </section>
+
+  <h2 class="about-head">{t('theme')}</h2>
+  <section class="card about-intro">
+    <div class="segmented" role="group" aria-label={t('theme')}>
+      {#each [['system', t('themeSystem')], ['dark', t('themeDark')], ['light', t('themeLight')]] as const as [value, label] (value)}
+        <button aria-pressed={app.settings.theme === value} onclick={() => setSetting('theme', value)}>{label}</button>
+      {/each}
+    </div>
   </section>
 </main>

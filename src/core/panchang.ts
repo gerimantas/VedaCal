@@ -25,7 +25,7 @@ import { calculateAbhijitMuhurta, calculateBrahmaMuhurta } from '@ishubhamx/panc
 import { calculateRahuKalam } from '@ishubhamx/panchangam-js/dist/muhurta/rahu-kaal'
 import { getVara } from '@ishubhamx/panchangam-js/dist/calendar/vara'
 import { addDays, civilDate, tzOffsetMinutes, zonedTimeToUtc } from './time'
-import type { Ayana, DayPanchang, Interval, Location, Span } from './types'
+import type { Ayana, DayPanchang, Interval, Location, MonthDay, Span } from './types'
 
 const DAY_MS = 86_400_000
 
@@ -371,9 +371,41 @@ export function computeDay(date: string, loc: Location): DayPanchang {
   })
 }
 
-export function computeMonth(year: number, month: number, loc: Location): DayPanchang[] {
+const months = new Map<string, MonthDay[]>()
+
+/**
+ * The month screen's per-day summary (SPEC 8). Only what a calendar cell and the key-dates
+ * list need — no element spans, signs or windows — so a month fits the speed budget that
+ * 31 full computeDay calls did not (PLAN P5).
+ */
+export function computeMonth(year: number, month: number, loc: Location): MonthDay[] {
   const first = `${year}-${String(month).padStart(2, '0')}-01`
-  const out: DayPanchang[] = []
-  for (let d = first; d.slice(0, 7) === first.slice(0, 7); d = addDays(d, 1)) out.push(computeDay(d, loc))
-  return out
+  return remember(months, key(loc, first), () => {
+    const days: string[] = []
+    for (let d = first; d.slice(0, 7) === first.slice(0, 7); d = addDays(d, 1)) days.push(d)
+    const start = midnight(loc, first)
+    const end = midnight(loc, addDays(days[days.length - 1], 1))
+    // Every new and full moon of the month, found once instead of once per day.
+    const phases = (phase: number) => {
+      const out: Date[] = []
+      for (let t = moonPhaseIn(phase, start, end); t; t = moonPhaseIn(phase, new Date(t.getTime() + DAY_MS), end)) out.push(t)
+      return out
+    }
+    const newMoons = phases(0)
+    const fullMoons = phases(180)
+    const inDay = (list: Date[], date: string) => list.find((t) => civilDate(loc.tz, t) === date) ?? null
+    return days.map((date) => {
+      const middle = noon(loc, date)
+      const e = elongation(middle)
+      return {
+        date,
+        moon: { illumination: Illumination(Body.Moon, middle).phase_fraction, waxing: e < 180, elongation: e },
+        tithi: sunriseTithi(loc, date),
+        ekadashi: smartaEkadashiOn(loc, date),
+        newMoon: inDay(newMoons, date),
+        fullMoon: inDay(fullMoons, date),
+        rhythm: rhythm(loc, date),
+      }
+    })
+  })
 }

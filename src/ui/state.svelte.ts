@@ -2,6 +2,7 @@
 // the only things stored, SPEC 6) and the current route.
 import type { Place } from './cities'
 import type { Zodiac } from './day'
+import { prefs } from './format'
 
 const KEY = 'vedacal.location'
 const SETTINGS = 'vedacal.settings'
@@ -22,20 +23,40 @@ function stored(): Place | null {
 
 const saved = stored()
 
-type Settings = { zodiac: Zodiac }
+export type Theme = 'system' | 'dark' | 'light'
+/** SPEC 5.3. hour12 null = the device's habit until the user picks one. */
+type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme }
 function storedSettings(): Settings {
+  let s: Record<string, unknown> = {}
   try {
-    const s = JSON.parse(localStorage.getItem(SETTINGS) ?? '{}')
-    return { zodiac: s.zodiac === 'western' ? 'western' : 'vedic' }
+    s = JSON.parse(localStorage.getItem(SETTINGS) ?? '{}')
   } catch {
-    return { zodiac: 'vedic' }
+    // Unreadable or blocked storage: defaults.
+  }
+  return {
+    zodiac: s.zodiac === 'western' ? 'western' : 'vedic',
+    hour12: typeof s.hour12 === 'boolean' ? s.hour12 : null,
+    theme: s.theme === 'dark' || s.theme === 'light' ? s.theme : 'system',
   }
 }
 
-export const app = $state({ location: saved ?? VILNIUS, settings: storedSettings() })
+/** Light/dark follows the system unless chosen (tokens.css reads data-theme). */
+function applyTheme(theme: Theme) {
+  if (theme === 'system') delete document.documentElement.dataset.theme
+  else document.documentElement.dataset.theme = theme
+}
+
+const settings = storedSettings()
+prefs.hour12 = settings.hour12 ?? undefined
+applyTheme(settings.theme)
+
+/** `date`: the day the Day screen shows, null = today (so it rolls over at midnight). */
+export const app = $state({ location: saved ?? VILNIUS, settings, date: null as string | null })
 
 export function setSetting<K extends keyof Settings>(key: K, value: Settings[K]) {
   app.settings[key] = value
+  prefs.hour12 = app.settings.hour12 ?? undefined
+  applyTheme(app.settings.theme)
   try {
     localStorage.setItem(SETTINGS, JSON.stringify(app.settings))
   } catch {

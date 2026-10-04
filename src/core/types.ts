@@ -61,6 +61,9 @@ export type DayPanchang = {
   ayanamsha: number // degrees, Lahiri
 }
 
+/** One day of the month screen (SPEC 8): a calendar cell and its key dates. `tithi` is the one at sunrise. */
+export type MonthDay = Pick<DayPanchang, 'date' | 'moon' | 'ekadashi' | 'newMoon' | 'fullMoon' | 'rhythm'> & { tithi: number }
+
 /** Karana types by index 1-11 (names are keys into the content file). */
 export const KARANA_NAMES = [
   'Bava', 'Balava', 'Kaulava', 'Taitila', 'Garaja', 'Vanija', 'Vishti',

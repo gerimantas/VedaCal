@@ -25,15 +25,18 @@
 
   const loc = $derived(app.location)
   const today = $derived(civilDate(loc.tz, clock))
-  // null = follow today, so the screen rolls over at midnight on its own.
-  let picked = $state<string | null>(null)
-  const date = $derived(picked ?? today)
+  // app.date null = follow today, so the screen rolls over at midnight on its own. The month
+  // screen sets it when a day is tapped.
+  const date = $derived(app.date ?? today)
   const day = $derived(computeDay(date, loc))
-  const v = $derived(dayView(day, loc, momentFor(day, loc, clock), app.settings.zodiac))
+  const v = $derived.by(() => {
+    void app.settings.hour12 // times are formatted inside dayView; re-run when the format changes
+    return dayView(day, loc, momentFor(day, loc, clock), app.settings.zodiac)
+  })
 
   const go = (days: number) => {
     const d = addDays(date, days)
-    picked = d === today ? null : d
+    app.date = d === today ? null : d
   }
 </script>
 
@@ -65,7 +68,7 @@
     </div>
   </header>
   {#if date !== today}
-    <a class="today-link" href="#/day" onclick={() => (picked = null)}>{t('today')} →</a>
+    <a class="today-link" href="#/day" onclick={() => (app.date = null)}>{t('today')} →</a>
   {/if}
 
   <section class="hero" aria-label={v.tithi.name} data-sheet="tithi">

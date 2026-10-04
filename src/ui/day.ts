@@ -3,7 +3,7 @@
 // mockup and the app cannot drift apart, and tests can compare the screen with the engine.
 import { civilDate } from '../core/time'
 import type { DayPanchang, Interval, Location, Span } from '../core/types'
-import { content, entry, percent, progress, t, time, until } from './format'
+import { LOCALE, content, entry, percent, progress, t, time, until } from './format'
 import { icon } from './icons'
 import { terms, type Term } from './terms'
 
@@ -65,7 +65,7 @@ const following = (spans: Span[], s: Span, day: DayPanchang) => {
 
 export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodiac = 'vedic'): DayView {
   const noonish = day.sunrise ?? new Date(`${day.date}T12:00:00Z`)
-  const shortDate = new Intl.DateTimeFormat(undefined, { weekday: 'short', day: 'numeric', month: 'short', timeZone: loc.tz }).format(noonish)
+  const shortDate = new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: 'short', timeZone: loc.tz }).format(noonish)
 
   const tithi = activeAt(day.tithi, now)
   const te = entry('tithi', tithi.index)
