@@ -2,7 +2,7 @@
   // Settings tab (SPEC 5.3, 6): the location picker — the approved P3 mockup
   // (mockups/location.ts) with the real GeoNames search, offline, every city above 15,000
   // people — then zodiac signs (Vedic by default), time format and theme.
-  import { inZone, loadCities, nearest, search, type CityIndex, type Place } from './cities'
+  import { loadCities, nearest, search, type CityIndex, type Place } from './cities'
   import { LANG, countryName, deviceHour12, t, time } from './format'
   import { icon } from './icons'
   import { app, setLocation, setSetting } from './state.svelte'
@@ -11,15 +11,14 @@
   let index = $state<CityIndex | null>(null)
   let query = $state('')
   let status = $state<'' | 'locating' | 'error'>('')
-  loadCities().then((i) => (index = i))
+  // The city list (~750 KB) is fetched only once a search starts, not when Settings opens.
+  $effect(() => {
+    if (query.trim() && !index) loadCities().then((i) => (index = i))
+  })
 
   const same = (a: Place, b: Place) => a.name === b.name && a.lat === b.lat && a.lon === b.lon
-  // Before anything is typed: the current location, then the largest cities in the device's time zone.
-  const places = $derived.by(() => {
-    if (query.trim()) return index ? search(index, query) : []
-    const local = index ? inZone(index, deviceTz).filter((p) => !same(p, app.location)) : []
-    return [app.location, ...local]
-  })
+  // Before anything is typed: only the current location (user, 2026-10-05).
+  const places = $derived(query.trim() ? (index ? search(index, query) : []) : [app.location])
 
   function choose(p: Place) {
     setLocation(p)

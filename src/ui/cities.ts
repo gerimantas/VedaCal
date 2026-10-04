@@ -66,6 +66,3 @@ export function nearest(index: CityIndex, lat: number, lon: number): Place {
   }
   return best
 }
-
-/** Largest cities in a time zone — what the picker offers before anything is typed. */
-export const inZone = (index: CityIndex, tz: string, limit = 6) => index.places.filter((p) => p.tz === tz).slice(0, limit)
