@@ -1,0 +1,346 @@
+{
+  "source": "https://www.drikpanchang.com/vrats/ekadashidates.html?geoname-id=1261481&year=2026",
+  "fetchedAt": "2026-10-04T16:51:13.091Z",
+  "city": "new-delhi",
+  "year": 2026,
+  "ekadashis": [
+    {
+      "masa": "Magha",
+      "paksha": "Krishna",
+      "smarta": "2026-01-14",
+      "days": [
+        {
+          "date": "2026-01-14",
+          "names": [
+            "Shattila Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Magha",
+      "paksha": "Shukla",
+      "smarta": "2026-01-29",
+      "days": [
+        {
+          "date": "2026-01-29",
+          "names": [
+            "Jaya Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Phalguna",
+      "paksha": "Krishna",
+      "smarta": "2026-02-13",
+      "days": [
+        {
+          "date": "2026-02-13",
+          "names": [
+            "Vijaya Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Phalguna",
+      "paksha": "Shukla",
+      "smarta": "2026-02-27",
+      "days": [
+        {
+          "date": "2026-02-27",
+          "names": [
+            "Amalaki Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Chaitra",
+      "paksha": "Krishna",
+      "smarta": "2026-03-15",
+      "days": [
+        {
+          "date": "2026-03-15",
+          "names": [
+            "Vishnushrinkhala Yoga Dwadashi",
+            "Papamochani Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Chaitra",
+      "paksha": "Shukla",
+      "smarta": "2026-03-29",
+      "days": [
+        {
+          "date": "2026-03-29",
+          "names": [
+            "Kamada Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Vaishakha",
+      "paksha": "Krishna",
+      "smarta": "2026-04-13",
+      "days": [
+        {
+          "date": "2026-04-13",
+          "names": [
+            "Varuthini Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Vaishakha",
+      "paksha": "Shukla",
+      "smarta": "2026-04-27",
+      "days": [
+        {
+          "date": "2026-04-27",
+          "names": [
+            "Mohini Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Jyeshtha",
+      "paksha": "Krishna",
+      "smarta": "2026-05-13",
+      "days": [
+        {
+          "date": "2026-05-13",
+          "names": [
+            "Apara Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Jyeshtha",
+      "paksha": "Shukla",
+      "smarta": "2026-05-27",
+      "days": [
+        {
+          "date": "2026-05-27",
+          "names": [
+            "Unmilini Mahadwadashi",
+            "Padmini Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Jyeshtha",
+      "paksha": "Krishna",
+      "smarta": "2026-06-11",
+      "days": [
+        {
+          "date": "2026-06-11",
+          "names": [
+            "Parama Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Jyeshtha",
+      "paksha": "Shukla",
+      "smarta": "2026-06-25",
+      "days": [
+        {
+          "date": "2026-06-25",
+          "names": [
+            "Nirjala Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Ashadha",
+      "paksha": "Krishna",
+      "smarta": "2026-07-10",
+      "days": [
+        {
+          "date": "2026-07-10",
+          "names": [
+            "Yogini Ekadashi"
+          ]
+        },
+        {
+          "date": "2026-07-11",
+          "names": [
+            "Gauna Yogini Ekadashi",
+            "Vaishnava Yogini Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Ashadha",
+      "paksha": "Shukla",
+      "smarta": "2026-07-25",
+      "days": [
+        {
+          "date": "2026-07-25",
+          "names": [
+            "Devshayani Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Shravana",
+      "paksha": "Krishna",
+      "smarta": "2026-08-09",
+      "days": [
+        {
+          "date": "2026-08-09",
+          "names": [
+            "Kamika Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Shravana",
+      "paksha": "Shukla",
+      "smarta": "2026-08-23",
+      "days": [
+        {
+          "date": "2026-08-23",
+          "names": [
+            "Shravana Putrada Ekadashi"
+          ]
+        },
+        {
+          "date": "2026-08-24",
+          "names": [
+            "Vanjuli Mahadwadashi",
+            "Vaishnava Shravana Putrada Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Bhadrapada",
+      "paksha": "Krishna",
+      "smarta": "2026-09-07",
+      "days": [
+        {
+          "date": "2026-09-07",
+          "names": [
+            "Aja Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Bhadrapada",
+      "paksha": "Shukla",
+      "smarta": "2026-09-22",
+      "days": [
+        {
+          "date": "2026-09-22",
+          "names": [
+            "Vishnushrinkhala Yoga Dwadashi",
+            "Parsva Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Ashwina",
+      "paksha": "Krishna",
+      "smarta": "2026-10-06",
+      "days": [
+        {
+          "date": "2026-10-06",
+          "names": [
+            "Indira Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Ashwina",
+      "paksha": "Shukla",
+      "smarta": "2026-10-22",
+      "days": [
+        {
+          "date": "2026-10-22",
+          "names": [
+            "Papankusha Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Kartika",
+      "paksha": "Krishna",
+      "smarta": "2026-11-05",
+      "days": [
+        {
+          "date": "2026-11-05",
+          "names": [
+            "Rama Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Kartika",
+      "paksha": "Shukla",
+      "smarta": "2026-11-20",
+      "days": [
+        {
+          "date": "2026-11-20",
+          "names": [
+            "Devutthana Ekadashi"
+          ]
+        },
+        {
+          "date": "2026-11-21",
+          "names": [
+            "Gauna Devutthana Ekadashi",
+            "Vaishnava Devutthana Ekadashi",
+            "Guruvayur Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Margashirsha",
+      "paksha": "Krishna",
+      "smarta": "2026-12-04",
+      "days": [
+        {
+          "date": "2026-12-04",
+          "names": [
+            "Utpanna Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Margashirsha",
+      "paksha": "Shukla",
+      "smarta": "2026-12-20",
+      "days": [
+        {
+          "date": "2026-12-20",
+          "names": [
+            "Mokshada Ekadashi",
+            "Vaikuntha Ekadashi"
+          ]
+        }
+      ]
+    }
+  ]
+}

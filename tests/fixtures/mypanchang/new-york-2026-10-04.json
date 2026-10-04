@@ -1,0 +1,51 @@
+{
+  "source": "http://www.mypanchang.com/phppanchang.php?yr=2026&cityhead=New%20York%2C%20NY&cityname=NewYork-NY&monthtype=0&mn=9",
+  "fetchedAt": "2026-10-04T16:43:37.383Z",
+  "city": "new-york",
+  "date": "2026-10-04",
+  "tz": "America/New_York",
+  "sunrise": "2026-10-04T10:56:50.000Z",
+  "sunset": "2026-10-04T22:31:49.000Z",
+  "tithi": [
+    {
+      "name": "Krishna Navami",
+      "end": "2026-10-04T22:24:01.000Z"
+    }
+  ],
+  "nakshatra": [
+    {
+      "name": "Punarvasu",
+      "end": "2026-10-04T18:43:33.000Z"
+    }
+  ],
+  "yoga": [
+    {
+      "name": "Shiva",
+      "end": "2026-10-05T04:20:54.000Z"
+    }
+  ],
+  "karana": [
+    {
+      "name": "Taitila",
+      "end": "2026-10-04T11:21:37.000Z"
+    },
+    {
+      "name": "Garaja",
+      "end": "2026-10-04T22:24:01.000Z"
+    },
+    {
+      "name": "Vanija",
+      "end": "2026-10-05T09:29:20.000Z"
+    }
+  ],
+  "rahuKalam": {
+    "start": "2026-10-04T21:04:56.000Z",
+    "end": "2026-10-04T22:31:49.000Z"
+  },
+  "abhijit": {
+    "start": "2026-10-04T16:21:09.000Z",
+    "end": "2026-10-04T17:07:29.000Z"
+  },
+  "ayana": "Dakshinayana",
+  "ritu": "Sharad"
+}

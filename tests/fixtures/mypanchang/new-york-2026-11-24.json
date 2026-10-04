@@ -1,0 +1,55 @@
+{
+  "source": "http://www.mypanchang.com/phppanchang.php?yr=2026&cityhead=New%20York%2C%20NY&cityname=NewYork-NY&monthtype=0&mn=10",
+  "fetchedAt": "2026-10-04T16:43:44.775Z",
+  "city": "new-york",
+  "date": "2026-11-24",
+  "tz": "America/New_York",
+  "sunrise": "2026-11-24T11:54:32.000Z",
+  "sunset": "2026-11-24T21:30:35.000Z",
+  "tithi": [
+    {
+      "name": "Shukla Purnima",
+      "end": "2026-11-24T14:53:18.000Z"
+    },
+    {
+      "name": "Krishna Prathama",
+      "end": "2026-11-25T11:20:29.000Z"
+    }
+  ],
+  "nakshatra": [
+    {
+      "name": "Krittika",
+      "end": "2026-11-24T17:54:48.000Z"
+    }
+  ],
+  "yoga": [
+    {
+      "name": "Shiva",
+      "end": "2026-11-25T06:29:14.000Z"
+    }
+  ],
+  "karana": [
+    {
+      "name": "Bava",
+      "end": "2026-11-24T14:53:18.000Z"
+    },
+    {
+      "name": "Balava",
+      "end": "2026-11-25T01:07:52.000Z"
+    },
+    {
+      "name": "Kaulava",
+      "end": "2026-11-25T11:20:29.000Z"
+    }
+  ],
+  "rahuKalam": {
+    "start": "2026-11-24T19:06:34.000Z",
+    "end": "2026-11-24T20:18:35.000Z"
+  },
+  "abhijit": {
+    "start": "2026-11-24T16:23:22.000Z",
+    "end": "2026-11-24T17:01:46.000Z"
+  },
+  "ayana": "Dakshinayana",
+  "ritu": "Hemant"
+}

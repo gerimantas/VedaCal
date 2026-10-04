@@ -1,0 +1,47 @@
+{
+  "source": "http://www.mypanchang.com/phppanchang.php?yr=2026&cityhead=New%20York%2C%20NY&cityname=NewYork-NY&monthtype=0&mn=5",
+  "fetchedAt": "2026-10-04T16:43:41.099Z",
+  "city": "new-york",
+  "date": "2026-06-21",
+  "tz": "America/New_York",
+  "sunrise": "2026-06-21T09:26:22.000Z",
+  "sunset": "2026-06-22T00:29:20.000Z",
+  "tithi": [
+    {
+      "name": "Shukla Saptami",
+      "end": "2026-06-21T09:50:55.000Z"
+    }
+  ],
+  "nakshatra": [
+    {
+      "name": "U.Phalguni",
+      "end": "2026-06-22T04:52:02.000Z"
+    }
+  ],
+  "yoga": [
+    {
+      "name": "Vyatipata",
+      "end": "2026-06-22T05:00:27.000Z"
+    }
+  ],
+  "karana": [
+    {
+      "name": "Vanija",
+      "end": "2026-06-21T09:50:55.000Z"
+    },
+    {
+      "name": "Vishti/Bhadra",
+      "end": "2026-06-21T21:55:09.000Z"
+    }
+  ],
+  "rahuKalam": {
+    "start": "2026-06-21T22:36:28.000Z",
+    "end": "2026-06-22T00:29:20.000Z"
+  },
+  "abhijit": {
+    "start": "2026-06-21T16:33:51.000Z",
+    "end": "2026-06-21T17:21:51.000Z"
+  },
+  "ayana": "Dakshinayana",
+  "ritu": "Varsha"
+}

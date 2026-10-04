@@ -1,0 +1,337 @@
+{
+  "source": "https://www.drikpanchang.com/panchang/day-panchang.html?geoname-id=593116&date=15/07/1995",
+  "fetchedAt": "2026-10-04T16:40:46.495Z",
+  "city": "vilnius",
+  "date": "1995-07-15",
+  "tz": "Europe/Vilnius",
+  "sunrise": "1995-07-15T02:01:00.000Z",
+  "sunset": "1995-07-15T18:48:00.000Z",
+  "moonrise": "1995-07-15T19:55:00.000Z",
+  "moonset": "1995-07-15T06:07:00.000Z",
+  "nextSunrise": "1995-07-16T02:02:00.000Z",
+  "tithi": [
+    {
+      "name": "Chaturthi",
+      "end": "1995-07-15T23:29:00.000Z"
+    },
+    {
+      "name": "Panchami",
+      "end": null
+    }
+  ],
+  "nakshatra": [
+    {
+      "name": "Dhanishtha",
+      "end": "1995-07-15T05:24:00.000Z"
+    },
+    {
+      "name": "Shatabhisha",
+      "end": null
+    }
+  ],
+  "yoga": [
+    {
+      "name": "Ayushmana",
+      "end": "1995-07-15T13:09:00.000Z"
+    },
+    {
+      "name": "Saubhagya",
+      "end": null
+    }
+  ],
+  "karana": [
+    {
+      "name": "Bava",
+      "end": "1995-07-15T12:23:00.000Z"
+    },
+    {
+      "name": "Balava",
+      "end": "1995-07-15T23:29:00.000Z"
+    },
+    {
+      "name": "Kaulava",
+      "end": null
+    }
+  ],
+  "weekday": "Shaniwara",
+  "paksha": "Krishna Paksha",
+  "rahuKalam": {
+    "start": "1995-07-15T06:13:00.000Z",
+    "end": "1995-07-15T08:19:00.000Z"
+  },
+  "abhijit": {
+    "start": "1995-07-15T09:51:00.000Z",
+    "end": "1995-07-15T10:58:00.000Z"
+  },
+  "brahmaMuhurta": {
+    "start": "1995-07-15T01:03:00.000Z",
+    "end": "1995-07-15T01:32:00.000Z"
+  },
+  "ritu": "Varsha (Monsoon)",
+  "ayana": "Dakshinayana",
+  "dinamana": "16 Hours 46 Mins 30 Secs",
+  "raw": {
+    "Sunrise and Moonrise": {
+      "Sunrise": [
+        "05:01 AM"
+      ],
+      "Sunset": [
+        "09:48 PM"
+      ],
+      "Moonrise": [
+        "10:55 PM"
+      ],
+      "Moonset": [
+        "09:07 AM"
+      ]
+    },
+    "Panchang": {
+      "Tithi": [
+        "Chaturthi upto 02:29 AM , Jul 16",
+        "Panchami"
+      ],
+      "Nakshatra": [
+        "Dhanishtha upto 08:24 AM",
+        "Shatabhisha"
+      ],
+      "Yoga": [
+        "Ayushmana upto 04:09 PM",
+        "Saubhagya"
+      ],
+      "Karana": [
+        "Bava upto 03:23 PM",
+        "Balava upto 02:29 AM , Jul 16",
+        "Kaulava"
+      ],
+      "Weekday": [
+        "Shaniwara"
+      ],
+      "Paksha": [
+        "Krishna Paksha"
+      ]
+    },
+    "Lunar Month, Samvat and Brihaspati Samvatsara": {
+      "Vikram Samvat": [
+        "2052 Sarvadhari"
+      ],
+      "Samvatsara": [
+        "Sarvadhari upto 12:48 PM , Aug 30, 1995",
+        "Virodhi"
+      ],
+      "Shaka Samvat": [
+        "1917 Yuva"
+      ],
+      "Gujarati Samvat": [
+        "2051 Vyaya"
+      ],
+      "Chandramasa": [
+        "Shravana - Purnimanta",
+        "Ashadha - Amanta"
+      ],
+      "Pravishte/Gate": [
+        "31"
+      ]
+    },
+    "Mantri Mandala of Vikram Samvat 2052": {
+      "Raja": [
+        "Shukra 👑 - King"
+      ],
+      "Senadhipati": [
+        "Guru ⚔️ - Commander-in-Chief"
+      ],
+      "Mantri": [
+        "Shukra ⚜️ - Minister of Cabinet"
+      ],
+      "Dhanyadhipati": [
+        "Shukra 🌻 - Rabi Crops"
+      ],
+      "Sasyadhipati": [
+        "Surya 🌾 - Kharif Crops"
+      ],
+      "Meghadhipati": [
+        "Guru 🌧 - Clouds and Rain"
+      ],
+      "Dhanadhipati": [
+        "Surya 💰 - Wealth and Economy"
+      ],
+      "Nirasadhipati": [
+        "Surya 🪙 - Metals and Minerals"
+      ],
+      "Rasadhipati": [
+        "Mangal 🍯 - Sap and Liquids"
+      ],
+      "Phaladhipati": [
+        "Budha 🍎 - Fruits and Flowers"
+      ]
+    },
+    "Rashi and Nakshatra": {
+      "Moonsign": [
+        "Kumbha"
+      ],
+      "Nakshatra Pada": [
+        "Dhanishtha upto 08:24 AM",
+        "Shatabhisha upto 02:05 PM",
+        "Shatabhisha upto 07:48 PM",
+        "Shatabhisha upto 01:34 AM , Jul 16",
+        "Shatabhisha"
+      ],
+      "Sunsign": [
+        "Mithuna"
+      ],
+      "Surya Nakshatra": [
+        "Punarvasu"
+      ],
+      "Surya Pada": [
+        "Punarvasu"
+      ]
+    },
+    "Ritu and Ayana": {
+      "Drik Ritu": [
+        "Varsha (Monsoon)"
+      ],
+      "Dinamana": [
+        "16 Hours 46 Mins 30 Secs"
+      ],
+      "Vedic Ritu": [
+        "Grishma (Summer)"
+      ],
+      "Ratrimana": [
+        "07 Hours 14 Mins 52 Secs"
+      ],
+      "Drik Ayana": [
+        "Dakshinayana"
+      ],
+      "Madhyahna": [
+        "01:24 PM",
+        "(adsbygoogle=window.adsbygoogle||[]).push({});"
+      ],
+      "Vedic Ayana": [
+        "Uttarayana"
+      ]
+    },
+    "Auspicious Timings": {
+      "Brahma Muhurta": [
+        "04:03 AM to 04:32 AM"
+      ],
+      "Pratah Sandhya": [
+        "04:18 AM to 05:01 AM"
+      ],
+      "Abhijit": [
+        "12:51 PM to 01:58 PM"
+      ],
+      "Vijaya Muhurta": [
+        "04:12 PM to 05:19 PM"
+      ],
+      "Godhuli Muhurta": [
+        "09:45 PM to 10:00 PM"
+      ],
+      "Sayahna Sandhya": [
+        "09:48 PM to 10:31 PM"
+      ],
+      "Amrit Kalam": [
+        "12:29 AM , Jul 16 to 02:01 AM , Jul 16"
+      ],
+      "Nishita Muhurta": [
+        "01:11 AM , Jul 16 to 01:40 AM , Jul 16"
+      ]
+    },
+    "Inauspicious Timings": {
+      "Rahu Kalam": [
+        "09:13 AM to 11:19 AM"
+      ],
+      "Yamaganda": [
+        "03:30 PM to 05:36 PM"
+      ],
+      "Gulikai Kalam": [
+        "05:01 AM to 07:07 AM"
+      ],
+      "Dur Muhurtam": [
+        "05:01 AM to 06:08 AM",
+        "06:08 AM to 07:15 AM"
+      ],
+      "Varjyam": [
+        "03:18 PM to 04:50 PM"
+      ],
+      "Baana": [
+        "Mrityu upto 09:26 PM",
+        "Agni from 09:26 PM to Full Night"
+      ],
+      "Panchaka": [
+        "Whole Day"
+      ]
+    },
+    "Anandadi and Tamil Yoga": {
+      "Anandadi Yoga": [
+        "Vardhamana upto 08:24 AM",
+        "Ananda"
+      ],
+      "Tamil Yoga": [
+        "Siddha upto 08:24 AM",
+        "Siddha"
+      ],
+      "Jeevanama": [
+        "Full Life &#120803;"
+      ],
+      "Netrama": [
+        "Two Eyes &#120804;"
+      ]
+    },
+    "Nivas and Shool": {
+      "Homahuti": [
+        "Mangal &#x2642;"
+      ],
+      "Disha Shool": [
+        "East"
+      ],
+      "Agnivasa": [
+        "Prithvi (Earth)"
+      ],
+      "Chandra Vasa": [
+        "West"
+      ],
+      "Shivavasa": [
+        "on Kailash upto 02:29 AM , Jul 16",
+        "on Nandi"
+      ],
+      "Rahu Vasa": [
+        "East"
+      ],
+      "Kumbha Chakra": [
+        "North upto 08:24 AM",
+        "Womb"
+      ]
+    },
+    "Other Calendars and Epoch": {
+      "Kaliyuga": [
+        "5096 Years"
+      ],
+      "Lahiri Ayanamsha": [
+        "23.801402"
+      ],
+      "Kali Ahargana": [
+        "1861448 Days"
+      ],
+      "Rata Die": [
+        "728489"
+      ],
+      "Julian Date": [
+        "July 2, 1995 CE"
+      ],
+      "Julian Day": [
+        "2449913.5 Days"
+      ],
+      "National Civil Date": [
+        "Ashadha 24, 1917 Shaka"
+      ],
+      "Modified Julian Day": [
+        "49913 Days"
+      ],
+      "National Nirayana Date": [
+        "Ashadha 31, 1917 Shaka"
+      ]
+    },
+    "Chandrabalam & Tarabalam": {},
+    "Panchaka Rahita Muhurta and Udaya Lagna": {},
+    "Day Festivals and Events": {}
+  }
+}

@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "test": "vitest run",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
-    "scan": "node scripts/scan-deps.mjs"
+    "scan": "node scripts/scan-deps.mjs",
+    "accuracy": "node -e \"process.env.ACCURACY='1';require('child_process').execSync('npx vitest run tests/accuracy.test.ts',{stdio:'inherit',env:process.env})\"",
+    "check-bundle": "node scripts/check-bundle.mjs"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.3.0",

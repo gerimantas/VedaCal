@@ -1,0 +1,51 @@
+{
+  "source": "http://www.mypanchang.com/phppanchang.php?yr=2026&cityhead=New%20York%2C%20NY&cityname=NewYork-NY&monthtype=0&mn=9",
+  "fetchedAt": "2026-10-04T16:43:39.279Z",
+  "city": "new-york",
+  "date": "2026-10-25",
+  "tz": "America/New_York",
+  "sunrise": "2026-10-25T11:19:35.000Z",
+  "sunset": "2026-10-25T21:59:58.000Z",
+  "tithi": [
+    {
+      "name": "Shukla Purnima",
+      "end": "2026-10-26T04:11:33.000Z"
+    }
+  ],
+  "nakshatra": [
+    {
+      "name": "Revati",
+      "end": "2026-10-25T13:51:50.000Z"
+    }
+  ],
+  "yoga": [
+    {
+      "name": "Harshana",
+      "end": "2026-10-25T11:51:25.000Z"
+    },
+    {
+      "name": "Vajra",
+      "end": "2026-10-26T08:46:22.000Z"
+    }
+  ],
+  "karana": [
+    {
+      "name": "Vishti/Bhadra",
+      "end": "2026-10-25T17:22:40.000Z"
+    },
+    {
+      "name": "Bava",
+      "end": "2026-10-26T04:11:33.000Z"
+    }
+  ],
+  "rahuKalam": {
+    "start": "2026-10-25T20:39:55.000Z",
+    "end": "2026-10-25T21:59:58.000Z"
+  },
+  "abhijit": {
+    "start": "2026-10-25T16:18:25.000Z",
+    "end": "2026-10-25T17:01:07.000Z"
+  },
+  "ayana": "Dakshinayana",
+  "ritu": "Hemant"
+}

@@ -1,21 +1,22 @@
 <script lang="ts">
-  // P0 placeholder: proves the calculation library runs in the browser bundle.
-  import { Observer } from 'astronomy-engine'
-  import { getPanchangam } from '@ishubhamx/panchangam-js/dist/core/panchangam'
+  // Placeholder until P4: shows that the calculation core runs in the browser.
+  import { computeDay } from './core/panchang'
+  import { civilDate } from './core/time'
 
-  const vilnius = new Observer(54.68889, 25.27972, 98)
-  const now = new Date()
-  const offset = -now.getTimezoneOffset()
-  const p = getPanchangam(now, vilnius, { timezoneOffset: offset })
+  const vilnius = { name: 'Vilnius', country: 'LT', lat: 54.68916, lon: 25.2798, elevation: 98, tz: 'Europe/Vilnius' }
+  const day = computeDay(civilDate(vilnius.tz, new Date()), vilnius)
+  const TITHI = ['Pratipada', 'Dwitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami', 'Navami', 'Dashami', 'Ekadashi', 'Dwadashi', 'Trayodashi', 'Chaturdashi', 'Purnima']
+  const t = day.tithi[0]?.index ?? 0
+  const tithi = t ? `${t > 15 ? 'Krishna' : 'Shukla'} ${t === 30 ? 'Amavasya' : TITHI[(t - 1) % 15]}` : '—'
   const time = (d: Date | null) =>
-    d ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '—'
+    d ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: vilnius.tz }) : '—'
 </script>
 
 <main>
   <h1>VedaCal</h1>
   <p class="tag">The traditional lunar calendar, in plain words. Coming soon.</p>
   <p class="probe">
-    Vilnius today · {p.paksha} {p.tithis[0]?.name} · sunrise {time(p.sunrise)} · sunset {time(p.sunset)}
+    Vilnius today · {tithi} · sunrise {time(day.sunrise)} · sunset {time(day.sunset)}
   </p>
 </main>
 

@@ -1,0 +1,47 @@
+{
+  "source": "http://www.mypanchang.com/phppanchang.php?yr=2026&cityhead=New%20Delhi&cityname=NewDelhi-India&monthtype=0&mn=9",
+  "fetchedAt": "2026-10-04T16:43:48.897Z",
+  "city": "new-delhi",
+  "date": "2026-10-04",
+  "tz": "Asia/Kolkata",
+  "sunrise": "2026-10-04T00:46:37.000Z",
+  "sunset": "2026-10-04T12:32:55.000Z",
+  "tithi": [
+    {
+      "name": "Krishna Navami",
+      "end": "2026-10-04T22:24:01.000Z"
+    }
+  ],
+  "nakshatra": [
+    {
+      "name": "Punarvasu",
+      "end": "2026-10-04T18:43:33.000Z"
+    }
+  ],
+  "yoga": [
+    {
+      "name": "Parigha",
+      "end": "2026-10-04T07:01:41.000Z"
+    }
+  ],
+  "karana": [
+    {
+      "name": "Taitila",
+      "end": "2026-10-04T11:21:37.000Z"
+    },
+    {
+      "name": "Garaja",
+      "end": "2026-10-04T22:24:01.000Z"
+    }
+  ],
+  "rahuKalam": {
+    "start": "2026-10-04T11:04:37.000Z",
+    "end": "2026-10-04T12:32:55.000Z"
+  },
+  "abhijit": {
+    "start": "2026-10-04T06:16:13.000Z",
+    "end": "2026-10-04T07:03:18.000Z"
+  },
+  "ayana": "Dakshinayana",
+  "ritu": "Sharad"
+}

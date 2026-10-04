@@ -1,0 +1,51 @@
+{
+  "source": "http://www.mypanchang.com/phppanchang.php?yr=2026&cityhead=New%20Delhi&cityname=NewDelhi-India&monthtype=0&mn=9",
+  "fetchedAt": "2026-10-04T16:43:57.228Z",
+  "city": "new-delhi",
+  "date": "2026-10-06",
+  "tz": "Asia/Kolkata",
+  "sunrise": "2026-10-06T00:47:42.000Z",
+  "sunset": "2026-10-06T12:30:38.000Z",
+  "tithi": [
+    {
+      "name": "Krishna Ekadashi",
+      "end": "2026-10-06T19:04:47.000Z"
+    }
+  ],
+  "nakshatra": [
+    {
+      "name": "Aslesha",
+      "end": "2026-10-06T16:47:16.000Z"
+    }
+  ],
+  "yoga": [
+    {
+      "name": "Siddha",
+      "end": "2026-10-06T01:49:48.000Z"
+    },
+    {
+      "name": "Sadhya",
+      "end": "2026-10-06T23:29:34.000Z"
+    }
+  ],
+  "karana": [
+    {
+      "name": "Bava",
+      "end": "2026-10-06T07:49:31.000Z"
+    },
+    {
+      "name": "Balava",
+      "end": "2026-10-06T19:04:47.000Z"
+    }
+  ],
+  "rahuKalam": {
+    "start": "2026-10-06T09:34:54.000Z",
+    "end": "2026-10-06T11:02:46.000Z"
+  },
+  "abhijit": {
+    "start": "2026-10-06T06:15:44.000Z",
+    "end": "2026-10-06T07:02:36.000Z"
+  },
+  "ayana": "Dakshinayana",
+  "ritu": "Sharad"
+}

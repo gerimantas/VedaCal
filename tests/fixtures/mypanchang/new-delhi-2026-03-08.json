@@ -1,0 +1,47 @@
+{
+  "source": "http://www.mypanchang.com/phppanchang.php?yr=2026&cityhead=New%20Delhi&cityname=NewDelhi-India&monthtype=0&mn=2",
+  "fetchedAt": "2026-10-04T16:43:50.848Z",
+  "city": "new-delhi",
+  "date": "2026-03-08",
+  "tz": "Asia/Kolkata",
+  "sunrise": "2026-03-08T01:10:04.000Z",
+  "sunset": "2026-03-08T12:54:18.000Z",
+  "tithi": [
+    {
+      "name": "Krishna Panchami",
+      "end": "2026-03-08T15:41:19.000Z"
+    }
+  ],
+  "nakshatra": [
+    {
+      "name": "Svaati",
+      "end": "2026-03-08T08:01:23.000Z"
+    }
+  ],
+  "yoga": [
+    {
+      "name": "Dhruva",
+      "end": "2026-03-08T01:33:21.000Z"
+    }
+  ],
+  "karana": [
+    {
+      "name": "Kaulava",
+      "end": "2026-03-08T02:41:04.000Z"
+    },
+    {
+      "name": "Taitila",
+      "end": "2026-03-08T15:41:19.000Z"
+    }
+  ],
+  "rahuKalam": {
+    "start": "2026-03-08T11:26:16.000Z",
+    "end": "2026-03-08T12:54:18.000Z"
+  },
+  "abhijit": {
+    "start": "2026-03-08T06:38:42.000Z",
+    "end": "2026-03-08T07:25:39.000Z"
+  },
+  "ayana": "Uttarayana",
+  "ritu": "Vasanta"
+}

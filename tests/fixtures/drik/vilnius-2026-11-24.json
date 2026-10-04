@@ -1,0 +1,342 @@
+{
+  "source": "https://www.drikpanchang.com/panchang/day-panchang.html?geoname-id=593116&date=24/11/2026",
+  "fetchedAt": "2026-10-04T16:40:24.924Z",
+  "city": "vilnius",
+  "date": "2026-11-24",
+  "tz": "Europe/Vilnius",
+  "sunrise": "2026-11-24T06:06:00.000Z",
+  "sunset": "2026-11-24T14:04:00.000Z",
+  "moonrise": "2026-11-24T13:20:00.000Z",
+  "moonset": "2026-11-24T06:08:00.000Z",
+  "nextSunrise": "2026-11-25T06:08:00.000Z",
+  "tithi": [
+    {
+      "name": "Purnima",
+      "end": "2026-11-24T14:53:00.000Z"
+    },
+    {
+      "name": "Pratipada",
+      "end": null
+    }
+  ],
+  "nakshatra": [
+    {
+      "name": "Krittika",
+      "end": "2026-11-24T17:55:00.000Z"
+    },
+    {
+      "name": "Rohini",
+      "end": null
+    }
+  ],
+  "yoga": [
+    {
+      "name": "Parigha",
+      "end": "2026-11-24T10:36:00.000Z"
+    },
+    {
+      "name": "Shiva",
+      "end": null
+    }
+  ],
+  "karana": [
+    {
+      "name": "Bava",
+      "end": "2026-11-24T14:53:00.000Z"
+    },
+    {
+      "name": "Balava",
+      "end": "2026-11-25T01:07:00.000Z"
+    },
+    {
+      "name": "Kaulava",
+      "end": null
+    }
+  ],
+  "weekday": "Mangalawara",
+  "paksha": "Shukla Paksha",
+  "rahuKalam": {
+    "start": "2026-11-24T12:05:00.000Z",
+    "end": "2026-11-24T13:05:00.000Z"
+  },
+  "abhijit": {
+    "start": "2026-11-24T09:49:00.000Z",
+    "end": "2026-11-24T10:21:00.000Z"
+  },
+  "brahmaMuhurta": {
+    "start": "2026-11-24T03:58:00.000Z",
+    "end": "2026-11-24T05:02:00.000Z"
+  },
+  "ritu": "Hemant (Prewinter)",
+  "ayana": "Dakshinayana",
+  "dinamana": "07 Hours 58 Mins 18 Secs",
+  "raw": {
+    "Sunrise and Moonrise": {
+      "Sunrise": [
+        "08:06 AM"
+      ],
+      "Sunset": [
+        "04:04 PM"
+      ],
+      "Moonrise": [
+        "03:20 PM"
+      ],
+      "Moonset": [
+        "08:08 AM"
+      ]
+    },
+    "Panchang": {
+      "Tithi": [
+        "Purnima upto 04:53 PM",
+        "Pratipada"
+      ],
+      "Nakshatra": [
+        "Krittika upto 07:55 PM",
+        "Rohini"
+      ],
+      "Yoga": [
+        "Parigha upto 12:36 PM",
+        "Shiva"
+      ],
+      "Karana": [
+        "Bava upto 04:53 PM",
+        "Balava upto 03:07 AM , Nov 25",
+        "Kaulava"
+      ],
+      "Weekday": [
+        "Mangalawara"
+      ],
+      "Paksha": [
+        "Shukla Paksha"
+      ]
+    },
+    "Lunar Month, Samvat and Brihaspati Samvatsara": {
+      "Vikram Samvat": [
+        "2083 Siddharthi"
+      ],
+      "Samvatsara": [
+        "Siddharthi upto 01:23 PM , Apr 21, 2026",
+        "Raudra"
+      ],
+      "Shaka Samvat": [
+        "1948 Parabhava"
+      ],
+      "Gujarati Samvat": [
+        "2083 Kalayukta"
+      ],
+      "Chandramasa": [
+        "Kartika - Purnimanta",
+        "Kartika - Amanta"
+      ],
+      "Pravishte/Gate": [
+        "9"
+      ]
+    },
+    "Mantri Mandala of Vikram Samvat 2083": {
+      "Raja": [
+        "Guru 👑 - King"
+      ],
+      "Senadhipati": [
+        "Surya ⚔️ - Commander-in-Chief"
+      ],
+      "Mantri": [
+        "Mangal ⚜️ - Minister of Cabinet"
+      ],
+      "Dhanyadhipati": [
+        "Mangal 🌻 - Rabi Crops"
+      ],
+      "Sasyadhipati": [
+        "Guru 🌾 - Kharif Crops"
+      ],
+      "Meghadhipati": [
+        "Chandra 🌧 - Clouds and Rain"
+      ],
+      "Dhanadhipati": [
+        "Budha 💰 - Wealth and Economy"
+      ],
+      "Nirasadhipati": [
+        "Guru 🪙 - Metals and Minerals"
+      ],
+      "Rasadhipati": [
+        "Shani 🍯 - Sap and Liquids"
+      ],
+      "Phaladhipati": [
+        "Surya 🍎 - Fruits and Flowers"
+      ]
+    },
+    "Rashi and Nakshatra": {
+      "Moonsign": [
+        "Vrishabha"
+      ],
+      "Nakshatra Pada": [
+        "Krittika upto 09:15 AM",
+        "Krittika upto 02:36 PM",
+        "Krittika upto 07:55 PM",
+        "Rohini upto 01:13 AM , Nov 25",
+        "Rohini upto 06:31 AM , Nov 25",
+        "Rohini"
+      ],
+      "Sunsign": [
+        "Vrishchika"
+      ],
+      "Surya Nakshatra": [
+        "Anuradha"
+      ],
+      "Surya Pada": [
+        "Anuradha"
+      ]
+    },
+    "Ritu and Ayana": {
+      "Drik Ritu": [
+        "Hemant (Prewinter)"
+      ],
+      "Dinamana": [
+        "07 Hours 58 Mins 18 Secs"
+      ],
+      "Vedic Ritu": [
+        "Sharad (Autumn)"
+      ],
+      "Ratrimana": [
+        "16 Hours 03 Mins 27 Secs"
+      ],
+      "Drik Ayana": [
+        "Dakshinayana"
+      ],
+      "Madhyahna": [
+        "12:05 PM",
+        "(adsbygoogle=window.adsbygoogle||[]).push({});"
+      ],
+      "Vedic Ayana": [
+        "Dakshinayana"
+      ]
+    },
+    "Auspicious Timings": {
+      "Brahma Muhurta": [
+        "05:58 AM to 07:02 AM"
+      ],
+      "Pratah Sandhya": [
+        "06:30 AM to 08:06 AM"
+      ],
+      "Abhijit": [
+        "11:49 AM to 12:21 PM"
+      ],
+      "Vijaya Muhurta": [
+        "01:25 PM to 01:57 PM"
+      ],
+      "Godhuli Muhurta": [
+        "04:00 PM to 04:32 PM"
+      ],
+      "Sayahna Sandhya": [
+        "04:04 PM to 05:41 PM"
+      ],
+      "Amrit Kalam": [
+        "05:46 PM to 07:12 PM"
+      ],
+      "Nishita Muhurta": [
+        "11:34 PM to 12:38 AM , Nov 25"
+      ],
+      "Sarvartha Siddhi Yoga": [
+        "08:06 AM to 07:55 PM"
+      ]
+    },
+    "Inauspicious Timings": {
+      "Rahu Kalam": [
+        "02:05 PM to 03:05 PM"
+      ],
+      "Yamaganda": [
+        "10:06 AM to 11:06 AM"
+      ],
+      "Aadal Yoga": [
+        "07:55 PM to 08:08 AM , Nov 25"
+      ],
+      "Dur Muhurtam": [
+        "09:42 AM to 10:14 AM",
+        "10:30 PM to 11:34 PM"
+      ],
+      "Gulikai Kalam": [
+        "12:05 PM to 01:05 PM"
+      ],
+      "Varjyam": [
+        "09:13 AM to 10:39 AM"
+      ],
+      "Baana": [
+        "Roga from 02:35 PM to Full Night"
+      ]
+    },
+    "Anandadi and Tamil Yoga": {
+      "Anandadi Yoga": [
+        "Gada upto 07:55 PM",
+        "Matanga"
+      ],
+      "Tamil Yoga": [
+        "Marana upto 07:55 PM",
+        "Amrita"
+      ],
+      "Jeevanama": [
+        "Full Life &#120803;"
+      ],
+      "Netrama": [
+        "Two Eyes &#120804;"
+      ]
+    },
+    "Nivas and Shool": {
+      "Homahuti": [
+        "Chandra &#x263E;"
+      ],
+      "Disha Shool": [
+        "North"
+      ],
+      "Agnivasa": [
+        "Prithvi (Earth)"
+      ],
+      "Nakshatra Shool": [
+        "West from 07:55 PM to Full Night"
+      ],
+      "Shivavasa": [
+        "in Shmashana upto 04:53 PM",
+        "with Gowri"
+      ],
+      "Chandra Vasa": [
+        "South"
+      ],
+      "Rahu Vasa": [
+        "West"
+      ],
+      "Kumbha Chakra": [
+        "North"
+      ]
+    },
+    "Other Calendars and Epoch": {
+      "Kaliyuga": [
+        "5127 Years"
+      ],
+      "Lahiri Ayanamsha": [
+        "24.239550"
+      ],
+      "Kali Ahargana": [
+        "1872903 Days"
+      ],
+      "Rata Die": [
+        "739944"
+      ],
+      "Julian Date": [
+        "November 11, 2026 CE"
+      ],
+      "Julian Day": [
+        "2461368.5 Days"
+      ],
+      "National Civil Date": [
+        "Margashirsha 03, 1948 Shaka"
+      ],
+      "Modified Julian Day": [
+        "61368 Days"
+      ],
+      "National Nirayana Date": [
+        "Margashirsha 10, 1948 Shaka"
+      ]
+    },
+    "Chandrabalam & Tarabalam": {},
+    "Panchaka Rahita Muhurta and Udaya Lagna": {},
+    "Day Festivals and Events": {}
+  }
+}

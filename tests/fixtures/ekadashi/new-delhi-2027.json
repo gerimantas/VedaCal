@@ -1,0 +1,376 @@
+{
+  "source": "https://www.drikpanchang.com/vrats/ekadashidates.html?geoname-id=1261481&year=2027",
+  "fetchedAt": "2026-10-04T16:52:58.024Z",
+  "city": "new-delhi",
+  "year": 2027,
+  "ekadashis": [
+    {
+      "masa": "Pausha",
+      "paksha": "Krishna",
+      "smarta": "2027-01-03",
+      "days": [
+        {
+          "date": "2027-01-03",
+          "names": [
+            "Saphala Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Pausha",
+      "paksha": "Shukla",
+      "smarta": "2027-01-18",
+      "days": [
+        {
+          "date": "2027-01-18",
+          "names": [
+            "Pausha Putrada Ekadashi"
+          ]
+        },
+        {
+          "date": "2027-01-19",
+          "names": [
+            "Trisparsha Mahadwadashi",
+            "Gauna Pausha Putrada Ekadashi",
+            "Vaishnava Pausha Putrada Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Magha",
+      "paksha": "Krishna",
+      "smarta": "2027-02-02",
+      "days": [
+        {
+          "date": "2027-02-02",
+          "names": [
+            "Shattila Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Magha",
+      "paksha": "Shukla",
+      "smarta": "2027-02-17",
+      "days": [
+        {
+          "date": "2027-02-17",
+          "names": [
+            "Jaya Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Phalguna",
+      "paksha": "Krishna",
+      "smarta": "2027-03-04",
+      "days": [
+        {
+          "date": "2027-03-04",
+          "names": [
+            "Vijaya Ekadashi"
+          ]
+        },
+        {
+          "date": "2027-03-05",
+          "names": [
+            "Unmilini Mahadwadashi",
+            "Shravana Yoga Dwadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Phalguna",
+      "paksha": "Shukla",
+      "smarta": "2027-03-18",
+      "days": [
+        {
+          "date": "2027-03-18",
+          "names": [
+            "Amalaki Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Chaitra",
+      "paksha": "Krishna",
+      "smarta": "2027-04-02",
+      "days": [
+        {
+          "date": "2027-04-02",
+          "names": [
+            "Ekadashi Shravana Yoga Dwadashi",
+            "Papamochani Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Chaitra",
+      "paksha": "Shukla",
+      "smarta": "2027-04-17",
+      "days": [
+        {
+          "date": "2027-04-17",
+          "names": [
+            "Kamada Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Vaishakha",
+      "paksha": "Krishna",
+      "smarta": "2027-05-02",
+      "days": [
+        {
+          "date": "2027-05-02",
+          "names": [
+            "Varuthini Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Vaishakha",
+      "paksha": "Shukla",
+      "smarta": "2027-05-16",
+      "days": [
+        {
+          "date": "2027-05-16",
+          "names": [
+            "Mohini Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Jyeshtha",
+      "paksha": "Krishna",
+      "smarta": "2027-06-01",
+      "days": [
+        {
+          "date": "2027-06-01",
+          "names": [
+            "Apara Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Jyeshtha",
+      "paksha": "Shukla",
+      "smarta": "2027-06-14",
+      "days": [
+        {
+          "date": "2027-06-14",
+          "names": [
+            "Nirjala Ekadashi"
+          ]
+        },
+        {
+          "date": "2027-06-15",
+          "names": [
+            "Pakshavarddhini Mahadwadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Ashadha",
+      "paksha": "Krishna",
+      "smarta": "2027-06-30",
+      "days": [
+        {
+          "date": "2027-06-30",
+          "names": [
+            "Yogini Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Ashadha",
+      "paksha": "Shukla",
+      "smarta": "2027-07-14",
+      "days": [
+        {
+          "date": "2027-07-14",
+          "names": [
+            "Devshayani Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Shravana",
+      "paksha": "Krishna",
+      "smarta": "2027-07-29",
+      "days": [
+        {
+          "date": "2027-07-29",
+          "names": [
+            "Kamika Ekadashi"
+          ]
+        },
+        {
+          "date": "2027-07-30",
+          "names": [
+            "Gauna Kamika Ekadashi",
+            "Vaishnava Kamika Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Shravana",
+      "paksha": "Shukla",
+      "smarta": "2027-08-12",
+      "days": [
+        {
+          "date": "2027-08-12",
+          "names": [
+            "Shravana Putrada Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Bhadrapada",
+      "paksha": "Krishna",
+      "smarta": "2027-08-28",
+      "days": [
+        {
+          "date": "2027-08-28",
+          "names": [
+            "Aja Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Bhadrapada",
+      "paksha": "Shukla",
+      "smarta": "2027-09-11",
+      "days": [
+        {
+          "date": "2027-09-11",
+          "names": [
+            "Parsva Ekadashi"
+          ]
+        },
+        {
+          "date": "2027-09-12",
+          "names": [
+            "Vijaya Mahadwadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Ashwina",
+      "paksha": "Krishna",
+      "smarta": "2027-09-26",
+      "days": [
+        {
+          "date": "2027-09-26",
+          "names": [
+            "Indira Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Ashwina",
+      "paksha": "Shukla",
+      "smarta": "2027-10-11",
+      "days": [
+        {
+          "date": "2027-10-11",
+          "names": [
+            "Ekadashi Shravana Yoga Dwadashi",
+            "Papankusha Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Kartika",
+      "paksha": "Krishna",
+      "smarta": "2027-10-25",
+      "days": [
+        {
+          "date": "2027-10-25",
+          "names": [
+            "Rama Ekadashi"
+          ]
+        },
+        {
+          "date": "2027-10-26",
+          "names": [
+            "Vaishnava Rama Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Kartika",
+      "paksha": "Shukla",
+      "smarta": "2027-11-10",
+      "days": [
+        {
+          "date": "2027-11-10",
+          "names": [
+            "Devutthana Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Margashirsha",
+      "paksha": "Krishna",
+      "smarta": "2027-11-24",
+      "days": [
+        {
+          "date": "2027-11-24",
+          "names": [
+            "Utpanna Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Margashirsha",
+      "paksha": "Shukla",
+      "smarta": "2027-12-09",
+      "days": [
+        {
+          "date": "2027-12-09",
+          "names": [
+            "Mokshada Ekadashi",
+            "Guruvayur Ekadashi"
+          ]
+        }
+      ]
+    },
+    {
+      "masa": "Pausha",
+      "paksha": "Krishna",
+      "smarta": "2027-12-23",
+      "days": [
+        {
+          "date": "2027-12-23",
+          "names": [
+            "Saphala Ekadashi"
+          ]
+        }
+      ]
+    }
+  ]
+}

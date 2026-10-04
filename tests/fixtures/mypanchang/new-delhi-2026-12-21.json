@@ -1,0 +1,47 @@
+{
+  "source": "http://www.mypanchang.com/phppanchang.php?yr=2026&cityhead=New%20Delhi&cityname=NewDelhi-India&monthtype=0&mn=11",
+  "fetchedAt": "2026-10-04T16:43:55.244Z",
+  "city": "new-delhi",
+  "date": "2026-12-21",
+  "tz": "Asia/Kolkata",
+  "sunrise": "2026-12-21T01:40:37.000Z",
+  "sunset": "2026-12-21T11:57:41.000Z",
+  "tithi": [
+    {
+      "name": "Shukla Dvadashi",
+      "end": "2026-12-21T12:06:36.000Z"
+    }
+  ],
+  "nakshatra": [
+    {
+      "name": "Bharani",
+      "end": "2026-12-21T07:38:30.000Z"
+    }
+  ],
+  "yoga": [
+    {
+      "name": "Siddha",
+      "end": "2026-12-21T20:01:37.000Z"
+    }
+  ],
+  "karana": [
+    {
+      "name": "Balava",
+      "end": "2026-12-21T12:06:36.000Z"
+    },
+    {
+      "name": "Kaulava",
+      "end": "2026-12-21T22:33:57.000Z"
+    }
+  ],
+  "rahuKalam": {
+    "start": "2026-12-21T02:57:45.000Z",
+    "end": "2026-12-21T04:14:53.000Z"
+  },
+  "abhijit": {
+    "start": "2026-12-21T06:28:35.000Z",
+    "end": "2026-12-21T07:09:43.000Z"
+  },
+  "ayana": "Dakshinayana",
+  "ritu": "Hemant"
+}
