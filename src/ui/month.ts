@@ -9,7 +9,19 @@ import { markText } from './marks'
 /** `favoured`: Guru/Ravi Pushya; `eclipse`: an eclipse peaks that day. */
 export type Cell = { date: string; n: number; rest: boolean; today: boolean; ekadashi: boolean; favoured: boolean; eclipse: boolean; illumination: number; waxing: boolean; label: string }
 export type KeyDate = { at: Date; date: string; svg: string; cls: string; title: string; sub: string; when: string }
+/** One legend row; `swatch` is drawn exactly as the grid draws it. */
+export type LegendItem = { swatch: 'moon' | 'rest' | 'today' | 'ekadashi' | 'favoured' | 'eclipse'; label: string; sanskrit: string }
 export type MonthView = { title: string; lead: number; weekdays: string[]; cells: Cell[]; events: KeyDate[] }
+
+/** The month legend, in the order a reader meets things: tiles first, then the dots. */
+export const legend = (): LegendItem[] => [
+  { swatch: 'moon', label: t('legendMoonShape'), sanskrit: '' },
+  { swatch: 'today', label: t('legendToday'), sanskrit: '' },
+  { swatch: 'rest', label: t('legendRest'), sanskrit: '' },
+  { swatch: 'ekadashi', label: t('legendEkadashi'), sanskrit: 'Ekadashi' },
+  { swatch: 'favoured', label: t('legendFavoured'), sanskrit: 'Pushya' },
+  { swatch: 'eclipse', label: t('legendEclipse'), sanskrit: 'Grahan' },
+]
 
 /** "2026-10" ± n months. */
 export function shiftMonth(ym: string, n: number): string {
@@ -42,15 +54,14 @@ export function monthView(days: MonthDay[], loc: Location, today: string, zodiac
       .join(', '),
   }))
 
-  // Key dates: moon phases, Ekadashi, season and half-year changes — plain English first.
-  const ekadashiTitle = content.rhythm.ekadashi.title.split(' — ')[1] ?? 'Ekadashi'
-  const lighterDay = ekadashiTitle[0].toUpperCase() + ekadashiTitle.slice(1)
+  // Key dates: moon phases, Ekadashi, season and half-year changes — plain English first,
+  // the same words as the legend.
   const events: KeyDate[] = []
   for (const d of days) {
     const noon = new Date(`${d.date}T12:00:00Z`)
     if (d.newMoon) events.push({ at: d.newMoon, date: d.date, svg: icon.newMoon, cls: '', title: t('newMoon'), sub: 'Amavasya', when: time(d.newMoon, loc) })
     if (d.fullMoon) events.push({ at: d.fullMoon, date: d.date, svg: icon.fullMoon, cls: '', title: t('fullMoon'), sub: 'Purnima', when: time(d.fullMoon, loc) })
-    if (d.ekadashi) events.push({ at: noon, date: d.date, svg: icon.leaf, cls: 'ekadashi', title: lighterDay, sub: 'Ekadashi', when: '' })
+    if (d.ekadashi) events.push({ at: noon, date: d.date, svg: icon.leaf, cls: 'ekadashi', title: t('legendEkadashi'), sub: 'Ekadashi', when: '' })
     for (const e of d.rhythm.events) {
       const next =
         e.kind === 'ritu'

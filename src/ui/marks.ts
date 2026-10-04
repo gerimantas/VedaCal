@@ -55,7 +55,7 @@ export function markText(m: DayMark, loc: Location, zodiac: Zodiac): MarkText {
     svg: icon.nakshatra,
     cls: 'favoured',
     label: t('labelFavoured'),
-    title: t('favoured'),
+    title: t('legendFavoured'),
     sanskrit: m.weekday === 4 ? 'Guru Pushya' : 'Ravi Pushya',
     when: `${time(m.start, loc)}–${time(m.end, loc)}`,
     note: '',

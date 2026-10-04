@@ -5,7 +5,7 @@
   import { civilDate } from '../core/time'
   import { t } from './format'
   import { icon } from './icons'
-  import { keyDateWhen, monthView, shiftMonth } from './month'
+  import { keyDateWhen, legend, monthView, shiftMonth } from './month'
   import { realisticMoon } from './moon'
   import { app } from './state.svelte'
 
@@ -40,22 +40,24 @@
     {#each Array(v.lead) as _, i (i)}<span></span>{/each}
     {#each v.cells as c (c.date)}
       <a class="cell" class:rest={c.rest} class:today={c.today} href="#/day" aria-label={c.label} onclick={(e) => (e.preventDefault(), open(c.date))}>
-        {#if c.ekadashi}<span class="dot"></span>{/if}
-        {#if c.favoured}<span class="flag favoured"></span>{/if}
-        {#if c.eclipse}<span class="flag warning"></span>{/if}
+        {#if c.ekadashi || c.favoured || c.eclipse}
+          <span class="marks" aria-hidden="true">
+            {#if c.ekadashi}<i class="ekadashi"></i>{/if}{#if c.favoured}<i class="favoured"></i>{/if}{#if c.eclipse}<i class="eclipse"></i>{/if}
+          </span>
+        {/if}
         <span class="d num">{c.n}</span>
         {@html realisticMoon(c.illumination, c.waxing, 24, '')}
       </a>
     {/each}
   </div>
-  <p class="legend">
-    <span>{@html realisticMoon(0.6, true, 14, '')}{t('legendMoonShape')}</span>
-    <span><i class="rest-swatch"></i>{t('legendRest')}</span>
-    <span><i style="background:var(--color-accent);border-radius:50%;width:6px;height:6px"></i>{t('legendEkadashi')} <span class="sk">Ekadashi</span></span>
-    <span><i style="border:1px solid var(--color-moon)"></i>{t('legendToday')}</span>
-    <span><i class="flag-swatch favoured"></i>{t('legendFavoured')}</span>
-    <span><i class="flag-swatch warning"></i>{t('legendEclipse')}</span>
-  </p>
+  <ul class="legend">
+    {#each legend() as item (item.swatch)}
+      <li>
+        {#if item.swatch === 'moon'}{@html realisticMoon(0.6, true, 14, '')}{:else}<i class="sw {item.swatch}"></i>{/if}
+        <span>{item.label}{#if item.sanskrit}{' '}<span class="sk">{item.sanskrit}</span>{/if}</span>
+      </li>
+    {/each}
+  </ul>
 
   <h2 class="section-title">{t('keyDates')}</h2>
   <ul class="events">

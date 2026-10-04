@@ -107,6 +107,8 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   // Eclipses, Sankranti and Guru/Ravi Pushya on this day lead the facts (SPEC 4.11).
   const marks = day.marks.map((mk): Fact => {
     const x = markText(mk, loc, zodiac)
+    // A favoured day's row is labelled "Favoured for beginnings"; its value is the window.
+    if (mk.kind === 'pushya') return { term: x.term, icon: x.svg, label: x.label, value: x.when, sanskrit: x.sanskrit, right: '', next: '' }
     return { term: x.term, icon: x.svg, label: x.label, value: x.title, sanskrit: x.sanskrit, right: x.when, next: x.note }
   })
   const facts = [

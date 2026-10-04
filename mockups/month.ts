@@ -2,7 +2,7 @@
 // Every value comes from src/ui/month.ts, the same view the app's Month.svelte renders.
 import { computeMonth } from '../src/core/panchang'
 import { t } from '../src/ui/format'
-import { keyDateWhen, monthView } from '../src/ui/month'
+import { keyDateWhen, legend, monthView } from '../src/ui/month'
 import { realisticMoon } from '../src/ui/moon'
 import { date, icon, link, mount, tabs, today, vilnius as loc } from './common'
 
@@ -16,9 +16,7 @@ const dayLink = (d: string) => {
 
 const cells = v.cells.map(
   (c) => `<a class="${['cell', c.rest ? 'rest' : '', c.today ? 'today' : ''].filter(Boolean).join(' ')}" href="${dayLink(c.date)}" aria-label="${c.label}">
-    ${c.ekadashi ? '<span class="dot"></span>' : ''}
-    ${c.favoured ? '<span class="flag favoured"></span>' : ''}
-    ${c.eclipse ? '<span class="flag warning"></span>' : ''}
+    ${c.ekadashi || c.favoured || c.eclipse ? `<span class="marks" aria-hidden="true">${c.ekadashi ? '<i class="ekadashi"></i>' : ''}${c.favoured ? '<i class="favoured"></i>' : ''}${c.eclipse ? '<i class="eclipse"></i>' : ''}</span>` : ''}
     <span class="d num">${c.n}</span>
     ${realisticMoon(c.illumination, c.waxing, 24, '')}
   </a>`,
@@ -40,14 +38,14 @@ mount(`
     ${'<span></span>'.repeat(v.lead)}
     ${cells.join('')}
   </div>
-  <p class="legend">
-    <span>${realisticMoon(0.6, true, 14, '')}${t('legendMoonShape')}</span>
-    <span><i class="rest-swatch"></i>${t('legendRest')}</span>
-    <span><i style="background:var(--color-accent);border-radius:50%;width:6px;height:6px"></i>${t('legendEkadashi')} <span class="sk">Ekadashi</span></span>
-    <span><i style="border:1px solid var(--color-moon)"></i>${t('legendToday')}</span>
-    <span><i class="flag-swatch favoured"></i>${t('legendFavoured')}</span>
-    <span><i class="flag-swatch warning"></i>${t('legendEclipse')}</span>
-  </p>
+  <ul class="legend">
+    ${legend()
+      .map(
+        (item) =>
+          `<li>${item.swatch === 'moon' ? realisticMoon(0.6, true, 14, '') : `<i class="sw ${item.swatch}"></i>`}<span>${item.label}${item.sanskrit ? ` <span class="sk">${item.sanskrit}</span>` : ''}</span></li>`,
+      )
+      .join('')}
+  </ul>
 
   <h2 class="section-title">${t('keyDates')}</h2>
   <ul class="events">

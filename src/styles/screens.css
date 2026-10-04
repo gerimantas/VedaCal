@@ -682,13 +682,10 @@ h3 {
 /* Rest days: a violet tint, the colour of the calm time on the sun dial — paper-3 was
    nearly invisible on dark cards (user, 2026-10-05). */
 .cell.rest,
-.legend .rest-swatch {
+.legend .sw.rest {
+  border: 1px solid;
   border-color: color-mix(in oklch, var(--color-calm) 60%, var(--color-card));
   background: color-mix(in oklch, var(--color-calm) 24%, var(--color-card));
-}
-
-.legend .rest-swatch {
-  border: 1px solid color-mix(in oklch, var(--color-calm) 60%, var(--color-card));
 }
 
 .cell.today {
@@ -707,44 +704,38 @@ h3 {
   filter: none;
 }
 
-.cell .dot {
+/* Day marks sit together in the cell's top-right corner; only the colour differs. */
+.cell .marks {
   position: absolute;
   top: 0.3rem;
   right: 0.3rem;
-  width: 6px;
-  height: 6px;
+  display: flex;
+  gap: 2px;
+}
+
+.marks i,
+.legend .sw.ekadashi,
+.legend .sw.favoured,
+.legend .sw.eclipse {
+  display: block;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
+}
+
+.marks .ekadashi,
+.legend .sw.ekadashi {
   background: var(--color-accent);
 }
 
-/* Day marks (SPEC 4.11): green = traditionally favoured (Guru/Ravi Pushya), red ring = eclipse. */
-.cell .flag {
-  position: absolute;
-  top: 0.3rem;
-  left: 0.3rem;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-}
-
-.cell .flag + .flag {
-  left: 0.85rem;
-}
-
-.flag.favoured,
-.flag-swatch.favoured {
+.marks .favoured,
+.legend .sw.favoured {
   background: var(--color-good);
 }
 
-.flag.warning,
-.flag-swatch.warning {
+.marks .eclipse,
+.legend .sw.eclipse {
   border: 2px solid var(--color-avoid);
-}
-
-.legend .flag-swatch {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
 }
 
 .event.favoured svg {
@@ -755,30 +746,45 @@ h3 {
   color: var(--color-avoid);
 }
 
+/* Legend: two columns, each swatch drawn as the grid draws it. */
 .legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs) var(--space-md);
-  margin-top: var(--space-sm);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xs) var(--space-sm);
+  margin: var(--space-sm) 0 0;
+  padding: 0;
+  list-style: none;
   font-size: var(--text-xs);
   color: var(--color-neutral);
 }
 
-.legend span {
-  display: inline-flex;
+.legend li {
+  display: flex;
   align-items: center;
-  gap: var(--space-3xs);
+  gap: var(--space-2xs);
 }
 
 .legend .sk {
   color: var(--color-moon);
 }
 
-.legend i {
-  display: inline-block;
-  width: 0.75rem;
-  height: 0.75rem;
+.legend .sw.rest,
+.legend .sw.today {
+  flex: none;
+  width: 0.9rem;
+  height: 0.9rem;
   border-radius: 3px;
+}
+
+.legend .sw.today {
+  border: 1px solid var(--color-moon);
+}
+
+.legend .sw.ekadashi,
+.legend .sw.favoured,
+.legend .sw.eclipse {
+  flex: none;
+  margin: 0 0.2rem;
 }
 
 .events {

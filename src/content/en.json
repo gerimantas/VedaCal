@@ -671,7 +671,7 @@
     "nextMonth": "Next month",
     "legendMoonShape": "Moon's shape that day",
     "legendRest": "Rest day",
-    "legendEkadashi": "Lighter day",
+    "legendEkadashi": "Fasting day",
     "legendToday": "Today",
     "notOnWednesdays": "Not on Wednesdays",
     "legendSeason": "Season",
@@ -713,7 +713,6 @@
     "notVisibleHere": "not visible here",
     "sunEnters": "Sun enters {sign}",
     "sunEntersVedic": "Sun enters {sign} (Vedic)",
-    "favoured": "Favoured for beginnings",
     "legendFavoured": "Favoured day",
     "legendEclipse": "Eclipse"
   },
