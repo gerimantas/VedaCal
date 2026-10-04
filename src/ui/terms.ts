@@ -3,11 +3,11 @@ import { t } from './format'
 // Every term on the day screen: plain-English name, Sanskrit name, explanation sheet.
 // One list, used by the tap-to-explain sheet and the About page.
 export const terms = {
-  tithi: ['Lunar day', 'Tithi'],
+  tithi: [t('labelTithi'), 'Tithi'],
   vara: [t('labelWeekday'), 'Vara'],
   masa: [t('labelMonth'), 'Masa'],
   nakshatra: [t('labelStar'), 'Nakshatra'],
-  rashi: ['Moon & Sun signs', 'Rashi'],
+  rashi: [t('labelSigns'), 'Rashi'],
   yoga: [t('labelYoga'), 'Yoga'],
   karana: [t('labelKarana'), 'Karana'],
   brahma: [t('legendCalmTime'), 'Brahma Muhurta'],

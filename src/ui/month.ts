@@ -2,7 +2,7 @@
 // P3 mockup both render it, like the day screen and ./day.ts.
 import type { Location, MonthDay } from '../core/types'
 import type { Zodiac } from './day'
-import { LOCALE, content, entry, t, time } from './format'
+import { LOCALE, MONTH, content, entry, t, time } from './format'
 import { icon } from './icons'
 import { markText } from './marks'
 
@@ -67,7 +67,7 @@ export function monthView(days: MonthDay[], loc: Location, today: string, zodiac
         e.kind === 'ritu'
           ? content.rhythm[`ritu${(d.rhythm.ritu % 6) + 1}` as 'ritu1']
           : content.rhythm[d.rhythm.ayana === 'uttarayana' ? 'dakshinayana' : 'uttarayana']
-      events.push({ at: e.at, date: d.date, svg: icon.season, cls: '', title: e.kind === 'ritu' ? `${next.title} begins` : next.title, sub: next.name, when: time(e.at, loc) })
+      events.push({ at: e.at, date: d.date, svg: icon.season, cls: '', title: e.kind === 'ritu' ? t('begins', { title: next.title }) : next.title, sub: next.name, when: time(e.at, loc) })
     }
   }
   // Eclipses, Sankranti and Guru/Ravi Pushya (SPEC 4.11).
@@ -84,4 +84,4 @@ export function monthView(days: MonthDay[], loc: Location, today: string, zodiac
 
 /** "Oct 10 · 6:49 PM" for a key date. */
 export const keyDateWhen = (e: KeyDate, loc: Location) =>
-  `${new Intl.DateTimeFormat(LOCALE, { day: 'numeric', month: 'short', timeZone: loc.tz }).format(e.at)}${e.when ? ` · ${e.when}` : ''}`
+  `${new Intl.DateTimeFormat(LOCALE, { day: 'numeric', month: MONTH, timeZone: loc.tz }).format(e.at)}${e.when ? ` · ${e.when}` : ''}`

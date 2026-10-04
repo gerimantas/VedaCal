@@ -50,6 +50,9 @@ placeholder.
 - Drik fixture scripts go through `scripts/drik-page.ts`: pages cached in `.cache/drik/`
   (re-parse without re-fetching), 12 s between requests (`DRIK_DELAY_MS`), stop at the first
   reCAPTCHA. Drik blocks after ~150 quick requests.
+- Two languages: `src/content/en.json` and `lt.json` (same keys, `tests/content.test.ts`).
+  lt.json is the one file allowed to hold Lithuanian (product text the user asked for); code,
+  comments and docs stay English. New UI text = a key in both files.
 - Accuracy vs references: `npm run accuracy`. Refetch references: `node scripts/fetch-drik.ts`,
   `fetch-mypanchang.ts`, `fetch-ekadashi.ts` (fixtures in `tests/fixtures/`, never hand-typed)
 - Speed: `npm run dev`, open `/VedaCal/tests/perf/perf.html` (dev-only harness)

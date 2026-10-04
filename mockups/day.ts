@@ -53,7 +53,7 @@ mount(`
   <section class="hero" aria-label="${v.tithi.name}" data-sheet="tithi">
     ${realisticMoon(v.moon.illumination, v.moon.waxing, 150, v.moon.label)}
     <h2>${v.tithi.title}</h2>
-    <p class="sub num"><b>${v.tithi.name}</b> · ${v.tithi.percent} % lit</p>
+    <p class="sub num"><b>${v.tithi.name}</b> · ${t('percentLit', { percent: v.tithi.percent })}</p>
     ${sign(v.moonSign)}
     <div class="track" aria-hidden="true"><span style="width:${(v.tithi.progress * 100).toFixed(1)}%"></span></div>
     <p class="track-label num">${v.tithi.ends}</p>

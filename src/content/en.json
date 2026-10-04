@@ -714,7 +714,14 @@
     "sunEnters": "Sun enters {sign}",
     "sunEntersVedic": "Sun enters {sign} (Vedic)",
     "legendFavoured": "Favoured day",
-    "legendEclipse": "Eclipse"
+    "legendEclipse": "Eclipse",
+    "percentLit": "{percent} % lit",
+    "begins": "{title} begins",
+    "labelTithi": "Lunar day",
+    "labelSigns": "Moon & Sun signs",
+    "language": "Language",
+    "langEn": "English",
+    "langLt": "Lietuvių"
   },
   "masa": {
     "1": {

@@ -1,0 +1,826 @@
+{
+  "tithi": {
+    "1": {
+      "name": "Shukla Pratipada",
+      "title": "1-oji priešpilnio diena",
+      "meaning": "Pirmoji šviesa po jaunaties. Tradicija ją sieja su Agniu, šventąja ugnimi, ir priskiria džiugioms (Nanda) dienoms."
+    },
+    "2": {
+      "name": "Shukla Dwitiya",
+      "title": "2-oji priešpilnio diena",
+      "meaning": "Grįžta plonas pjautuvas. Siejama su kūrėju Brahma; tradicija mato pastovią (Bhadra) dieną pamatams kloti."
+    },
+    "3": {
+      "name": "Shukla Tritiya",
+      "title": "3-oji priešpilnio diena",
+      "meaning": "Siejama su deive Gauri. Viena pergalingų (Jaya) dienų, tradiciškai tinkama drąsiai ką nors pradėti."
+    },
+    "4": {
+      "name": "Shukla Chaturthi",
+      "title": "4-oji priešpilnio diena",
+      "meaning": "Siejama su Ganeša, kliūčių šalintoju. Tuščia (Rikta) diena, tradiciškai skirta tvarkyti ir užbaigti, o ne pradėti."
+    },
+    "5": {
+      "name": "Shukla Panchami",
+      "title": "5-oji priešpilnio diena",
+      "meaning": "Siejama su gyvačių dievybėmis ir mokslu. Pilna (Purna) diena, tradiciškai palanki mokymuisi ir kūrybai."
+    },
+    "6": {
+      "name": "Shukla Shashthi",
+      "title": "6-oji priešpilnio diena",
+      "meaning": "Siejama su Skanda, jaunuoju karžygiu dievu. Džiugi diena, tradiciškai tinkama drąsai ir nuosekliam darbui."
+    },
+    "7": {
+      "name": "Shukla Saptami",
+      "title": "7-oji priešpilnio diena",
+      "meaning": "Siejama su Surja, Saule. Pastovi diena, tradiciškai tinkama kelionėms ir šviesai bei šilumai pagerbti."
+    },
+    "8": {
+      "name": "Shukla Ashtami",
+      "title": "8-oji priešpilnio diena",
+      "meaning": "Priešpilnio pusmėnulis, siejamas su deive Durga. Pergalinga diena, dažnai skiriama pamaldumui ir vidinei stiprybei."
+    },
+    "9": {
+      "name": "Shukla Navami",
+      "title": "9-oji priešpilnio diena",
+      "meaning": "Taip pat siejama su Durga. Tuščia diena, tradiciškai skirta užbaigti ir paleisti, o ne pradėti."
+    },
+    "10": {
+      "name": "Shukla Dashami",
+      "title": "10-oji priešpilnio diena",
+      "meaning": "Siejama su Dharma, teisinga dalykų tvarka. Pilna diena, tradiciškai tinkama sprendimams ir krypčiai nustatyti."
+    },
+    "11": {
+      "name": "Shukla Ekadashi",
+      "title": "11-oji priešpilnio diena",
+      "meaning": "Siejama su Višnu. Tradiciškai pasninko arba lengvo valgymo diena, kai randama laiko tylai ir maldai."
+    },
+    "12": {
+      "name": "Shukla Dwadashi",
+      "title": "12-oji priešpilnio diena",
+      "meaning": "Siejama su Višnu. Tradiciškai diena švelniai užbaigti Ekadashi pasninką ir duoti kitiems."
+    },
+    "13": {
+      "name": "Shukla Trayodashi",
+      "title": "13-oji priešpilnio diena",
+      "meaning": "Siejama su meilės dievu Kama ir su Šiva sutemose (Pradosha). Pergalinga diena šilumai ir artumui."
+    },
+    "14": {
+      "name": "Shukla Chaturdashi",
+      "title": "14-oji priešpilnio diena",
+      "meaning": "Siejama su Šiva. Diena prieš pilnatį, tuščia diena, tradiciškai skirta pasiruošimui."
+    },
+    "15": {
+      "name": "Purnima",
+      "title": "Pilnatis",
+      "meaning": "Mėnulis pilnas, mėnuo pasiekia viršūnę. Tradiciškai šventės, dėkingumo ir poilsio diena."
+    },
+    "16": {
+      "name": "Krishna Pratipada",
+      "title": "1-oji delčios diena",
+      "meaning": "Po pilnaties šviesa ima trauktis. Tradiciškai diena sulėtinti tempą ir apžvelgti, kas nuveikta."
+    },
+    "17": {
+      "name": "Krishna Dwitiya",
+      "title": "2-oji delčios diena",
+      "meaning": "Pastovi diena dylant Mėnuliui. Tradicija teikia pirmenybę praktiškiems, neskubiems darbams."
+    },
+    "18": {
+      "name": "Krishna Tritiya",
+      "title": "3-oji delčios diena",
+      "meaning": "Pergalinga delčios diena, tradiciškai tinkama užbaigti tai, kas pradėta."
+    },
+    "19": {
+      "name": "Krishna Chaturthi",
+      "title": "4-oji delčios diena",
+      "meaning": "Siejama su Ganeša (Sankashti Chaturthi); daugelis laikosi įžado iki Mėnulio patekėjimo. Tuščia diena kliūtims šalinti."
+    },
+    "20": {
+      "name": "Krishna Panchami",
+      "title": "5-oji delčios diena",
+      "meaning": "Pilna delčios diena. Tradiciškai tinkama mokytis, skaityti ir laikytis pastovios dienotvarkės."
+    },
+    "21": {
+      "name": "Krishna Shashthi",
+      "title": "6-oji delčios diena",
+      "meaning": "Džiugi diena dylant Mėnuliui, tradiciškai skirta kukliam, kantriam darbui."
+    },
+    "22": {
+      "name": "Krishna Saptami",
+      "title": "7-oji delčios diena",
+      "meaning": "Siejama su Saule. Pastovi diena, tradiciškai tinkama tvarkai ir rutinai."
+    },
+    "23": {
+      "name": "Krishna Ashtami",
+      "title": "8-oji delčios diena",
+      "meaning": "Delčios pusmėnulis, siejamas su Durga ir Kali. Tradiciškai pamaldumo ir vidinės stiprybės diena."
+    },
+    "24": {
+      "name": "Krishna Navami",
+      "title": "9-oji delčios diena",
+      "meaning": "Tuščia diena, tradiciškai skirta paleisti ir užbaigti senus darbus."
+    },
+    "25": {
+      "name": "Krishna Dashami",
+      "title": "10-oji delčios diena",
+      "meaning": "Pilna diena, tradiciškai tinkama paprastiems sprendimams ir pasiruošti Ekadashi."
+    },
+    "26": {
+      "name": "Krishna Ekadashi",
+      "title": "11-oji delčios diena",
+      "meaning": "Antroji mėnesio Ekadashi, siejama su Višnu. Tradiciškai laikomasi pasninko arba valgoma lengvai, skiriama laiko ramiam apmąstymui."
+    },
+    "27": {
+      "name": "Krishna Dwadashi",
+      "title": "12-oji delčios diena",
+      "meaning": "Tradiciškai diena užbaigti Ekadashi pasninką ir pasidalyti maistu su kitais."
+    },
+    "28": {
+      "name": "Krishna Trayodashi",
+      "title": "13-oji delčios diena",
+      "meaning": "Siejama su Šiva sutemose (Pradosha). Tradiciškai ramus vakaras maldai ar apmąstymui."
+    },
+    "29": {
+      "name": "Krishna Chaturdashi",
+      "title": "14-oji delčios diena",
+      "meaning": "Siejama su Šiva; jos naktis yra Masik Shivaratri, mėnesinis budėjimas. Tuščia diena prieš jaunatį."
+    },
+    "30": {
+      "name": "Amavasya",
+      "title": "Jaunatis",
+      "meaning": "Mėnulis tamsus, mėnuo baigiasi. Tradiciškai diena prisiminti protėvius, ilsėtis ir atsigręžti į vidų."
+    }
+  },
+  "nakshatra": {
+    "1": {
+      "name": "Ashwini",
+      "title": "Greitos pradžios",
+      "meaning": "Dvynių raitelių, dievų gydytojų, žvaigždė. Tradicija mato greitą, lengvą energiją, tinkamą pradėti ir keliauti."
+    },
+    "2": {
+      "name": "Bharani",
+      "title": "Našta ir susivaldymas",
+      "meaning": "Valdo Jama, ribų saugotojas. Tradicija mato dieną atsakomybei nešti ir disciplinai, o ne lengvumui."
+    },
+    "3": {
+      "name": "Krittika",
+      "title": "Kertanti liepsna",
+      "meaning": "Valdo Agnis, ugnis. Tradicija mato aštrią, apvalančią energiją, tinkamą sprendimams ir nereikalingo atsikratymui."
+    },
+    "4": {
+      "name": "Rohini",
+      "title": "Augimas ir grožis",
+      "meaning": "Valdo Brahma, ją myli Mėnulis. Pastovi, derlinga žvaigždė, tradiciškai tinkama sodinti, statyti ir ilgalaikiams darbams."
+    },
+    "5": {
+      "name": "Mrigashira",
+      "title": "Ieškantis elnias",
+      "meaning": "Valdo Soma, Mėnulis. Švelni, smalsi energija, tradiciškai tinkama tyrinėti, mokytis ir kalbėtis."
+    },
+    "6": {
+      "name": "Ardra",
+      "title": "Audra ir atsinaujinimas",
+      "meaning": "Valdo Rudra, audra. Tradicija mato intensyvumą, kuris išvalo orą — tai diena sąžiningam darbui, ne naujiems sumanymams."
+    },
+    "7": {
+      "name": "Punarvasu",
+      "title": "Šviesos sugrįžimas",
+      "meaning": "Valdo Aditi, dievų motina. Judri, viltinga žvaigždė, tradiciškai tinkama grįžti namo, taisyti ir pradėti iš naujo."
+    },
+    "8": {
+      "name": "Pushya",
+      "title": "Maitinimas",
+      "meaning": "Valdo Brihaspatis, dievų mokytojas. Viena palankiausių tradicijos žvaigždžių, tinkama mokymuisi ir rūpesčiui."
+    },
+    "9": {
+      "name": "Ashlesha",
+      "title": "Susirangiusi gyvatė",
+      "meaning": "Valdo gyvačių dievybės. Aštri, skvarbi energija, tradiciškai siejama su įžvalga ir vengimu įsipainioti."
+    },
+    "10": {
+      "name": "Magha",
+      "title": "Protėvių sostas",
+      "meaning": "Valdo protėviai (Pitris). Tradicija mato dieną giminei ir pirmtakams pagerbti."
+    },
+    "11": {
+      "name": "Purva Phalguni",
+      "title": "Poilsis ir malonumas",
+      "meaning": "Valdo Bhaga, džiaugsmo dievas. Tradicija mato atpalaiduojančią energiją, tinkamą laisvalaikiui, draugystei ir kūrybai."
+    },
+    "12": {
+      "name": "Uttara Phalguni",
+      "title": "Partnerystė ir įsipareigojimas",
+      "meaning": "Valdo Arjamanas, susitarimų dievas. Pastovi žvaigždė, tradiciškai tinkama ilgalaikiams susitarimams ir santykiams stiprinti."
+    },
+    "13": {
+      "name": "Hasta",
+      "title": "Įgudusi ranka",
+      "meaning": "Valdo Savitaras, kūrybinė Saulės galia. Lengva, greita energija, tradiciškai tinkama amatams ir praktiniams darbams."
+    },
+    "14": {
+      "name": "Chitra",
+      "title": "Spindintis brangakmenis",
+      "meaning": "Valdo Tvaštaras, dangiškasis meistras. Švelni žvaigždė, tradiciškai tinkama dizainui, menui ir grožiui kurti."
+    },
+    "15": {
+      "name": "Swati",
+      "title": "Savarankiškas vėjelis",
+      "meaning": "Valdo Vajus, vėjas. Judri žvaigždė, tradiciškai tinkama prekybai, kelionėms ir savarankiškiems veiksmams."
+    },
+    "16": {
+      "name": "Vishakha",
+      "title": "Kryptingas tikslas",
+      "meaning": "Valdo Indra ir Agnis kartu. Tradicija mato ryžtą ir matomą tikslą, kuriam pasiekti reikia kantrybės."
+    },
+    "17": {
+      "name": "Anuradha",
+      "title": "Draugystė ir atsidavimas",
+      "meaning": "Valdo Mitra, draugystės dievas. Švelni žvaigždė, tradiciškai tinkama bendradarbiavimui, grupėms ir ištikimybei."
+    },
+    "18": {
+      "name": "Jyeshtha",
+      "title": "Vyriausioji",
+      "meaning": "Valdo Indra, dievų karalius. Tradicija mato atsakomybę ir vyresnumą — dieną atsargiai vadovauti."
+    },
+    "19": {
+      "name": "Mula",
+      "title": "Šaknis",
+      "meaning": "Valdo Nirriti, irimo deivė. Tradicija mato dieną pasiekti dalykų šaknis ir paleisti."
+    },
+    "20": {
+      "name": "Purva Ashadha",
+      "title": "Ankstyva pergalė",
+      "meaning": "Valdo Vandenys (Apas). Tradicija mato įsitikinimą ir naują energiją, tinkamą įtikinti ir atsinaujinti."
+    },
+    "21": {
+      "name": "Uttara Ashadha",
+      "title": "Ilgalaikė pergalė",
+      "meaning": "Valdo visuotiniai dievai (Vishvadevas). Pastovi žvaigždė, tradiciškai tinkama nuosekliems, principingiems pasiekimams."
+    },
+    "22": {
+      "name": "Shravana",
+      "title": "Klausymasis",
+      "meaning": "Valdo Višnu. Judri žvaigždė, tradiciškai tinkama mokytis, klausytis ir keliauti."
+    },
+    "23": {
+      "name": "Dhanishtha",
+      "title": "Ritmas ir gausa",
+      "meaning": "Valdo aštuoni Vasu. Tradicija mato muziką, dosnumą ir gerą laiko pajautimą."
+    },
+    "24": {
+      "name": "Shatabhisha",
+      "title": "Šimtas gydytojų",
+      "meaning": "Valdo Varuna, kosminių vandenų valdovas. Tradicija mato tylią, į vidų atgręžtą žvaigždę, siejamą su paslaptimis ir vienuma."
+    },
+    "25": {
+      "name": "Purva Bhadrapada",
+      "title": "Nuožmi ugnis",
+      "meaning": "Valdo Aja Ekapada, vienakojis ožys. Tradicija mato intensyvumą ir virsmą — dieną rimtoms pastangoms."
+    },
+    "26": {
+      "name": "Uttara Bhadrapada",
+      "title": "Ramios gelmės",
+      "meaning": "Valdo Ahir Budhnya, gelmių gyvatė. Pastovi žvaigždė, tradiciškai siejama su išmintimi, kantrybe ir tvirtumu."
+    },
+    "27": {
+      "name": "Revati",
+      "title": "Saugios kelionės",
+      "meaning": "Valdo Pušanas, keliautojų globėjas. Paskutinė žvaigždė, švelni ir rami, tradiciškai tinkama kelionėms ir užbaigimams."
+    }
+  },
+  "yoga": {
+    "1": {
+      "name": "Vishkambha",
+      "title": "Atraminis stulpas",
+      "meaning": "Tradicija laiko ją kliūčių joga; naujos pradžios paprastai atidedamos."
+    },
+    "2": {
+      "name": "Priti",
+      "title": "Prielankumas",
+      "meaning": "Palanki joga, tradiciškai tinkama draugystei, susitaikymui ir maloniems susitikimams."
+    },
+    "3": {
+      "name": "Ayushman",
+      "title": "Ilgas gyvenimas",
+      "meaning": "Palanki joga, tradiciškai tinkama darbams, kurie turi išlikti."
+    },
+    "4": {
+      "name": "Saubhagya",
+      "title": "Sėkmė",
+      "meaning": "Palanki joga, tradiciškai tinkama šventėms ir šeimos reikalams."
+    },
+    "5": {
+      "name": "Shobhana",
+      "title": "Puikumas",
+      "meaning": "Palanki joga, tradiciškai tinkama grožiui, kelionėms ir džiugiems įvykiams."
+    },
+    "6": {
+      "name": "Atiganda",
+      "title": "Didelis sunkumas",
+      "meaning": "Tradiciškai nepalanki joga; svarbių pradžių paprastai vengiama."
+    },
+    "7": {
+      "name": "Sukarma",
+      "title": "Geri darbai",
+      "meaning": "Palanki joga, tradiciškai tinkama sąžiningam darbui ir pagalbai kitiems."
+    },
+    "8": {
+      "name": "Dhriti",
+      "title": "Tvirtumas",
+      "meaning": "Palanki joga, tradiciškai tinkama kantriam, ilgalaikiam darbui."
+    },
+    "9": {
+      "name": "Shula",
+      "title": "Ietis",
+      "meaning": "Tradiciškai nepalanki joga, siejama su trintimi; geriausia skirti kasdieniams darbams."
+    },
+    "10": {
+      "name": "Ganda",
+      "title": "Mazgas",
+      "meaning": "Tradiciškai nepalanki joga; tradicija pataria būti atsargiems ir vengti naujų sumanymų."
+    },
+    "11": {
+      "name": "Vriddhi",
+      "title": "Augimas",
+      "meaning": "Palanki joga, tradiciškai tinkama viskam, ką norite auginti: santaupoms, žinioms, sodams."
+    },
+    "12": {
+      "name": "Dhruva",
+      "title": "Pastovumas",
+      "meaning": "Pastovi, palanki joga, tradiciškai tinkama ilgalaikiams pamatams."
+    },
+    "13": {
+      "name": "Vyaghata",
+      "title": "Smūgis",
+      "meaning": "Tradiciškai nepalanki joga, siejama su konfliktu; diena veikti švelniai."
+    },
+    "14": {
+      "name": "Harshana",
+      "title": "Džiugesys",
+      "meaning": "Palanki joga, tradiciškai tinkama šventėms ir geroms žinioms."
+    },
+    "15": {
+      "name": "Vajra",
+      "title": "Žaibas",
+      "meaning": "Galinga joga, kurią tradicija vertina atsargiai, ypač keliaujant."
+    },
+    "16": {
+      "name": "Siddhi",
+      "title": "Pasiekimas",
+      "meaning": "Palanki joga, tradiciškai tinkama užbaigti ir pasisekti."
+    },
+    "17": {
+      "name": "Vyatipata",
+      "title": "Nelaimė",
+      "meaning": "Viena labiausiai vengiamų jogų tradicijoje; svarbios pradžios atidedamos."
+    },
+    "18": {
+      "name": "Variyana",
+      "title": "Patogumas",
+      "meaning": "Palanki joga, tradiciškai tinkama ramybei, patogumui ir dosnumui."
+    },
+    "19": {
+      "name": "Parigha",
+      "title": "Geležinė užkarda",
+      "meaning": "Tradiciškai trukdanti joga; geriausia nuosekliam darbui, o ne naujoms pradžioms."
+    },
+    "20": {
+      "name": "Shiva",
+      "title": "Geranoriškumas",
+      "meaning": "Palanki joga, pavadinta Šivos vardu, tradiciškai tinkama maldai, studijoms ir mokymuisi."
+    },
+    "21": {
+      "name": "Siddha",
+      "title": "Pasirengimas",
+      "meaning": "Palanki joga, tradiciškai tinkama drąsiai ką nors pradėti."
+    },
+    "22": {
+      "name": "Sadhya",
+      "title": "Pasiekiama",
+      "meaning": "Palanki joga, tradiciškai tinkama praktikai ir nuosekliai pažangai."
+    },
+    "23": {
+      "name": "Shubha",
+      "title": "Palankumas",
+      "meaning": "Palanki joga, tradiciškai tinkama apeigoms ir geroms pradžioms."
+    },
+    "24": {
+      "name": "Shukla",
+      "title": "Šviesumas",
+      "meaning": "Palanki joga, tradiciškai siejama su aiškumu ir sąžiningais reikalais."
+    },
+    "25": {
+      "name": "Brahma",
+      "title": "Plati išmintis",
+      "meaning": "Palanki joga, tradiciškai tinkama mokytis, mokyti ir studijuoti."
+    },
+    "26": {
+      "name": "Indra",
+      "title": "Vadovavimas",
+      "meaning": "Palanki joga, tradiciškai tinkama valdžiai, viešiems reikalams ir pripažinimui."
+    },
+    "27": {
+      "name": "Vaidhriti",
+      "title": "Atskyrimas",
+      "meaning": "Kaip ir Vyatipata, viena labiausiai vengiamų jogų tradicijoje; diena kasdieniams darbams."
+    }
+  },
+  "karana": {
+    "1": {
+      "name": "Bava",
+      "title": "Jėga pradžioms",
+      "meaning": "Judri karana, tradiciškai tinkama pradėti ir nuosekliai dirbti."
+    },
+    "2": {
+      "name": "Balava",
+      "title": "Mokslas ir apeigos",
+      "meaning": "Judri karana, tradiciškai tinkama studijoms, maldai ir religiniams darbams."
+    },
+    "3": {
+      "name": "Kaulava",
+      "title": "Draugystė",
+      "meaning": "Judri karana, tradiciškai tinkama draugams, šeimai ir partnerystei."
+    },
+    "4": {
+      "name": "Taitila",
+      "title": "Namai ir jaukumas",
+      "meaning": "Judri karana, tradiciškai tinkama namų ir šeimos reikalams."
+    },
+    "5": {
+      "name": "Garaja",
+      "title": "Laukai ir statyba",
+      "meaning": "Judri karana, tradiciškai tinkama praktiniams darbams, žemei ir statybai."
+    },
+    "6": {
+      "name": "Vanija",
+      "title": "Prekyba",
+      "meaning": "Judri karana, tradiciškai tinkama pirkti, parduoti ir verslui."
+    },
+    "7": {
+      "name": "Vishti",
+      "title": "Bhadra — pauzė",
+      "meaning": "Vienintelė judri karana, kurios tradicija vengia: svarbios pradžios laukia, kol ji baigsis."
+    },
+    "8": {
+      "name": "Shakuni",
+      "title": "Paukštis",
+      "meaning": "Viena iš keturių pastovių karanų, kurios būna tik apie jaunatį. Tradicija svarbias pradžias palieka vėlesniam laikui."
+    },
+    "9": {
+      "name": "Chatushpada",
+      "title": "Keturkojis",
+      "meaning": "Pastovi jaunaties karana, tradiciškai siejama su gyvūnais ir aukomis protėviams."
+    },
+    "10": {
+      "name": "Naga",
+      "title": "Gyvatė",
+      "meaning": "Pastovi jaunaties karana, tradiciškai skirta sunkiems, ilgalaikiams darbams, o ne naujoms pradžioms."
+    },
+    "11": {
+      "name": "Kimstughna",
+      "title": "Pirmoji skiautelė",
+      "meaning": "Pirmoji karana po jaunaties ir paskutinė iš keturių pastoviųjų. Tradicija jai priskiria ramų, pastovų būdą."
+    }
+  },
+  "vara": {
+    "0": {
+      "name": "Ravivara",
+      "title": "Sekmadienis — Saulės diena",
+      "meaning": "Valdo Saulė. Tradiciškai diena pasitikėjimui, vadovavimui ir šviesai pagerbti."
+    },
+    "1": {
+      "name": "Somavara",
+      "title": "Pirmadienis — Mėnulio diena",
+      "meaning": "Valdo Mėnulis. Tradiciškai švelni diena namams, rūpesčiui ir jausmams."
+    },
+    "2": {
+      "name": "Mangalavara",
+      "title": "Antradienis — Marso diena",
+      "meaning": "Valdo Marsas. Tradiciškai energijos ir drąsos diena, kai verta saugotis konfliktų."
+    },
+    "3": {
+      "name": "Budhavara",
+      "title": "Trečiadienis — Merkurijaus diena",
+      "meaning": "Valdo Merkurijus. Tradiciškai diena mokytis, rašyti, prekiauti ir bendrauti."
+    },
+    "4": {
+      "name": "Guruvara",
+      "title": "Ketvirtadienis — Jupiterio diena",
+      "meaning": "Valdo Jupiteris, dievų mokytojas. Tradiciškai išminties, mokytojų ir dosnumo diena."
+    },
+    "5": {
+      "name": "Shukravara",
+      "title": "Penktadienis — Veneros diena",
+      "meaning": "Valdo Venera. Tradiciškai grožio, meno, santykių ir malonumų diena."
+    },
+    "6": {
+      "name": "Shanivara",
+      "title": "Šeštadienis — Saturno diena",
+      "meaning": "Valdo Saturnas. Tradiciškai disciplinos, kantrybės ir darbų užbaigimo diena."
+    }
+  },
+  "rhythm": {
+    "restFullMoon": {
+      "name": "Purnima rest",
+      "title": "Pilnaties poilsio diena",
+      "meaning": "Tradicija laikė tris poilsio dienas aplink kiekvieną pilnatį: dieną prieš, pačią pilnatį ir dieną po. Daugelis jas skiria lėtesniam tempui ir šventei."
+    },
+    "restNewMoon": {
+      "name": "Amavasya rest",
+      "title": "Jaunaties poilsio diena",
+      "meaning": "Tradicija laikė dvi poilsio dienas aplink kiekvieną jaunatį. Natūralus metas sulėtinti tempą ir atsigręžti į vidų."
+    },
+    "ekadashi": {
+      "name": "Ekadashi",
+      "title": "Ekadashi — lengvesnė diena",
+      "meaning": "Vienuoliktoji kiekvienos Mėnulio mėnesio pusės diena, skirta Višnu. Tradiciškai laikomasi pasninko arba valgoma lengvai; daugelis ją tiesiog leidžia ramiau ir paprasčiau."
+    },
+    "uttarayana": {
+      "name": "Uttarayana",
+      "title": "Saulės šiaurinis pusmetis",
+      "meaning": "Nuo gruodžio saulėgrįžos Saulė juda į šiaurę. Tradicija šį pusmetį laiko augimo, mokymosi ir veiklos metu."
+    },
+    "dakshinayana": {
+      "name": "Dakshinayana",
+      "title": "Saulės pietinis pusmetis",
+      "meaning": "Nuo birželio saulėgrįžos Saulė juda į pietus. Tradicija šį pusmetį laiko apmąstymų ir atsigręžimo į vidų metu."
+    },
+    "ritu1": {
+      "name": "Vasanta",
+      "title": "Pavasaris",
+      "meaning": "Atsinaujinimo metas, maždaug nuo vasario vidurio iki balandžio vidurio. Tradicija jį vadina metų laikų karaliumi, švenčių ir naujų pradžių metu."
+    },
+    "ritu2": {
+      "name": "Grishma",
+      "title": "Vasara",
+      "meaning": "Ilgos, karštos dienos, maždaug nuo balandžio vidurio iki birželio vidurio. Tradicija teikia pirmenybę lėtesnėms popietėms ir paprastai dienotvarkei."
+    },
+    "ritu3": {
+      "name": "Varsha",
+      "title": "Liūčių metas",
+      "meaning": "Musonų metas Indijoje, maždaug nuo birželio vidurio iki rugpjūčio vidurio. Tradicija mato laiką būti arčiau namų, mokytis ir atsitraukti."
+    },
+    "ritu4": {
+      "name": "Sharad",
+      "title": "Ruduo",
+      "meaning": "Giedras dangus ir ryškūs mėnuliai, maždaug nuo rugpjūčio vidurio iki spalio vidurio. Tradicija švenčia derlių ir dideles Navaratri šventes."
+    },
+    "ritu5": {
+      "name": "Hemanta",
+      "title": "Ankstyva žiema",
+      "meaning": "Vėsus ir ramus metas, maždaug nuo spalio vidurio iki gruodžio vidurio. Tradicija mato stabilumo, kaupimo ir namų šilumos metą."
+    },
+    "ritu6": {
+      "name": "Shishira",
+      "title": "Vėlyva žiema",
+      "meaning": "Šalčiausias metas, maždaug nuo gruodžio vidurio iki vasario vidurio. Tradicija mato poilsio ir pavasario laukimo metą."
+    }
+  },
+  "sheets": {
+    "tithi": "Tithi yra Mėnulio diena: laikas, per kurį Mėnulis nutolsta nuo Saulės dar 12°. Ji nesutampa su 24 valandų para, todėl gali prasidėti ir baigtis bet kurią valandą. Mėnulio mėnuo turi 30 tithi: penkiolika priešpilnio (Shukla) ir penkiolika delčios (Krishna).",
+    "nakshatra": "Nakshatros yra 27 žvaigždžių ruožai Mėnulio kelyje, kiekvienas 13°20′ pločio. Mėnulis per dieną pereina maždaug vieną, o tradicija kiekvienam priskiria savą būdą.",
+    "yoga": "Joga sujungia Saulės ir Mėnulio padėtis į vieną iš 27 ruožų. Tradicija ją skaito kaip bendrą dienos toną; kelių jogų tradiciškai vengiama pradedant darbus.",
+    "karana": "Karana yra pusė tithi. Yra vienuolika rūšių: septynios kartojasi visą mėnesį, o keturios būna tik apie jaunatį.",
+    "vara": "Savaitės diena. Tradiciniame kalendoriuje ji trunka nuo saulėtekio iki saulėtekio, o kiekvieną dieną valdo viena iš septynių klasikinių planetų.",
+    "brahma": "Brahma Muhurta yra ramus metas maždaug pusantros valandos prieš saulėtekį. Tradicija jį laiko geriausiu meditacijai ir maldai.",
+    "abhijit": "Abhijit Muhurta yra laiko langas apie vietos vidurdienį, tradiciškai palankus ką nors pradėti. Kaip ir Drik Panchang, trečiadieniais jis nerodomas.",
+    "rahuKaal": "Rahu Kaal yra aštuntoji šviesiojo paros meto dalis, kas savaitės dieną vis kita. Tradicija vengia jo metu pradėti naujus sumanymus; jau pradėtus darbus galima tęsti.",
+    "rhythm": "Tradicinis ritmas seka Mėnulį ir Saulę: poilsio dienos apie pilnatį ir jaunatį, Ekadashi du kartus per mėnesį, šeši metų laikai ir du Saulės pusmečiai.",
+    "times": "Visi laikai pateikti vietovei {city} ir apskaičiuoti jūsų įrenginyje. Saulėtekis yra tada, kai pasirodo viršutinis Saulės kraštas, kaip ir Drik Panchang.",
+    "about": "VedaCal paprastais žodžiais rodo tradicinį induistų Mėnulio kalendorių (Panchang). Viskas apskaičiuojama jūsų įrenginyje ir niekur nesiunčiama. Patarimai aprašo tradiciją ir nėra medicininis ar profesionalus patarimas. Miestų duomenys © GeoNames, CC BY 4.0.",
+    "masa": "Mėnulio mėnuo trunka vieną Mėnulio fazių ciklą ir vadinamas pagal ženklą, kuriame jo pradžioje yra Saulė. VedaCal skaičiuoja mėnesius nuo pilnaties iki pilnaties, kaip Drik Panchang Šiaurės Indijai; Pietų ir Vakarų Indijoje jie trunka nuo jaunaties iki jaunaties, todėl delčios pusėje ten mėnuo dar vadinamas ankstesniu vardu. Maždaug kas trejus metus praeina mėnuo, kurio metu Saulė nepakeičia ženklo: jis tampa papildomu mėnesiu (Adhika), ir kalendorius susilygina su metų laikais.",
+    "rashi": "Dangus, kuriuo keliauja Saulė ir Mėnulis, padalytas į dvylika ženklų. Vedų astrologija juos matuoja nuo nejudančių žvaigždžių (siderinis zodiakas), todėl šiandien jie yra apie 24° atsilikę nuo vakarietiškų ženklų, kurie seka metų laikus (tropinis zodiakas): vedinis Mėnulis Dvyniuose vakarietiškai dažnai būna Vėžyje. Vedinį arba vakarietišką zodiaką pasirinkite nustatymuose.",
+    "parana": "Kas laikosi Ekadashi pasninko, tradiciškai jį užbaigia kitą rytą, dvyliktosios Mėnulio dienos (Dwadashi) metu ir po jos pirmojo ketvirčio (Hari Vasara). Jei tas ketvirtis tęsiasi ilgiau nei rytas, pasninkas užbaigiamas po pietų. Laikai pagal Drik Panchang.",
+    "eclipse": "Užtemimas (Grahan) tradiciškai yra metas sustoti: nauji darbai ir valgis atidedami, kol jis baigsis, o daugelis jį praleidžia tyliai melsdamiesi ar medituodami. VedaCal rodo didžiausio užtemimo momentą ir ar jį bus galima matyti jūsų vietovėje.",
+    "sankranti": "Sankranti yra momentas, kai Saulė pereina į kitą vedinį ženklą, dvylika kartų per metus. Kiekvienas pradeda Saulės mėnesį; Makara Sankranti sausį švenčiama visoje Indijoje.",
+    "pushya": "Pushya, Mėnulio maitinimo žvaigždė, laikoma palankiausia iš 27. Kai ji sutampa su ketvirtadieniu (Guru Pushya) arba sekmadieniu (Ravi Pushya), tradicija tą laiką laiko tinkamu pradžioms, auksui pirkti ir mokytis. Rodomas laikas, kai abu sutampa."
+  },
+  "ui": {
+    "today": "Šiandien",
+    "day": "Diena",
+    "month": "Mėnuo",
+    "settings": "Nustatymai",
+    "location": "Vieta",
+    "useMyLocation": "Naudoti mano vietą",
+    "searchCity": "Ieškoti miesto",
+    "until": "iki {time}",
+    "untilTomorrow": "iki {time} rytoj",
+    "then": "toliau: {name}",
+    "waxing": "Priešpilnis {percent} %",
+    "waning": "Delčia {percent} %",
+    "sunrise": "Saulėtekis",
+    "sunset": "Saulėlydis",
+    "sunriseInLabel": "Iki saulėtekio",
+    "sunsetInLabel": "Iki saulėlydžio",
+    "hoursMinutes": "{h} val. {m} min.",
+    "minutes": "{m} min.",
+    "nowGood": "Dabar: palankus metas",
+    "nowAvoid": "Dabar: vengtinas metas",
+    "nowCalm": "Dabar: ramus metas",
+    "legendCalmTime": "Ramus metas",
+    "legendGoodTime": "Palankus metas",
+    "legendAvoidTime": "Vengtinas metas",
+    "moonrise": "Mėnulio patekėjimas",
+    "moonset": "Mėnulio nusileidimas",
+    "none": "—",
+    "windowCalm": "Ramus",
+    "windowGood": "Palankus",
+    "windowAvoid": "Vengtinas",
+    "brahma": "Brahma Muhurta",
+    "abhijit": "Abhijit Muhurta",
+    "rahuKaal": "Rahu Kaal",
+    "now": "Dabar",
+    "rituDay": "{name} — {day} diena iš {length}",
+    "fullMoon": "Pilnatis",
+    "newMoon": "Jaunatis",
+    "timeFormat": "Laiko formatas",
+    "theme": "Tema",
+    "themeDark": "Tamsi",
+    "themeLight": "Šviesi",
+    "themeSystem": "Sistemos",
+    "about": "Apie",
+    "howToRead": "Kaip skaityti dieną",
+    "credits": "Padėkos",
+    "creditMoon": "Mėnulio nuotrauka: NASA Scientific Visualization Studio (viešoji sritis).",
+    "creditCities": "Miestų duomenys: GeoNames (CC BY 4.0).",
+    "version": "Versija",
+    "notice.polar": "Šiandien Saulė čia nepateka arba nenusileidžia, todėl Panchang dienos padalyti negalima. Mėnulio duomenys vis tiek rodomi.",
+    "sectionDay": "Šiandienos Panchang",
+    "sectionSky": "Saulė ir Mėnulis",
+    "sectionRhythm": "Dienos ritmas",
+    "sectionTradition": "Tradicinis ritmas",
+    "sectionMonth": "Šis mėnuo",
+    "labelStar": "Mėnulio žvaigždė",
+    "labelYoga": "Saulė ir Mėnulis",
+    "labelKarana": "Pusdienis",
+    "labelWeekday": "Savaitės diena",
+    "pada": "{pada} ketvirtis",
+    "lit": "{state} · apšviesta {percent} %",
+    "lunarDayEnds": "Baigiasi {when}",
+    "moreDetails": "Daugiau",
+    "close": "Uždaryti",
+    "stateWaxing": "Priešpilnis",
+    "stateWaning": "Delčia",
+    "restDay": "Poilsio diena",
+    "season": "{title} · {name}",
+    "seasonDay": "{day} diena iš {length}",
+    "back": "Atgal",
+    "previousDay": "Ankstesnė diena",
+    "nextDay": "Kita diena",
+    "previousMonth": "Ankstesnis mėnuo",
+    "nextMonth": "Kitas mėnuo",
+    "legendMoonShape": "Mėnulio forma tą dieną",
+    "legendRest": "Poilsio diena",
+    "legendEkadashi": "Pasninko diena",
+    "legendToday": "Šiandien",
+    "notOnWednesdays": "Ne trečiadieniais",
+    "legendSeason": "Metų laikas",
+    "legendFasting": "Pasninkas",
+    "keyDates": "Svarbios datos",
+    "locating": "Nustatoma jūsų vieta…",
+    "locationError": "Jūsų vietos nustatyti nepavyko. Ieškokite miesto.",
+    "noCities": "Miestas nerastas",
+    "loadingCities": "Įkeliami miestai…",
+    "labelMonth": "Mėnulio mėnuo",
+    "labelParana": "Ekadashi pasninko pabaiga",
+    "extraMonth": "Papildomas mėnuo",
+    "adhika": "Adhika {name}",
+    "westernZodiac": "Vakarietiškas ženklas",
+    "paranaToday": "Šiandien, {range}",
+    "paranaTomorrow": "Rytoj, {range}",
+    "paranaAfter": "po {time}",
+    "untilDate": "iki {date}",
+    "zodiac": "Zodiako ženklai",
+    "zodiacVedic": "Vedinis",
+    "zodiacWestern": "Vakarietiškas",
+    "zodiacNote": "Vediniai ženklai seka žvaigždes; vakarietiški seka metų laikus ir yra maždaug vienu ženklu priekyje.",
+    "moonIn": "Mėnulis — {sign}",
+    "sunIn": "Saulė — {sign}",
+    "hours12": "12 val.",
+    "hours24": "24 val.",
+    "labelEclipse": "Užtemimas",
+    "labelSankranti": "Saulė keičia ženklą",
+    "labelFavoured": "Palanku pradžioms",
+    "eclipseTitle": "{type} {what} užtemimas",
+    "eclipseTotal": "Visiškas",
+    "eclipsePartial": "Dalinis",
+    "eclipseAnnular": "Žiedinis",
+    "eclipsePenumbral": "Pusšešėlinis",
+    "lunar": "Mėnulio",
+    "solar": "Saulės",
+    "peakAt": "didžiausias {time}",
+    "visibleHere": "matomas čia",
+    "notVisibleHere": "čia nematomas",
+    "sunEnters": "Naujas Saulės ženklas: {sign}",
+    "sunEntersVedic": "Naujas Saulės ženklas: {sign} (vedinis)",
+    "legendFavoured": "Palanki diena",
+    "legendEclipse": "Užtemimas",
+    "percentLit": "apšviesta {percent} %",
+    "begins": "{title}: pradžia",
+    "labelTithi": "Mėnulio diena",
+    "labelSigns": "Mėnulio ir Saulės ženklai",
+    "language": "Kalba",
+    "langEn": "English",
+    "langLt": "Lietuvių"
+  },
+  "masa": {
+    "1": {
+      "name": "Chaitra",
+      "title": "Kovas–balandis"
+    },
+    "2": {
+      "name": "Vaishakha",
+      "title": "Balandis–gegužė"
+    },
+    "3": {
+      "name": "Jyeshtha",
+      "title": "Gegužė–birželis"
+    },
+    "4": {
+      "name": "Ashadha",
+      "title": "Birželis–liepa"
+    },
+    "5": {
+      "name": "Shravana",
+      "title": "Liepa–rugpjūtis"
+    },
+    "6": {
+      "name": "Bhadrapada",
+      "title": "Rugpjūtis–rugsėjis"
+    },
+    "7": {
+      "name": "Ashwina",
+      "title": "Rugsėjis–spalis"
+    },
+    "8": {
+      "name": "Kartika",
+      "title": "Spalis–lapkritis"
+    },
+    "9": {
+      "name": "Margashirsha",
+      "title": "Lapkritis–gruodis"
+    },
+    "10": {
+      "name": "Pausha",
+      "title": "Gruodis–sausis"
+    },
+    "11": {
+      "name": "Magha",
+      "title": "Sausis–vasaris"
+    },
+    "12": {
+      "name": "Phalguna",
+      "title": "Vasaris–kovas"
+    }
+  },
+  "rashi": {
+    "1": {
+      "name": "Mesha",
+      "title": "Avinas"
+    },
+    "2": {
+      "name": "Vrishabha",
+      "title": "Jautis"
+    },
+    "3": {
+      "name": "Mithuna",
+      "title": "Dvyniai"
+    },
+    "4": {
+      "name": "Karka",
+      "title": "Vėžys"
+    },
+    "5": {
+      "name": "Simha",
+      "title": "Liūtas"
+    },
+    "6": {
+      "name": "Kanya",
+      "title": "Mergelė"
+    },
+    "7": {
+      "name": "Tula",
+      "title": "Svarstyklės"
+    },
+    "8": {
+      "name": "Vrishchika",
+      "title": "Skorpionas"
+    },
+    "9": {
+      "name": "Dhanu",
+      "title": "Šaulys"
+    },
+    "10": {
+      "name": "Makara",
+      "title": "Ožiaragis"
+    },
+    "11": {
+      "name": "Kumbha",
+      "title": "Vandenis"
+    },
+    "12": {
+      "name": "Meena",
+      "title": "Žuvys"
+    }
+  }
+}

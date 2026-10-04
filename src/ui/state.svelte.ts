@@ -2,7 +2,7 @@
 // the only things stored, SPEC 6) and the current route.
 import type { Place } from './cities'
 import type { Zodiac } from './day'
-import { prefs } from './format'
+import { LANG, prefs, type Lang } from './format'
 
 const KEY = 'vedacal.location'
 const SETTINGS = 'vedacal.settings'
@@ -24,8 +24,8 @@ function stored(): Place | null {
 const saved = stored()
 
 export type Theme = 'system' | 'dark' | 'light'
-/** SPEC 5.3. hour12 null = the device's habit until the user picks one. */
-type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme }
+/** SPEC 5.3. hour12 null = the device's habit until the user picks one; lang null = the device's language. */
+type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme; lang: Lang | null }
 function storedSettings(): Settings {
   let s: Record<string, unknown> = {}
   try {
@@ -37,6 +37,7 @@ function storedSettings(): Settings {
     zodiac: s.zodiac === 'western' ? 'western' : 'vedic',
     hour12: typeof s.hour12 === 'boolean' ? s.hour12 : null,
     theme: s.theme === 'dark' || s.theme === 'light' ? s.theme : 'system',
+    lang: s.lang === 'en' || s.lang === 'lt' ? s.lang : null,
   }
 }
 
@@ -47,6 +48,7 @@ function applyTheme(theme: Theme) {
 }
 
 const settings = storedSettings()
+document.documentElement.lang = LANG
 prefs.hour12 = settings.hour12 ?? undefined
 applyTheme(settings.theme)
 
@@ -62,6 +64,8 @@ export function setSetting<K extends keyof Settings>(key: K, value: Settings[K])
   } catch {
     // Storage blocked: the choice holds until the page closes.
   }
+  // Labels are computed once at load in the chosen language (format.ts): reload to switch.
+  if (key === 'lang' && value !== LANG) location.reload()
 }
 
 /** First visit from outside Vilnius's time zone: ask for a location instead of guessing. */

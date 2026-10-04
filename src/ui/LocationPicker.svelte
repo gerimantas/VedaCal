@@ -3,7 +3,7 @@
   // (mockups/location.ts) with the real GeoNames search, offline, every city above 15,000
   // people — then zodiac signs (Vedic by default), time format and theme.
   import { inZone, loadCities, nearest, search, type CityIndex, type Place } from './cities'
-  import { deviceHour12, t, time } from './format'
+  import { LANG, countryName, deviceHour12, t, time } from './format'
   import { icon } from './icons'
   import { app, setLocation, setSetting } from './state.svelte'
 
@@ -73,7 +73,7 @@
         onkeydown={(e) => onKey(e, p)}
       >
         {@html icon.pin}
-        <div><b>{p.name}</b><small>{p.region && p.region !== p.name ? `${p.region}, ` : ''}{p.country}</small></div>
+        <div><b>{p.name}</b><small>{p.region && p.region !== p.name ? `${p.region}, ` : ''}{countryName(p.cc, p.country)}</small></div>
         <span class="quiet num">{(void app.settings.hour12, time(new Date(), p))}</span>
       </li>
     {/each}
@@ -83,6 +83,15 @@
   {:else if query.trim() && !places.length}
     <p class="footnote">{t('noCities')}</p>
   {/if}
+
+  <h2 class="about-head">{t('language')}</h2>
+  <section class="card about-intro">
+    <div class="segmented" role="group" aria-label={t('language')}>
+      {#each [['en', t('langEn')], ['lt', t('langLt')]] as const as [value, label] (value)}
+        <button aria-pressed={LANG === value} lang={value} onclick={() => setSetting('lang', value)}>{label}</button>
+      {/each}
+    </div>
+  </section>
 
   <h2 class="about-head">{t('zodiac')}</h2>
   <section class="card about-intro">

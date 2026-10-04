@@ -3,7 +3,7 @@
 // mockup and the app cannot drift apart, and tests can compare the screen with the engine.
 import { civilDate } from '../core/time'
 import type { DayPanchang, Interval, Location, Span } from '../core/types'
-import { LOCALE, content, entry, percent, progress, t, time, until } from './format'
+import { LOCALE, MONTH, content, entry, percent, progress, t, time, until } from './format'
 import { icon } from './icons'
 import { markText } from './marks'
 import { terms, type Term } from './terms'
@@ -66,7 +66,7 @@ const following = (spans: Span[], s: Span, day: DayPanchang) => {
 
 export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodiac = 'vedic'): DayView {
   const noonish = day.sunrise ?? new Date(`${day.date}T12:00:00Z`)
-  const shortDate = new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: 'short', timeZone: loc.tz }).format(noonish)
+  const shortDate = new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: MONTH, timeZone: loc.tz }).format(noonish)
 
   const tithi = activeAt(day.tithi, now)
   const te = entry('tithi', tithi.index)
@@ -177,7 +177,8 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
       progress: progress(tithi, now),
       // The bar under the moon is unlabeled on its own, so one short line says what it measures.
       ends:
-        t('lunarDayEnds', { when: until(tithi.end, day, loc).replace(/^until /, '') }) +
+        // "Ends at 1:24 AM tomorrow": the "until" wording minus its own "until".
+        t('lunarDayEnds', { when: until(tithi.end, day, loc).replace(t('until', { time: '' }), '') }) +
         (nextTithi ? `, ${t('then', { name: entry('tithi', nextTithi.index).title })}` : ''),
       meaning: te.meaning,
     },

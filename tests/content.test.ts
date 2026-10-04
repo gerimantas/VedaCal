@@ -2,6 +2,7 @@
 // meanings are one or two sentences, and no text makes a health or body claim.
 import { describe, expect, it } from 'vitest'
 import en from '../src/content/en.json'
+import lt from '../src/content/lt.json'
 
 type Entry = { name: string; title: string; meaning: string }
 const groups: Record<string, [Record<string, Entry>, string[]]> = {
@@ -42,4 +43,36 @@ it('sheets and labels make no health claims (About may disclaim medical advice)'
   const { about, ...sheets } = en.sheets
   for (const text of [...Object.values(sheets), ...Object.values(en.ui)]) expect(text).not.toMatch(HEALTH)
   expect(about.replace('not medical or professional advice', '')).not.toMatch(HEALTH)
+})
+
+// ── Lithuanian (user, 2026-10-05) ────────────────────────────────────────────
+// Same shape as en.json, same content rules, and a Lithuanian health-word list.
+describe('lt.json', () => {
+  const shape = (o: unknown): unknown =>
+    o && typeof o === 'object' ? Object.fromEntries(Object.entries(o).map(([k, v]) => [k, shape(v)])) : typeof o
+  const LT_HEALTH = /(gyd(o\b|om|ym|yt(i|is|u)\b)|išgyd|detoks|apvalym|imunit|hormon|ląstel|\bjon(ai|ų)\b|nerv|smegen|\blig(a|os|ų|oms)\b|medicin|simptom|\bkraujo?\b|medžiagų apykait|virškin|sveikat|\bkūn(as|o|ui|e)\b|\borgan(as|ai|ų)\b|terap|čakr|toksin|gerovė)/i
+
+  it('has every key of en.json and nothing else', () => {
+    expect(shape(lt)).toEqual(shape(en))
+  })
+
+  it('keeps the Sanskrit names', () => {
+    for (const g of ['tithi', 'nakshatra', 'yoga', 'karana', 'vara', 'rhythm', 'masa', 'rashi'] as const)
+      for (const [k, e] of Object.entries(en[g])) expect((lt[g] as Record<string, { name: string }>)[k].name, `${g} ${k}`).toBe((e as { name: string }).name)
+  })
+
+  it.each(Object.keys(groups))('%s: short title, 1–2 sentence meaning, no health words', (g) => {
+    for (const [k, e] of Object.entries(lt[g as keyof typeof groups] as Record<string, Entry>)) {
+      expect(e.title.split(/\s+/).length, `${k} ${e.title}`).toBeLessThanOrEqual(6)
+      expect(sentences(e.meaning), e.meaning).toBeGreaterThanOrEqual(1)
+      expect(sentences(e.meaning), e.meaning).toBeLessThanOrEqual(2)
+      expect(`${e.title} ${e.meaning}`).not.toMatch(LT_HEALTH)
+    }
+  })
+
+  it('sheets and labels make no health claims (About may disclaim medical advice)', () => {
+    const { about, ...sheets } = lt.sheets
+    for (const text of [...Object.values(sheets), ...Object.values(lt.ui)]) expect(text).not.toMatch(LT_HEALTH)
+    expect(about.replace('nėra medicininis ar profesionalus patarimas', '')).not.toMatch(LT_HEALTH)
+  })
 })
