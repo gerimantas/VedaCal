@@ -2,6 +2,7 @@
 // Mockups run on the dev server only (`npm run dev` → /VedaCal/mockups/).
 import { civilDate } from '../src/core/time'
 import type { Location } from '../src/core/types'
+import { versionBadge } from './version'
 
 export const params = new URLSearchParams(location.search)
 const theme = params.get('theme')
@@ -42,5 +43,5 @@ export function tabs(current: 'day' | 'month' | 'settings'): string {
 export const link = keep
 
 export function mount(html: string) {
-  document.getElementById('app')!.innerHTML = html
+  document.getElementById('app')!.innerHTML = html + versionBadge()
 }

@@ -1,5 +1,7 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { VitePWA } from 'vite-plugin-pwa'
+import { execSync } from 'node:child_process'
+import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitest/config'
 
@@ -10,9 +12,26 @@ const astronomyEngine = fileURLToPath(
   new URL('./node_modules/astronomy-engine/astronomy.js', import.meta.url),
 )
 
+// Version shown in the app: package version + git commit + build time.
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
+const commit = (() => {
+  try {
+    return execSync('git rev-parse --short HEAD').toString().trim()
+  } catch {
+    return 'unknown'
+  }
+})()
+
 // Served from https://gerimantas.github.io/VedaCal/
 export default defineConfig({
   base: '/VedaCal/',
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+    __GIT_COMMIT__: JSON.stringify(commit),
+    __BUILD_TIME__: JSON.stringify(new Date().toISOString().slice(0, 16).replace('T', ' ') + ' UTC'),
+  },
+  // Dev server: tell the browser never to reuse an old copy of any file.
+  server: { headers: { 'Cache-Control': 'no-store' } },
   resolve: {
     alias: { 'astronomy-engine': astronomyEngine },
   },

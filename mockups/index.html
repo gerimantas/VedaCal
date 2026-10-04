@@ -50,7 +50,7 @@
     </style>
   </head>
   <body>
-    <h1>VedaCal — screen mockups (P3)</h1>
+    <h1>VedaCal — screen mockups (P3) · <span id="ver"></span></h1>
     <p>
       Live values for Vilnius today from the calculation core, with the approved P2 texts. Each frame is 390 px wide
       (a typical phone); the last one checks the narrowest phones at 320 px. Click inside a frame to navigate.
@@ -66,5 +66,16 @@
       <figure><figcaption>Day · Wednesday (7 Oct) · 10:00</figcaption><iframe src="day.html?theme=dark&date=2026-10-07&at=10:00" title="Day, Wednesday"></iframe></figure>
       <figure><figcaption>Day · dark · 320 px</figcaption><iframe class="narrow" src="day.html?theme=dark" title="Day, 320 px"></iframe></figure>
     </div>
+    <script type="module">
+      import { MOCKUP_VERSION, MOCKUP_NOTE } from './version.ts'
+      const loaded = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      document.getElementById('ver').textContent = `${MOCKUP_VERSION} (${MOCKUP_NOTE}) · loaded ${loaded}`
+      // Reload every frame with the version in the URL so no frame shows an old copy.
+      for (const f of document.querySelectorAll('iframe')) {
+        const u = new URL(f.getAttribute('src'), location.href)
+        u.searchParams.set('v', MOCKUP_VERSION)
+        f.src = u.toString()
+      }
+    </script>
   </body>
 </html>

@@ -36,6 +36,10 @@ tithi via the new core). No UI or content yet.
 - Accuracy vs references: `npm run accuracy`. Refetch references: `node scripts/fetch-drik.ts`,
   `fetch-mypanchang.ts`, `fetch-ekadashi.ts` (fixtures in `tests/fixtures/`, never hand-typed)
 - Speed: `npm run dev`, open `/VedaCal/tests/perf/perf.html` (dev-only harness)
+- Mockups (P3): `npm run dev` → http://localhost:5173/VedaCal/mockups/ . Bump `MOCKUP_VERSION`
+  in `mockups/version.ts` on every visible change — each screen shows a version badge so the
+  user can tell a stale browser copy from a real change. Dev server sends `Cache-Control: no-store`.
+- App shows `v<package version> · <git commit> · built <time>` (vite `define`, `src/globals.d.ts`)
 - NotebookLM notebook "VedaCal": `2a0fad75-caeb-4d03-9f73-7c91e341d1f2`
   (5 Panchang websites, 1 research report, 1 YouTube video; 9 notes, 2 PRD reports)
 - Local copies: `.planning/notebooklm/PRD-en.md`, `PRD-lt.md`, `notes/`

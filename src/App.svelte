@@ -18,6 +18,7 @@
   <p class="probe">
     Vilnius today · {tithi} · sunrise {time(day.sunrise)} · sunset {time(day.sunset)}
   </p>
+  <p class="version">v{__APP_VERSION__} · {__GIT_COMMIT__} · built {__BUILD_TIME__}</p>
 </main>
 
 <style>
@@ -34,6 +35,12 @@
   }
   .tag {
     color: var(--text);
+  }
+  .version {
+    margin-top: 3rem;
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-variant-numeric: tabular-nums;
   }
   .probe {
     color: var(--muted);

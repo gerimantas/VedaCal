@@ -797,3 +797,18 @@ section > h2 {
   border-radius: 50%;
   background: var(--color-moon);
 }
+
+/* Mockup-only: version badge (mockups/version.ts). */
+.version {
+  position: fixed;
+  top: var(--space-2xs);
+  right: var(--space-2xs);
+  padding: 0.1rem var(--space-2xs);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper);
+  color: var(--color-neutral);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
