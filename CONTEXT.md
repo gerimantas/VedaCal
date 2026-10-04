@@ -1,12 +1,13 @@
 # VedaCal — CONTEXT
 
 ## Status
-P0, P1, P2 done; P3 in progress. The calculation core (`src/core/panchang.ts`) passes 504
-tests. P3 mockups are at v21 after a full session of the user's fixes: NASA moon photo,
-24-hour sun dial with calm/good/avoid rows, plain-English fact rows (Sanskrit same size,
-gold), tap-to-explain sheets, About tab, photo moons in the month grid. Design rules are in
-`.planning/SPEC.md` 5.1. Not approved yet; P4 waits for approval. Live site is still the
-placeholder.
+P0–P5 done and live (https://gerimantas.github.io/VedaCal/, commit 38d2853, CI green).
+Four tabs work: Day (live elements, signs on the moon/sun cards, lunar month, Ekadashi
+fast end, eclipse/Sankranti/Pushya rows), Month (lean summary, marks, legend), Settings
+(city search, language EN/LT, zodiac, 12/24 h, theme), About. 918 tests pass; month view
+169–232 ms at 4× CPU throttle. Lithuanian UI follows the device or the setting. Rules:
+`.planning/SPEC.md` 4.10, 4.11, 5.1–5.3. Some new values still lack Drik's own pages
+(reCAPTCHA) — second Next Task. Next phase: P6 (installable PWA, offline).
 
 ## Next Tasks
 - P6 (PWA, offline — precache misses the moon photo and fonts). P4, P5, the source-audit
@@ -22,25 +23,14 @@ placeholder.
 
 ## Done Log
 
+### 2026-10-05 (S3)
+- P3 approved (v22); P4 day screen + location; P5 month + settings; all gates met
+- Source audit additions (live elements, masa, signs, Parana); month marks; Lithuanian UI
+- Drik fetching made polite (`scripts/drik-page.ts`); deployed to the live site; QR code made
+
 ### 2026-10-04 (S2)
 - P3 mockups v5–v21: NASA moon photo, sun dial, fact rows, sheets, About tab, month photo moons
 - Plain-English rule written into SPEC 5.1; user page idea recorded in SPEC 10 backlog
-
-### 2026-10-04 (S1)
-- P3: mockups v1–v4 (day, month, location; dark + light); version badge + no-store dev server
-- P2: 113 content entries approved; `tests/content.test.ts` blocks health claims
-- P1: core validated (Drik + mypanchang fixtures, Ekadashi rule, edge cases, speed, bundle check)
-- Analysed the NotebookLM notebook; audience chosen: Western wellness users
-- PWA + `astronomy-engine` chosen; calibrated against Drik (SPEC 4.9)
-- `.planning/SPEC.md` (what/how) and `.planning/PLAN.md` (P0–P7 with gates) written
-- Checked plan against the 7 NotebookLM sources + mypanchang; decided: Drik sunrise,
-  English UI, public repo; GitHub prior art searched (SPEC 11)
-- Concept module 3 kept in v1 as "Traditional rhythm" (rest days, Ekadashi, Ayana,
-  Ritu — no health claims); concept coverage table in SPEC 12
-- Engine: `@ishubhamx/panchangam-js` 3.0.0 behind own adapter; security-checked
-  (SPEC 11); new-moon rest day = the new-moon day only
-- `.planning/` split into its own local repo (history kept); removed from main-repo history
-- P0: scaffold, pinned deps, CSP, scan script, CI + Pages; gate passed (live page, CI green)
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
@@ -73,7 +63,7 @@ placeholder.
 - `.planning/` is a **separate local-only git repo** (ignored by the main repo, never
   pushed — user decision 2026-10-04: plans stay private, code is public). Commit planning
   changes with `git -C .planning commit`; session end must commit both repos.
-- Reference for validation: Drik day page, fetch with firecrawl:
+- Reference for validation: Drik day page, fetched by `scripts/fetch-drik.ts`:
   `https://www.drikpanchang.com/panchang/day-panchang.html?geoname-id=<id>&date=DD/MM/YYYY`
   (Vilnius `593116`, New York `5128581`, New Delhi `1261481`)
 - Sunrise: Drik = upper limb, mypanchang = centre (Madhyabimb); ~2 min apart, both measured (SPEC 4.9)
@@ -85,6 +75,23 @@ placeholder.
   is wrong; real value is Krishna Navami, waning. Only computed or Drik-fetched values count.
 
 ## Archive
+
+### Session 2026-10-05 (S3) — P3 approved, P4 + P5 built, source audit, Lithuanian, deployed
+
+- **Done:** P3 approved at mockups v22; P4 (Svelte day screen, offline GeoNames search, GPS,
+  About) and P5 (lean month view, settings) with gates met; NotebookLM source audit → live
+  elements + "then …", lunar month, Moon/Sun signs (Vedic default), Ekadashi Parana; month
+  marks (eclipses, Sankranti, Guru/Ravi Pushya); Lithuanian UI; deployed (38d2853, CI green).
+- **Decided / overturned:** moonrise/moonset dropped; signs on the moon/sun cards; Vedic
+  default + Western setting; month marks option A only; no Sanskrit for "Rest day"; English
+  vs device-locale dates fixed (app language rules); Settings shows only the current city.
+- **Code:** `src/ui/{day,month,marks,cities,format,terms,icons}.ts`, `src/ui/*.svelte`,
+  `src/ui/state.svelte.ts`, `src/core/panchang.ts` (masa, signs, parana, monthMarks, lean
+  `computeMonth`), `src/content/lt.json`, `src/data/cities.json`, `scripts/{build-cities,
+  fetch-parana,drik-page}.ts`, `tests/{ui,calendar,month,marks}.test.ts`; rules SPEC 4.10, 4.11, 5.2, 5.3.
+- **Entry point:** `npm run dev` → `/VedaCal/`; `npm test` (918); live https://gerimantas.github.io/VedaCal/
+- **Not measured:** Drik pages for eclipses, Sankranti, Pushya, adhika day pages, NY/Delhi
+  2027 Parana (reCAPTCHA) — Next Tasks; month speed on a real phone (4× throttle: 169–232 ms).
 
 ### Session 2026-10-04 (S2) — P3 mockups v4 → v21 from the user's fixes
 
