@@ -48,7 +48,7 @@
   </div>
   <p class="legend">
     <span>{@html realisticMoon(0.6, true, 14, '')}{t('legendMoonShape')}</span>
-    <span><i style="background:var(--color-paper-3);border:1px solid var(--color-card-line)"></i>{t('legendRest')}</span>
+    <span><i class="rest-swatch"></i>{t('legendRest')}</span>
     <span><i style="background:var(--color-accent);border-radius:50%;width:6px;height:6px"></i>{t('legendEkadashi')} <span class="sk">Ekadashi</span></span>
     <span><i style="border:1px solid var(--color-moon)"></i>{t('legendToday')}</span>
   </p>

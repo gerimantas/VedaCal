@@ -679,8 +679,16 @@ h3 {
   border-color: var(--color-neutral);
 }
 
-.cell.rest {
-  background: var(--color-paper-3);
+/* Rest days: a violet tint, the colour of the calm time on the sun dial — paper-3 was
+   nearly invisible on dark cards (user, 2026-10-05). */
+.cell.rest,
+.legend .rest-swatch {
+  border-color: color-mix(in oklch, var(--color-calm) 60%, var(--color-card));
+  background: color-mix(in oklch, var(--color-calm) 24%, var(--color-card));
+}
+
+.legend .rest-swatch {
+  border: 1px solid color-mix(in oklch, var(--color-calm) 60%, var(--color-card));
 }
 
 .cell.today {
