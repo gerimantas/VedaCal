@@ -1,15 +1,16 @@
 # VedaCal — CONTEXT
 
 ## Status
-Planned, no code yet. Moon-calendar PWA on the Hindu Panchang for Western wellness
-users; all calculation on the device with `astronomy-engine`. Detailed spec and gated
-build plan written. `astronomy-engine` matched Drik Panchang for Vilnius 2026-10-04
-within ~1.5 min on every element. NotebookLM material is input only — SPEC section 9
-lists what in it is wrong.
+P0 done: Vite + Svelte 5 + PWA skeleton live at https://gerimantas.github.io/VedaCal/,
+CI green (audit, signatures, dependency scan, tests, type check, build, Pages deploy).
+The placeholder page computes today's Vilnius tithi and sunrise with `panchangam-js`
+in the browser (sunrise matches Drik). Next is P1: the adapter and its validation.
+Engine: `panchangam-js` 3.0.0 behind our own adapter; Drik upper-limb sunrise; English UI.
 
 ## Next Tasks
-- P0 project setup, then P1 adapter validated against 39 Drik + 26 mypanchang fixtures.
-  plan: `.planning/PLAN.md` (P0, P1); rules: `.planning/SPEC.md` section 4.
+- P1: fixture fetchers (Drik + mypanchang), then the adapter in `src/core/` meeting
+  SPEC 4 and the SPEC 8 contract. plan: `.planning/PLAN.md` P1; library quirks: SPEC 11
+  "Library behaviour found in P0" (0-based indexes, karana names, CJS/ESM alias).
 
 ## Done Log
 
@@ -24,8 +25,13 @@ lists what in it is wrong.
 - Engine: `@ishubhamx/panchangam-js` 3.0.0 behind own adapter; security-checked
   (SPEC 11); new-moon rest day = the new-moon day only
 - `.planning/` split into its own local repo (history kept); removed from main-repo history
+- P0: scaffold, pinned deps, CSP, scan script, CI + Pages; gate passed (live page, CI green)
 
 ## Key Facts
+- Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
+- Deploy = push to `main`; `.github/workflows/ci.yml` tests and publishes. Check:
+  `gh run list --limit 1`
+- After any dependency change: `npm run scan` (security scan, also runs in CI)
 - NotebookLM notebook "VedaCal": `2a0fad75-caeb-4d03-9f73-7c91e341d1f2`
   (5 Panchang websites, 1 research report, 1 YouTube video; 9 notes, 2 PRD reports)
 - Local copies: `.planning/notebooklm/PRD-en.md`, `PRD-lt.md`, `notes/`
