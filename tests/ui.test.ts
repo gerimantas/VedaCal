@@ -84,8 +84,11 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
       expect(facts[el], el).toMatchObject({ value: entry(el, s.index).title, right: until(s.end, day, loc) })
     }
     const moon = activeAt(day.signs.vedic.moon, now)
-    const signs = [...v.facts, ...v.moreFacts].filter((f) => f.term === 'rashi')
-    expect(signs[0]).toMatchObject({ value: content.rashi[String(moon.index) as '1'].title, sanskrit: content.rashi[String(moon.index) as '1'].name })
+    const rashi = (i: number) => content.rashi[String(i) as '1']
+    expect(v.moonSign).toMatchObject({ text: `Moon in ${rashi(moon.index).title}`, sanskrit: rashi(moon.index).name, until: until(moon.end, day, loc) })
+    const sun = activeAt(day.signs.vedic.sun, now)
+    expect(v.sunSign).toMatchObject({ text: `Sun in ${rashi(sun.index).title}`, sanskrit: rashi(sun.index).name })
+    expect([...v.facts, ...v.moreFacts].some((f) => f.term === 'rashi'), 'signs live on the cards, not in the facts').toBe(false)
     expect(facts.masa.sanskrit).toContain(content.masa[String(day.masa.purnimanta) as '1'].name)
     const ritu = content.rhythm[`ritu${day.rhythm.ritu}` as 'ritu1']
     expect(facts.rhythm).toMatchObject({ value: ritu.title, sanskrit: ritu.name })
@@ -108,8 +111,8 @@ describe('a live day (Vilnius 2026-10-04: Taitila until 14:21, then Garaja)', ()
   })
 
   it('names Western signs when asked', () => {
-    const w = dayView(day, loc, new Date('2026-10-04T08:00:00Z'), 'western').moreFacts[0]
-    expect(w).toMatchObject({ value: 'Libra', sanskrit: 'Western sign' })
+    const w = dayView(day, loc, new Date('2026-10-04T08:00:00Z'), 'western')
+    expect(w.sunSign).toMatchObject({ text: 'Sun in Libra', sanskrit: 'Western sign' })
   })
 })
 

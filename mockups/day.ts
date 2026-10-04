@@ -5,7 +5,7 @@
 // src/ui/day.ts, the same view the app's Day.svelte renders.
 import { computeDay } from '../src/core/panchang'
 import { zonedTimeToUtc } from '../src/core/time'
-import { dayView, nowLabel, type Fact } from '../src/ui/day'
+import { dayView, nowLabel, type Fact, type SignLine } from '../src/ui/day'
 import { t } from '../src/ui/format'
 import { realisticMoon } from '../src/ui/moon'
 import { date, icon, link, mount, params, tabs, today, vilnius as loc } from './common'
@@ -33,6 +33,8 @@ const windowRows = v.windows
       `<li class="win ${w.kind}${w.start ? '' : ' none'}" data-sheet="${w.term}"><i aria-hidden="true"></i><div><b>${w.name}</b><span class="sk">${w.sanskrit}</span></div><span class="when num">${w.start ? `<span class="nw">${w.start}–</span><span class="nw">${w.end}</span>` : w.none}</span></li>`,
   )
   .join('')
+const sign = (s: SignLine) =>
+  `<p class="sign" data-sheet="rashi"><span>${s.text} · <span class="sk">${s.sanskrit}</span></span><small class="num">${s.until}${s.next ? `, ${s.next}` : ''}</small></p>`
 const nowWindow = v.nowWindow ? `<span class="dial-now ${v.nowWindow}">${nowLabel(v.nowWindow)}</span>` : ''
 const tradition = v.tradition ? `<div class="head">${icon.leaf}<h3>${v.tradition.title}</h3></div><p>${v.tradition.meaning}</p>` : ''
 
@@ -52,6 +54,7 @@ mount(`
     ${realisticMoon(v.moon.illumination, v.moon.waxing, 150, v.moon.label)}
     <h2>${v.tithi.title}</h2>
     <p class="sub num"><b>${v.tithi.name}</b> · ${v.tithi.percent} % lit</p>
+    ${sign(v.moonSign)}
     <div class="track" aria-hidden="true"><span style="width:${(v.tithi.progress * 100).toFixed(1)}%"></span></div>
     <p class="track-label num">${v.tithi.ends}</p>
     <p class="meaning">${v.tithi.meaning}</p>
@@ -67,6 +70,7 @@ mount(`
       </div>
       <div class="arc-end">${icon.sunset}<small>${t('sunset')}</small><b class="num">${v.sunset}</b></div>
     </div>
+    ${sign(v.sunSign)}
     <ul class="wins">${windowRows}</ul>
   </section>
 

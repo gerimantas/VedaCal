@@ -3,7 +3,7 @@
   // render dayView() from ./day, so every value on screen is the engine's output.
   import { computeDay } from '../core/panchang'
   import { addDays, civilDate } from '../core/time'
-  import { dayView, momentFor, nowLabel, type Fact } from './day'
+  import { dayView, momentFor, nowLabel, type Fact, type SignLine } from './day'
   import { t } from './format'
   import { icon } from './icons'
   import { realisticMoon } from './moon'
@@ -48,6 +48,13 @@
   </li>
 {/snippet}
 
+{#snippet sign(s: SignLine)}
+  <p class="sign" data-sheet="rashi">
+    <span>{s.text} · <span class="sk">{s.sanskrit}</span></span>
+    <small class="num">{s.until}{s.next ? `, ${s.next}` : ''}</small>
+  </p>
+{/snippet}
+
 <main class="screen">
   <header class="appbar">
     <a class="chip" href="#/settings">{@html icon.navigate}<span>{loc.name}, {loc.cc}</span></a>
@@ -65,6 +72,7 @@
     {@html realisticMoon(v.moon.illumination, v.moon.waxing, 150, v.moon.label)}
     <h2>{v.tithi.title}</h2>
     <p class="sub num"><b>{v.tithi.name}</b> · {v.tithi.percent} % lit</p>
+    {@render sign(v.moonSign)}
     <div class="track" aria-hidden="true"><span style:width="{(v.tithi.progress * 100).toFixed(1)}%"></span></div>
     <p class="track-label num">{v.tithi.ends}</p>
     <p class="meaning">{v.tithi.meaning}</p>
@@ -87,6 +95,7 @@
         <div class="arc-end">{@html icon.sunset}<small>{t('sunset')}</small><b class="num">{v.sunset}</b></div>
       </div>
     {/if}
+    {@render sign(v.sunSign)}
     <ul class="wins">
       {#each v.windows as w (w.kind)}
         <li class="win {w.kind}" class:none={!w.start} data-sheet={w.term}>

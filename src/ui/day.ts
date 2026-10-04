@@ -13,10 +13,15 @@ export type Zodiac = 'vedic' | 'western'
 export type WindowKind = 'calm' | 'good' | 'avoid'
 export type WindowRow = { kind: WindowKind; term: Term; name: string; sanskrit: string; start: string; end: string; none: string; active: boolean }
 
+/** "Moon in Cancer · Karka", with "until …" and "then …" — shown on the moon card and the sun card. */
+export type SignLine = { text: string; sanskrit: string; until: string; next: string }
+
 export type DayView = {
   shortDate: string
   moon: { illumination: number; waxing: boolean; label: string }
   tithi: { index: number; title: string; name: string; percent: number; progress: number; ends: string; meaning: string }
+  moonSign: SignLine
+  sunSign: SignLine
   sunrise: string
   sunset: string
   /** 24-hour sun dial as SVG markup; '' when the Sun does not rise or set (polar day/night). */
@@ -83,11 +88,19 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   const vara = entry('vara', day.vara)
   const m = day.masa
   const month = content.masa[String(m.purnimanta) as '1']
-  // Signs: the English name is already a plain word; the line beneath says which zodiac.
+  // Signs sit with their body — the Moon's on the moon card, the Sun's on the sun card. The
+  // English name is already a plain word; the Sanskrit one (or "Western sign") follows it.
   const signs = day.signs[zodiac]
-  const sign = (i: number) => {
-    const e = content.rashi[String(i) as '1']
-    return { title: e.title, name: zodiac === 'vedic' ? e.name : t('westernZodiac') }
+  const signLine = (spans: Span[], key: 'moonIn' | 'sunIn'): SignLine => {
+    const s = activeAt(spans, now)
+    const n = following(spans, s, day)
+    const e = content.rashi[String(s.index) as '1']
+    return {
+      text: t(key, { sign: e.title }),
+      sanskrit: zodiac === 'vedic' ? e.name : t('westernZodiac'),
+      until: ends(s.end),
+      next: n ? t('then', { name: content.rashi[String(n.index) as '1'].title }) : '',
+    }
   }
 
   const facts = [
@@ -95,14 +108,11 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     fact('vara', icon.vara, t('labelWeekday'), vara.title, vara.name),
     fact('masa', icon.month, t('labelMonth'), m.adhika ? t('extraMonth') : month.title, m.adhika ? t('adhika', { name: month.name }) : month.name),
     element('nakshatra', icon.nakshatra, t('labelStar'), day.nakshatra, (i) => entry('nakshatra', i)),
-    element('rashi', icon.tithi, t('labelMoonSign'), signs.moon, sign),
     fact('rhythm', icon.leaf, t('legendSeason'), ritu.title, ritu.name, t('seasonDay', { day: r.rituDay, length: r.rituLength })),
   ]
   // Yoga and karana are poetic names with little everyday meaning for a Western reader, so
-  // they sit behind "More details", with the Sun's sign, which changes only once a month.
-  const sun = activeAt(signs.sun, now)
+  // they sit behind "More details".
   const moreFacts = [
-    fact('rashi', icon.vara, t('labelSunSign'), sign(sun.index).title, sign(sun.index).name, ends(sun.end)),
     element('yoga', icon.yoga, t('labelYoga'), day.yoga, (i) => entry('yoga', i)),
     element('karana', icon.karana, t('labelKarana'), day.karana, (i) => entry('karana', i)),
   ]
@@ -162,6 +172,8 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
         (nextTithi ? `, ${t('then', { name: entry('tithi', nextTithi.index).title })}` : ''),
       meaning: te.meaning,
     },
+    moonSign: signLine(signs.moon, 'moonIn'),
+    sunSign: signLine(signs.sun, 'sunIn'),
     sunrise: time(day.sunrise, loc),
     sunset: time(day.sunset, loc),
     dial: sunDial(day, loc, now, next),

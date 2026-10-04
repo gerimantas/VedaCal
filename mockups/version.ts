@@ -1,6 +1,6 @@
 // Mockup version — bump on every visible change so the viewer can tell which one they see.
-export const MOCKUP_VERSION = 'v22'
-export const MOCKUP_NOTE = 'v4 dashboard + real NASA moon photo; plain-English tithi line and Sanskrit name at one size; labelled lunar-day bar; 24-hour sun dial; plain-English fact rows; About tab; no duplicates, tap-to-explain sheets; photo moons in month grid; Sanskrit same size as English; moon shadow survives browser auto-dark'
+export const MOCKUP_VERSION = 'v23'
+export const MOCKUP_NOTE = 'v4 dashboard + real NASA moon photo; plain-English tithi line and Sanskrit name at one size; Moon sign on the moon card, Sun sign on the sun card; labelled lunar-day bar; 24-hour sun dial; plain-English fact rows; About tab; no duplicates, tap-to-explain sheets; photo moons in month grid; Sanskrit same size as English; moon shadow survives browser auto-dark'
 
 /** Small fixed badge: version + the time this page was loaded. */
 export function versionBadge(): string {

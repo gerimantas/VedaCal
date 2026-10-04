@@ -680,8 +680,6 @@
     "loadingCities": "Loading cities…",
     "monthSoon": "The month view arrives in the next update.",
     "labelMonth": "Lunar month",
-    "labelMoonSign": "Moon's sign",
-    "labelSunSign": "Sun's sign",
     "labelParana": "Ekadashi fast ends",
     "extraMonth": "Extra month",
     "adhika": "Adhika {name}",
@@ -693,7 +691,9 @@
     "zodiac": "Zodiac signs",
     "zodiacVedic": "Vedic",
     "zodiacWestern": "Western",
-    "zodiacNote": "Vedic signs follow the stars; Western signs follow the seasons and sit about one sign ahead."
+    "zodiacNote": "Vedic signs follow the stars; Western signs follow the seasons and sit about one sign ahead.",
+    "moonIn": "Moon in {sign}",
+    "sunIn": "Sun in {sign}"
   },
   "masa": {
     "1": {

@@ -195,6 +195,27 @@ h3 {
   font-weight: 600;
 }
 
+/* "Moon in Cancer · Karka" on the moon card, "Sun in Virgo · Kanya" on the sun card. */
+.sign {
+  display: grid;
+  gap: 0.1rem;
+  margin: var(--space-2xs) 0 0;
+  text-align: center;
+}
+
+.sign .sk {
+  color: var(--color-moon);
+}
+
+.sign small {
+  color: var(--color-neutral);
+  font-size: var(--text-xs);
+}
+
+.arcbox .sign {
+  margin: var(--space-xs) 0 var(--space-2xs);
+}
+
 .track {
   position: relative;
   width: 100%;
