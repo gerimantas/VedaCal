@@ -9,7 +9,8 @@ gold), tap-to-explain sheets, About tab, photo moons in the month grid. Design r
 placeholder.
 
 ## Next Tasks
-- P4 (P3 approved 2026-10-04 at mockups v22): Svelte screens + GeoNames city search. plan: `.planning/PLAN.md` P4.
+- P4 done and committed, not pushed: push to `main` (= deploy to the live site) once the user
+  says so. Then P5 (month screen + settings). plan: `.planning/PLAN.md` P4 note, P5.
 
 ## Done Log
 

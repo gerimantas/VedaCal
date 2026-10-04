@@ -32,6 +32,9 @@ export default defineConfig({
   },
   // Dev server: tell the browser never to reuse an old copy of any file.
   server: { headers: { 'Cache-Control': 'no-store' } },
+  // The city list (src/data/cities.json, ~1.6 MB, 0.8 MB gzipped) is its own chunk on
+  // purpose, loaded only when the location screen opens; everything else stays far below.
+  build: { chunkSizeWarningLimit: 1800 },
   resolve: {
     alias: { 'astronomy-engine': astronomyEngine },
   },

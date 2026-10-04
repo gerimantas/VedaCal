@@ -670,6 +670,11 @@
     "notOnWednesdays": "Not on Wednesdays",
     "legendSeason": "Season",
     "legendFasting": "Fasting",
-    "keyDates": "Key dates"
+    "keyDates": "Key dates",
+    "locating": "Finding your location…",
+    "locationError": "Your location is not available. Search for a city instead.",
+    "noCities": "No city found",
+    "loadingCities": "Loading cities…",
+    "monthSoon": "The month view arrives in the next update."
   }
 }

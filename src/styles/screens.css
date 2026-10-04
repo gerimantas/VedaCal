@@ -1,9 +1,9 @@
 /* Hallmark · genre: atmospheric (app screens) · v4 "dashboard" direction from the user's
  * reference image: framed hero with a real moon photo, day-fact rows, 24-hour sun dial, good/avoid cards.
  * nav: bottom tab bar (3) · enrichment: Tier B hand-built SVG moon + icons
- * Shared by the P3 mockups; P4 ports these rules into the Svelte components.
+ * Shared by the app (src/main.ts) and the approved P3 mockups — one copy of every rule.
  */
-@import '../src/styles/tokens.css';
+@import './tokens.css';
 
 *,
 *::before,

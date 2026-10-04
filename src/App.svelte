@@ -1,49 +1,51 @@
 <script lang="ts">
-  // Placeholder until P4: shows that the calculation core runs in the browser.
-  import { computeDay } from './core/panchang'
-  import { civilDate } from './core/time'
+  // App shell: four tabs (SPEC 5.4) routed by the URL hash, plus the explanation sheet.
+  // Settings holds the location picker until P5 adds time format and theme.
+  import About from './ui/About.svelte'
+  import Day from './ui/Day.svelte'
+  import LocationPicker from './ui/LocationPicker.svelte'
+  import Sheet from './ui/Sheet.svelte'
+  import { t } from './ui/format'
+  import { icon } from './ui/icons'
+  import { needsLocation, routeFromHash, type Route } from './ui/state.svelte'
 
-  const vilnius = { name: 'Vilnius', country: 'LT', lat: 54.68916, lon: 25.2798, elevation: 98, tz: 'Europe/Vilnius' }
-  const day = computeDay(civilDate(vilnius.tz, new Date()), vilnius)
-  const TITHI = ['Pratipada', 'Dwitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami', 'Navami', 'Dashami', 'Ekadashi', 'Dwadashi', 'Trayodashi', 'Chaturdashi', 'Purnima']
-  const t = day.tithi[0]?.index ?? 0
-  const tithi = t ? `${t > 15 ? 'Krishna' : 'Shukla'} ${t === 30 ? 'Amavasya' : TITHI[(t - 1) % 15]}` : '—'
-  const time = (d: Date | null) =>
-    d ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: vilnius.tz }) : '—'
+  if (needsLocation && !location.hash) location.hash = '#/settings'
+  let route = $state(routeFromHash(location.hash))
+
+  $effect(() => {
+    const onHash = () => {
+      route = routeFromHash(location.hash)
+      window.scrollTo(0, 0)
+    }
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  })
+
+  const tabs: [Route, string][] = [
+    ['day', t('day')],
+    ['month', t('month')],
+    ['settings', t('settings')],
+    ['about', t('about')],
+  ]
 </script>
 
-<main>
-  <h1>VedaCal</h1>
-  <p class="tag">The traditional lunar calendar, in plain words. Coming soon.</p>
-  <p class="probe">
-    Vilnius today · {tithi} · sunrise {time(day.sunrise)} · sunset {time(day.sunset)}
-  </p>
-  <p class="version">v{__APP_VERSION__} · {__GIT_COMMIT__} · built {__BUILD_TIME__}</p>
-</main>
+{#if route === 'day'}
+  <Day />
+{:else if route === 'settings'}
+  <LocationPicker />
+{:else if route === 'about'}
+  <About />
+{:else}
+  <main class="screen">
+    <h1 class="page-title">{t('month')}</h1>
+    <section class="card about-intro"><p>{t('monthSoon')}</p></section>
+  </main>
+{/if}
 
-<style>
-  main {
-    max-width: 32rem;
-    margin: 0 auto;
-    padding: 4rem 1.5rem;
-    text-align: center;
-  }
-  h1 {
-    color: var(--gold);
-    font-weight: 600;
-    letter-spacing: 0.04em;
-  }
-  .tag {
-    color: var(--text);
-  }
-  .version {
-    margin-top: 3rem;
-    color: var(--muted);
-    font-size: 0.7rem;
-    font-variant-numeric: tabular-nums;
-  }
-  .probe {
-    color: var(--muted);
-    font-size: 0.85rem;
-  }
-</style>
+<nav class="tabs" aria-label="Main">
+  {#each tabs as [id, label] (id)}
+    <a href="#/{id}" aria-current={id === route ? 'page' : undefined}>{@html icon[id]}<span>{label}</span></a>
+  {/each}
+</nav>
+
+<Sheet />
