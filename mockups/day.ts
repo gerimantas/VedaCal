@@ -1,18 +1,25 @@
 // P3 mockup — Day screen (SPEC 5.1), filled live from the calculation core.
-// v2 (user reference image): centred moon hero, at-a-glance tiles, sun arc, window cards.
+// v4 "dashboard" direction (user's reference image): framed hero with a realistic moon,
+// six icon tiles, sun arc, good/avoid cards.
 import { computeDay } from '../src/core/panchang'
-import type { Interval } from '../src/core/types'
-import { content, entry, moonSvg, percent, progress, sheet, t, time, until } from '../src/ui/format'
-import { date, icon, link, mount, params, tabs, today, vilnius as loc } from './common'
 import { zonedTimeToUtc } from '../src/core/time'
+import type { Interval } from '../src/core/types'
+import { realisticMoon } from '../src/ui/moon'
+import { content, entry, percent, progress, sheet, t, time, until } from '../src/ui/format'
+import { date, icon, link, mount, params, tabs, today, vilnius as loc } from './common'
 
 const day = computeDay(date, loc)
+
 // ?at=HH:MM shows the screen as it looks at that local time (mockup only).
 const at = params.get('at')?.split(':').map(Number)
 const [yy, mm, dd] = date.split('-').map(Number)
-const now = at ? zonedTimeToUtc(loc.tz, yy, mm, dd, at[0], at[1] ?? 0) : date === today ? new Date() : day.sunrise ?? new Date(`${date}T12:00:00Z`)
+const now = at
+  ? zonedTimeToUtc(loc.tz, yy, mm, dd, at[0], at[1] ?? 0)
+  : date === today
+    ? new Date()
+    : (day.sunrise ?? new Date(`${date}T12:00:00Z`))
 
-const longDate = new Intl.DateTimeFormat(undefined, { weekday: 'long', day: 'numeric', month: 'long', timeZone: loc.tz }).format(
+const shortDate = new Intl.DateTimeFormat(undefined, { weekday: 'short', day: 'numeric', month: 'short', timeZone: loc.tz }).format(
   day.sunrise ?? new Date(`${date}T12:00:00Z`),
 )
 
@@ -22,119 +29,111 @@ const te = entry('tithi', tithi.index)
 const state = t(day.moon.waxing ? 'stateWaxing' : 'stateWaning')
 const lit = t('lit', { state, percent: percent(day.moon.illumination) })
 
-/** At-a-glance tile: what it is, the plain-English title, the Sanskrit name and when it changes. */
-function tile(label: string, group: 'nakshatra' | 'yoga' | 'karana', spans: typeof day.yoga) {
-  const [first, next] = spans
-  const e = entry(group, first.index)
-  const then = next ? `<span class="then">${t('then', { name: entry(group, next.index).name })}</span>` : ''
-  return `<li class="tile"><span class="label">${label}</span><h3>${e.title}</h3>
-    <p class="detail">${e.name}<br><span class="num">${until(first.end, day, loc)}</span>${then ? '<br>' + then : ''}</p></li>`
-}
+// ── Six tiles ────────────────────────────────────────────────────────────────
+const tile = (svg: string, label: string, value: string, sub = '', cls = '') =>
+  `<li class="card tile ${cls}">${svg}<span class="label">${label}</span><strong>${value}</strong>${sub ? `<span class="until num">${sub}</span>` : ''}</li>`
+const short = (end: Date) => until(end, day, loc).replace(/^until /, '→ ')
 
-const vara = entry('vara', day.vara)
-const flags: string[] = []
-// When the lunar day itself is Ekadashi the hero text already says so — keep the tile short.
-const tithiIsEkadashi = tithi.index === 11 || tithi.index === 26
-if (day.ekadashi)
-  flags.push(`<li class="tile wide flagged"><span class="flag">${content.rhythm.ekadashi.name}</span><h3>${content.rhythm.ekadashi.title}</h3>${tithiIsEkadashi ? '' : `<p class="detail">${content.rhythm.ekadashi.meaning}</p>`}</li>`)
-if (day.rhythm.restDay) {
-  const rest = content.rhythm[day.rhythm.restDay === 'fullMoon' ? 'restFullMoon' : 'restNewMoon']
-  flags.push(`<li class="tile wide flagged"><span class="flag">${t('restDay')}</span><h3>${rest.title}</h3><p class="detail">${rest.meaning}</p></li>`)
-}
+const r = day.rhythm
+const ritu = content.rhythm[`ritu${r.ritu}` as 'ritu1']
+let special = tile(icon.leaf, t('legendSeason'), ritu.name, ritu.title)
+if (day.rhythm.restDay) special = tile(icon.leaf, t('restDay'), day.rhythm.restDay === 'fullMoon' ? 'Purnima' : 'Amavasya', '', 'special')
+if (day.ekadashi) special = tile(icon.leaf, t('legendFasting'), 'Ekadashi', content.rhythm.ekadashi.title.split(' — ')[1] ?? '', 'special')
 
-// ── Sun arc: sunrise on the left horizon, sunset on the right ──────────────────
+const nak = day.nakshatra[0]
+const tiles = [
+  tile(icon.tithi, 'Tithi', te.name.split(' ').at(-1)!, short(tithi.end)),
+  tile(icon.vara, 'Vara', entry('vara', day.vara).name),
+  tile(icon.nakshatra, 'Nakshatra', entry('nakshatra', nak.index).name, short(nak.end)),
+  tile(icon.yoga, 'Yoga', entry('yoga', day.yoga[0].index).name, short(day.yoga[0].end)),
+  tile(icon.karana, 'Karana', entry('karana', day.karana[0].index).name, short(day.karana[0].end)),
+  special,
+]
+
+// ── Sun arc ──────────────────────────────────────────────────────────────────
 const { brahma, abhijit, rahuKaal } = day.windows
 function sunArc(): string {
   if (!day.sunrise || !day.sunset) return ''
-  const W = 300, R = 120, cx = W / 2, cy = 132
+  const W = 220, R = 96, cx = W / 2, cy = 104
   const rise = day.sunrise.getTime(), set = day.sunset.getTime()
-  const at = (d: Date) => {
+  const point = (d: Date) => {
     const f = Math.min(1, Math.max(0, (d.getTime() - rise) / (set - rise)))
     const a = Math.PI * (1 - f)
     return [cx + R * Math.cos(a), cy - R * Math.sin(a)] as const
   }
   const seg = (w: Interval | null, cls: string) => {
     if (!w) return ''
-    const [x1, y1] = at(w.start), [x2, y2] = at(w.end)
+    const [x1, y1] = point(w.start), [x2, y2] = point(w.end)
     return `<path class="${cls}" d="M ${x1.toFixed(1)} ${y1.toFixed(1)} A ${R} ${R} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}"/>`
   }
   const daytime = now.getTime() > rise && now.getTime() < set
-  const [sx, sy] = at(now)
-  const elapsed = daytime ? `<path class="elapsed" d="M ${cx - R} ${cy} A ${R} ${R} 0 0 1 ${sx.toFixed(1)} ${sy.toFixed(1)}"/>` : ''
-  const sun = daytime ? `<circle class="sun" cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="7"/>` : ''
-  return `<svg class="arc" viewBox="0 0 ${W} ${cy + 6}" role="img" aria-label="${t('sunrise')} ${time(day.sunrise, loc)}, ${t('sunset')} ${time(day.sunset, loc)}">
+  const [sx, sy] = point(now)
+  return `<svg class="arc" viewBox="0 0 ${W} ${cy + 4}" role="img" aria-label="${t('sunrise')} ${time(day.sunrise, loc)}, ${t('sunset')} ${time(day.sunset, loc)}">
+    <defs><linearGradient id="sky" x1="0" x2="1"><stop offset="0" stop-color="var(--color-arc-a)"/><stop offset="1" stop-color="var(--color-arc-b)"/></linearGradient></defs>
     <line class="horizon" x1="0" y1="${cy}" x2="${W}" y2="${cy}"/>
-    <path class="path" d="M ${cx - R} ${cy} A ${R} ${R} 0 0 1 ${cx + R} ${cy}"/>
-    ${elapsed}${seg(abhijit, 'good')}${seg(rahuKaal, 'avoid')}${sun}
+    <path class="path" stroke="url(#sky)" d="M ${cx - R} ${cy} A ${R} ${R} 0 0 1 ${cx + R} ${cy}"/>
+    ${seg(abhijit, 'mark-good')}${seg(rahuKaal, 'mark-avoid')}
+    ${daytime ? `<circle class="sun" cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="8"/>` : ''}
   </svg>`
 }
 
-const card = (kind: 'good' | 'avoid', label: string, name: string, w: Interval | null, none = '') =>
-  w
-    ? `<li class="wcard ${kind}"><span class="swatch w ${kind}"></span><span class="label">${label}</span><h3>${name}</h3><p class="num">${time(w.start, loc)}–${time(w.end, loc)}</p></li>`
-    : none
-      ? `<li class="wcard none"><span class="label">${label}</span><h3>${name}</h3><p class="quiet">${none}</p></li>`
-      : ''
+/** "12:44–13:29"; breaks only at the dash, never inside a time (matters with 12-hour clocks). */
+const range = (w: Interval) => `<span class="nw">${time(w.start, loc)}–</span><span class="nw">${time(w.end, loc)}</span>`
 
-// Season card.
-const r = day.rhythm
-const ritu = content.rhythm[`ritu${r.ritu}` as 'ritu1']
-const ayana = content.rhythm[r.ayana]
+const wcard = (kind: 'good' | 'avoid', svg: string, name: string, w: Interval | null, none = '') =>
+  w
+    ? `<li class="card wcard ${kind}">${svg}<div><small>${name}</small><b class="num">${range(w)}</b></div></li>`
+    : `<li class="card wcard none">${svg}<div><small>${name}</small><span class="none-text">${none}</span></div></li>`
+
+// ── Tradition card: what is special today, else the season ────────────────────
+let tradition = `<div class="head">${icon.leaf}<h3>${t('season', { title: ritu.title, name: ritu.name })} · <span class="num">${t('seasonDay', { day: r.rituDay, length: r.rituLength })}</span></h3></div><p>${ritu.meaning}</p>`
+if (day.rhythm.restDay) {
+  const rest = content.rhythm[day.rhythm.restDay === 'fullMoon' ? 'restFullMoon' : 'restNewMoon']
+  tradition = `<div class="head">${icon.leaf}<h3>${rest.title}</h3></div><p>${rest.meaning}</p>`
+}
+if (day.ekadashi && !(tithi.index === 11 || tithi.index === 26)) {
+  tradition = `<div class="head">${icon.leaf}<h3>${content.rhythm.ekadashi.title}</h3></div><p>${content.rhythm.ekadashi.meaning}</p>`
+}
 
 mount(`
 <main class="screen">
-  <header class="topbar">
-    <a class="place" href="${link('location.html')}">${icon.pin}<span>${loc.name}</span>${icon.down}</a>
-    ${date !== today ? `<a class="pill" href="${link('day.html').replace(/date=[^&]*&?/, '')}">${t('today')}</a>` : ''}
+  <header class="appbar">
+    <a class="chip" href="${link('location.html')}">${icon.navigate}<span>${loc.name}, LT</span></a>
+    <div class="datechip">
+      <button aria-label="${t('previousDay')}">${icon.left}</button>
+      <span class="num">${shortDate}</span>
+      <button aria-label="${t('nextDay')}">${icon.right}</button>
+    </div>
   </header>
-  <div class="datebar">
-    <button class="icon-btn" aria-label="${t('previousDay')}">${icon.left}</button>
-    <h1>${longDate}</h1>
-    <button class="icon-btn" aria-label="${t('nextDay')}">${icon.right}</button>
-  </div>
+  ${date !== today ? `<a class="today-link" href="${link('day.html').replace(/date=[^&]*&?/, '')}">${t('today')} →</a>` : ''}
 
-  <div class="hero2">
-    <div class="halo">${moonSvg(day.moon.illumination, day.moon.waxing, 168, lit)}</div>
-    <h2>${te.title}</h2>
-    <p class="sanskrit">${te.name} · <span class="num">${lit}</span></p>
+  <section class="hero" aria-label="${te.name}">
+    ${realisticMoon(day.moon.illumination, day.moon.waxing, 150, lit)}
+    <h2>${te.name}</h2>
+    <p class="sub num">${te.title} · ${percent(day.moon.illumination)} % lit</p>
     <div class="track" aria-hidden="true"><span style="width:${(progress(tithi, now) * 100).toFixed(1)}%"></span></div>
     <p class="track-label num"><span>${until(tithi.end, day, loc)}</span>${tithiNext ? `<span>${t('then', { name: entry('tithi', tithiNext.index).name })}</span>` : ''}</p>
     <p class="meaning">${te.meaning}</p>
-  </div>
-
-  <section aria-labelledby="s-day">
-    <h2 id="s-day">${t('sectionDay')}</h2>
-    <ul class="tiles">
-      ${flags.join('')}
-      ${tile(t('labelStar'), 'nakshatra', day.nakshatra)}
-      ${tile(t('labelYoga'), 'yoga', day.yoga)}
-      ${tile(t('labelKarana'), 'karana', day.karana)}
-      <li class="tile"><span class="label">${t('labelWeekday')}</span><h3>${vara.title}</h3><p class="detail">${vara.name}</p></li>
-    </ul>
   </section>
 
-  <section aria-labelledby="s-sky">
-    <h2 id="s-sky">${t('sectionRhythm')}</h2>
-    ${sunArc()}
-    <dl class="arc-times num">
-      <div><dt>${t('sunrise')}</dt><dd>${time(day.sunrise, loc)}</dd></div>
-      <div class="end"><dt>${t('sunset')}</dt><dd>${time(day.sunset, loc)}</dd></div>
-    </dl>
-    <ul class="wcards">
-      ${card('good', t('windowGood'), t('abhijit'), abhijit, day.vara === 3 ? t('notOnWednesdays') : '')}
-      ${card('avoid', t('windowAvoid'), t('rahuKaal'), rahuKaal)}
-    </ul>
-    <ul class="rows windows" style="margin-top:var(--space-sm)">
-      ${brahma ? `<li class="row"><span class="swatch w calm"></span><div><h3>${t('brahma')}</h3><p class="detail">${t('windowCalm')}</p></div><span class="when num">${time(brahma.start, loc)}–${time(brahma.end, loc)}</span></li>` : ''}
-      <li class="row"><span class="swatch moonmark"></span><div><h3>${t('moonrise')} · ${t('moonset')}</h3><p class="detail num">${time(day.moonrise, loc)} · ${time(day.moonset, loc)}</p></div><span></span></li>
-    </ul>
+  <ul class="tiles">${tiles.join('')}</ul>
+
+  <section class="card arcbox" aria-labelledby="s-sun">
+    <h2 id="s-sun">${t('sectionRhythm')}</h2>
+    <div class="arcwrap">
+      <div class="arc-end">${icon.sunrise}<small>${t('sunrise')}</small><b class="num">${time(day.sunrise, loc)}</b></div>
+      ${sunArc()}
+      <div class="arc-end">${icon.sunset}<small>${t('sunset')}</small><b class="num">${time(day.sunset, loc)}</b></div>
+    </div>
   </section>
 
-  <section aria-labelledby="s-trad">
-    <h2 id="s-trad">${t('sectionTradition')}</h2>
-    <div class="rhythm"><h3>${t('season', { title: ritu.title, name: ritu.name })}</h3>
-      <p class="num">${t('seasonDay', { day: r.rituDay, length: r.rituLength })} · ${ayana.name}</p><p>${ritu.meaning}</p></div>
-  </section>
+  <ul class="wcards">
+    ${wcard('good', icon.clock, t('abhijit'), abhijit, day.vara === 3 ? t('notOnWednesdays') : t('none'))}
+    ${wcard('avoid', icon.warn, t('rahuKaal'), rahuKaal, t('none'))}
+  </ul>
+  ${brahma ? `<div class="card brahma"><span>${icon.dawn}${t('brahma')}</span><b class="num">${range(brahma)}</b></div>` : ''}
+
+  <section class="card tradition" aria-label="${t('sectionTradition')}">${tradition}</section>
 
   <p class="footnote">${t('footer', { city: loc.name })} ${sheet('times', { city: loc.name }).split('. ')[1] ?? ''}</p>
 </main>

@@ -600,8 +600,8 @@
     "until": "until {time}",
     "untilTomorrow": "until {time} tomorrow",
     "then": "then {name}",
-    "waxing": "Waxing {percent} %",
-    "waning": "Waning {percent} %",
+    "waxing": "Waxing {percent} %",
+    "waning": "Waning {percent} %",
     "sunrise": "Sunrise",
     "sunset": "Sunset",
     "moonrise": "Moonrise",
@@ -635,7 +635,7 @@
     "labelKarana": "Half-day",
     "labelWeekday": "Weekday",
     "pada": "quarter {pada}",
-    "lit": "{state} · {percent} % lit",
+    "lit": "{state} · {percent} % lit",
     "stateWaxing": "Waxing",
     "stateWaning": "Waning",
     "restDay": "Rest day",
@@ -649,6 +649,9 @@
     "legendRest": "Rest day",
     "legendEkadashi": "Ekadashi",
     "legendToday": "Today",
-    "notOnWednesdays": "Not on Wednesdays"
+    "notOnWednesdays": "Not on Wednesdays",
+    "legendSeason": "Season",
+    "legendFasting": "Fasting",
+    "keyDates": "Key dates"
   }
 }

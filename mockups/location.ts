@@ -1,5 +1,5 @@
-// P3 mockup — Location picker (SPEC 6). The city list is a fixed sample here;
-// P4 replaces it with the GeoNames search.
+// P3 mockup — Location picker (SPEC 6), v4 dashboard style. The city list is a fixed
+// sample here; P4 replaces it with the GeoNames search.
 import { t } from '../src/ui/format'
 import { icon, link, mount, tabs } from './common'
 
@@ -16,19 +16,19 @@ const localTime = (tz: string) => new Intl.DateTimeFormat(undefined, { timeStyle
 
 mount(`
 <main class="screen">
-  <header class="topbar">
-    <a class="icon-btn" href="${link('day.html')}" aria-label="${t('back')}">${icon.left}</a>
+  <header class="appbar">
+    <a class="chip" href="${link('day.html')}" aria-label="${t('back')}">${icon.left}<span>${t('back')}</span></a>
   </header>
-  <h1 style="font-size:var(--text-2xl);margin-top:var(--space-2xs)">${t('location')}</h1>
+  <h1 class="page-title">${t('location')}</h1>
 
-  <label class="search">${icon.search}<input type="search" placeholder="${t('searchCity')}" autocomplete="off" /></label>
+  <label class="card search">${icon.search}<input type="search" placeholder="${t('searchCity')}" autocomplete="off" /></label>
   <button class="gps">${icon.locate}<span>${t('useMyLocation')}</span></button>
 
-  <ul class="rows cities" role="listbox" aria-label="${t('location')}" style="margin-top:var(--space-md)">
+  <ul class="cities" role="listbox" aria-label="${t('location')}">
     ${sample
       .map(
-        (c) => `<li class="row" role="option" aria-selected="${c.selected ? 'true' : 'false'}">
-          <div><h3>${c.name}</h3><p class="detail">${c.country}</p></div>
+        (c) => `<li class="card city" role="option" aria-selected="${c.selected ? 'true' : 'false'}">
+          ${icon.pin}<div><b>${c.name}</b><small>${c.country}</small></div>
           <span class="quiet num">${localTime(c.tz)}</span>
         </li>`,
       )

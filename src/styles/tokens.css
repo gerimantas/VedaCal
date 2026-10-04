@@ -1,9 +1,9 @@
 /* Hallmark · genre: atmospheric (app screens) · theme: custom · tone: calm, nocturnal
  * vibe: "night sky, lamplight, quiet almanac" · paper oklch(16.3% 0.014 264) · accent oklch(81.8% 0.171 78) amber
- * second accent (moon only): oklch(76.7% 0.139 91) gold · display: Fraunces (roman) · body: Instrument Sans
+ * second accent (moon only): oklch(76.7% 0.139 91) gold · display + body: Instrument Sans (v4 dashboard)
  * axes: dark / classical-serif / warm — brand colours from .planning/SPEC.md section 5
  */
-@import '@fontsource-variable/fraunces/opsz.css';
+
 @import '@fontsource-variable/instrument-sans/wdth.css';
 
 :root,
@@ -23,6 +23,19 @@
   --color-moon-dark: oklch(27% 0.02 264);
   --color-focus: oklch(81.8% 0.171 78);
   --color-hatch: oklch(42% 0.03 30);
+  /* Dashboard direction (v4, user's reference image) */
+  --color-good: oklch(78% 0.15 152);
+  --color-avoid: oklch(68% 0.17 25);
+  --color-arc-a: oklch(80% 0.1 215); /* morning */
+  --color-arc-b: oklch(82% 0.15 80); /* evening */
+  --moon-hi: oklch(95% 0.035 92);
+  --moon-lo: oklch(74% 0.05 85);
+  --moon-mare: oklch(48% 0.03 80);
+  --moon-shadow: oklch(17% 0.02 264 / 0.9);
+  --glow: oklch(76.7% 0.139 91 / 0.28);
+  --color-card: oklch(20.5% 0.02 264);
+  --color-card-line: oklch(34% 0.025 264);
+  --stars: oklch(90% 0.02 264 / 0.55);
 }
 
 :root[data-theme='light'] {
@@ -40,6 +53,18 @@
   --color-moon-dark: oklch(86% 0.012 264);
   --color-focus: oklch(50% 0.15 68);
   --color-hatch: oklch(70% 0.05 30);
+  --color-good: oklch(52% 0.13 152);
+  --color-avoid: oklch(52% 0.17 25);
+  --color-arc-a: oklch(62% 0.11 225);
+  --color-arc-b: oklch(66% 0.14 70);
+  --moon-hi: oklch(96% 0.03 92);
+  --moon-lo: oklch(78% 0.05 85);
+  --moon-mare: oklch(52% 0.03 80);
+  --moon-shadow: oklch(30% 0.03 264 / 0.82);
+  --glow: oklch(74% 0.13 88 / 0.22);
+  --color-card: oklch(99% 0.004 264);
+  --color-card-line: oklch(86% 0.012 264);
+  --stars: transparent;
 }
 
 @media (prefers-color-scheme: light) {
@@ -58,11 +83,23 @@
     --color-moon-dark: oklch(86% 0.012 264);
     --color-focus: oklch(50% 0.15 68);
     --color-hatch: oklch(70% 0.05 30);
+    --color-good: oklch(52% 0.13 152);
+    --color-avoid: oklch(52% 0.17 25);
+    --color-arc-a: oklch(62% 0.11 225);
+    --color-arc-b: oklch(66% 0.14 70);
+    --moon-hi: oklch(96% 0.03 92);
+    --moon-lo: oklch(78% 0.05 85);
+    --moon-mare: oklch(52% 0.03 80);
+    --moon-shadow: oklch(30% 0.03 264 / 0.82);
+    --glow: oklch(74% 0.13 88 / 0.22);
+    --color-card: oklch(99% 0.004 264);
+    --color-card-line: oklch(86% 0.012 264);
+    --stars: transparent;
   }
 }
 
 :root {
-  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --font-display: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
 
   /* 4 pt scale */
