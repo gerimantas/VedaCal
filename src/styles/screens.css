@@ -912,14 +912,19 @@ h3 {
   cursor: pointer;
 }
 
-/* The chosen option: a bright amber outline with a soft glow and amber text, no fill (user, 2026-10-05). */
-.segmented button[aria-pressed='true'] {
+/* The chosen option — a setting or the current city: a bright amber outline with a soft
+   glow and amber text, no fill (user, 2026-10-05). */
+.segmented button[aria-pressed='true'],
+.city[aria-selected='true'] {
   border: 1.5px solid var(--color-accent);
   color: var(--color-accent);
-  font-weight: 650;
   box-shadow:
     0 0 0.7rem color-mix(in oklch, var(--color-accent) 40%, transparent),
     inset 0 0 0.5rem color-mix(in oklch, var(--color-accent) 15%, transparent);
+}
+
+.segmented button[aria-pressed='true'] {
+  font-weight: 650;
 }
 
 .cities {
@@ -943,12 +948,9 @@ h3 {
   color: var(--color-neutral);
 }
 
-.city[aria-selected='true'] {
-  border-color: var(--color-moon);
-}
-
-.city[aria-selected='true'] svg {
-  color: var(--color-moon);
+.city[aria-selected='true'] svg,
+.city[aria-selected='true'] b {
+  color: var(--color-accent);
 }
 
 .city b {
