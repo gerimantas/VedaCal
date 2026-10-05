@@ -41,8 +41,10 @@ export default defineConfig({
   plugins: [
     svelte(),
     VitePWA({
-      registerType: 'autoUpdate',
-      injectRegister: 'script', // external registerSW.js — no inline script, so the CSP stays strict
+      // 'prompt': a new version waits until the person taps "Update" (src/ui/update.svelte.ts
+      // registers the worker from the bundle — no inline script, so the CSP stays strict).
+      registerType: 'prompt',
+      injectRegister: false,
       includeManifestIcons: false, // the icons are already in globPatterns; avoid listing them twice
       manifest: {
         name: 'VedaCal',

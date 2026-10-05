@@ -5,6 +5,7 @@
   import LocationPicker from './ui/LocationPicker.svelte'
   import Month from './ui/Month.svelte'
   import Sheet from './ui/Sheet.svelte'
+  import UpdateBar from './ui/UpdateBar.svelte'
   import { t } from './ui/format'
   import { icon } from './ui/icons'
   import { needsLocation, routeFromHash, type Route } from './ui/state.svelte'
@@ -44,5 +45,7 @@
     <a href="#/{id}" aria-current={id === route ? 'page' : undefined}>{@html icon[id]}<span>{label}</span></a>
   {/each}
 </nav>
+
+<UpdateBar />
 
 <Sheet />
