@@ -20,8 +20,8 @@ const text = {
   sunSign: L ? 'Saulė ženkle' : 'Sun in',
   seen: L ? 'Iš Žemės' : 'From Earth',
   lit: L ? 'apšviesta' : 'lit',
-  newMoon: L ? '● jaunatis' : '● new moon',
-  fullMoon: L ? '○ pilnatis' : '○ full moon',
+  newMoon: L ? 'jaunatis' : 'new moon',
+  fullMoon: L ? 'pilnatis' : 'full moon',
   waxing: L ? 'priešpilnis · Shukla' : 'waxing · Shukla',
   waning: L ? 'delčia · Krishna' : 'waning · Krishna',
   legend: L
@@ -50,7 +50,7 @@ const rad = (deg: number) => (deg * Math.PI) / 180
 // ── Geometry: sidereal longitude → screen angle; Mesha starts at the left, counter-clockwise ──
 
 const C = 200
-const R = { earth: 12, orbitIn: 70, orbitOut: 98, moon: 51, dayNum: 84, sun: 110, nakIn: 120, nakOut: 148, signOut: 174 }
+const R = { earth: 12, orbitIn: 76, orbitOut: 94, moon: 56, dayNum: 85, sun: 112.5, nakIn: 120, nakOut: 148, signOut: 174 }
 const screen = (lon: number) => 180 + lon
 const xy = (deg: number, r: number) => [C + r * Math.cos(rad(deg)), C - r * Math.sin(rad(deg))] as const
 const f = (n: number) => n.toFixed(2)
@@ -140,16 +140,9 @@ function chart(t: Date) {
   for (let k = 0; k < 30; k++) out.push(arcText(sunDeg + k * 12 + 6, R.dayNum, String(k + 1), k + 1 === tithi ? 'tithi' : 'num'))
   out.push(arcText(sunDeg + 90, R.orbitIn - 6, text.waxing, 'half'))
   out.push(arcText(sunDeg + 270, R.orbitIn - 6, text.waning, 'half'))
-  // New and full moon: where the Moon stands at those moments (horizontal, readable).
-  for (const [deg, label] of [
-    [sunDeg, text.newMoon],
-    [sunDeg + 180, text.fullMoon],
-  ] as const) {
-    const [x, y] = xy(deg, R.orbitIn - 6)
-    const right = Math.cos(rad(deg)) > 0.3
-    const left = Math.cos(rad(deg)) < -0.3
-    out.push(`<text class="phase" x="${f(x)}" y="${f(y)}" text-anchor="${right ? 'end' : left ? 'start' : 'middle'}" dominant-baseline="${right || left ? 'central' : Math.sin(rad(deg)) > 0 ? 'hanging' : 'auto'}">${label}</text>`)
-  }
+  // New and full moon: where the Moon stands at those moments, along the ring's outer edge.
+  out.push(arcText(sunDeg, R.orbitOut + 5, text.newMoon, 'phase'))
+  out.push(arcText(sunDeg + 180, R.orbitOut + 5, text.fullMoon, 'phase'))
 
   // Pointers from the Earth, and the Sun → Moon angle with an arrow at the Moon's end.
   const [mx, my] = xy(moonDeg, R.nakOut)
@@ -164,7 +157,7 @@ function chart(t: Date) {
 
   // Bodies: Sun (with glow), Moon on its orbit, Earth in the centre; each lit toward the Sun.
   const [gx, gy] = xy(sunDeg, R.sun)
-  out.push(`<circle cx="${f(gx)}" cy="${f(gy)}" r="18" fill="url(#glow)"/><circle cx="${f(gx)}" cy="${f(gy)}" r="8" fill="#ffc94d"/>`)
+  out.push(`<circle cx="${f(gx)}" cy="${f(gy)}" r="12" fill="url(#glow)"/><circle cx="${f(gx)}" cy="${f(gy)}" r="7" fill="#ffc94d"/>`)
   out.push(body(moonDeg, R.moon, 8, sunDeg, '#e8e8e8', '#3a3f4a'))
   out.push(body(0, 0, R.earth, sunDeg, '#4f8fd8', '#1b2a44'))
 
@@ -185,7 +178,7 @@ function chart(t: Date) {
       .nak.plain { fill: #fff; font: 700 7.5px var(--font-body); } .nak.sk { fill: #d4af37; font: 6.5px var(--font-body); }
       .tick { stroke: oklch(55% 0.02 264); stroke-width: 0.6; } .tick.major { stroke: var(--color-ink); stroke-width: 1.4; }
       .half { fill: var(--color-muted); font: 6.5px var(--font-body); }
-      .phase { fill: var(--color-ink); font: 6.5px var(--font-body); }
+      .phase { fill: var(--color-ink); font: 600 6.5px var(--font-body); paint-order: stroke; stroke: oklch(16.3% 0.014 264); stroke-width: 2.5px; }
       .tithi { fill: #fff; font: 700 8px var(--font-body); }
       .ptr { stroke-width: 1.2; stroke-dasharray: 4 3; } .ptr.moon { stroke: #9fd3ff; } .ptr.sun { stroke: #ffb300; }
       .angle { fill: none; stroke: #ffb300; stroke-width: 1.5; }
