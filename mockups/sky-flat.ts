@@ -50,7 +50,7 @@ const rad = (deg: number) => (deg * Math.PI) / 180
 // ── Geometry: sidereal longitude → screen angle; Mesha starts at the left, counter-clockwise ──
 
 const C = 200
-const R = { earth: 12, orbitIn: 60, orbitOut: 98, moon: 75, dayNum: 90, sun: 110, nakIn: 120, nakOut: 148, signOut: 174 }
+const R = { earth: 12, orbitIn: 70, orbitOut: 98, moon: 51, dayNum: 84, sun: 110, nakIn: 120, nakOut: 148, signOut: 174 }
 const screen = (lon: number) => 180 + lon
 const xy = (deg: number, r: number) => [C + r * Math.cos(rad(deg)), C - r * Math.sin(rad(deg))] as const
 const f = (n: number) => n.toFixed(2)
@@ -138,8 +138,8 @@ function chart(t: Date) {
   }
   // Day numbers inside the ring, like the other rings; the current one bold.
   for (let k = 0; k < 30; k++) out.push(arcText(sunDeg + k * 12 + 6, R.dayNum, String(k + 1), k + 1 === tithi ? 'tithi' : 'num'))
-  out.push(arcText(sunDeg + 90, R.orbitIn - 8, text.waxing, 'half'))
-  out.push(arcText(sunDeg + 270, R.orbitIn - 8, text.waning, 'half'))
+  out.push(arcText(sunDeg + 90, R.orbitIn - 6, text.waxing, 'half'))
+  out.push(arcText(sunDeg + 270, R.orbitIn - 6, text.waning, 'half'))
   // New and full moon: where the Moon stands at those moments (horizontal, readable).
   for (const [deg, label] of [
     [sunDeg, text.newMoon],
