@@ -57,6 +57,49 @@
       .moon {
         color: #9fd3ff;
       }
+      .sk {
+        color: #d4af37;
+      }
+      .quiet {
+        color: var(--color-neutral);
+      }
+      .seen {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .legend {
+        margin: 6px 0 0;
+        padding-left: 18px;
+        position: relative;
+        color: var(--color-muted);
+        font-size: 12px;
+      }
+      .legend::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 4px;
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+      }
+      .legend.l-orbit::before {
+        background: oklch(40% 0.03 250);
+      }
+      .legend.l-nak::before {
+        background: #9fd3ff;
+      }
+      .legend.l-sign::before {
+        background: #ffb300;
+      }
+      .legend.l-note::before {
+        display: none;
+      }
+      .legend.l-note {
+        padding-left: 0;
+        color: var(--color-neutral);
+      }
       .note {
         margin: 8px 0 0;
         color: var(--color-neutral);
@@ -91,10 +134,9 @@
   <body>
     <main>
       <h1 id="title"></h1>
-      <section class="card"><div id="chart"></div></section>
+      <section class="card"><div id="chart"></div><div id="legend"></div></section>
       <section class="card">
         <dl class="rows" id="rows"></dl>
-        <p class="note" id="note"></p>
       </section>
       <section class="card">
         <div class="when" id="when"></div>
