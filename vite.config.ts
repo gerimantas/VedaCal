@@ -43,6 +43,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'script', // external registerSW.js — no inline script, so the CSP stays strict
+      includeManifestIcons: false, // the icons are already in globPatterns; avoid listing them twice
       manifest: {
         name: 'VedaCal',
         short_name: 'VedaCal',
@@ -50,7 +51,19 @@ export default defineConfig({
         theme_color: '#0B0E14',
         background_color: '#0B0E14',
         display: 'standalone',
-        icons: [{ src: 'favicon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' }],
+        icons: [
+          { src: 'favicon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
+          { src: 'icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+          { src: 'icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+        ],
+      },
+      workbox: {
+        // Workbox's default is js/css/html only — without webp and woff2 the moon photo and
+        // the font are missing offline. The city chunk (~1.6 MB) is precached too, so city
+        // search works offline; the limit is raised so it never silently drops out.
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2}'],
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
       },
     }),
   ],

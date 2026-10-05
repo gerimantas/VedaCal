@@ -5,6 +5,7 @@
   import { loadCities, nearest, search, type CityIndex, type Place } from './cities'
   import { LANG, countryName, deviceHour12, t, time } from './format'
   import { icon } from './icons'
+  import { install, promptInstall } from './install.svelte'
   import { app, setLocation, setSetting } from './state.svelte'
 
   const deviceTz = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -119,4 +120,12 @@
       {/each}
     </div>
   </section>
+
+  {#if install.available}
+    <h2 class="about-head">{t('installApp')}</h2>
+    <section class="card about-intro">
+      <p class="quiet">{t('installNote')}</p>
+      <button class="gps" onclick={promptInstall}><span>{t('installApp')}</span></button>
+    </section>
+  {/if}
 </main>

@@ -721,7 +721,9 @@
     "labelSigns": "Moon & Sun signs",
     "language": "Language",
     "langEn": "English",
-    "langLt": "Lietuvių"
+    "langLt": "Lietuvių",
+    "installApp": "Install app",
+    "installNote": "Adds VedaCal to your home screen. It then opens like an app and works without internet."
   },
   "masa": {
     "1": {

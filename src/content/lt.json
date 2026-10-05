@@ -721,7 +721,9 @@
     "labelSigns": "Mėnulio ir Saulės ženklai",
     "language": "Kalba",
     "langEn": "English",
-    "langLt": "Lietuvių"
+    "langLt": "Lietuvių",
+    "installApp": "Įdiegti programėlę",
+    "installNote": "Prideda VedaCal prie pagrindinio ekrano. Tada ji atsidaro kaip programėlė ir veikia be interneto."
   },
   "masa": {
     "1": {
