@@ -50,7 +50,7 @@ const rad = (deg: number) => (deg * Math.PI) / 180
 // ── Geometry: sidereal longitude → screen angle; Mesha starts at the left, counter-clockwise ──
 
 const C = 200
-const R = { earth: 12, orbit: 78, sun: 106, nakIn: 120, nakOut: 148, signOut: 198 }
+const R = { earth: 12, orbit: 78, sun: 106, nakIn: 120, nakOut: 148, signOut: 174 }
 const screen = (lon: number) => 180 + lon
 const xy = (deg: number, r: number) => [C + r * Math.cos(rad(deg)), C - r * Math.sin(rad(deg))] as const
 const f = (n: number) => n.toFixed(2)
@@ -113,7 +113,7 @@ function chart(t: Date) {
   }
   for (let k = 0; k < 12; k++) {
     const on = k + 1 === sunSign || k + 1 === moonSign
-    out.push(arcText2(screen(k * 30 + 15), R.signOut - 9, 8, rashi(k + 1).title, rashi(k + 1).name, on ? 'sign on' : 'sign'))
+    out.push(arcText2(screen(k * 30 + 15), R.signOut - 12, 9, rashi(k + 1).title, rashi(k + 1).name, on ? 'sign on' : 'sign'))
   }
 
   // Moon stars (middle ring): numbered, the current one named in two lines.
@@ -167,7 +167,7 @@ function chart(t: Date) {
   out.push(body(moonDeg, R.orbit, 8, sunDeg, '#e8e8e8', '#3a3f4a'))
   out.push(body(0, 0, R.earth, sunDeg, '#4f8fd8', '#1b2a44'))
 
-  const svg = `<svg class="chart" viewBox="0 0 400 400" role="img" aria-label="${text.title}">
+  const svg = `<svg class="chart" viewBox="24 24 352 352" role="img" aria-label="${text.title}">
     <defs>
       <radialGradient id="glow"><stop offset="0" stop-color="#ffd76a" stop-opacity="0.9"/><stop offset="1" stop-color="#ffb300" stop-opacity="0"/></radialGradient>
       <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffb300"/></marker>
