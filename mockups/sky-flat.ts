@@ -38,6 +38,7 @@ const text = {
         ['note', 'Seen from above, not to scale: only the directions are true. From above, the Moon’s lit half always faces the Sun; from Earth we see part of it, a crescent or a full disc. The Moon and the Sun move counter-clockwise.'],
       ],
   now: L ? 'Dabar' : 'Now',
+  legendTitle: L ? 'Kaip skaityti brėžinį' : 'How to read the chart',
 }
 
 // ── Astronomy (same formulas as the engine) ─────────────────────────────────────
@@ -212,6 +213,7 @@ const $ = (id: string) => document.getElementById(id)!
 const slider = $('slider') as HTMLInputElement
 $('title').textContent = text.title
 $('now').textContent = text.now
+$('legend-title').textContent = text.legendTitle
 $('legend').innerHTML = text.legend.map(([k, s]) => `<p class="legend l-${k}">${s}</p>`).join('')
 
 let base = Date.now()

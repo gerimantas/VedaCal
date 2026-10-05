@@ -79,6 +79,10 @@
         align-items: center;
         gap: 6px;
       }
+      .legend-card summary {
+        cursor: pointer;
+        color: var(--color-muted);
+      }
       .legend {
         margin: 6px 0 0;
         padding-left: 18px;
@@ -145,10 +149,14 @@
   <body>
     <main>
       <h1 id="title"></h1>
+      <section class="card"><div id="chart"></div></section>
       <section class="card">
         <dl class="rows" id="rows"></dl>
       </section>
-      <section class="card"><div id="chart"></div><div id="legend"></div></section>
+      <details class="card legend-card">
+        <summary id="legend-title"></summary>
+        <div id="legend"></div>
+      </details>
       <section class="card">
         <div class="when" id="when"></div>
         <div class="controls">
