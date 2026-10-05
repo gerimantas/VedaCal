@@ -1225,8 +1225,11 @@ h3 {
 }
 
 /* ── Sky screen (src/ui/sky.ts, Sky.svelte) ─────────────────────────────────── */
-.sky > .card {
+.sky > .card + .card {
   margin-top: var(--space-sm);
+}
+
+.sky > .card {
   padding: var(--space-sm);
 }
 

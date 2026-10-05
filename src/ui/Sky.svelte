@@ -32,8 +32,6 @@
 </script>
 
 <main class="screen sky">
-  <h1 class="page-title">{t('skyTitle')}</h1>
-
   <section class="card sky-card">{@html v.svg}</section>
 
   <section class="card sky-facts">
