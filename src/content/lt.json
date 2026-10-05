@@ -585,6 +585,9 @@
     "brahma": "Brahma Muhurta yra ramus metas maždaug pusantros valandos prieš saulėtekį. Tradicija jį laiko geriausiu meditacijai ir maldai.",
     "abhijit": "Abhijit Muhurta yra laiko langas apie vietos vidurdienį, tradiciškai palankus ką nors pradėti. Kaip ir Drik Panchang, trečiadieniais jis nerodomas.",
     "rahuKaal": "Rahu Kaal yra aštuntoji šviesiojo paros meto dalis, kas savaitės dieną vis kita. Tradicija vengia jo metu pradėti naujus sumanymus; jau pradėtus darbus galima tęsti.",
+    "yamaganda": "Yamaganda yra dar viena aštuntoji šviesiojo paros meto dalis, pavadinta Jamos, mirties ir teisingumo dievo, vardu; kas savaitės dieną ji vis kita. Tradicija vengia jos metu pradėti naujus sumanymus, keliones ar priimti didelius finansinius sprendimus; įprasti darbai ir malda gali tęstis.",
+    "gulika": "Gulika (Gulikai) yra aštuntoji šviesiojo paros meto dalis, susijusi su Saturnu, kas savaitės dieną vis kita. Drik Panchang ją pateikia kartu su Rahu Kaal ir Yamaganda kaip metą, kai nepradedama sutarčių, pirkinių ar investicijų; kai kurie mokytojai ją laiko tinkama įprastiems, pastoviems darbams.",
+    "choghadiya": "Choghadiya dalija dieną (nuo saulėtekio iki saulėlydžio) ir naktį (iki kito saulėtekio) į aštuonias dalis, kiekvieną maždaug pusantros valandos. Kiekviena dalis turi vieną iš septynių vardų, o dieną pradeda savaitės dienos planeta: Amrit, Shubh ir Labh yra palankios, Chal – neutrali, o Udveg, Rog ir Kaal – vengtinos. Ši sistema kilusi iš Šiaurės ir Vakarų Indijos ir nereikalauja gimimo horoskopo; palanki dalis, patekusi į Rahu Kaal, vis tiek vengiama.",
     "rhythm": "Tradicinis ritmas seka Mėnulį ir Saulę: poilsio dienos apie pilnatį ir jaunatį, Ekadashi du kartus per mėnesį, šeši metų laikai ir du Saulės pusmečiai.",
     "times": "Visi laikai pateikti vietovei {city} ir apskaičiuoti jūsų įrenginyje. Saulėtekis yra tada, kai pasirodo viršutinis Saulės kraštas, kaip ir Drik Panchang.",
     "about": "VedaCal paprastais žodžiais rodo tradicinį induistų Mėnulio kalendorių (Panchang). Viskas apskaičiuojama jūsų įrenginyje ir niekur nesiunčiama. Patarimai aprašo tradiciją ir nėra medicininis ar profesionalus patarimas. Miestų duomenys © GeoNames, CC BY 4.0.",
@@ -620,6 +623,9 @@
     "legendCalmTime": "Ramus metas",
     "legendGoodTime": "Palankus metas",
     "legendAvoidTime": "Nepalankus metas",
+    "labelYamaganda": "Nesėkmių metas",
+    "labelGulika": "Saturno metas",
+    "labelChoghadiya": "Valanda po valandos",
     "moonrise": "Mėnulio patekėjimas",
     "moonset": "Mėnulio nusileidimas",
     "none": "—",
@@ -826,6 +832,43 @@
     "12": {
       "name": "Meena",
       "title": "Žuvys"
+    }
+  },
+  "choghadiya": {
+    "amrit": {
+      "name": "Amrit",
+      "title": "Nektaras",
+      "meaning": "Valdo Mėnulis, geriausia iš septynių. Tradicija ją laiko tinkama bet kokiam darbui, maldai, kelionei ar šventei."
+    },
+    "shubh": {
+      "name": "Shubh",
+      "title": "Palanki",
+      "meaning": "Valdo Jupiteris. Tradiciškai tinka ceremonijoms, ypač vestuvėms, taip pat maldai ir verslui."
+    },
+    "labh": {
+      "name": "Labh",
+      "title": "Nauda",
+      "meaning": "Valdo Merkurijus. Tradiciškai tinka pradėti mokslus, mokytis įgūdžių, prekiauti ir tvarkyti pinigų reikalus."
+    },
+    "chal": {
+      "name": "Chal",
+      "title": "Judėjimas",
+      "meaning": "Valdo Venera, neutrali. Dėl nenustygstančios prigimties tradiciškai tinka kelionėms, bet ne ceremonijoms."
+    },
+    "udveg": {
+      "name": "Udveg",
+      "title": "Nerimas",
+      "meaning": "Valdo Saulė. Tradiciškai vengiama naujiems darbams ir kelionėms, nors laikoma tinkama reikalams su valdžios įstaigomis."
+    },
+    "rog": {
+      "name": "Rog",
+      "title": "Trintis",
+      "meaning": "Valdo Marsas. Tradiciškai vengiama viskam, kas nauja; laikoma tinkama tik varžyboms ir susidūrimui su priešininkais."
+    },
+    "kaal": {
+      "name": "Kaal",
+      "title": "Netektis",
+      "meaning": "Valdo Saturnas. Tradiciškai jos metu nepradedamas joks palankus darbas, nors ji laikoma tinkama santaupoms kaupti."
     }
   }
 }

@@ -585,6 +585,9 @@
     "brahma": "Brahma Muhurta is the quiet time about an hour and a half before sunrise. Tradition holds it ideal for meditation and prayer.",
     "abhijit": "Abhijit Muhurta is a window around local midday, traditionally favourable for starting things. Following Drik Panchang, it is not shown on Wednesdays.",
     "rahuKaal": "Rahu Kaal is one-eighth of the daylight hours, a different part on each weekday. Tradition avoids starting new ventures in it; work already under way can continue.",
+    "yamaganda": "Yamaganda is another eighth of the daylight hours, named after Yama, the god of death and judgement; its part moves with the weekday. Tradition avoids starting new ventures, journeys or big money decisions in it; routine work and prayer can go on.",
+    "gulika": "Gulika (Gulikai) is an eighth of the daylight hours linked to Saturn, a different part each weekday. Drik Panchang lists it with Rahu Kaal and Yamaganda as a time not to begin contracts, purchases or investments; some teachers see it as fine for routine, steady work.",
+    "choghadiya": "Choghadiya divides the day (sunrise to sunset) and the night (sunset to the next sunrise) into eight parts each, about an hour and a half long. Each part carries one of seven names, and the weekday's planet opens the day: Amrit, Shubh and Labh are good, Chal is neutral, and Udveg, Rog and Kaal are avoided. It comes from North and West India and needs no birth chart; a good part that falls in Rahu Kaal is still avoided.",
     "rhythm": "The traditional rhythm follows the Moon and the Sun: rest days around the full and new moon, Ekadashi twice a month, the six seasons and the Sun's two half-years.",
     "times": "All times are for {city} and calculated on your device. Sunrise is when the top edge of the Sun appears, as on Drik Panchang.",
     "about": "VedaCal shows the traditional Hindu lunar calendar (Panchang) in plain words. Everything is calculated on your device and nothing is sent anywhere. The guidance describes tradition and is not medical or professional advice. City data © GeoNames, CC BY 4.0.",
@@ -620,6 +623,9 @@
     "legendCalmTime": "Calm time",
     "legendGoodTime": "Good time",
     "legendAvoidTime": "Time to avoid",
+    "labelYamaganda": "Time of setbacks",
+    "labelGulika": "Saturn's time",
+    "labelChoghadiya": "Hour by hour",
     "moonrise": "Moonrise",
     "moonset": "Moonset",
     "none": "—",
@@ -826,6 +832,43 @@
     "12": {
       "name": "Meena",
       "title": "Pisces"
+    }
+  },
+  "choghadiya": {
+    "amrit": {
+      "name": "Amrit",
+      "title": "Nectar",
+      "meaning": "Ruled by the Moon, the best of the seven. Tradition holds it good for any kind of work, prayer, travel or celebration."
+    },
+    "shubh": {
+      "name": "Shubh",
+      "title": "Auspicious",
+      "meaning": "Ruled by Jupiter. Traditionally good for ceremonies, above all weddings, and for prayer and business."
+    },
+    "labh": {
+      "name": "Labh",
+      "title": "Gain",
+      "meaning": "Ruled by Mercury. Traditionally good for starting study, learning a skill, trade and money matters."
+    },
+    "chal": {
+      "name": "Chal",
+      "title": "Moving",
+      "meaning": "Ruled by Venus and neutral. Its restless nature makes it traditionally suited to travel, not to ceremonies."
+    },
+    "udveg": {
+      "name": "Udveg",
+      "title": "Unease",
+      "meaning": "Ruled by the Sun. Traditionally avoided for new work and journeys, though held suited to dealings with government."
+    },
+    "rog": {
+      "name": "Rog",
+      "title": "Friction",
+      "meaning": "Ruled by Mars. Traditionally avoided for anything new; held suited only to contests and facing opponents."
+    },
+    "kaal": {
+      "name": "Kaal",
+      "title": "Loss",
+      "meaning": "Ruled by Saturn. Traditionally no auspicious work begins in it, though it is held suited to work that builds savings."
     }
   }
 }

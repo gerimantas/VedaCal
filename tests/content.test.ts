@@ -11,6 +11,7 @@ const groups: Record<string, [Record<string, Entry>, string[]]> = {
   yoga: [en.yoga, Array.from({ length: 27 }, (_, i) => String(i + 1))],
   karana: [en.karana, Array.from({ length: 11 }, (_, i) => String(i + 1))],
   vara: [en.vara, Array.from({ length: 7 }, (_, i) => String(i))],
+  choghadiya: [en.choghadiya, ['amrit', 'shubh', 'labh', 'chal', 'udveg', 'rog', 'kaal']],
   rhythm: [en.rhythm, ['restFullMoon', 'restNewMoon', 'ekadashi', 'uttarayana', 'dakshinayana', 'ritu1', 'ritu2', 'ritu3', 'ritu4', 'ritu5', 'ritu6']],
 }
 
@@ -35,8 +36,8 @@ describe.each(Object.entries(groups))('%s', (_, [entries, keys]) => {
   })
 })
 
-it('has 113 meaning entries in total', () => {
-  expect(Object.values(groups).reduce((n, [e]) => n + Object.keys(e).length, 0)).toBe(113)
+it('has 120 meaning entries in total', () => {
+  expect(Object.values(groups).reduce((n, [e]) => n + Object.keys(e).length, 0)).toBe(120)
 })
 
 it('sheets and labels make no health claims (About may disclaim medical advice)', () => {
@@ -57,7 +58,7 @@ describe('lt.json', () => {
   })
 
   it('keeps the Sanskrit names', () => {
-    for (const g of ['tithi', 'nakshatra', 'yoga', 'karana', 'vara', 'rhythm', 'masa', 'rashi'] as const)
+    for (const g of ['tithi', 'nakshatra', 'yoga', 'karana', 'vara', 'rhythm', 'masa', 'rashi', 'choghadiya'] as const)
       for (const [k, e] of Object.entries(en[g])) expect((lt[g] as Record<string, { name: string }>)[k].name, `${g} ${k}`).toBe((e as { name: string }).name)
   })
 
