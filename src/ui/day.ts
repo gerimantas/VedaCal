@@ -249,13 +249,14 @@ function paranaFact(day: DayPanchang, loc: Location): Fact {
 // times, so "12" is off the top by the gap between clock noon and solar noon. The light part
 // of the ring is the day. Calm and good windows run on a lane just outside the ring, avoid on
 // one just inside, so windows that share time (Friday's Abhijit and Rahu Kaal) both show.
-// The sun travels outside the ring, joined to it by a thin line at now.
+// By day the sun travels outside the ring, joined to it by a thin line at now; at night it is
+// not drawn (the centre says "Sunrise in …"), so no room is kept for it below the ring.
 function sunDial(day: DayPanchang, loc: Location, now: Date, next: DayView['next']): string {
   if (!day.sunrise || !day.sunset) return ''
   const { brahma, abhijit, rahuKaal } = day.windows
-  // As wide as the sun's path, so the ring is as large as the card allows; a little taller, for
-  // the sunrise/sunset labels in the bottom corners, below the ring and clear of the sun.
-  const W = 240, H = 252, cx = W / 2, cy = 120, R = 82, LANE = 4, SUN = 109
+  // As wide as the sun's path, so the ring is as large as the card allows; it ends just below
+  // the ring, where the sunrise/sunset labels stand in the corners, level with the ring's bottom.
+  const W = 240, cx = W / 2, cy = 120, R = 82, LANE = 4, SUN = 109, H = cy + R + LANE + 6
   const noon = (day.sunrise.getTime() + day.sunset.getTime()) / 2
   const f = (n: number) => n.toFixed(1)
   const at = (d: Date, r = R) => {
@@ -281,16 +282,17 @@ function sunDial(day: DayPanchang, loc: Location, now: Date, next: DayView['next
   // The horizon: short ticks just outside the ring where the sun rises and sets. Their names
   // and times stand in the bottom corners, level with the ring's bottom, clear of the sun's path.
   const [rx, ry] = at(day.sunrise), [setx, sety] = at(day.sunset)
-  // Sized from the character count to fill a fixed width (markup is built before layout, so
-  // text cannot be measured), capped so short times stay sane.
-  // The widths keep both lines outside the sun's path (radius SUN + its 7 + a gap).
-  const fit = (text: string, room: number, em: number, max: number) => Math.min(max, room / (text.length * em))
-  const corner = (x: number, anchor: string, name: string, when: string) => {
-    const n = fit(name, 44, 0.52, 11), w = fit(when, 56, 0.6, 15), bottom = H - 2
-    return `<text class="rise-name" text-anchor="${anchor}" font-size="${f(n)}" x="${x}" y="${f(bottom - w - 2 - n / 2)}">${name}</text>` +
-      `<text class="rise-time" text-anchor="${anchor}" font-size="${f(w)}" x="${x}" y="${f(bottom - w / 2)}">${when}</text>`
-  }
-  const [sx, sy] = at(now, SUN), [lx1, ly1] = at(now, SUN - 10), [lx2, ly2] = at(now, R + LANE + 5)
+  // The same sizes as the dial's centre text (4 and 5.6 cqi of 240 units): name like
+  // "Sunset in", time like "6 h 29 min".
+  const NAME = 9.6, TIME = 13.4
+  const corner = (x: number, anchor: string, name: string, when: string) =>
+    `<text class="rise-name" text-anchor="${anchor}" font-size="${NAME}" x="${x}" y="${f(H - TIME - 2 - NAME / 2)}">${name}</text>` +
+    `<text class="rise-time" text-anchor="${anchor}" font-size="${TIME}" x="${x}" y="${f(H - TIME / 2)}">${when}</text>`
+  // Low on the dial (summer mornings and evenings) the sun's path crosses the labels' row; there
+  // the sun rides on the ring itself, without its line, until it has climbed clear.
+  const labelTop = H - TIME - NAME - 6
+  const low = at(now, SUN)[1] + 9 > labelTop
+  const [sx, sy] = at(now, low ? R : SUN), [lx1, ly1] = at(now, SUN - 10), [lx2, ly2] = at(now, R + LANE + 5)
   const up = now >= day.sunrise && now < day.sunset
   const label = `${t('sunrise')} ${time(day.sunrise, loc)}, ${t('sunset')} ${time(day.sunset, loc)}.${next ? ` ${next.label} ${next.in}` : ''}`
   return `<svg class="dial" viewBox="0 0 ${W} ${H}" role="img" aria-label="${label}">
@@ -301,7 +303,6 @@ function sunDial(day: DayPanchang, loc: Location, now: Date, next: DayView['next
     <path class="horizon" d="M ${f(rx - 18)} ${f(ry)} H ${f(rx - 4)} M ${f(setx + 4)} ${f(sety)} H ${f(setx + 18)}"/>
     ${corner(2, 'start', t('sunrise'), time(day.sunrise, loc))}${corner(W - 2, 'end', t('sunset'), time(day.sunset, loc))}
     ${seg(brahma, 'mark-calm', R + LANE)}${seg(abhijit, 'mark-good', R + LANE)}${seg(rahuKaal, 'mark-avoid', R - LANE)}
-    <path class="sun-line${up ? '' : ' below'}" d="M ${f(lx1)} ${f(ly1)} L ${f(lx2)} ${f(ly2)}"/>
-    <circle class="sun${up ? '' : ' below'}" cx="${f(sx)}" cy="${f(sy)}" r="7"/>
+    ${up && !low ? `<path class="sun-line" d="M ${f(lx1)} ${f(ly1)} L ${f(lx2)} ${f(ly2)}"/>` : ''}${up ? `<circle class="sun" cx="${f(sx)}" cy="${f(sy)}" r="7"/>` : ''}
   </svg>`
 }

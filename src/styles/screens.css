@@ -424,7 +424,7 @@ h3 {
   dominant-baseline: central;
 }
 
-/* Font size is set per label in day.ts so each fills its tick's length. */
+/* Sizes match the dial centre text (day.ts sunDial: NAME, TIME). */
 .dial .rise-name {
   fill: var(--color-moon);
 }
@@ -471,20 +471,12 @@ h3 {
   stroke-linecap: round;
 }
 
-/* Below the horizon the sun is dimmed. */
-.dial .sun.below {
-  fill: var(--color-neutral);
-  filter: none;
-}
-
-.dial .sun-line.below {
-  stroke: var(--color-neutral);
-}
 
 .dial-center {
   position: absolute;
-  /* The SVG is 240 × 252 with the ring centred at y = 120: leave the 12 extra units out. */
-  inset: 0 0 4.76% 0;
+  /* The square around the ring (the SVG is shorter: it ends just below the ring). */
+  inset: 0 0 auto;
+  aspect-ratio: 1;
   display: grid;
   align-content: center;
   justify-items: center;
