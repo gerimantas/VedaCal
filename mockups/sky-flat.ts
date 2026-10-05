@@ -31,13 +31,13 @@ const text = {
     ? [
         ['orbit', 'Mėnulio orbita: 30 Mėnulio dienų (Tithi) po 12°, skaičiuojant nuo Saulės. Šviesesnė pusė – priešpilnis, tamsesnė – delčia. „Jaunatis“ ir „pilnatis“ žymi, kur tą akimirką būna Mėnulis.'],
         ['nak', 'Vidurinis žiedas: 27 Mėnulio žvaigždės (Nakshatra). Paryškinta ta, kurioje dabar Mėnulis.'],
-        ['sign', 'Išorinis žiedas: 12 ženklų (Rashi) ir tikri jų žvaigždynai. Mėlynas – Mėnulio ženklas, auksinis – Saulės.'],
+        ['sign', 'Išorinis žiedas: 12 ženklų (Rashi) ir jų žvaigždynų schemos. Mėlynas – Mėnulio ženklas, auksinis – Saulės.'],
         ['note', 'Vaizdas iš viršaus, ne pagal mastelį: tikros tik kryptys. Iš viršaus Mėnulio apšviesta pusė visada atsukta į Saulę; iš Žemės matome jos dalį – pjautuvą ar pilną diską. Mėnulis ir Saulė juda prieš laikrodžio rodyklę.'],
       ]
     : [
         ['orbit', "Moon's orbit: 30 lunar days (Tithi) of 12°, counted from the Sun. The lighter half is waxing, the darker half waning. “New moon” and “full moon” mark where the Moon stands at those moments."],
         ['nak', 'Middle ring: the 27 Moon stars (Nakshatra). The one the Moon is in now is highlighted.'],
-        ['sign', 'Outer ring: the 12 signs (Rashi) and their real constellations. Blue is the Moon’s sign, gold the Sun’s.'],
+        ['sign', 'Outer ring: the 12 signs (Rashi) and a sketch of each constellation. Blue is the Moon’s sign, gold the Sun’s.'],
         ['note', 'Seen from above, not to scale: only the directions are true. From above, the Moon’s lit half always faces the Sun; from Earth we see part of it, a crescent or a full disc. The Moon and the Sun move counter-clockwise.'],
       ],
   now: L ? 'Dabar' : 'Now',
@@ -62,7 +62,7 @@ function toEcliptic(ra: number, dec: number): [number, number] {
 // ── Geometry: sidereal longitude → screen angle; Mesha starts at the left, counter-clockwise ──
 
 const C = 200
-const R = { earth: 12, orbit: 78, sun: 106, nakIn: 120, nakOut: 148, figure: 166, signOut: 198 }
+const R = { earth: 12, orbit: 78, sun: 106, nakIn: 120, nakOut: 148, figure: 163, signOut: 198 }
 const screen = (lon: number) => 180 + lon
 const xy = (deg: number, r: number) => [C + r * Math.cos(rad(deg)), C - r * Math.sin(rad(deg))] as const
 const f = (n: number) => n.toFixed(2)
@@ -109,27 +109,41 @@ const ZODIAC = ['Ari', 'Tau', 'Gem', 'Cnc', 'Leo', 'Vir', 'Lib', 'Sco', 'Sgr', '
 const figures = ZODIAC.map((id) =>
   (sky.lines as Record<string, [number, number][][]>)[id].map((line) => line.map(([ra, dec]) => toEcliptic(ra, dec))),
 )
-/** Ecliptic latitude squeezed into the ring band: ±16° fills it, anything further is pinned to the edge. */
-const figureR = (lat: number) => R.figure + Math.max(-14, Math.min(14, -lat * 0.9))
+/**
+ * Each constellation as a compact icon (H. A. Rey-style stick figure): the real star pattern,
+ * scaled to the same small box and centred in its sign's sector, upright on screen with east
+ * to the left, as the sky looks facing south. Symbolic, not to scale or position.
+ */
+const ICON = 21
+const icons = figures.map((lines) => {
+  const ref = lines[0][0][0]
+  const pts = lines.map((line) => line.map(([lon, lat]) => [norm(lon - ref + 180) - 180, lat] as const))
+  const all = pts.flat()
+  const [x0, x1] = [Math.min(...all.map((p) => p[0])), Math.max(...all.map((p) => p[0]))]
+  const [y0, y1] = [Math.min(...all.map((p) => p[1])), Math.max(...all.map((p) => p[1]))]
+  const k = ICON / Math.max(x1 - x0, y1 - y0)
+  return pts.map((line) => line.map(([lon, lat]) => [-(lon - (x0 + x1) / 2) * k, -(lat - (y0 + y1) / 2) * k] as const))
+})
 
-function constellations(aya: number, year: number, sunSign: number, moonSign: number): string {
-  const precession = (year - 2000) * 0.013969 // J2000 → of date, degrees
-  const out: string[] = []
-  figures.forEach((lines, k) => {
-    const cls = k + 1 === moonSign ? 'fig moon' : k + 1 === sunSign ? 'fig sun' : 'fig'
-    const dots = new Map<string, [number, number]>()
-    const paths = lines.map((line) =>
-      line
-        .map(([lon, lat], i) => {
-          const [x, y] = xy(screen(lon + precession - aya), figureR(lat))
-          dots.set(`${x.toFixed(1)},${y.toFixed(1)}`, [x, y])
-          return `${i ? 'L' : 'M'}${f(x)} ${f(y)}`
-        })
-        .join(''),
-    )
-    out.push(`<g class="${cls}"><path d="${paths.join('')}"/>${[...dots.values()].map(([x, y]) => `<circle cx="${f(x)}" cy="${f(y)}" r="1.1"/>`).join('')}</g>`)
-  })
-  return out.join('\n')
+function constellations(sunSign: number, moonSign: number): string {
+  return icons
+    .map((lines, k) => {
+      const cls = k + 1 === moonSign ? 'fig moon' : k + 1 === sunSign ? 'fig sun' : 'fig'
+      const [cx, cy] = xy(screen(k * 30 + 15), R.figure)
+      const dots = new Map<string, readonly [number, number]>()
+      const d = lines
+        .map((line) =>
+          line
+            .map(([x, y], i) => {
+              dots.set(`${x.toFixed(1)},${y.toFixed(1)}`, [x, y])
+              return `${i ? 'L' : 'M'}${f(cx + x)} ${f(cy + y)}`
+            })
+            .join(''),
+        )
+        .join('')
+      return `<g class="${cls}"><path d="${d}"/>${[...dots.values()].map(([x, y]) => `<circle cx="${f(cx + x)}" cy="${f(cy + y)}" r="1.2"/>`).join('')}</g>`
+    })
+    .join('\n')
 }
 
 function chart(t: Date) {
@@ -151,7 +165,7 @@ function chart(t: Date) {
     const cls = k + 1 === sunSign && k + 1 === moonSign ? 'both' : k + 1 === sunSign ? 'sunfill' : k + 1 === moonSign ? 'moonfill' : k % 2 ? 'alt' : 'base'
     out.push(`<path class="${cls}" d="${sector(a, a + 30, R.nakOut, R.signOut)}"/>`)
   }
-  out.push(constellations(aya, t.getUTCFullYear() + t.getUTCMonth() / 12, sunSign, moonSign))
+  out.push(constellations(sunSign, moonSign))
   for (let k = 0; k < 12; k++) {
     const on = k + 1 === sunSign || k + 1 === moonSign
     out.push(arcText2(screen(k * 30 + 15), R.signOut - 9, 8, rashi(k + 1).title, rashi(k + 1).name, on ? 'sign on' : 'sign'))
