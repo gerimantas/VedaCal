@@ -1,37 +1,41 @@
 # VedaCal — CONTEXT
 
 ## Status
-P0–P6 done and live (https://gerimantas.github.io/VedaCal/, commit 10fdce2, CI green).
-Installable PWA, works offline; "new version" bar with an Update button. All Drik evidence
-is in: ayanamsha now equals Drik's printed Lahiri (Sankranti within 2 min); every element
-vs Drik has one uniform ~57 s Moon offset (max 93 s, gate 2 min). Day screen sun dial:
-24 h clock face, sun outside the ring by day (hidden at night), sunrise/sunset in the
-corners, Friday Abhijit/Rahu Kaal overlap shown with real times. 1116 tests pass. Rules:
-`.planning/SPEC.md` 4.10, 4.11, 5.1. Next phase: P7 pilot (user shares the link).
+P0–P6 done and live (https://gerimantas.github.io/VedaCal/, commit 765faff, CI green).
+S5 added a fifth tab, **Sky** (top-down Sun/Moon/stars chart, SPEC 5.5), and reworked About:
+Yamaganda/Gulika/Choghadiya explained, terms grouped, every sheet rewritten in plain facts
+for Western readers, sources linked in Credits. 1127 tests pass. The day screen still shows
+only Brahma/Abhijit/Rahu Kaal — the three new windows are texts only. Next: P7 pilot.
+Workflow: the user reviews on localhost; commit locally, push only on the user's command.
 
 ## Next Tasks
 - P7 pilot: the user shares the link with 5–10 people and collects what confuses them;
   then the user picks the next backlog items (SPEC 10). Fix what the pilot reports first.
   plan: `.planning/PLAN.md` P7.
+- Day screen: show Yamaganda, Gulika and the Choghadiya hour list (engine ready in
+  panchangam-js; Drik fixtures hold Yamaganda/Gulika). The user picks the layout first.
+  rules: SPEC 4.5, 5.1; texts already in `sheets` + `choghadiya` content group.
+- Ask the user: delete the rejected 3D prototype (`mockups/sky.*`, `mockups/sky/*.jpg`,
+  devDependency `three`)?
 - Optional: find the uniform ~57 s Moon offset vs Drik (`npm run accuracy`; mypanchang agrees
   with us on tithi to 8 s). Inside the gate, so only if the user asks. rules: SPEC 4.11.
 
 ## Done Log
+
+### 2026-10-05 (S5)
+- About: Yamaganda/Gulika/Choghadiya texts; key grouped; all sheets factual; Credits sources
+- Sky tab (top-down chart) live at 765faff
 
 ### 2026-10-05 (S4)
 - P6 PWA + offline (gate met); update-prompt bar
 - Drik evidence complete (Sankranti, eclipses, Pushya, Parana 2027, adhika); ayanamsha fix
 - Sun dial redesign: clock face, overlap shown, solid window colours, other-day clock time
 
-### 2026-10-05 (S3)
-- P3 approved (v22); P4 day screen + location; P5 month + settings; all gates met
-- Source audit additions (live elements, masa, signs, Parana); month marks; Lithuanian UI
-- Drik fetching made polite (`scripts/drik-page.ts`); deployed to the live site; QR code made
-
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
-- Deploy = push to `main`; `.github/workflows/ci.yml` tests and publishes. Check:
-  `gh run list --limit 1`
+- Deploy = push to `main` (only on the user's command); `.github/workflows/ci.yml` tests and
+  publishes. Check: `gh run list --limit 1`. Dev server must be restarted for the About
+  version label to show a new commit.
 - After any dependency change: `npm run scan` (security scan, also runs in CI)
 - Drik fixture scripts go through `scripts/drik-page.ts`: pages cached in `.cache/drik/`
   (re-parse without re-fetching), 12 s between requests (`DRIK_DELAY_MS`), stop at the first
@@ -53,7 +57,7 @@ corners, Friday Abhijit/Rahu Kaal overlap shown with real times. 1116 tests pass
   with Chromium arg `--blink-settings=forceDarkModeEnabled=true`. Photos are left alone.
 - App shows `v<package version> · <git commit> · built <time>` (vite `define`, `src/globals.d.ts`)
 - NotebookLM notebook "VedaCal": `2a0fad75-caeb-4d03-9f73-7c91e341d1f2`
-  (5 Panchang websites, 1 research report, 1 YouTube video; 9 notes, 2 PRD reports)
+  (Panchang websites, research imports on daily windows and month names; notes, 2 PRD reports)
 - Local copies: `.planning/notebooklm/PRD-en.md`, `PRD-lt.md`, `notes/`
 - Spec: `.planning/SPEC.md` · build order + gates: `.planning/PLAN.md`
 - `.planning/` is a **separate local-only git repo** (ignored by the main repo, never
@@ -71,6 +75,26 @@ corners, Friday Abhijit/Rahu Kaal overlap shown with real times. 1116 tests pass
   is wrong; real value is Krishna Navami, waning. Only computed or Drik-fetched values count.
 
 ## Archive
+
+### Session 2026-10-05 (S5) — Sky tab, About texts rewritten for Western readers, sources linked
+
+- **Done:** Yamaganda, Gulika, Choghadiya (+7 kinds) explained on About (EN+LT, NotebookLM
+  research); About key grouped (calendar / times of day / special days); every sheet rewritten
+  for a reader new to the Panchang, vague prose replaced by facts (lunar month naming corrected);
+  Credits link 8 sources; new **Sky** tab: top-down chart (30 lunar days around the Moon's
+  orbit from the Sun, 27 Moon stars, 12 signs) + facts panel, folded legend, ±15-day slider.
+  Live: 765faff, CI green.
+- **Decided / overturned:** 3D sky (three.js) rejected — bodies share one plane; constellation
+  sketches rejected; stars/signs fixed (real motion), not a Sun-fixed frame; only short marks
+  on the chart, names in the panel; labels slide off Sun/Moon lines. Never push without the
+  user's command (global CLAUDE.md).
+- **Code:** `src/ui/{sky.ts,Sky.svelte}`, `src/core/panchang.ts` (`skyAt`), `src/ui/{terms,
+  icons,state.svelte}.ts`, `src/ui/About.svelte`, `src/App.svelte`, `src/content/{en,lt}.json`,
+  `src/styles/screens.css`, `tests/{ui,content}.test.ts`; prototypes `mockups/sky{,-flat}.{html,ts}`,
+  `mockups/sky/`; rules SPEC 5.5; research `.planning/notebooklm/notes/{daily-windows,month-names}.md`.
+- **Entry point:** `npm run dev` → `/VedaCal/#/sky`; `npm test` (1127)
+- **Not measured:** Sky tab on a real phone; Yamaganda/Gulika/Choghadiya times not yet on
+  the day screen (texts only; Drik fixtures already hold Yamaganda/Gulika).
 
 ### Session 2026-10-05 (S4) — P6 done, Drik evidence complete, ayanamsha fixed, dial redesigned
 
