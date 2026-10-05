@@ -22,8 +22,8 @@ const text = {
   lit: L ? 'apšviesta' : 'lit',
   newMoon: L ? 'jaunatis' : 'new moon',
   fullMoon: L ? 'pilnatis' : 'full moon',
-  waxing: L ? 'priešpilnis · Shukla' : 'waxing · Shukla',
-  waning: L ? 'delčia · Krishna' : 'waning · Krishna',
+  waxing: L ? 'priešpilnis' : 'waxing',
+  waning: L ? 'delčia' : 'waning',
   legend: L
     ? [
         ['orbit', 'Mėnulio orbita: 30 Mėnulio dienų (Tithi) po 12°, skaičiuojant nuo Saulės. Šviesesnė pusė – priešpilnis, tamsesnė – delčia. „Jaunatis“ ir „pilnatis“ žymi, kur tą akimirką būna Mėnulis.'],
@@ -138,13 +138,14 @@ function chart(t: Date) {
   }
   // Day numbers inside the ring, like the other rings; the current one bold.
   for (let k = 0; k < 30; k++) out.push(arcText(sunDeg + k * 12 + 6, R.dayNum, String(k + 1), k + 1 === tithi ? 'tithi' : 'num'))
-  out.push(arcText(sunDeg + 90, R.orbitIn - 6, text.waxing, 'half'))
-  out.push(arcText(sunDeg + 270, R.orbitIn - 6, text.waning, 'half'))
+  // All Moon-ring labels sit along its outer edge, plain name first, Sanskrit after.
+  const label = (plain: string, sanskrit: string) => `${plain} · <tspan class="phase-sk">${sanskrit}</tspan>`
+  out.push(arcText(sunDeg + 90, R.orbitOut + 5, label(text.waxing, 'Shukla'), 'phase'))
+  out.push(arcText(sunDeg + 270, R.orbitOut + 5, label(text.waning, 'Krishna'), 'phase'))
   // New and full moon: where the Moon stands at those moments, along the ring's outer edge.
   // Plain name first, the Sanskrit after it (the 30th and 15th lunar days).
-  const phase = (plain: string, k: number) => `${plain} · <tspan class="phase-sk">${entry('tithi', k).name}</tspan>`
-  out.push(arcText(sunDeg, R.orbitOut + 5, phase(text.newMoon, 30), 'phase'))
-  out.push(arcText(sunDeg + 180, R.orbitOut + 5, phase(text.fullMoon, 15), 'phase'))
+  out.push(arcText(sunDeg, R.orbitOut + 5, label(text.newMoon, entry('tithi', 30).name), 'phase'))
+  out.push(arcText(sunDeg + 180, R.orbitOut + 5, label(text.fullMoon, entry('tithi', 15).name), 'phase'))
 
   // Pointers from the Earth, and the Sun → Moon angle with an arrow at the Moon's end.
   const [mx, my] = xy(moonDeg, R.nakOut)
@@ -179,7 +180,6 @@ function chart(t: Date) {
       .num { fill: var(--color-neutral); font: 6px var(--font-body); }
       .nak.plain { fill: #fff; font: 700 7.5px var(--font-body); } .nak.sk { fill: #d4af37; font: 6.5px var(--font-body); }
       .tick { stroke: oklch(55% 0.02 264); stroke-width: 0.6; } .tick.major { stroke: var(--color-ink); stroke-width: 1.4; }
-      .half { fill: var(--color-muted); font: 6.5px var(--font-body); }
       .phase { fill: var(--color-ink); font: 600 6.5px var(--font-body); paint-order: stroke; stroke: oklch(16.3% 0.014 264); stroke-width: 2.5px; } .phase-sk { fill: #d4af37; font-weight: 400; }
       .tithi { fill: #fff; font: 700 8px var(--font-body); }
       .ptr { stroke-width: 1.2; stroke-dasharray: 4 3; } .ptr.moon { stroke: #9fd3ff; } .ptr.sun { stroke: #ffb300; }
