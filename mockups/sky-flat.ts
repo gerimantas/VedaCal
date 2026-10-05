@@ -227,9 +227,9 @@ function render() {
   const sign = (k: number) => `${rashi(k).title} <span class="sk">· ${rashi(k).name}</span>`
   const illumination = (1 - Math.cos(rad(c.elong))) / 2
   $('rows').innerHTML = `
-    <dt>${text.tithi}</dt><dd>${td.title} <span class="sk">· ${td.name}</span></dd>
+    <dt>${text.tithi}</dt><dd><b class="badge">${c.tithi}</b> ${td.title} <span class="sk">· ${td.name}</span></dd>
     <dt>${text.angle}</dt><dd><span class="moon">${num(c.elong)}°</span> <span class="quiet">÷ 12° = ${num(c.elong / 12)}: ${text.done(c.tithi - 1, c.tithi)}</span></dd>
-    <dt>${text.star}</dt><dd>${n.title} <span class="sk">· ${n.name}</span></dd>
+    <dt>${text.star}</dt><dd><b class="badge">${c.nak}</b> ${n.title} <span class="sk">· ${n.name}</span></dd>
     <dt>${text.moonSign}</dt><dd class="moon">${sign(c.moonSign)}</dd>
     <dt>${text.sunSign}</dt><dd class="sun">${sign(c.sunSign)}</dd>
     <dt>${text.seen}</dt><dd class="seen">${realisticMoon(illumination, c.elong < 180, 28, text.seen)} ${Math.round(illumination * 100)} % ${text.lit}</dd>`
