@@ -103,7 +103,8 @@ function chart(t: Date) {
   const sunSign = Math.floor(sunLon / 30) + 1
   const sunDeg = screen(sunLon)
   const moonDeg = screen(moonLon)
-  const out: string[] = []
+  const out: string[] = [] // shapes
+  const labels: string[] = [] // text, drawn over the pointer lines
 
   // Signs (outer ring) with two-line names.
   for (let k = 0; k < 12; k++) {
@@ -113,18 +114,17 @@ function chart(t: Date) {
   }
   for (let k = 0; k < 12; k++) {
     const on = k + 1 === sunSign || k + 1 === moonSign
-    out.push(arcText2(screen(k * 30 + 15), R.signOut - 12, 9, rashi(k + 1).title, rashi(k + 1).name, on ? 'sign on' : 'sign'))
+    labels.push(arcText2(screen(k * 30 + 15), R.signOut - 12, 9, rashi(k + 1).title, rashi(k + 1).name, on ? 'sign on' : 'sign'))
   }
 
-  // Moon stars (middle ring): numbered, the current one named in two lines.
+  // Moon stars (middle ring): numbered, the current one bold. Its name is in the panel below:
+  // only short marks go on the chart.
   for (let k = 0; k < 27; k++) {
     const a = screen((k * 360) / 27)
     const on = k + 1 === nak
     out.push(`<path class="${on ? 'moonfill' : k % 2 ? 'alt' : 'base'}" d="${sector(a, a + 360 / 27, R.nakIn, R.nakOut)}"/>`)
-    if (!on) out.push(arcText(a + 180 / 27, (R.nakIn + R.nakOut) / 2, String(k + 1), 'num'))
+    labels.push(arcText(a + 180 / 27, (R.nakIn + R.nakOut) / 2, String(k + 1), on ? 'tithi' : 'num'))
   }
-  const n = entry('nakshatra', nak)
-  out.push(arcText2(screen(((nak - 0.5) * 360) / 27), (R.nakIn + R.nakOut) / 2, 10, n.title, n.name, 'nak'))
 
   // The Moon's orbit: waxing half (Sun → opposite) lighter, waning half darker, 30 ticks.
   out.push(`<path class="wax" d="${sector(sunDeg, sunDeg + 180, R.orbitIn, R.orbitOut)}"/>`)
@@ -137,15 +137,29 @@ function chart(t: Date) {
     out.push(`<line class="${k % 15 ? 'tick' : 'tick major'}" x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}"/>`)
   }
   // Day numbers inside the ring, like the other rings; the current one bold.
-  for (let k = 0; k < 30; k++) out.push(arcText(sunDeg + k * 12 + 6, R.dayNum, String(k + 1), k + 1 === tithi ? 'tithi' : 'num'))
+  for (let k = 0; k < 30; k++) labels.push(arcText(sunDeg + k * 12 + 6, R.dayNum, String(k + 1), k + 1 === tithi ? 'tithi' : 'num'))
   // All Moon-ring labels sit along its outer edge, plain name first, Sanskrit after.
   const label = (plain: string, sanskrit: string) => `${plain} · <tspan class="phase-sk">${sanskrit}</tspan>`
-  out.push(arcText(sunDeg + 90, R.orbitOut + 5, label(text.waxing, 'Shukla'), 'phase'))
-  out.push(arcText(sunDeg + 270, R.orbitOut + 5, label(text.waning, 'Krishna'), 'phase'))
-  // New and full moon: where the Moon stands at those moments, along the ring's outer edge.
-  // Plain name first, the Sanskrit after it (the 30th and 15th lunar days).
-  out.push(arcText(sunDeg, R.orbitOut + 5, label(text.newMoon, entry('tithi', 30).name), 'phase'))
-  out.push(arcText(sunDeg + 180, R.orbitOut + 5, label(text.fullMoon, entry('tithi', 15).name), 'phase'))
+  // New and full moon mark where the Moon stands at those moments (the 30th and 15th lunar
+  // days). The Sun and the Moon come first: a label that would sit on either one's line
+  // slides along the ring until it clears it (new moon always does, it faces the Sun).
+  const r = R.orbitOut + 5
+  const halfWidth = (plain: string, sanskrit: string) => (((plain.length + sanskrit.length + 3) * 3.5) / 2 / r) * (180 / Math.PI)
+  const clear = (center: number, half: number) => {
+    for (const obstacle of [sunDeg, moonDeg]) {
+      const d = norm(center - obstacle + 180) - 180
+      const need = half + 3
+      if (Math.abs(d) < need) center = obstacle + (d >= 0 ? need : -need)
+    }
+    return center
+  }
+  for (const [deg, plain, sanskrit] of [
+    [sunDeg + 90, text.waxing, 'Shukla'],
+    [sunDeg + 270, text.waning, 'Krishna'],
+    [sunDeg + 0.01, text.newMoon, entry('tithi', 30).name],
+    [sunDeg + 180, text.fullMoon, entry('tithi', 15).name],
+  ] as const)
+    labels.push(arcText(clear(deg, halfWidth(plain, sanskrit)), r, label(plain, sanskrit), 'phase'))
 
   // Pointers from the Earth, and the Sun → Moon angle with an arrow at the Moon's end.
   const [mx, my] = xy(moonDeg, R.nakOut)
@@ -156,7 +170,8 @@ function chart(t: Date) {
   const [ax2, ay2] = xy(moonDeg - 4, 32)
   out.push(`<path class="angle" marker-end="url(#arrow)" d="M${f(ax1)} ${f(ay1)}A32 32 0 ${elong > 184 ? 1 : 0} 0 ${f(ax2)} ${f(ay2)}"/>`)
   const [lx, ly] = xy(sunDeg + elong / 2, 44)
-  out.push(`<text class="deg" x="${f(lx)}" y="${f(ly)}" text-anchor="middle" dominant-baseline="central">${Math.round(elong)}°</text>`)
+  labels.push(`<text class="deg" x="${f(lx)}" y="${f(ly)}" text-anchor="middle" dominant-baseline="central">${Math.round(elong)}°</text>`)
+  out.push(...labels)
 
   // Bodies: Sun (with glow), Moon on its orbit, Earth in the centre; each lit toward the Sun.
   const [gx, gy] = xy(sunDeg, R.sun)
