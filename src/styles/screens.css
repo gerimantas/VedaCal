@@ -364,38 +364,13 @@ h3 {
 }
 
 .arcwrap {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: var(--space-2xs);
   margin-top: var(--space-2xs);
-}
-
-.arc-end {
-  display: grid;
-  justify-items: center;
-  gap: 0.1rem;
-}
-
-.arc-end svg {
-  color: var(--color-moon);
-}
-
-.arc-end small {
-  color: var(--color-neutral);
-  font-size: var(--text-xs);
-}
-
-.arc-end b {
-  font-size: var(--text-sm);
-  font-weight: 650;
 }
 
 /* ── 24-hour sun dial ── */
 .dial-wrap {
   position: relative;
   width: 100%;
-  max-width: 13rem;
   margin: 0 auto;
 }
 
@@ -403,6 +378,27 @@ h3 {
   display: block;
   width: 100%;
   height: auto;
+  overflow: visible;
+}
+
+/* Clock face: hour ticks and every third hour's number, inside the ring. */
+.dial .tick {
+  stroke: var(--color-neutral);
+  stroke-width: 1;
+  opacity: 0.5;
+}
+
+.dial .tick.major {
+  stroke-width: 1.5;
+  opacity: 0.9;
+}
+
+.dial .hour {
+  fill: var(--color-neutral);
+  font-size: 9px;
+  font-weight: 600;
+  text-anchor: middle;
+  dominant-baseline: central;
 }
 
 .dial path {
@@ -412,11 +408,27 @@ h3 {
 .dial .ring-night {
   fill: none;
   stroke: var(--color-card-line);
-  stroke-width: 10;
+  stroke-width: 2;
 }
 
 .dial .ring-day {
-  stroke-width: 10;
+  stroke-width: 2;
+}
+
+/* Sunrise / sunset at their horizon ticks: name above, time below. */
+.dial .rise-name,
+.dial .rise-time {
+  dominant-baseline: central;
+}
+
+/* Font size is set per label in day.ts so each fills its tick's length. */
+.dial .rise-name {
+  fill: var(--color-moon);
+}
+
+.dial .rise-time {
+  fill: var(--color-moon);
+  font-weight: 650;
 }
 
 .dial .horizon {
@@ -425,10 +437,11 @@ h3 {
   stroke-linecap: round;
 }
 
+/* Two lanes either side of the thin ring: calm/good outside, avoid inside (day.ts sunDial). */
 .dial .mark-calm,
 .dial .mark-good,
 .dial .mark-avoid {
-  stroke-width: 16;
+  stroke-width: 5;
 }
 
 .dial .mark-calm {
@@ -441,14 +454,18 @@ h3 {
 
 .dial .mark-avoid {
   stroke: var(--color-avoid);
-  stroke-dasharray: 3 2;
 }
 
+/* The sun outside the ring, glowing, joined to the ring by a thin line at now. */
 .dial .sun {
   fill: var(--color-moon);
-  stroke: var(--color-card);
-  stroke-width: 3;
-  filter: drop-shadow(0 0 0.4rem var(--glow));
+  filter: drop-shadow(0 0 3px var(--color-moon)) drop-shadow(0 0 8px var(--glow));
+}
+
+.dial .sun-line {
+  stroke: var(--color-moon);
+  stroke-width: 1;
+  stroke-linecap: round;
 }
 
 /* Below the horizon the sun is dimmed. */
@@ -457,14 +474,18 @@ h3 {
   filter: none;
 }
 
+.dial .sun-line.below {
+  stroke: var(--color-neutral);
+}
+
 .dial-center {
   position: absolute;
   inset: 0;
   display: grid;
-  place-content: center;
+  align-content: center;
   justify-items: center;
   gap: 0.1rem;
-  padding: 22%;
+  padding: 31%;
   text-align: center;
 }
 
@@ -474,6 +495,7 @@ h3 {
 }
 
 .dial-center b {
+  white-space: nowrap;
   color: var(--color-moon);
   font-size: var(--text-lg);
   font-weight: 650;
@@ -496,6 +518,15 @@ h3 {
 
 .dial-now.calm {
   color: var(--color-calm);
+}
+
+/* Two windows at once: "Now: Avoid + Good", each word in its window's colour. */
+.dial-now .good {
+  color: var(--color-good);
+}
+
+.dial-now .avoid {
+  color: var(--color-avoid);
 }
 
 /* Calm / good / avoid rows under the dial — also its colour key. */
@@ -533,7 +564,20 @@ h3 {
 }
 
 .win.avoid i {
-  background: repeating-linear-gradient(180deg, var(--color-avoid) 0 3px, transparent 3px 5px);
+  background: var(--color-avoid);
+}
+
+/* Good time partly inside Rahu Kaal: the bar stretches over the whole row, and the shared
+   part (--from..--to, top = start) is red like Rahu Kaal's own bar, to scale. */
+.win i.split {
+  align-self: stretch;
+  height: auto;
+  background: linear-gradient(
+    180deg,
+    var(--color-good) var(--from),
+    var(--color-avoid) var(--from) var(--to),
+    var(--color-good) var(--to)
+  );
 }
 
 .win div {
@@ -551,10 +595,31 @@ h3 {
   font-size: var(--text-sm);
 }
 
+.win .overlap {
+  color: var(--color-avoid);
+  font-size: var(--text-xs);
+}
+
 .win .when {
   font-size: var(--text-sm);
   font-weight: 600;
   text-align: right;
+}
+
+/* Each row's name and time take its window's colour, like its bar and its arc on the dial. */
+.win.calm b,
+.win.calm .when {
+  color: var(--color-calm);
+}
+
+.win.good b,
+.win.good .when {
+  color: var(--color-good);
+}
+
+.win.avoid b,
+.win.avoid .when {
+  color: var(--color-avoid);
 }
 
 .win.none .when {
@@ -609,6 +674,35 @@ h3 {
   border: var(--rule-hair) solid var(--color-card-line);
   border-radius: calc(var(--radius-md) + 0.25rem);
   background: var(--color-card);
+}
+
+/* New-version bar, just above the tab bar. */
+.update-bar {
+  position: fixed;
+  inset: auto var(--space-sm) calc(var(--space-sm) + env(safe-area-inset-bottom) + 4.25rem) var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  max-width: 26rem;
+  margin: 0 auto;
+  padding: var(--space-2xs) var(--space-2xs) var(--space-2xs) var(--space-sm);
+  border: var(--rule-hair) solid var(--color-moon);
+  border-radius: calc(var(--radius-md) + 0.25rem);
+  background: var(--color-card);
+  font-size: var(--text-sm);
+}
+
+.update-bar button {
+  min-height: 2.5rem;
+  padding: 0 var(--space-sm);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-moon);
+  color: var(--color-accent-ink);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
 }
 
 .tabs a {
@@ -679,13 +773,12 @@ h3 {
   border-color: var(--color-neutral);
 }
 
-/* Rest days: a violet tint, the colour of the calm time on the sun dial — paper-3 was
-   nearly invisible on dark cards (user, 2026-10-05). */
+/* Rest days: a violet tint — paper-3 was nearly invisible on dark cards (user, 2026-10-05). */
 .cell.rest,
 .legend .sw.rest {
   border: 1px solid;
-  border-color: color-mix(in oklch, var(--color-calm) 60%, var(--color-card));
-  background: color-mix(in oklch, var(--color-calm) 24%, var(--color-card));
+  border-color: color-mix(in oklch, var(--color-rest) 60%, var(--color-card));
+  background: color-mix(in oklch, var(--color-rest) 24%, var(--color-card));
 }
 
 .cell.today {

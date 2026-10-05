@@ -8,7 +8,7 @@ import data from '../src/data/cities.json'
 import { computeDay } from '../src/core/panchang'
 import { civilDate } from '../src/core/time'
 import { buildIndex, nearest, search, type CityData } from '../src/ui/cities'
-import { activeAt, dayView } from '../src/ui/day'
+import { activeAt, clockOn, dayView } from '../src/ui/day'
 import { content, entry, time, until } from '../src/ui/format'
 
 const index = buildIndex(data as unknown as CityData)
@@ -134,4 +134,26 @@ it('a polar night still shows the day (Tromsø, 2026-12-21)', () => {
   expect(v.polar).toBe(true)
   expect(v.tithi.title).toBeTruthy()
   expect(v.facts.length).toBeGreaterThan(3)
+})
+
+describe('sun dial on another day: the device clock time on that date', () => {
+  const loc = city('Vilnius')
+  const now = new Date('2026-10-16T09:50:00Z') // 12:50 in Vilnius (summer time)
+
+  it('today: now', () => {
+    expect(clockOn(computeDay('2026-10-16', loc), loc, now)).toEqual(now)
+  })
+
+  it('another day: 12:50 there too, also after summer time ends (Oct 25)', () => {
+    expect(clockOn(computeDay('2026-10-20', loc), loc, now).toISOString()).toBe('2026-10-20T09:50:00.000Z')
+    expect(clockOn(computeDay('2026-10-30', loc), loc, now).toISOString()).toBe('2026-10-30T10:50:00.000Z')
+  })
+
+  it('the countdown runs from that time, not from sunrise', () => {
+    const day = computeDay('2026-10-20', loc)
+    const clock = clockOn(day, loc, now)
+    const v = dayView(day, loc, day.sunrise!, 'vedic', clock)
+    const mins = Math.round((day.sunset!.getTime() - clock.getTime()) / 60_000)
+    expect(v.next?.in).toBe(`${Math.floor(mins / 60)} h ${mins % 60} min`)
+  })
 })

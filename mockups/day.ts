@@ -5,7 +5,7 @@
 // src/ui/day.ts, the same view the app's Day.svelte renders.
 import { computeDay } from '../src/core/panchang'
 import { zonedTimeToUtc } from '../src/core/time'
-import { dayView, nowLabel, type Fact, type SignLine } from '../src/ui/day'
+import { dayView, nowHtml, type Fact, type SignLine } from '../src/ui/day'
 import { t } from '../src/ui/format'
 import { realisticMoon } from '../src/ui/moon'
 import { date, icon, link, mount, params, tabs, today, vilnius as loc } from './common'
@@ -30,12 +30,12 @@ const fact = (f: Fact) =>
 const windowRows = v.windows
   .map(
     (w) =>
-      `<li class="win ${w.kind}${w.start ? '' : ' none'}" data-sheet="${w.term}"><i aria-hidden="true"></i><div><b>${w.name}</b><span class="sk">${w.sanskrit}</span></div><span class="when num">${w.start ? `<span class="nw">${w.start}–</span><span class="nw">${w.end}</span>` : w.none}</span></li>`,
+      `<li class="win ${w.kind}${w.start ? '' : ' none'}" data-sheet="${w.term}"><i aria-hidden="true"${w.split ? ` class="split" style="--from:${w.split[0] * 100}%;--to:${w.split[1] * 100}%"` : ''}></i><div><b>${w.name}</b><span class="sk">${w.sanskrit}</span>${w.overlap ? `<small class="overlap num">${w.overlap}</small>` : ''}</div><span class="when num">${w.start ? `<span class="nw">${w.start}–</span><span class="nw">${w.end}</span>` : w.none}</span></li>`,
   )
   .join('')
 const sign = (s: SignLine) =>
   `<p class="sign" data-sheet="rashi"><span>${s.text} · <span class="sk">${s.sanskrit}</span></span><small class="num">${s.until}${s.next ? `, ${s.next}` : ''}</small></p>`
-const nowWindow = v.nowWindow ? `<span class="dial-now ${v.nowWindow}">${nowLabel(v.nowWindow)}</span>` : ''
+const nowWindow = nowHtml(v.nowWindows)
 const tradition = v.tradition ? `<div class="head">${icon.leaf}<h3>${v.tradition.title}</h3></div><p>${v.tradition.meaning}</p>` : ''
 
 mount(`
@@ -63,12 +63,10 @@ mount(`
   <section class="card arcbox" aria-labelledby="s-sun">
     <h2 id="s-sun">${t('sectionRhythm')}</h2>
     <div class="arcwrap">
-      <div class="arc-end">${icon.sunrise}<small>${t('sunrise')}</small><b class="num">${v.sunrise}</b></div>
       <div class="dial-wrap">
         ${v.dial}
         <div class="dial-center">${nowWindow}${v.next ? `<small>${v.next.label}</small><b class="num">${v.next.in}</b>` : ''}</div>
       </div>
-      <div class="arc-end">${icon.sunset}<small>${t('sunset')}</small><b class="num">${v.sunset}</b></div>
     </div>
     ${sign(v.sunSign)}
     <ul class="wins">${windowRows}</ul>

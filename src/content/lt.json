@@ -723,7 +723,10 @@
     "langEn": "English",
     "langLt": "Lietuvių",
     "installApp": "Įdiegti programėlę",
-    "installNote": "Prideda VedaCal prie pagrindinio ekrano. Tada ji atsidaro kaip programėlė ir veikia be interneto."
+    "installNote": "Prideda VedaCal prie pagrindinio ekrano. Tada ji atsidaro kaip programėlė ir veikia be interneto.",
+    "overlapsRahu": "{range} sutampa su Rahu Kaal",
+    "updateReady": "Yra nauja versija.",
+    "updateNow": "Atnaujinti"
   },
   "masa": {
     "1": {

@@ -723,7 +723,10 @@
     "langEn": "English",
     "langLt": "Lietuvių",
     "installApp": "Install app",
-    "installNote": "Adds VedaCal to your home screen. It then opens like an app and works without internet."
+    "installNote": "Adds VedaCal to your home screen. It then opens like an app and works without internet.",
+    "overlapsRahu": "{range} falls in Rahu Kaal",
+    "updateReady": "A new version is ready.",
+    "updateNow": "Update"
   },
   "masa": {
     "1": {

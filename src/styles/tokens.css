@@ -24,9 +24,11 @@
   --color-focus: oklch(81.8% 0.171 78);
   --color-hatch: oklch(42% 0.03 30);
   /* Dashboard direction (v4, user's reference image) */
-  --color-calm: oklch(74% 0.1 290); /* pre-dawn Brahma Muhurta */
-  --color-good: oklch(78% 0.15 152);
-  --color-avoid: oklch(68% 0.17 25);
+  /* Day windows: solid, saturated blue / green / red (user, 2026-10-05). */
+  --color-calm: oklch(66% 0.19 255); /* pre-dawn Brahma Muhurta */
+  --color-good: oklch(74% 0.22 148);
+  --color-avoid: oklch(64% 0.24 27);
+  --color-rest: oklch(74% 0.1 290); /* rest days on the month grid */
   --color-arc-a: oklch(80% 0.1 215); /* morning */
   --color-arc-b: oklch(82% 0.15 80); /* evening */
   --glow: oklch(76.7% 0.139 91 / 0.28);
@@ -50,9 +52,10 @@
   --color-moon-dark: oklch(86% 0.012 264);
   --color-focus: oklch(50% 0.15 68);
   --color-hatch: oklch(70% 0.05 30);
-  --color-calm: oklch(50% 0.13 290); /* pre-dawn Brahma Muhurta */
-  --color-good: oklch(52% 0.13 152);
-  --color-avoid: oklch(52% 0.17 25);
+  --color-calm: oklch(52% 0.22 258); /* pre-dawn Brahma Muhurta */
+  --color-good: oklch(56% 0.19 148);
+  --color-avoid: oklch(55% 0.23 27);
+  --color-rest: oklch(50% 0.13 290); /* rest days on the month grid */
   --color-arc-a: oklch(62% 0.11 225);
   --color-arc-b: oklch(66% 0.14 70);
   --glow: oklch(74% 0.13 88 / 0.22);
@@ -77,9 +80,10 @@
     --color-moon-dark: oklch(86% 0.012 264);
     --color-focus: oklch(50% 0.15 68);
     --color-hatch: oklch(70% 0.05 30);
-    --color-calm: oklch(50% 0.13 290); /* pre-dawn Brahma Muhurta */
-    --color-good: oklch(52% 0.13 152);
-    --color-avoid: oklch(52% 0.17 25);
+    --color-calm: oklch(52% 0.22 258); /* pre-dawn Brahma Muhurta */
+    --color-good: oklch(56% 0.19 148);
+    --color-avoid: oklch(55% 0.23 27);
+    --color-rest: oklch(50% 0.13 290); /* rest days on the month grid */
     --color-arc-a: oklch(62% 0.11 225);
     --color-arc-b: oklch(66% 0.14 70);
     --glow: oklch(74% 0.13 88 / 0.22);

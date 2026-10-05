@@ -3,7 +3,7 @@
   // render dayView() from ./day, so every value on screen is the engine's output.
   import { computeDay } from '../core/panchang'
   import { addDays, civilDate } from '../core/time'
-  import { dayView, momentFor, nowLabel, type Fact, type SignLine } from './day'
+  import { clockOn, dayView, momentFor, nowHtml, type Fact, type SignLine } from './day'
   import { t } from './format'
   import { icon } from './icons'
   import { realisticMoon } from './moon'
@@ -31,7 +31,7 @@
   const day = $derived(computeDay(date, loc))
   const v = $derived.by(() => {
     void app.settings.hour12 // times are formatted inside dayView; re-run when the format changes
-    return dayView(day, loc, momentFor(day, loc, clock), app.settings.zodiac)
+    return dayView(day, loc, momentFor(day, loc, clock), app.settings.zodiac, clockOn(day, loc, clock))
   })
 
   const go = (days: number) => {
@@ -87,23 +87,22 @@
       <p class="footnote">{t('notice.polar')}</p>
     {:else}
       <div class="arcwrap">
-        <div class="arc-end">{@html icon.sunrise}<small>{t('sunrise')}</small><b class="num">{v.sunrise}</b></div>
         <div class="dial-wrap">
           {@html v.dial}
           <div class="dial-center">
-            {#if v.nowWindow}<span class="dial-now {v.nowWindow}">{nowLabel(v.nowWindow)}</span>{/if}
+            {@html nowHtml(v.nowWindows)}
             {#if v.next}<small>{v.next.label}</small><b class="num">{v.next.in}</b>{/if}
           </div>
         </div>
-        <div class="arc-end">{@html icon.sunset}<small>{t('sunset')}</small><b class="num">{v.sunset}</b></div>
       </div>
     {/if}
     {@render sign(v.sunSign)}
     <ul class="wins">
       {#each v.windows as w (w.kind)}
         <li class="win {w.kind}" class:none={!w.start} data-sheet={w.term}>
-          <i aria-hidden="true"></i>
-          <div><b>{w.name}</b><span class="sk">{w.sanskrit}</span></div>
+          <!-- A window partly inside Rahu Kaal shows that part hatched, to scale. -->
+          <i aria-hidden="true" style={w.split ? `--from:${w.split[0] * 100}%;--to:${w.split[1] * 100}%` : undefined} class:split={w.split}></i>
+          <div><b>{w.name}</b><span class="sk">{w.sanskrit}</span>{#if w.overlap}<small class="overlap num">{w.overlap}</small>{/if}</div>
           <!-- "12:44–13:29" breaks only at the dash, never inside a time (12-hour clocks). -->
           <span class="when num">
             {#if w.start}<span class="nw">{w.start}–</span><span class="nw">{w.end}</span>{:else}{w.none}{/if}
