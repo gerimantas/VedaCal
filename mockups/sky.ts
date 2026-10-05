@@ -18,7 +18,9 @@ const DRIK_LAHIRI_OFFSET = 24.14 / 3600 // same constant as src/core/panchang.ts
 const EARTH_R = 2
 const MOON_R = 1 // enlarged so the phase is visible (true ratio: 0.27 of the Earth)
 const MOON_ORBIT = 16
-const SKY_R = 200 // the celestial sphere: stars, constellations, ecliptic band
+const SKY_R = 60 // the star ring: stars, constellations and the ecliptic band, kept close so all fits
+// Only the twelve zodiac constellations are drawn: the ones the signs are named after.
+const ZODIAC = ['Ari', 'Tau', 'Gem', 'Cnc', 'Leo', 'Vir', 'Lib', 'Sco', 'Sgr', 'Cap', 'Aqr', 'Psc']
 
 const L = LANG === 'lt'
 const text = {
@@ -66,11 +68,11 @@ document.body.prepend(renderer.domElement)
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 2000)
-camera.position.set(0, 40, 75)
+camera.position.set(0, 18, 34)
 const controls = new OrbitControls(camera, renderer.domElement)
 controls.enableDamping = true
 controls.minDistance = 6
-controls.maxDistance = 320
+controls.maxDistance = 260
 controls.enablePan = false
 
 addEventListener('resize', () => {
@@ -121,7 +123,7 @@ function glow(color: string, size: number): THREE.Sprite {
   s.scale.setScalar(size)
   return s
 }
-const sun = glow('#ffcc55', 34)
+const sun = glow('#ffcc55', 12)
 scene.add(sun)
 
 // Stars and constellation lines on the sky sphere.
@@ -130,6 +132,7 @@ scene.add(sun)
   const col: number[] = []
   for (const [ra, dec, mag] of sky.stars as [number, number, number][]) {
     const [lon, lat] = toEcliptic(ra, dec)
+    if (mag > 4.5 || Math.abs(lat) > 16) continue // only the band the Sun and Moon travel
     pos.push(...point(lon, lat, SKY_R).toArray())
     const b = Math.max(0.25, Math.min(1, (5.2 - mag) / 4))
     col.push(b, b, b)
@@ -137,19 +140,21 @@ scene.add(sun)
   const g = new THREE.BufferGeometry()
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3))
   g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3))
-  scene.add(new THREE.Points(g, new THREE.PointsMaterial({ size: 1.6, vertexColors: true, sizeAttenuation: true })))
+  scene.add(new THREE.Points(g, new THREE.PointsMaterial({ size: 0.7, vertexColors: true, sizeAttenuation: true })))
 
   const seg: number[] = []
-  for (const lines of Object.values(sky.lines as Record<string, [number, number][][]>))
+  for (const [id, lines] of Object.entries(sky.lines as Record<string, [number, number][][]>)) {
+    if (!ZODIAC.includes(id)) continue
     for (const line of lines)
       for (let i = 1; i < line.length; i++) {
         const a = toEcliptic(...line[i - 1])
         const b = toEcliptic(...line[i])
         seg.push(...point(a[0], a[1], SKY_R).toArray(), ...point(b[0], b[1], SKY_R).toArray())
       }
+  }
   const lg = new THREE.BufferGeometry()
   lg.setAttribute('position', new THREE.Float32BufferAttribute(seg, 3))
-  scene.add(new THREE.LineSegments(lg, new THREE.LineBasicMaterial({ color: 0x5a6a8a, transparent: true, opacity: 0.3 })))
+  scene.add(new THREE.LineSegments(lg, new THREE.LineBasicMaterial({ color: 0x6a7a9a, transparent: true, opacity: 0.45 })))
 }
 
 /** Text drawn on a canvas, always facing the camera. */
@@ -167,7 +172,8 @@ function label(str: string, color: string, height: number): THREE.Sprite {
   const tex = new THREE.CanvasTexture(c)
   tex.colorSpace = THREE.SRGBColorSpace
   const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthWrite: false, transparent: true }))
-  s.scale.set((height * c.width) / c.height, height, 1)
+  const k = innerWidth < innerHeight ? 1.7 : 1 // portrait phones see the ring from further away
+  s.scale.set((k * height * c.width) / c.height, k * height, 1)
   return s
 }
 
@@ -182,8 +188,9 @@ function buildBand(aya: number) {
   for (let k = 0; k < 27; k++) {
     const lon = aya + (k * 360) / 27
     ticks.push(...point(lon, 0, SKY_R).toArray(), ...point(lon, 7, SKY_R).toArray())
-    const l = label(entry('nakshatra', k + 1).name, '#cfd6e6', 7)
+    const l = label(entry('nakshatra', k + 1).name, '#cfd6e6', 2.6)
     l.position.copy(point(lon + 180 / 27, 4.5, SKY_R))
+    l.userData.lon = lon + 180 / 27
     band.add(l)
     nakLabels.push(l)
   }
@@ -191,8 +198,9 @@ function buildBand(aya: number) {
     const lon = aya + k * 30
     ticks.push(...point(lon, 0, SKY_R).toArray(), ...point(lon, -7, SKY_R).toArray())
     const r = (content.rashi as Record<string, { name: string; title: string }>)[String(k + 1)]
-    const l = label(`${r.title} · ${r.name}`, '#d4af37', 8)
+    const l = label(`${r.title} · ${r.name}`, '#d4af37', 3)
     l.position.copy(point(lon + 15, -4.5, SKY_R))
+    l.userData.lon = lon + 15
     band.add(l)
     signLabels.push(l)
   }
@@ -205,11 +213,29 @@ function buildBand(aya: number) {
 }
 buildBand(ayanamsa(new Date()))
 
+/** A strip of the band between two longitudes, 0°–7° above the ecliptic: the Moon's star. */
+function sector(a: number, b: number): THREE.BufferGeometry {
+  const pts: number[] = []
+  const idx: number[] = []
+  const n = 16
+  for (let i = 0; i <= n; i++) {
+    const lon = a + ((b - a) * i) / n
+    pts.push(...point(lon, 0, SKY_R - 0.3).toArray(), ...point(lon, 7, SKY_R - 0.3).toArray())
+    if (i < n) idx.push(2 * i, 2 * i + 1, 2 * i + 2, 2 * i + 1, 2 * i + 3, 2 * i + 2)
+  }
+  const g = new THREE.BufferGeometry()
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3))
+  g.setIndex(idx)
+  return g
+}
+const current = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({ color: 0x9fd3ff, transparent: true, opacity: 0.22, side: THREE.DoubleSide, depthWrite: false }))
+scene.add(current)
+
 // Pointers from the Earth: to the Moon's place among the stars, to the Sun's, and the arc
 // between them — the angle that makes the lunar day.
 const pointer = (color: number) => {
   const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()])
-  const line = new THREE.Line(g, new THREE.LineDashedMaterial({ color, dashSize: 2, gapSize: 1.5, transparent: true, opacity: 0.8 }))
+  const line = new THREE.Line(g, new THREE.LineDashedMaterial({ color, dashSize: 3, gapSize: 1, transparent: true, opacity: 1 }))
   scene.add(line)
   return line
 }
@@ -262,8 +288,15 @@ function update() {
   for (let i = 0; i <= 64; i++) pts.push(point(s.elon + (elong * i) / 64, 0, MOON_ORBIT * 0.55))
   arc.geometry.setFromPoints(pts)
 
-  nakLabels.forEach((l, i) => ((l.material as THREE.SpriteMaterial).opacity = i + 1 === nak ? 1 : 0.45))
-  signLabels.forEach((l, i) => ((l.material as THREE.SpriteMaterial).opacity = i + 1 === moonSign || i + 1 === sunSign ? 1 : 0.45))
+  nakLabels.forEach((l, i) => ((l.material as THREE.SpriteMaterial).opacity = i + 1 === nak ? 1 : 0.15))
+  signLabels.forEach((l, i) => ((l.material as THREE.SpriteMaterial).opacity = i + 1 === moonSign || i + 1 === sunSign ? 1 : 0.15))
+  // Only the labels near the Sun–Moon arc: the far side of the ring is noise.
+  const d = norm(m.elon - s.elon + 180) - 180
+  const mid = s.elon + d / 2
+  for (const l of [...nakLabels, ...signLabels]) l.visible = Math.abs(norm(l.userData.lon - mid + 180) - 180) < Math.abs(d) / 2 + 40
+  const from = aya + (nak - 1) * (360 / 27)
+  current.geometry.dispose()
+  current.geometry = sector(from, from + 360 / 27)
 
   const rashi = (k: number) => {
     const r = (content.rashi as Record<string, { name: string; title: string }>)[String(k)]
@@ -298,6 +331,7 @@ document.getElementById('now')!.addEventListener('click', () => {
   slider.value = '0'
   update()
   highlight()
+  frame()
 })
 let playing = false
 play.addEventListener('click', () => {
@@ -317,5 +351,27 @@ renderer.setAnimationLoop((now) => {
   renderer.render(scene, camera)
 })
 
+/**
+ * Frame the part of the ring between the Sun and the Moon: look outward over the Earth at the
+ * middle of that arc, from far enough that the arc, both bodies and their constellations fit
+ * the screen's width (a portrait phone needs more distance).
+ */
+function frame() {
+  const t = timeAt()
+  const s = ecl(Body.Sun, t).elon
+  const d = norm(ecl(Body.Moon, t).elon - s + 180) - 180
+  const mid = s + d / 2
+  const half = Math.abs(d) / 2
+  const target = point(mid, 0, SKY_R * Math.cos(half * DEG) * 0.42)
+  const width = 2 * SKY_R * Math.sin(Math.max(half, 25) * DEG) + 30
+  const fov = Math.tan((camera.fov / 2) * DEG) * Math.min(camera.aspect, 1.6)
+  const distance = width / 2 / fov
+  const back = point(mid + 180, 0, 1).multiplyScalar(distance * Math.cos(40 * DEG))
+  camera.position.copy(target).add(back).add(new THREE.Vector3(0, distance * Math.sin(40 * DEG), 0))
+  controls.target.copy(target)
+  controls.update()
+}
+
 update()
 highlight()
+frame()
