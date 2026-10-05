@@ -1103,6 +1103,11 @@ h3 {
   margin-top: var(--space-2xs);
 }
 
+.about-intro a {
+  color: var(--color-accent);
+  text-underline-offset: 2px;
+}
+
 .terms {
   margin: var(--space-xs) 0 0;
   padding: 0 var(--space-sm);
