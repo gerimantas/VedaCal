@@ -1,17 +1,14 @@
 // Flat sky prototype (user, 2026-10-05, after the 3D one): the Sun, the Moon and the Earth
 // share one plane, so a top-down chart says it all. Earth in the centre; the Moon's orbit cut
 // into the 30 lunar days counted from the Sun (waxing and waning halves); the Sun in its
-// direction; a ring of the 27 Moon stars; and an outer ring of the 12 signs with the real
-// zodiac constellations drawn schematically inside. Not to scale.
+// direction; a ring of the 27 Moon stars; and an outer ring of the 12 signs. Not to scale.
 // Dev server only: /VedaCal/mockups/sky-flat.html
 import { Body, Ecliptic, GeoVector } from 'astronomy-engine'
 import { getAyanamsa as libraryAyanamsa } from '@ishubhamx/panchangam-js/dist/core/ayanamsa'
 import { LANG, content, entry } from '../src/ui/format'
 import { realisticMoon } from '../src/ui/moon'
-import sky from './sky/sky-data.json'
 
 const DRIK_LAHIRI_OFFSET = 24.14 / 3600 // same constant as src/core/panchang.ts
-const OBLIQUITY = 23.44
 const L = LANG === 'lt'
 const text = {
   title: L ? 'Saulė, Mėnulis ir žvaigždės' : 'Sun, Moon and stars',
@@ -31,13 +28,13 @@ const text = {
     ? [
         ['orbit', 'Mėnulio orbita: 30 Mėnulio dienų (Tithi) po 12°, skaičiuojant nuo Saulės. Šviesesnė pusė – priešpilnis, tamsesnė – delčia. „Jaunatis“ ir „pilnatis“ žymi, kur tą akimirką būna Mėnulis.'],
         ['nak', 'Vidurinis žiedas: 27 Mėnulio žvaigždės (Nakshatra). Paryškinta ta, kurioje dabar Mėnulis.'],
-        ['sign', 'Išorinis žiedas: 12 ženklų (Rashi) ir jų žvaigždynų schemos. Mėlynas – Mėnulio ženklas, auksinis – Saulės.'],
+        ['sign', 'Išorinis žiedas: 12 ženklų (Rashi). Mėlynas – Mėnulio ženklas, auksinis – Saulės.'],
         ['note', 'Vaizdas iš viršaus, ne pagal mastelį: tikros tik kryptys. Iš viršaus Mėnulio apšviesta pusė visada atsukta į Saulę; iš Žemės matome jos dalį – pjautuvą ar pilną diską. Mėnulis ir Saulė juda prieš laikrodžio rodyklę.'],
       ]
     : [
         ['orbit', "Moon's orbit: 30 lunar days (Tithi) of 12°, counted from the Sun. The lighter half is waxing, the darker half waning. “New moon” and “full moon” mark where the Moon stands at those moments."],
         ['nak', 'Middle ring: the 27 Moon stars (Nakshatra). The one the Moon is in now is highlighted.'],
-        ['sign', 'Outer ring: the 12 signs (Rashi) and a sketch of each constellation. Blue is the Moon’s sign, gold the Sun’s.'],
+        ['sign', 'Outer ring: the 12 signs (Rashi). Blue is the Moon’s sign, gold the Sun’s.'],
         ['note', 'Seen from above, not to scale: only the directions are true. From above, the Moon’s lit half always faces the Sun; from Earth we see part of it, a crescent or a full disc. The Moon and the Sun move counter-clockwise.'],
       ],
   now: L ? 'Dabar' : 'Now',
@@ -50,19 +47,10 @@ const tropical = (body: Body, t: Date) => Ecliptic(GeoVector(body, t, true)).elo
 const ayanamsa = (t: Date) => libraryAyanamsa(t) + DRIK_LAHIRI_OFFSET
 const rad = (deg: number) => (deg * Math.PI) / 180
 
-/** J2000 RA/Dec (degrees) → ecliptic longitude/latitude (degrees, J2000). */
-function toEcliptic(ra: number, dec: number): [number, number] {
-  const x = Math.cos(rad(dec)) * Math.cos(rad(ra))
-  const y = Math.cos(rad(dec)) * Math.sin(rad(ra))
-  const z = Math.sin(rad(dec))
-  const e = rad(OBLIQUITY)
-  return [(Math.atan2(y * Math.cos(e) + z * Math.sin(e), x) * 180) / Math.PI, (Math.asin(-y * Math.sin(e) + z * Math.cos(e)) * 180) / Math.PI]
-}
-
 // ── Geometry: sidereal longitude → screen angle; Mesha starts at the left, counter-clockwise ──
 
 const C = 200
-const R = { earth: 12, orbit: 78, sun: 106, nakIn: 120, nakOut: 148, figure: 163, signOut: 198 }
+const R = { earth: 12, orbit: 78, sun: 106, nakIn: 120, nakOut: 148, signOut: 198 }
 const screen = (lon: number) => 180 + lon
 const xy = (deg: number, r: number) => [C + r * Math.cos(rad(deg)), C - r * Math.sin(rad(deg))] as const
 const f = (n: number) => n.toFixed(2)
@@ -104,48 +92,6 @@ function body(deg: number, r: number, size: number, sunDeg: number, day: string,
 
 const rashi = (k: number) => (content.rashi as Record<string, { name: string; title: string }>)[String(k)]
 
-// The twelve zodiac constellations, in sign order (Mesha = Aries …), drawn inside the sign ring.
-const ZODIAC = ['Ari', 'Tau', 'Gem', 'Cnc', 'Leo', 'Vir', 'Lib', 'Sco', 'Sgr', 'Cap', 'Aqr', 'Psc']
-const figures = ZODIAC.map((id) =>
-  (sky.lines as Record<string, [number, number][][]>)[id].map((line) => line.map(([ra, dec]) => toEcliptic(ra, dec))),
-)
-/**
- * Each constellation as a compact icon (H. A. Rey-style stick figure): the real star pattern,
- * scaled to the same small box and centred in its sign's sector, upright on screen with east
- * to the left, as the sky looks facing south. Symbolic, not to scale or position.
- */
-const ICON = 21
-const icons = figures.map((lines) => {
-  const ref = lines[0][0][0]
-  const pts = lines.map((line) => line.map(([lon, lat]) => [norm(lon - ref + 180) - 180, lat] as const))
-  const all = pts.flat()
-  const [x0, x1] = [Math.min(...all.map((p) => p[0])), Math.max(...all.map((p) => p[0]))]
-  const [y0, y1] = [Math.min(...all.map((p) => p[1])), Math.max(...all.map((p) => p[1]))]
-  const k = ICON / Math.max(x1 - x0, y1 - y0)
-  return pts.map((line) => line.map(([lon, lat]) => [-(lon - (x0 + x1) / 2) * k, -(lat - (y0 + y1) / 2) * k] as const))
-})
-
-function constellations(sunSign: number, moonSign: number): string {
-  return icons
-    .map((lines, k) => {
-      const cls = k + 1 === moonSign ? 'fig moon' : k + 1 === sunSign ? 'fig sun' : 'fig'
-      const [cx, cy] = xy(screen(k * 30 + 15), R.figure)
-      const dots = new Map<string, readonly [number, number]>()
-      const d = lines
-        .map((line) =>
-          line
-            .map(([x, y], i) => {
-              dots.set(`${x.toFixed(1)},${y.toFixed(1)}`, [x, y])
-              return `${i ? 'L' : 'M'}${f(cx + x)} ${f(cy + y)}`
-            })
-            .join(''),
-        )
-        .join('')
-      return `<g class="${cls}"><path d="${d}"/>${[...dots.values()].map(([x, y]) => `<circle cx="${f(cx + x)}" cy="${f(cy + y)}" r="1.2"/>`).join('')}</g>`
-    })
-    .join('\n')
-}
-
 function chart(t: Date) {
   const aya = ayanamsa(t)
   const sunLon = norm(tropical(Body.Sun, t) - aya)
@@ -159,13 +105,12 @@ function chart(t: Date) {
   const moonDeg = screen(moonLon)
   const out: string[] = []
 
-  // Signs (outer ring) with their constellations and two-line names.
+  // Signs (outer ring) with two-line names.
   for (let k = 0; k < 12; k++) {
     const a = screen(k * 30)
     const cls = k + 1 === sunSign && k + 1 === moonSign ? 'both' : k + 1 === sunSign ? 'sunfill' : k + 1 === moonSign ? 'moonfill' : k % 2 ? 'alt' : 'base'
     out.push(`<path class="${cls}" d="${sector(a, a + 30, R.nakOut, R.signOut)}"/>`)
   }
-  out.push(constellations(sunSign, moonSign))
   for (let k = 0; k < 12; k++) {
     const on = k + 1 === sunSign || k + 1 === moonSign
     out.push(arcText2(screen(k * 30 + 15), R.signOut - 9, 8, rashi(k + 1).title, rashi(k + 1).name, on ? 'sign on' : 'sign'))
@@ -235,8 +180,6 @@ function chart(t: Date) {
       .tithifill { fill: #9fd3ff; fill-opacity: 0.8; }
       .sign { fill: var(--color-muted); font: 600 8px var(--font-body); } .sign.sk { font-weight: 400; font-size: 6.5px; fill: var(--color-neutral); }
       .sign.on { fill: var(--color-ink); } .sign.on.sk { fill: #d4af37; }
-      .fig path { fill: none; stroke: oklch(62% 0.03 264); stroke-width: 0.6; } .fig circle { fill: oklch(80% 0.02 264); }
-      .fig.moon path { stroke: #9fd3ff; stroke-width: 0.9; } .fig.sun path { stroke: #ffc94d; stroke-width: 0.9; }
       .num { fill: var(--color-neutral); font: 6px var(--font-body); }
       .nak.plain { fill: #fff; font: 700 7.5px var(--font-body); } .nak.sk { fill: #d4af37; font: 6.5px var(--font-body); }
       .tick { stroke: oklch(55% 0.02 264); stroke-width: 0.6; } .tick.major { stroke: var(--color-ink); stroke-width: 1.4; }
