@@ -1,0 +1,164 @@
+{
+  "fetchedAt": "2026-10-05T07:16:38.148Z",
+  "city": "new-york",
+  "year": 2026,
+  "sankranti": [
+    {
+      "sign": 10,
+      "observed": "2026-01-14",
+      "at": "2026-01-14T09:43:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/makar-sankranti-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "sign": 11,
+      "observed": "2026-02-12",
+      "at": "2026-02-12T22:44:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/kumbha-sankranti-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "sign": 12,
+      "observed": "2026-03-14",
+      "at": "2026-03-14T19:38:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/meena-sankranti-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "sign": 1,
+      "observed": "2026-04-13",
+      "at": "2026-04-14T04:09:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/mesha-sankranti-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "sign": 2,
+      "observed": "2026-05-14",
+      "at": "2026-05-15T00:58:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/vrishabha-sankranti-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "sign": 3,
+      "observed": "2026-06-15",
+      "at": "2026-06-15T07:29:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/mithuna-sankranti-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "sign": 4,
+      "observed": "2026-07-16",
+      "at": "2026-07-16T18:15:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/karka-sankranti-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "sign": 5,
+      "observed": "2026-08-16",
+      "at": "2026-08-17T02:34:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/simha-sankranti-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "sign": 6,
+      "observed": "2026-09-16",
+      "at": "2026-09-17T02:28:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/kanya-sankranti-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "sign": 7,
+      "observed": "2026-10-17",
+      "at": "2026-10-17T14:27:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/tula-sankranti-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "sign": 8,
+      "observed": "2026-11-16",
+      "at": "2026-11-16T14:18:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/vrischika-sankranti-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "sign": 9,
+      "observed": "2026-12-16",
+      "at": "2026-12-16T04:59:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/dhanu-sankranti-date-time.html?year=2026&geoname-id=5128581"
+    }
+  ],
+  "eclipses": [
+    {
+      "date": "2026-02-17",
+      "body": "sun",
+      "type": "annular",
+      "visible": false,
+      "local": "Eclipse would not be visible in New York City Sutak Begins - Not Applicable Sutak Ends - Not Applicable Sutak for Kids, Old and Sick Begins - Not Applicable Sutak for Kids, Old and Sick Ends - Not Applicable",
+      "source": "https://www.drikpanchang.com/eclipse/solar-eclipse-date-time-duration.html?date=17/02/2026&geoname-id=5128581"
+    },
+    {
+      "date": "2026-03-03",
+      "body": "moon",
+      "type": "total",
+      "visible": true,
+      "local": "Total Lunar Eclipse in New York City Lunar Eclipse Starts - 04:51 AM Lunar Eclipse Ends (With Moonset) - 06:24 AM Moonset - 06:24 AM Local Eclipse Duration - 01 Hour 33 Mins 01 Sec First Contact with the Penumbra - 03:46 AM First Contact with the Umbra - 04:51 AM Total Phase Begins - 06:05 AM Maximum of Lunar Eclipse - 06:34 AM Total Phase Ends - 07:03 AM Last Contact with the Umbra - 08:16 AM Last Contact with the Penumbra - 09:22 AM Duration of Total Phase - 00 Hours 57 Mins 27 Secs Duration of Partial Phase - 03 Hours 25 Mins 17 Secs Duration of Penumbral Phase - 05 Hours 35 Mins 45 Secs Magnitude of Lunar Eclipse - 1.14 Magnitude of Penumbral Lunar Eclipse - 2.18 Sutak Begins - 05:49 PM , Mar 02 Sutak Ends - 06:24 AM Sutak for Kids, Old and Sick Begins - 12:08 AM Sutak for Kids, Old and Sick Ends - 06:24 AM",
+      "source": "https://www.drikpanchang.com/eclipse/lunar-eclipse-date-time-duration.html?date=03/03/2026&geoname-id=5128581"
+    },
+    {
+      "date": "2026-08-12",
+      "body": "sun",
+      "type": "total",
+      "visible": true,
+      "local": "Partial Solar Eclipse in New York City Eclipse Start Time - 01:07 PM Maximum Eclipse Time - 01:53 PM Eclipse End Time - 02:38 PM Partial Eclipse Duration - 01 Hour 30 Mins 39 Secs Maximum Magnitude - 0.18 Sutak Begins - 01:01 AM Sutak Ends - 02:38 PM Sutak for Kids, Old and Sick Begins - 09:32 AM Sutak for Kids, Old and Sick Ends - 02:38 PM",
+      "source": "https://www.drikpanchang.com/eclipse/solar-eclipse-date-time-duration.html?date=12/08/2026&geoname-id=5128581"
+    },
+    {
+      "date": "2026-08-28",
+      "body": "moon",
+      "type": "partial",
+      "visible": true,
+      "local": "Partial Lunar Eclipse in New York City Lunar Eclipse Starts - 10:34 PM Lunar Eclipse Ends - 01:51 AM , Aug 28 Local Eclipse Duration - 03 Hours 16 Mins 37 Secs First Contact with the Penumbra - 09:25 PM First Contact with the Umbra - 10:34 PM Maximum of Lunar Eclipse - 12:13 AM , Aug 28 Last Contact with the Umbra - 01:51 AM , Aug 28 Last Contact with the Penumbra - 03:00 AM , Aug 28 Duration of Partial Phase - 03 Hours 16 Mins 37 Secs Duration of Penumbral Phase - 05 Hours 35 Mins 44 Secs Magnitude of Lunar Eclipse - 0.92 Magnitude of Penumbral Lunar Eclipse - 1.95 Sutak Begins - 12:57 PM Sutak Ends - 01:51 AM , Aug 28 Sutak for Kids, Old and Sick Begins - 07:36 PM Sutak for Kids, Old and Sick Ends - 01:51 AM , Aug 28",
+      "source": "https://www.drikpanchang.com/eclipse/lunar-eclipse-date-time-duration.html?date=28/08/2026&geoname-id=5128581"
+    }
+  ],
+  "pushya": [
+    {
+      "weekday": 0,
+      "date": "2026-01-04",
+      "start": "2026-01-04T12:20:00.000Z",
+      "end": "2026-01-05T07:55:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "weekday": 0,
+      "date": "2026-02-01",
+      "start": "2026-02-01T12:06:00.000Z",
+      "end": "2026-02-01T18:28:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "weekday": 4,
+      "date": "2026-03-27",
+      "start": "2026-03-27T09:54:00.000Z",
+      "end": "2026-03-27T10:48:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/gurupushya-yoga-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "weekday": 4,
+      "date": "2026-04-23",
+      "start": "2026-04-23T15:27:00.000Z",
+      "end": "2026-04-24T10:04:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/gurupushya-yoga-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "weekday": 4,
+      "date": "2026-05-21",
+      "start": "2026-05-21T09:34:00.000Z",
+      "end": "2026-05-21T21:19:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/gurupushya-yoga-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "weekday": 0,
+      "date": "2026-10-04",
+      "start": "2026-10-04T18:43:00.000Z",
+      "end": "2026-10-05T10:57:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=5128581"
+    },
+    {
+      "weekday": 0,
+      "date": "2026-11-01",
+      "start": "2026-11-01T11:26:00.000Z",
+      "end": "2026-11-01T23:00:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=5128581"
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "fetchedAt": "2026-10-05T07:16:38.023Z",
+  "city": "vilnius",
+  "year": 2026,
+  "sankranti": [
+    {
+      "sign": 10,
+      "observed": "2026-01-14",
+      "at": "2026-01-14T09:43:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/makar-sankranti-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "sign": 11,
+      "observed": "2026-02-13",
+      "at": "2026-02-12T22:44:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/kumbha-sankranti-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "sign": 12,
+      "observed": "2026-03-14",
+      "at": "2026-03-14T19:38:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/meena-sankranti-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "sign": 1,
+      "observed": "2026-04-14",
+      "at": "2026-04-14T04:09:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/mesha-sankranti-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "sign": 2,
+      "observed": "2026-05-15",
+      "at": "2026-05-15T00:58:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/vrishabha-sankranti-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "sign": 3,
+      "observed": "2026-06-15",
+      "at": "2026-06-15T07:29:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/mithuna-sankranti-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "sign": 4,
+      "observed": "2026-07-16",
+      "at": "2026-07-16T18:15:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/karka-sankranti-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "sign": 5,
+      "observed": "2026-08-17",
+      "at": "2026-08-17T02:34:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/simha-sankranti-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "sign": 6,
+      "observed": "2026-09-17",
+      "at": "2026-09-17T02:28:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/kanya-sankranti-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "sign": 7,
+      "observed": "2026-10-17",
+      "at": "2026-10-17T14:27:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/tula-sankranti-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "sign": 8,
+      "observed": "2026-11-16",
+      "at": "2026-11-16T14:18:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/vrischika-sankranti-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "sign": 9,
+      "observed": "2026-12-16",
+      "at": "2026-12-16T04:59:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/dhanu-sankranti-date-time.html?year=2026&geoname-id=593116"
+    }
+  ],
+  "eclipses": [
+    {
+      "date": "2026-02-17",
+      "body": "sun",
+      "type": "annular",
+      "visible": false,
+      "local": "Eclipse would not be visible in Vilnius Sutak Begins - Not Applicable Sutak Ends - Not Applicable Sutak for Kids, Old and Sick Begins - Not Applicable Sutak for Kids, Old and Sick Ends - Not Applicable",
+      "source": "https://www.drikpanchang.com/eclipse/solar-eclipse-date-time-duration.html?date=17/02/2026&geoname-id=593116"
+    },
+    {
+      "date": "2026-03-03",
+      "body": "moon",
+      "type": "total",
+      "visible": false,
+      "local": "No Lunar Eclipse in Vilnius No Eclipse in Umbra No Eclipse in Penumbra Local Timings when Eclipse would be Visible in other parts of the Globe First Contact with the Penumbra - 10:46 AM First Contact with the Umbra - 11:51 AM Total Phase Begins - 01:05 PM Maximum of Lunar Eclipse - 01:34 PM Total Phase Ends - 02:03 PM Last Contact with the Umbra - 03:16 PM Last Contact with the Penumbra - 04:22 PM Duration of Total Phase - 00 Hours 57 Mins 27 Secs Duration of Partial Phase - 03 Hours 25 Mins 17 Secs Duration of Penumbral Phase - 05 Hours 35 Mins 45 Secs Magnitude of Lunar Eclipse - 1.14 Magnitude of Penumbral Lunar Eclipse - 2.18 Sutak Begins - Not Applicable Sutak Ends - Not Applicable Sutak for Kids, Old and Sick Begins - Not Applicable Sutak for Kids, Old and Sick Ends - Not Applicable",
+      "source": "https://www.drikpanchang.com/eclipse/lunar-eclipse-date-time-duration.html?date=03/03/2026&geoname-id=593116"
+    },
+    {
+      "date": "2026-08-12",
+      "body": "sun",
+      "type": "total",
+      "visible": true,
+      "local": "Partial Solar Eclipse in Vilnius Eclipse Start Time - 08:09 PM Eclipse would end with Sunset - 08:58 PM Partial Eclipse Duration - 00 Hours 48 Mins 53 Secs Magnitude at Sunset - 0.84 Sutak Begins - 03:37 AM Sutak Ends - 08:58 PM Sutak for Kids, Old and Sick Begins - 01:23 PM Sutak for Kids, Old and Sick Ends - 08:58 PM",
+      "source": "https://www.drikpanchang.com/eclipse/solar-eclipse-date-time-duration.html?date=12/08/2026&geoname-id=593116"
+    },
+    {
+      "date": "2026-08-28",
+      "body": "moon",
+      "type": "partial",
+      "visible": true,
+      "local": "Partial Lunar Eclipse in Vilnius Lunar Eclipse Starts - 05:34 AM Lunar Eclipse Ends (With Moonset) - 06:16 AM Moonset - 06:16 AM Local Eclipse Duration - 00 Hours 41 Mins 53 Secs First Contact with the Penumbra - 04:25 AM First Contact with the Umbra - 05:34 AM Maximum of Lunar Eclipse - 07:13 AM Last Contact with the Umbra - 08:51 AM Last Contact with the Penumbra - 10:00 AM Duration of Partial Phase - 03 Hours 16 Mins 37 Secs Duration of Penumbral Phase - 05 Hours 35 Mins 44 Secs Magnitude of Lunar Eclipse - 0.92 Magnitude of Penumbral Lunar Eclipse - 1.95 Sutak Begins - 08:23 PM , Aug 27 Sutak Ends - 06:16 AM Sutak for Kids, Old and Sick Begins - 01:21 AM Sutak for Kids, Old and Sick Ends - 06:16 AM",
+      "source": "https://www.drikpanchang.com/eclipse/lunar-eclipse-date-time-duration.html?date=28/08/2026&geoname-id=593116"
+    }
+  ],
+  "pushya": [
+    {
+      "weekday": 0,
+      "date": "2026-01-04",
+      "start": "2026-01-04T09:41:00.000Z",
+      "end": "2026-01-05T06:41:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "weekday": 0,
+      "date": "2026-02-01",
+      "start": "2026-02-01T06:09:00.000Z",
+      "end": "2026-02-01T18:28:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "weekday": 4,
+      "date": "2026-04-23",
+      "start": "2026-04-23T15:27:00.000Z",
+      "end": "2026-04-24T02:56:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/gurupushya-yoga-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "weekday": 4,
+      "date": "2026-05-21",
+      "start": "2026-05-21T02:03:00.000Z",
+      "end": "2026-05-21T21:19:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/gurupushya-yoga-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "weekday": 4,
+      "date": "2026-06-18",
+      "start": "2026-06-18T01:41:00.000Z",
+      "end": "2026-06-18T06:02:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/gurupushya-yoga-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "weekday": 0,
+      "date": "2026-10-04",
+      "start": "2026-10-04T18:43:00.000Z",
+      "end": "2026-10-05T04:28:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=593116"
+    },
+    {
+      "weekday": 0,
+      "date": "2026-11-01",
+      "start": "2026-11-01T05:21:00.000Z",
+      "end": "2026-11-01T23:00:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=593116"
+    }
+  ]
+}

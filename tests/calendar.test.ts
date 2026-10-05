@@ -44,11 +44,19 @@ describe.each(load<DrikFixture>('drik'))('Drik $city $date', (f) => {
   const day = computeDay(f.date, loc(f.city))
   const card = (title: string, key: string) => f.raw[title]?.[key] ?? []
 
+  it('Lahiri ayanamsha equals the value Drik prints', () => {
+    // It moves ~0.14″ a day, so the instant Drik takes it at does not matter at this tolerance.
+    const drik = Number(card('Other Calendars and Epoch', 'Lahiri Ayanamsha')[0])
+    expect(Math.abs(day.ayanamsha - drik) * 3600).toBeLessThan(0.2)
+  })
+
   it('lunar month, Purnimanta and Amanta', () => {
     const [purnimanta, amanta] = card('Lunar Month, Samvat and Brihaspati Samvatsara', 'Chandramasa')
     const name = (m: number, adhika: boolean) => `${adhika ? 'Adhika ' : ''}${MASA[m - 1]}`
-    expect(name(day.masa.purnimanta, day.masa.adhika)).toBe(purnimanta.replace(/ - Purnimanta$/, '').replace(/^Nija /, ''))
-    expect(name(day.masa.amanta, day.masa.adhika)).toBe(amanta.replace(/ - Amanta$/, '').replace(/^Nija /, ''))
+    // Drik writes the leap month as "Jyeshtha (Adhik)" (2026-05-25 fixtures).
+    const drik = (s: string) => s.replace(/ - (Purnimanta|Amanta)$/, '').replace(/^Nija /, '').replace(/^(\w+) \(Adhik\)$/, 'Adhika $1')
+    expect(name(day.masa.purnimanta, day.masa.adhika)).toBe(drik(purnimanta))
+    expect(name(day.masa.amanta, day.masa.adhika)).toBe(drik(amanta))
   })
 
   it('Moon sign at sunrise and its end', () => {

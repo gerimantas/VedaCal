@@ -1,0 +1,178 @@
+{
+  "fetchedAt": "2026-10-05T07:16:38.250Z",
+  "city": "new-delhi",
+  "year": 2026,
+  "sankranti": [
+    {
+      "sign": 10,
+      "observed": "2026-01-14",
+      "at": "2026-01-14T09:43:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/makar-sankranti-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "sign": 11,
+      "observed": "2026-02-13",
+      "at": "2026-02-12T22:44:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/kumbha-sankranti-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "sign": 12,
+      "observed": "2026-03-15",
+      "at": "2026-03-14T19:38:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/meena-sankranti-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "sign": 1,
+      "observed": "2026-04-14",
+      "at": "2026-04-14T04:09:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/mesha-sankranti-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "sign": 2,
+      "observed": "2026-05-15",
+      "at": "2026-05-15T00:58:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/vrishabha-sankranti-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "sign": 3,
+      "observed": "2026-06-15",
+      "at": "2026-06-15T07:29:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/mithuna-sankranti-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "sign": 4,
+      "observed": "2026-07-16",
+      "at": "2026-07-16T18:15:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/karka-sankranti-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "sign": 5,
+      "observed": "2026-08-17",
+      "at": "2026-08-17T02:34:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/simha-sankranti-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "sign": 6,
+      "observed": "2026-09-17",
+      "at": "2026-09-17T02:28:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/kanya-sankranti-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "sign": 7,
+      "observed": "2026-10-17",
+      "at": "2026-10-17T14:27:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/tula-sankranti-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "sign": 8,
+      "observed": "2026-11-16",
+      "at": "2026-11-16T14:18:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/vrischika-sankranti-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "sign": 9,
+      "observed": "2026-12-16",
+      "at": "2026-12-16T04:59:00.000Z",
+      "source": "https://www.drikpanchang.com/sankranti/dhanu-sankranti-date-time.html?year=2026&geoname-id=1261481"
+    }
+  ],
+  "eclipses": [
+    {
+      "date": "2026-02-17",
+      "body": "sun",
+      "type": "annular",
+      "visible": false,
+      "local": "Eclipse would not be visible in New Delhi Sutak Begins - Not Applicable Sutak Ends - Not Applicable Sutak for Kids, Old and Sick Begins - Not Applicable Sutak for Kids, Old and Sick Ends - Not Applicable",
+      "source": "https://www.drikpanchang.com/eclipse/solar-eclipse-date-time-duration.html?date=17/02/2026&geoname-id=1261481"
+    },
+    {
+      "date": "2026-03-03",
+      "body": "moon",
+      "type": "total",
+      "visible": true,
+      "local": "Partial Lunar Eclipse in New Delhi Lunar Eclipse Starts (With Moonrise) - 06:26 PM Lunar Eclipse Ends - 06:46 PM Moonrise - 06:26 PM Local Eclipse Duration - 00 Hours 20 Mins 28 Secs First Contact with the Penumbra - 02:16 PM First Contact with the Umbra - 03:21 PM Total Phase Begins - 04:35 PM Maximum of Lunar Eclipse - 05:04 PM Total Phase Ends - 05:33 PM Last Contact with the Umbra - 06:46 PM Last Contact with the Penumbra - 07:52 PM Duration of Total Phase - 00 Hours 57 Mins 27 Secs Duration of Partial Phase - 03 Hours 25 Mins 17 Secs Duration of Penumbral Phase - 05 Hours 35 Mins 45 Secs Magnitude of Lunar Eclipse - 1.14 Magnitude of Penumbral Lunar Eclipse - 2.18 Sutak Begins - 09:39 AM Sutak Ends - 06:46 PM Sutak for Kids, Old and Sick Begins - 03:28 PM Sutak for Kids, Old and Sick Ends - 06:46 PM",
+      "source": "https://www.drikpanchang.com/eclipse/lunar-eclipse-date-time-duration.html?date=03/03/2026&geoname-id=1261481"
+    },
+    {
+      "date": "2026-08-12",
+      "body": "sun",
+      "type": "total",
+      "visible": false,
+      "local": "Eclipse would not be visible in New Delhi Sutak Begins - Not Applicable Sutak Ends - Not Applicable Sutak for Kids, Old and Sick Begins - Not Applicable Sutak for Kids, Old and Sick Ends - Not Applicable",
+      "source": "https://www.drikpanchang.com/eclipse/solar-eclipse-date-time-duration.html?date=12/08/2026&geoname-id=1261481"
+    },
+    {
+      "date": "2026-08-28",
+      "body": "moon",
+      "type": "partial",
+      "visible": false,
+      "local": "No Lunar Eclipse in New Delhi No Eclipse in Umbra No Eclipse in Penumbra Local Timings when Eclipse would be Visible in other parts of the Globe First Contact with the Penumbra - 06:55 AM First Contact with the Umbra - 08:04 AM Maximum of Lunar Eclipse - 09:43 AM Last Contact with the Umbra - 11:21 AM Last Contact with the Penumbra - 12:30 PM Duration of Partial Phase - 03 Hours 16 Mins 37 Secs Duration of Penumbral Phase - 05 Hours 35 Mins 44 Secs Magnitude of Lunar Eclipse - 0.92 Magnitude of Penumbral Lunar Eclipse - 1.95 Sutak Begins - Not Applicable Sutak Ends - Not Applicable Sutak for Kids, Old and Sick Begins - Not Applicable Sutak for Kids, Old and Sick Ends - Not Applicable",
+      "source": "https://www.drikpanchang.com/eclipse/lunar-eclipse-date-time-duration.html?date=28/08/2026&geoname-id=1261481"
+    }
+  ],
+  "pushya": [
+    {
+      "weekday": 0,
+      "date": "2026-01-04",
+      "start": "2026-01-04T09:41:00.000Z",
+      "end": "2026-01-05T01:45:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "weekday": 0,
+      "date": "2026-02-01",
+      "start": "2026-02-01T01:39:00.000Z",
+      "end": "2026-02-01T18:28:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "weekday": 0,
+      "date": "2026-03-01",
+      "start": "2026-03-01T01:16:00.000Z",
+      "end": "2026-03-01T03:04:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "weekday": 4,
+      "date": "2026-04-23",
+      "start": "2026-04-23T15:27:00.000Z",
+      "end": "2026-04-24T00:17:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/gurupushya-yoga-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "weekday": 4,
+      "date": "2026-05-21",
+      "start": "2026-05-20T23:57:00.000Z",
+      "end": "2026-05-21T21:19:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/gurupushya-yoga-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "weekday": 4,
+      "date": "2026-06-18",
+      "start": "2026-06-17T23:53:00.000Z",
+      "end": "2026-06-18T06:02:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/gurupushya-yoga-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "weekday": 0,
+      "date": "2026-10-04",
+      "start": "2026-10-04T18:43:00.000Z",
+      "end": "2026-10-05T00:46:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "weekday": 0,
+      "date": "2026-11-01",
+      "start": "2026-11-01T01:03:00.000Z",
+      "end": "2026-11-01T23:00:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=1261481"
+    },
+    {
+      "weekday": 0,
+      "date": "2026-11-29",
+      "start": "2026-11-29T01:25:00.000Z",
+      "end": "2026-11-29T05:29:00.000Z",
+      "source": "https://www.drikpanchang.com/yoga/ravipushya-yoga-date-time.html?year=2026&geoname-id=1261481"
+    }
+  ]
+}

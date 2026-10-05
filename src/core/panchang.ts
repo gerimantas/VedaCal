@@ -26,7 +26,7 @@ import {
   SunPosition,
 } from 'astronomy-engine'
 // Deep imports on purpose: the package root also loads kundli/exporter.js (needs Node's `fs`).
-import { getAyanamsa } from '@ishubhamx/panchangam-js/dist/core/ayanamsa'
+import { getAyanamsa as libraryAyanamsa } from '@ishubhamx/panchangam-js/dist/core/ayanamsa'
 import { getMoonrise, getMoonset, getSunrise, getSunset } from '@ishubhamx/panchangam-js/dist/core/rise-set'
 import { calculateAbhijitMuhurta, calculateBrahmaMuhurta } from '@ishubhamx/panchangam-js/dist/muhurta/abhijit'
 import { calculateRahuKalam } from '@ishubhamx/panchangam-js/dist/muhurta/rahu-kaal'
@@ -75,6 +75,15 @@ const anchor = (loc: Location, date: string) => sunriseOn(loc, date) ?? noon(loc
 
 const tropical = (body: Body, t: Date) => Ecliptic(GeoVector(body, t, true)).elon
 const norm = (deg: number) => ((deg % 360) + 360) % 360
+
+/**
+ * Lahiri ayanamsha as Drik publishes it. The library's value is 24.14″ smaller on every one
+ * of the 48 Drik day pages (1995–2045, three cities: "Lahiri Ayanamsha" 24.237596 vs
+ * 24.230890 on 2026-10-04) — a constant, so a different epoch value. That gap put every
+ * Sankranti ~9 min before Drik's (SPEC 4.11).
+ */
+const DRIK_LAHIRI_OFFSET = 24.14 / 3600
+const getAyanamsa = (t: Date) => libraryAyanamsa(t) + DRIK_LAHIRI_OFFSET
 
 /** Moon − Sun. Astronomy Engine's MoonPhase() differs by ~40 s of time; this matches mypanchang to ~8 s. */
 const elongation = (t: Date) => norm(tropical(Body.Moon, t) - tropical(Body.Sun, t))
@@ -203,10 +212,12 @@ function monthMarks(loc: Location, first: string): Map<string, DayMark[]> {
     // Eclipses, dated by their peak. Visible = any part above the horizon here.
     for (let e = SearchLunarEclipse(start); e.peak.date < end; e = NextLunarEclipse(e.peak)) {
       if (e.peak.date < start) continue
-      const half = (e.kind === 'penumbral' ? e.sd_penum : e.sd_partial) * MIN_MS
       const p = e.peak.date.getTime()
-      const times = [-1, -0.5, 0, 0.5, 1].map((f) => new Date(p + f * half))
-      add(e.peak.date, { kind: 'eclipse', body: 'moon', type: e.kind, peak: e.peak.date, visible: moonUp(loc, times) })
+      // Like Drik, report the deepest phase this place sees: the Moon rising after totality has
+      // ended makes a total eclipse partial here (New Delhi, 2026-03-03).
+      const phases = [['total', e.sd_total], ['partial', e.sd_partial], ['penumbral', e.sd_penum]] as const
+      const seen = phases.find(([, sd]) => sd > 0 && moonUp(loc, Array.from({ length: 13 }, (_, i) => new Date(p + (i / 6 - 1) * sd * MIN_MS))))
+      add(e.peak.date, { kind: 'eclipse', body: 'moon', type: seen ? seen[0] : e.kind, peak: e.peak.date, visible: !!seen })
     }
     for (let e = SearchGlobalSolarEclipse(start); e.peak.date < end; e = NextGlobalSolarEclipse(e.peak)) {
       if (e.peak.date < start) continue

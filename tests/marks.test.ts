@@ -1,6 +1,6 @@
-// Day marks (SPEC 4.11): eclipses, Sankranti, Guru/Ravi Pushya. Drik pages for these are not
-// fetched yet (reCAPTCHA, 2026-10-05; CONTEXT Next Tasks) — until then these tests check the
-// marks against the engine's own validated spans and against the Drik day fixtures we have.
+// Day marks (SPEC 4.11): eclipses, Sankranti, Guru/Ravi Pushya — checked here against the
+// engine's own validated spans and the Drik day fixtures; tests/drik-marks.test.ts checks
+// them against Drik's own Sankranti, eclipse and Pushya pages.
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { computeDay, computeMonth } from '../src/core/panchang'
