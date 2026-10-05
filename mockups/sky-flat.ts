@@ -141,8 +141,10 @@ function chart(t: Date) {
   out.push(arcText(sunDeg + 90, R.orbitIn - 6, text.waxing, 'half'))
   out.push(arcText(sunDeg + 270, R.orbitIn - 6, text.waning, 'half'))
   // New and full moon: where the Moon stands at those moments, along the ring's outer edge.
-  out.push(arcText(sunDeg, R.orbitOut + 5, text.newMoon, 'phase'))
-  out.push(arcText(sunDeg + 180, R.orbitOut + 5, text.fullMoon, 'phase'))
+  // Plain name first, the Sanskrit after it (the 30th and 15th lunar days).
+  const phase = (plain: string, k: number) => `${plain} · <tspan class="phase-sk">${entry('tithi', k).name}</tspan>`
+  out.push(arcText(sunDeg, R.orbitOut + 5, phase(text.newMoon, 30), 'phase'))
+  out.push(arcText(sunDeg + 180, R.orbitOut + 5, phase(text.fullMoon, 15), 'phase'))
 
   // Pointers from the Earth, and the Sun → Moon angle with an arrow at the Moon's end.
   const [mx, my] = xy(moonDeg, R.nakOut)
@@ -178,7 +180,7 @@ function chart(t: Date) {
       .nak.plain { fill: #fff; font: 700 7.5px var(--font-body); } .nak.sk { fill: #d4af37; font: 6.5px var(--font-body); }
       .tick { stroke: oklch(55% 0.02 264); stroke-width: 0.6; } .tick.major { stroke: var(--color-ink); stroke-width: 1.4; }
       .half { fill: var(--color-muted); font: 6.5px var(--font-body); }
-      .phase { fill: var(--color-ink); font: 600 6.5px var(--font-body); paint-order: stroke; stroke: oklch(16.3% 0.014 264); stroke-width: 2.5px; }
+      .phase { fill: var(--color-ink); font: 600 6.5px var(--font-body); paint-order: stroke; stroke: oklch(16.3% 0.014 264); stroke-width: 2.5px; } .phase-sk { fill: #d4af37; font-weight: 400; }
       .tithi { fill: #fff; font: 700 8px var(--font-body); }
       .ptr { stroke-width: 1.2; stroke-dasharray: 4 3; } .ptr.moon { stroke: #9fd3ff; } .ptr.sun { stroke: #ffb300; }
       .angle { fill: none; stroke: #ffb300; stroke-width: 1.5; }
