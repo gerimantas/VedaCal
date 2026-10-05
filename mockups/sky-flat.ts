@@ -50,7 +50,7 @@ const rad = (deg: number) => (deg * Math.PI) / 180
 // ── Geometry: sidereal longitude → screen angle; Mesha starts at the left, counter-clockwise ──
 
 const C = 200
-const R = { earth: 12, orbit: 78, sun: 106, nakIn: 120, nakOut: 148, signOut: 174 }
+const R = { earth: 12, orbitIn: 60, orbitOut: 98, moon: 75, dayNum: 90, sun: 110, nakIn: 120, nakOut: 148, signOut: 174 }
 const screen = (lon: number) => 180 + lon
 const xy = (deg: number, r: number) => [C + r * Math.cos(rad(deg)), C - r * Math.sin(rad(deg))] as const
 const f = (n: number) => n.toFixed(2)
@@ -127,24 +127,25 @@ function chart(t: Date) {
   out.push(arcText2(screen(((nak - 0.5) * 360) / 27), (R.nakIn + R.nakOut) / 2, 10, n.title, n.name, 'nak'))
 
   // The Moon's orbit: waxing half (Sun → opposite) lighter, waning half darker, 30 ticks.
-  out.push(`<path class="wax" d="${sector(sunDeg, sunDeg + 180, R.orbit - 7, R.orbit + 7)}"/>`)
-  out.push(`<path class="wane" d="${sector(sunDeg + 180, sunDeg + 360, R.orbit - 7, R.orbit + 7)}"/>`)
+  out.push(`<path class="wax" d="${sector(sunDeg, sunDeg + 180, R.orbitIn, R.orbitOut)}"/>`)
+  out.push(`<path class="wane" d="${sector(sunDeg + 180, sunDeg + 360, R.orbitIn, R.orbitOut)}"/>`)
   const t0 = sunDeg + (tithi - 1) * 12
-  out.push(`<path class="tithifill" d="${sector(t0, t0 + 12, R.orbit - 7, R.orbit + 7)}"/>`)
+  out.push(`<path class="tithifill" d="${sector(t0, t0 + 12, R.orbitIn, R.orbitOut)}"/>`)
   for (let k = 0; k < 30; k++) {
-    const [x1, y1] = xy(sunDeg + k * 12, R.orbit - 7)
-    const [x2, y2] = xy(sunDeg + k * 12, R.orbit + 7)
+    const [x1, y1] = xy(sunDeg + k * 12, R.orbitIn)
+    const [x2, y2] = xy(sunDeg + k * 12, R.orbitOut)
     out.push(`<line class="${k % 15 ? 'tick' : 'tick major'}" x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}"/>`)
   }
-  out.push(arcText(sunDeg + 90, R.orbit - 15, text.waxing, 'half'))
-  out.push(arcText(sunDeg + 270, R.orbit - 15, text.waning, 'half'))
-  out.push(arcText(t0 + 6, R.orbit + 15, String(tithi), 'tithi'))
+  // Day numbers inside the ring, like the other rings; the current one bold.
+  for (let k = 0; k < 30; k++) out.push(arcText(sunDeg + k * 12 + 6, R.dayNum, String(k + 1), k + 1 === tithi ? 'tithi' : 'num'))
+  out.push(arcText(sunDeg + 90, R.orbitIn - 8, text.waxing, 'half'))
+  out.push(arcText(sunDeg + 270, R.orbitIn - 8, text.waning, 'half'))
   // New and full moon: where the Moon stands at those moments (horizontal, readable).
   for (const [deg, label] of [
     [sunDeg, text.newMoon],
     [sunDeg + 180, text.fullMoon],
   ] as const) {
-    const [x, y] = xy(deg, R.orbit - 12)
+    const [x, y] = xy(deg, R.orbitIn - 6)
     const right = Math.cos(rad(deg)) > 0.3
     const left = Math.cos(rad(deg)) < -0.3
     out.push(`<text class="phase" x="${f(x)}" y="${f(y)}" text-anchor="${right ? 'end' : left ? 'start' : 'middle'}" dominant-baseline="${right || left ? 'central' : Math.sin(rad(deg)) > 0 ? 'hanging' : 'auto'}">${label}</text>`)
@@ -164,7 +165,7 @@ function chart(t: Date) {
   // Bodies: Sun (with glow), Moon on its orbit, Earth in the centre; each lit toward the Sun.
   const [gx, gy] = xy(sunDeg, R.sun)
   out.push(`<circle cx="${f(gx)}" cy="${f(gy)}" r="18" fill="url(#glow)"/><circle cx="${f(gx)}" cy="${f(gy)}" r="8" fill="#ffc94d"/>`)
-  out.push(body(moonDeg, R.orbit, 8, sunDeg, '#e8e8e8', '#3a3f4a'))
+  out.push(body(moonDeg, R.moon, 8, sunDeg, '#e8e8e8', '#3a3f4a'))
   out.push(body(0, 0, R.earth, sunDeg, '#4f8fd8', '#1b2a44'))
 
   const svg = `<svg class="chart" viewBox="24 24 352 352" role="img" aria-label="${text.title}">
@@ -185,7 +186,7 @@ function chart(t: Date) {
       .tick { stroke: oklch(55% 0.02 264); stroke-width: 0.6; } .tick.major { stroke: var(--color-ink); stroke-width: 1.4; }
       .half { fill: var(--color-muted); font: 6.5px var(--font-body); }
       .phase { fill: var(--color-ink); font: 6.5px var(--font-body); }
-      .tithi { fill: #9fd3ff; font: 700 10px var(--font-body); }
+      .tithi { fill: #fff; font: 700 8px var(--font-body); }
       .ptr { stroke-width: 1.2; stroke-dasharray: 4 3; } .ptr.moon { stroke: #9fd3ff; } .ptr.sun { stroke: #ffb300; }
       .angle { fill: none; stroke: #ffb300; stroke-width: 1.5; }
       .deg { fill: #ffb300; font: 700 9px var(--font-body); }
