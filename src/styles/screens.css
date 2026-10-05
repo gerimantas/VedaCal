@@ -372,6 +372,9 @@ h3 {
   position: relative;
   width: 100%;
   margin: 0 auto;
+  /* The centre text is sized to the dial (cqi), so it keeps its proportion to the SVG even when
+     the phone's font size is set larger. */
+  container-type: inline-size;
 }
 
 .dial {
@@ -480,7 +483,8 @@ h3 {
 
 .dial-center {
   position: absolute;
-  inset: 0;
+  /* The SVG is 240 × 252 with the ring centred at y = 120: leave the 12 extra units out. */
+  inset: 0 0 4.76% 0;
   display: grid;
   align-content: center;
   justify-items: center;
@@ -491,20 +495,20 @@ h3 {
 
 .dial-center small {
   color: var(--color-neutral);
-  font-size: var(--text-xs);
+  font-size: 4cqi;
 }
 
 .dial-center b {
   white-space: nowrap;
   color: var(--color-moon);
-  font-size: var(--text-lg);
+  font-size: 5.6cqi;
   font-weight: 650;
   line-height: 1.15;
 }
 
 .dial-now {
   margin-bottom: 0.2rem;
-  font-size: var(--text-xs);
+  font-size: 4cqi;
   font-weight: 600;
 }
 

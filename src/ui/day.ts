@@ -253,8 +253,9 @@ function paranaFact(day: DayPanchang, loc: Location): Fact {
 function sunDial(day: DayPanchang, loc: Location, now: Date, next: DayView['next']): string {
   if (!day.sunrise || !day.sunset) return ''
   const { brahma, abhijit, rahuKaal } = day.windows
-  // Wider than tall: the sunrise/sunset labels sit in the bottom corners, beside the ring.
-  const W = 296, H = 240, cx = W / 2, cy = H / 2, R = 82, LANE = 4, SUN = 109
+  // As wide as the sun's path, so the ring is as large as the card allows; a little taller, for
+  // the sunrise/sunset labels in the bottom corners, below the ring and clear of the sun.
+  const W = 240, H = 252, cx = W / 2, cy = 120, R = 82, LANE = 4, SUN = 109
   const noon = (day.sunrise.getTime() + day.sunset.getTime()) / 2
   const f = (n: number) => n.toFixed(1)
   const at = (d: Date, r = R) => {
@@ -282,10 +283,10 @@ function sunDial(day: DayPanchang, loc: Location, now: Date, next: DayView['next
   const [rx, ry] = at(day.sunrise), [setx, sety] = at(day.sunset)
   // Sized from the character count to fill a fixed width (markup is built before layout, so
   // text cannot be measured), capped so short times stay sane.
-  // The widths keep both lines outside the sun's path (radius SUN + its 7 + a gap) at W = 296.
+  // The widths keep both lines outside the sun's path (radius SUN + its 7 + a gap).
   const fit = (text: string, room: number, em: number, max: number) => Math.min(max, room / (text.length * em))
   const corner = (x: number, anchor: string, name: string, when: string) => {
-    const n = fit(name, 38, 0.52, 12), w = fit(when, 50, 0.6, 15), bottom = cy + R
+    const n = fit(name, 44, 0.52, 11), w = fit(when, 56, 0.6, 15), bottom = H - 2
     return `<text class="rise-name" text-anchor="${anchor}" font-size="${f(n)}" x="${x}" y="${f(bottom - w - 2 - n / 2)}">${name}</text>` +
       `<text class="rise-time" text-anchor="${anchor}" font-size="${f(w)}" x="${x}" y="${f(bottom - w / 2)}">${when}</text>`
   }
