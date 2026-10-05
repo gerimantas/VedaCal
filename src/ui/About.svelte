@@ -1,7 +1,7 @@
 <script lang="ts">
   // About (SPEC 5.4), the approved P3 mockup (mockups/about.ts): what VedaCal is, a
   // plain-English key to every term on the day screen, how times are calculated, credits.
-  import { sheet, t } from './format'
+  import { content, sheet, t } from './format'
   import { icon } from './icons'
   import { app } from './state.svelte'
   import { terms, type Term } from './terms'
@@ -23,6 +23,14 @@
         <details>
           <summary><b>{name}</b>{#if sanskrit}<span class="sk">{sanskrit}</span>{/if}{@html icon.down}</summary>
           <p>{sheet(key)}</p>
+          {#if key === 'choghadiya'}
+            <dl class="kinds">
+              {#each Object.values(content.choghadiya) as kind (kind.name)}
+                <dt><b>{kind.title}</b><span class="sk">{kind.name}</span></dt>
+                <dd>{kind.meaning}</dd>
+              {/each}
+            </dl>
+          {/if}
         </details>
       </li>
     {/each}

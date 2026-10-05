@@ -1140,6 +1140,25 @@ h3 {
   font-size: var(--text-sm);
 }
 
+.terms .kinds {
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-sm);
+}
+
+.terms .kinds dt {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.terms .kinds dt .sk {
+  color: var(--color-moon);
+}
+
+.terms .kinds dd {
+  margin: 0 0 var(--space-xs);
+  color: var(--color-muted);
+}
+
 /* ── Tap-to-explain sheet ────────────────────────────────────────────────── */
 [data-sheet] {
   cursor: pointer;
