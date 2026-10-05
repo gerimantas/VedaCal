@@ -11,6 +11,7 @@ export const icon = {
   day: stroke('<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>'),
   month: stroke('<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>'),
   settings: stroke('<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>'),
+  sky: stroke('<circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="12" r="8.5"/><circle cx="18" cy="6" r="1.8" fill="currentColor"/>'),
   about: stroke('<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.1"/>'),
   search: stroke('<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>', 18),
   locate: stroke('<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>', 18),

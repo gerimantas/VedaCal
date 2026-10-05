@@ -390,6 +390,14 @@ function paranaAfter(loc: Location, date: string): Interval | null {
   return { start: hariVasara, end: dw.end }
 }
 
+// ── The sky at an instant (Sky screen) ─────────────────────────────────────────────
+
+/** Sidereal (Drik Lahiri) longitudes of the Sun and the Moon at `t`, in degrees 0–360. */
+export function skyAt(t: Date): { sun: number; moon: number } {
+  const ayanamsa = getAyanamsa(t)
+  return { sun: siderealSun(ayanamsa)(t), moon: siderealMoon(ayanamsa)(t) }
+}
+
 // ── The day ─────────────────────────────────────────────────────────────────────
 
 const interval = (w: { start: Date; end: Date } | null | undefined): Interval | null =>

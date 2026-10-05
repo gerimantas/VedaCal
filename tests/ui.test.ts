@@ -10,6 +10,7 @@ import { civilDate } from '../src/core/time'
 import { buildIndex, nearest, search, type CityData } from '../src/ui/cities'
 import { activeAt, clockOn, dayView } from '../src/ui/day'
 import { content, entry, time, until } from '../src/ui/format'
+import { skyView } from '../src/ui/sky'
 import { termGroups, terms } from '../src/ui/terms'
 
 const index = buildIndex(data as unknown as CityData)
@@ -163,4 +164,17 @@ describe('sun dial on another day: the device clock time on that date', () => {
 it('About groups list every term exactly once', () => {
   const grouped = termGroups.flatMap(([, keys]) => keys)
   expect([...grouped].sort()).toEqual(Object.keys(terms).sort())
+})
+
+// Sky screen (user, 2026-10-05): the chart's lunar day and Moon star are the engine's, the
+// ones the day screen shows at the same instant.
+it('Sky chart agrees with the day screen at sunrise', () => {
+  for (const q of ['Vilnius', 'New York', 'New Delhi']) {
+    const loc = city(q)
+    const day = computeDay(civilDate(loc.tz, new Date()), loc)
+    const at = new Date(day.sunrise!.getTime() + 60_000)
+    const v = skyView(at)
+    expect(v.tithi, q).toBe(day.tithi[0].index)
+    expect(v.nakshatra, q).toBe(day.nakshatra[0].index)
+  }
 })

@@ -80,8 +80,8 @@ export function setLocation(p: Place) {
   }
 }
 
-export type Route = 'day' | 'month' | 'settings' | 'about'
-const ROUTES: Route[] = ['day', 'month', 'settings', 'about']
+export type Route = 'day' | 'month' | 'sky' | 'settings' | 'about'
+const ROUTES: Route[] = ['day', 'month', 'sky', 'settings', 'about']
 
 export const routeFromHash = (hash: string): Route => {
   const r = hash.replace(/^#\/?/, '') as Route
