@@ -10,6 +10,7 @@ import { civilDate } from '../src/core/time'
 import { buildIndex, nearest, search, type CityData } from '../src/ui/cities'
 import { activeAt, clockOn, dayView } from '../src/ui/day'
 import { content, entry, time, until } from '../src/ui/format'
+import { termGroups, terms } from '../src/ui/terms'
 
 const index = buildIndex(data as unknown as CityData)
 const city = (q: string) => search(index, q)[0]
@@ -156,4 +157,10 @@ describe('sun dial on another day: the device clock time on that date', () => {
     const mins = Math.round((day.sunset!.getTime() - clock.getTime()) / 60_000)
     expect(v.next?.in).toBe(`${Math.floor(mins / 60)} h ${mins % 60} min`)
   })
+})
+
+// About page groups (user, 2026-10-05): every term sits in exactly one group.
+it('About groups list every term exactly once', () => {
+  const grouped = termGroups.flatMap(([, keys]) => keys)
+  expect([...grouped].sort()).toEqual(Object.keys(terms).sort())
 })

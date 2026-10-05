@@ -4,9 +4,7 @@
   import { content, sheet, t } from './format'
   import { icon } from './icons'
   import { app } from './state.svelte'
-  import { terms, type Term } from './terms'
-
-  const list = Object.entries(terms) as [Term, (typeof terms)[Term]][]
+  import { termGroups, terms } from './terms'
 </script>
 
 <main class="screen">
@@ -17,24 +15,27 @@
   </section>
 
   <h2 class="about-head">{t('howToRead')}</h2>
-  <ul class="card terms">
-    {#each list as [key, [name, sanskrit]] (key)}
-      <li>
-        <details>
-          <summary><b>{name}</b>{#if sanskrit}<span class="sk">{sanskrit}</span>{/if}{@html icon.down}</summary>
-          <p>{sheet(key)}</p>
-          {#if key === 'choghadiya'}
-            <dl class="kinds">
-              {#each Object.values(content.choghadiya) as kind (kind.name)}
-                <dt><b>{kind.title}</b><span class="sk">{kind.name}</span></dt>
-                <dd>{kind.meaning}</dd>
-              {/each}
-            </dl>
-          {/if}
-        </details>
-      </li>
-    {/each}
-  </ul>
+  {#each termGroups as [title, keys] (title)}
+    <h3 class="about-sub">{title}</h3>
+    <ul class="card terms">
+      {#each keys.map((k) => [k, terms[k]] as const) as [key, [name, sanskrit]] (key)}
+        <li>
+          <details>
+            <summary><b>{name}</b>{#if sanskrit}<span class="sk">{sanskrit}</span>{/if}{@html icon.down}</summary>
+            <p>{sheet(key)}</p>
+            {#if key === 'choghadiya'}
+              <dl class="kinds">
+                {#each Object.values(content.choghadiya) as kind (kind.name)}
+                  <dt><b>{kind.title}</b><span class="sk">{kind.name}</span></dt>
+                  <dd>{kind.meaning}</dd>
+                {/each}
+              </dl>
+            {/if}
+          </details>
+        </li>
+      {/each}
+    </ul>
+  {/each}
 
   <section class="card about-intro">
     <p>{sheet('times', { city: app.location.name })}</p>

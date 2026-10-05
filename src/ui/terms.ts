@@ -23,3 +23,10 @@ export const terms = {
   rhythm: [t('sectionTradition'), ''],
 } as const
 export type Term = keyof typeof terms
+
+// The About page's key, grouped so a long list stays easy to scan.
+export const termGroups: [string, Term[]][] = [
+  [t('groupCalendar'), ['tithi', 'vara', 'masa', 'nakshatra', 'rashi', 'yoga', 'karana']],
+  [t('groupTimes'), ['brahma', 'abhijit', 'rahuKaal', 'yamaganda', 'gulika', 'choghadiya']],
+  [t('groupSpecial'), ['parana', 'eclipse', 'sankranti', 'pushya', 'rhythm']],
+]
