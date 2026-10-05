@@ -1,36 +1,32 @@
 # VedaCal — CONTEXT
 
 ## Status
-P0–P5 done and live (https://gerimantas.github.io/VedaCal/, commit 38d2853, CI green).
-Four tabs work: Day (live elements, signs on the moon/sun cards, lunar month, Ekadashi
-fast end, eclipse/Sankranti/Pushya rows), Month (lean summary, marks, legend), Settings
-(city search, language EN/LT, zodiac, 12/24 h, theme), About. 918 tests pass; month view
-169–232 ms at 4× CPU throttle. Lithuanian UI follows the device or the setting. Rules:
-`.planning/SPEC.md` 4.10, 4.11, 5.1–5.3. Some new values still lack Drik's own pages
-(reCAPTCHA) — second Next Task. Next phase: P6 (installable PWA, offline).
+P0–P6 done and live (https://gerimantas.github.io/VedaCal/, commit 10fdce2, CI green).
+Installable PWA, works offline; "new version" bar with an Update button. All Drik evidence
+is in: ayanamsha now equals Drik's printed Lahiri (Sankranti within 2 min); every element
+vs Drik has one uniform ~57 s Moon offset (max 93 s, gate 2 min). Day screen sun dial:
+24 h clock face, sun outside the ring by day (hidden at night), sunrise/sunset in the
+corners, Friday Abhijit/Rahu Kaal overlap shown with real times. 1116 tests pass. Rules:
+`.planning/SPEC.md` 4.10, 4.11, 5.1. Next phase: P7 pilot (user shares the link).
 
 ## Next Tasks
-- P6 (PWA, offline — precache misses the moon photo and fonts). P4, P5, the source-audit
-  additions, day marks and the Lithuanian version are live since 2026-10-05 (commit
-  38d2853, CI green). plan: `.planning/PLAN.md` P6.
-- Fetch the Drik evidence the reCAPTCHA cut off (2026-10-05), in the background (~15 min at
-  12 s per page): `node scripts/fetch-parana.ts new-york 2027`, `… new-delhi 2027`, and
-  `node scripts/fetch-drik.ts <vilnius|new-york|new-delhi> 2026-05-10 2026-05-25 2026-06-08`
-  (adhika month); plus Drik's Grahan (eclipse), Sankranti and Guru/Ravi Pushya pages for
-  2026 — needs a new small fetch script on `scripts/drik-page.ts` and tests (SPEC 4.11).
-  Then `npm test`; a mismatch is a finding, not a fixture to edit.
-  rules: `.planning/SPEC.md` 4.10 (Evidence).
+- P7 pilot: the user shares the link with 5–10 people and collects what confuses them;
+  then the user picks the next backlog items (SPEC 10). Fix what the pilot reports first.
+  plan: `.planning/PLAN.md` P7.
+- Optional: find the uniform ~57 s Moon offset vs Drik (`npm run accuracy`; mypanchang agrees
+  with us on tithi to 8 s). Inside the gate, so only if the user asks. rules: SPEC 4.11.
 
 ## Done Log
+
+### 2026-10-05 (S4)
+- P6 PWA + offline (gate met); update-prompt bar
+- Drik evidence complete (Sankranti, eclipses, Pushya, Parana 2027, adhika); ayanamsha fix
+- Sun dial redesign: clock face, overlap shown, solid window colours, other-day clock time
 
 ### 2026-10-05 (S3)
 - P3 approved (v22); P4 day screen + location; P5 month + settings; all gates met
 - Source audit additions (live elements, masa, signs, Parana); month marks; Lithuanian UI
 - Drik fetching made polite (`scripts/drik-page.ts`); deployed to the live site; QR code made
-
-### 2026-10-04 (S2)
-- P3 mockups v5–v21: NASA moon photo, sun dial, fact rows, sheets, About tab, month photo moons
-- Plain-English rule written into SPEC 5.1; user page idea recorded in SPEC 10 backlog
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
@@ -75,6 +71,24 @@ fast end, eclipse/Sankranti/Pushya rows), Month (lean summary, marks, legend), S
   is wrong; real value is Krishna Navami, waning. Only computed or Drik-fetched values count.
 
 ## Archive
+
+### Session 2026-10-05 (S4) — P6 done, Drik evidence complete, ayanamsha fixed, dial redesigned
+
+- **Done:** P6 gate met (offline precache of moon photo/fonts/cities, PNG icons, install
+  button; offline reload works; Chrome manifest clean; Lighthouse mobile perf 94). All
+  reCAPTCHA-blocked Drik evidence fetched (Parana NY/Delhi 2027, adhika day pages, Sankranti,
+  eclipse, Guru/Ravi Pushya pages). Sun dial redesigned to the user's spec (24 h clock face,
+  sun outside ring by day, overlap shown, solid blue/red/green). Update-prompt bar.
+- **Decided / overturned:** Lahiri ayanamsha = Drik's printed value (library +24.14″, constant
+  on all 48 pages) — Sankranti 9 min gap closed; lunar eclipse typed by local view; Abhijit/
+  Rahu Kaal Friday overlap shown with real times (not shortened); dial on other days at the
+  device clock time; sun hidden at night; update check only on app open (no hourly poll).
+- **Code:** `scripts/fetch-marks.ts`, `tests/drik-marks.test.ts`, `tests/fixtures/{marks,parana,drik}`,
+  `src/core/panchang.ts` (DRIK_LAHIRI_OFFSET, lunar type), `src/ui/day.ts` (sunDial, clockOn,
+  overlap), `src/ui/{install,update}.svelte.ts`, `src/ui/UpdateBar.svelte`, `vite.config.ts`
+- **Entry point:** `npm test`; `npm run accuracy`; `node scripts/fetch-marks.ts <city> 2026`
+- **Not measured:** remaining uniform ~57 s Moon offset vs Drik (tithi/nakshatra/yoga/karana,
+  max 93 s, inside the gate) — cause unknown. Install prompt not tried on a real phone.
 
 ### Session 2026-10-05 (S3) — P3 approved, P4 + P5 built, source audit, Lithuanian, deployed
 
