@@ -50,7 +50,7 @@ const nowWindow = nowHtml(v.nowWindows)
 const tradition = v.tradition ? `<div class="head">${icon.leaf}<h3>${v.tradition.title}</h3></div><p>${v.tradition.meaning}</p>` : ''
 
 mount(`
-<main class="screen">
+<main class="screen day">
   <header class="appbar">
     <a class="chip" href="${link('location.html')}">${icon.navigate}<span>${loc.name}, LT</span></a>
     <div class="datechip">

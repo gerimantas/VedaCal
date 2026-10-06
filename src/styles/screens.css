@@ -207,6 +207,12 @@ h3 {
   filter: drop-shadow(0 0 1.25rem var(--glow));
 }
 
+/* Day screen without card outlines (user, 2026-10-06, trial): the cards keep their fill. */
+.day .hero,
+.day .card {
+  border-color: transparent;
+}
+
 .hero h2 {
   margin-top: var(--space-md);
   font-size: var(--text-lg);

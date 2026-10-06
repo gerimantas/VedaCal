@@ -66,7 +66,7 @@
   </p>
 {/snippet}
 
-<main class="screen">
+<main class="screen day">
   <header class="appbar">
     <a class="chip" href="#/settings">{@html icon.navigate}<span>{loc.name}, {loc.cc}</span></a>
     <div class="datechip">
