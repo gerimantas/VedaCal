@@ -12,6 +12,14 @@ export type Location = {
 
 export type Interval = { start: Date; end: Date }
 
+/** Choghadiya names (keys into the content file) and how tradition rates each. */
+export const CHOGHADIYA_RATING = {
+  amrit: 'good', shubh: 'good', labh: 'good', chal: 'neutral', udveg: 'avoid', rog: 'avoid', kaal: 'avoid',
+} as const
+export type ChoghadiyaName = keyof typeof CHOGHADIYA_RATING
+/** One of the 16 Choghadiya parts: 8 from sunrise to sunset, then 8 to the next sunrise. */
+export type Choghadiya = Interval & { name: ChoghadiyaName; night: boolean }
+
 /**
  * One element (tithi, nakshatra, yoga, karana) active during the Panchang day.
  * `start` may be before sunrise and `end` after the next sunrise — they are the element's
@@ -50,7 +58,14 @@ export type DayPanchang = {
   nakshatra: (Span & { pada: number })[] // index 1-27; pada 1-4 at the later of sunrise and span start
   yoga: Span[] // index 1-27
   karana: Span[] // index 1-11, see KARANA_NAMES
-  windows: { brahma: Interval | null; abhijit: Interval | null; rahuKaal: Interval | null }
+  windows: {
+    brahma: Interval | null
+    abhijit: Interval | null
+    rahuKaal: Interval | null
+    yamaganda: Interval | null
+    gulika: Interval | null
+  }
+  choghadiya: Choghadiya[] // 16 parts, sunrise to next sunrise; empty without a sunrise or sunset
   ekadashi: boolean
   /**
    * When to end the Ekadashi fast (Parana), on the morning after the Ekadashi day. Set on the

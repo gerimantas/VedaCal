@@ -7,6 +7,7 @@
   import { t } from './format'
   import { icon } from './icons'
   import { realisticMoon } from './moon'
+  import { terms } from './terms'
   import { app } from './state.svelte'
 
   // The clock moves the sun on the dial and the lunar-day bar; it ticks twice a minute and
@@ -98,7 +99,7 @@
     {/if}
     {@render sign(v.sunSign)}
     <ul class="wins">
-      {#each v.windows as w (w.kind)}
+      {#each v.windows as w (w.term)}
         <li class="win {w.kind}" class:none={!w.start} data-sheet={w.term}>
           <!-- A window partly inside Rahu Kaal shows that part hatched, to scale. -->
           <i aria-hidden="true" style={w.split ? `--from:${w.split[0] * 100}%;--to:${w.split[1] * 100}%` : undefined} class:split={w.split}></i>
@@ -110,6 +111,32 @@
         </li>
       {/each}
     </ul>
+    {#if v.choghadiya.length}
+      <!-- Choghadiya, folded like "More details": its part now in the summary, all 16 inside. -->
+      <details class="more chog">
+        <summary>
+          <span>
+            <span class="chog-title">{terms.choghadiya[0]} · <span class="sk">Choghadiya</span></span>
+            {#if v.choghadiyaNow}
+              <span class="chog-now {v.choghadiyaNow.rating}">{t('now')}: <b>{v.choghadiyaNow.name}</b> · <span class="sk">{v.choghadiyaNow.sanskrit}</span></span>
+            {/if}
+          </span>
+          {@html icon.down}
+        </summary>
+        {#each [false, true] as night (night)}
+          <p class="chog-head">{night ? `${t('sunset')} → ${t('sunrise')}` : `${t('sunrise')} → ${t('sunset')}`}</p>
+          <ul class="chog-list">
+            {#each v.choghadiya.filter((c) => c.night === night) as c (c.start)}
+              <li class="chog-row {c.rating}" class:current={c.current} data-sheet="choghadiya">
+                <i aria-hidden="true"></i>
+                <div><b>{c.name}</b><span class="sk">{c.sanskrit}</span></div>
+                <span class="when num"><span class="nw">{c.start}–</span><span class="nw">{c.end}</span></span>
+              </li>
+            {/each}
+          </ul>
+        {/each}
+      </details>
+    {/if}
   </section>
 
   <div class="card facts">

@@ -8,7 +8,7 @@ import { zonedTimeToUtc } from '../src/core/time'
 import { dayView, nowHtml, type Fact, type SignLine } from '../src/ui/day'
 import { t } from '../src/ui/format'
 import { realisticMoon } from '../src/ui/moon'
-import { date, icon, link, mount, params, tabs, today, vilnius as loc } from './common'
+import { date, icon, link, mount, params, tabs, terms, today, vilnius as loc } from './common'
 
 const day = computeDay(date, loc)
 
@@ -33,6 +33,16 @@ const windowRows = v.windows
       `<li class="win ${w.kind}${w.start ? '' : ' none'}" data-sheet="${w.term}"><i aria-hidden="true"${w.split ? ` class="split" style="--from:${w.split[0] * 100}%;--to:${w.split[1] * 100}%"` : ''}></i><div><b>${w.name}</b><span class="sk">${w.sanskrit}</span>${w.overlap ? `<small class="overlap num">${w.overlap}</small>` : ''}</div><span class="when num">${w.start ? `<span class="nw">${w.start}–</span><span class="nw">${w.end}</span>` : w.none}</span></li>`,
   )
   .join('')
+// Choghadiya, folded under the window rows (user chose layout A, 2026-10-06).
+const cn = v.choghadiyaNow
+const chogList = (night: boolean) =>
+  `<p class="chog-head">${night ? `${t('sunset')} → ${t('sunrise')}` : `${t('sunrise')} → ${t('sunset')}`}</p><ul class="chog-list">${v.choghadiya
+    .filter((c) => c.night === night)
+    .map((c) => `<li class="chog-row ${c.rating}${c.current ? ' current' : ''}" data-sheet="choghadiya"><i aria-hidden="true"></i><div><b>${c.name}</b><span class="sk">${c.sanskrit}</span></div><span class="when num"><span class="nw">${c.start}–</span><span class="nw">${c.end}</span></span></li>`)
+    .join('')}</ul>`
+const chog = v.choghadiya.length
+  ? `<details class="more chog"><summary><span><span class="chog-title">${terms.choghadiya[0]} · <span class="sk">Choghadiya</span></span>${cn ? `<span class="chog-now ${cn.rating}">${t('now')}: <b>${cn.name}</b> · <span class="sk">${cn.sanskrit}</span></span>` : ''}</span>${icon.down}</summary>${chogList(false)}${chogList(true)}</details>`
+  : ''
 const sign = (s: SignLine) =>
   `<p class="sign" data-sheet="rashi"><span>${s.text} · <span class="sk">${s.sanskrit}</span></span><small class="num">${s.until}${s.next ? `, ${s.next}` : ''}</small></p>`
 const nowWindow = nowHtml(v.nowWindows)
@@ -70,6 +80,7 @@ mount(`
     </div>
     ${sign(v.sunSign)}
     <ul class="wins">${windowRows}</ul>
+    ${chog}
   </section>
 
   <div class="card facts">

@@ -618,6 +618,105 @@ h3 {
   color: var(--color-avoid);
 }
 
+/* Choghadiya, folded under the window rows: the summary names the part now, the list holds
+   all 16 (day, then night), each with a dot in its rating's colour; the part now is boxed. */
+.chog summary > span:first-child {
+  display: grid;
+  gap: 0.1rem;
+  text-align: left;
+}
+
+.chog-title {
+  color: var(--color-ink);
+  font-weight: 650;
+}
+
+.chog-now b {
+  font-weight: 650;
+}
+
+.chog-now.good b {
+  color: var(--color-good);
+}
+
+.chog-now.avoid b {
+  color: var(--color-avoid);
+}
+
+.chog .sk {
+  color: var(--color-moon);
+}
+
+.chog-head {
+  margin: var(--space-xs) 0 0;
+  color: var(--color-neutral);
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.chog-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chog-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.3rem 0.4rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.chog-row i {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+}
+
+.chog-row div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.4rem;
+  min-width: 0;
+  font-size: var(--text-sm);
+}
+
+.chog-row b {
+  font-weight: 600;
+}
+
+.chog-row .when {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  text-align: right;
+}
+
+.chog-row.good i {
+  background: var(--color-good);
+}
+
+.chog-row.neutral i {
+  background: var(--color-neutral);
+}
+
+.chog-row.avoid i {
+  background: var(--color-avoid);
+}
+
+.chog-row.current {
+  outline: var(--rule-hair) solid var(--color-card-line);
+  background: var(--color-paper-3);
+}
+
+.chog-row.current .when {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
 .win.none .when {
   color: var(--color-neutral);
   font-weight: 400;

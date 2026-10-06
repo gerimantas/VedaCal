@@ -2,7 +2,7 @@
 // one DayPanchang. The app's Day.svelte and the P3 mockup both render this, so the approved
 // mockup and the app cannot drift apart, and tests can compare the screen with the engine.
 import { civilDate, tzOffsetMinutes, zonedTimeToUtc } from '../core/time'
-import type { DayPanchang, Interval, Location, Span } from '../core/types'
+import { CHOGHADIYA_RATING, type DayPanchang, type Interval, type Location, type Span } from '../core/types'
 import { LOCALE, MONTH, content, entry, percent, progress, t, time, until } from './format'
 import { icon } from './icons'
 import { markText } from './marks'
@@ -13,13 +13,17 @@ export type Fact = { term: Term; icon: string; label: string; value: string; san
 export type Zodiac = 'vedic' | 'western'
 export type WindowKind = 'calm' | 'good' | 'avoid'
 /**
- * `overlap`: "12:43–1:03 PM falls in Rahu Kaal" when Abhijit and Rahu Kaal share time (every
- * Friday); `split`: that shared part as fractions [from, to] of the window, for its colour bar.
+ * `overlap`: "12:43–1:03 PM falls in Rahu Kaal" when the good time shares time with a time to
+ * avoid (Rahu Kaal on Fridays, Yamaganda on Sundays and Mondays, Gulika on Tuesdays); `split`:
+ * that shared part as fractions [from, to] of the window, for its colour bar.
  */
 export type WindowRow = {
   kind: WindowKind; term: Term; name: string; sanskrit: string; start: string; end: string; none: string
   overlap: string; split: [number, number] | null; active: boolean
 }
+
+/** One Choghadiya part as a row: "Gain · Labh  11:42 AM–1:06 PM", `current` while it runs. */
+export type ChoghadiyaRow = { name: string; sanskrit: string; start: string; end: string; rating: 'good' | 'neutral' | 'avoid'; night: boolean; current: boolean }
 
 /** "Moon in Cancer · Karka", with "until …" and "then …" — shown on the moon card and the sun card. */
 export type SignLine = { text: string; sanskrit: string; until: string; next: string }
@@ -38,6 +42,9 @@ export type DayView = {
   nowWindows: WindowKind[]
   next: { label: string; in: string } | null
   windows: WindowRow[]
+  /** The 16 Choghadiya parts, sunrise to next sunrise; `choghadiyaNow` is the one at the dial's time. */
+  choghadiya: ChoghadiyaRow[]
+  choghadiyaNow: ChoghadiyaRow | null
   facts: Fact[]
   moreFacts: Fact[]
   tradition: { title: string; meaning: string } | null
@@ -156,32 +163,44 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   ]
 
   // ── Calm / good / avoid windows ─────────────────────────────────────────────
-  const { brahma, abhijit, rahuKaal } = day.windows
+  const { brahma, abhijit, rahuKaal, yamaganda, gulika } = day.windows
   const inside = (w: Interval | null) => !!w && clock >= w.start && clock < w.end
-  const nowWindows = ([['avoid', rahuKaal], ['good', abhijit], ['calm', brahma]] as const).filter(([, w]) => inside(w)).map(([k]) => k as WindowKind)
-  // On Fridays Rahu Kaal (the 4th eighth of the day) ends at solar noon, inside Abhijit (noon ±
-  // a fifteenth of the day); on Wednesdays it starts there. Both are real — the overlap is said.
-  const shared = abhijit && rahuKaal && abhijit.start < rahuKaal.end && rahuKaal.start < abhijit.end
-    ? { start: abhijit.start > rahuKaal.start ? abhijit.start : rahuKaal.start, end: abhijit.end < rahuKaal.end ? abhijit.end : rahuKaal.end }
-    : null
+  const avoids = [['rahuKaal', rahuKaal], ['yamaganda', yamaganda], ['gulika', gulika]] as const
+  const nowWindows = ([['avoid', avoids.some(([, w]) => inside(w))], ['good', inside(abhijit)], ['calm', inside(brahma)]] as const)
+    .filter(([, on]) => on)
+    .map(([k]) => k as WindowKind)
+  // The good time sits at solar noon; on most weekdays one time to avoid starts or ends inside
+  // it (Rahu Kaal on Fridays, Yamaganda on Sundays and Mondays, Gulika on Tuesdays). Both are
+  // real — the overlap is said. At most one of them reaches it on any weekday.
+  const clash = abhijit
+    ? avoids
+        .filter(([, w]) => w && abhijit.start < w.end && w.start < abhijit.end)
+        .map(([term, w]) => ({ term, start: abhijit.start > w!.start ? abhijit.start : w!.start, end: abhijit.end < w!.end ? abhijit.end : w!.end }))[0]
+    : undefined
 
   const midday = day.sunrise && day.sunset ? new Date((day.sunrise.getTime() + day.sunset.getTime()) / 2) : now
   const windowList = [
     { kind: 'calm', term: 'brahma', w: brahma, at: brahma?.start ?? now, none: t('none') },
     { kind: 'good', term: 'abhijit', w: abhijit, at: abhijit?.start ?? midday, none: day.vara === 3 ? t('notOnWednesdays') : t('none') },
-    { kind: 'avoid', term: 'rahuKaal', w: rahuKaal, at: rahuKaal?.start ?? now, none: t('none') },
+    ...avoids.map(([term, w]) => ({ kind: 'avoid', term, w, at: w?.start ?? now, none: t('none') }) as const),
   ] as const
   // In time order — the rows are also the dial's colour key.
   const windows = [...windowList]
     .sort((a, b) => a.at.getTime() - b.at.getTime())
     .map(({ kind, term, w, none }): WindowRow => {
       const [name, sanskrit] = terms[term]
-      const mine = shared && kind === 'good' && w ? shared : null
-      const overlap = mine ? t('overlapsRahu', { range: `${time(mine.start, loc)}–${time(mine.end, loc)}` }) : ''
+      const mine = clash && kind === 'good' && w ? clash : null
+      const overlap = mine ? t('overlapsAvoid', { range: `${time(mine.start, loc)}–${time(mine.end, loc)}`, name: terms[mine.term][1] }) : ''
       const frac = (d: Date) => (d.getTime() - w!.start.getTime()) / (w!.end.getTime() - w!.start.getTime())
       const split: WindowRow['split'] = mine ? [frac(mine.start), frac(mine.end)] : null
-      return { kind, term, name, sanskrit, start: w ? time(w.start, loc) : '', end: w ? time(w.end, loc) : '', none: w ? '' : none, overlap, split, active: nowWindows.includes(kind) }
+      return { kind, term, name, sanskrit, start: w ? time(w.start, loc) : '', end: w ? time(w.end, loc) : '', none: w ? '' : none, overlap, split, active: inside(w) }
     })
+
+  // ── Choghadiya: hour by hour, folded under the windows ──────────────────────
+  const choghadiya = day.choghadiya.map((p): ChoghadiyaRow => {
+    const e = content.choghadiya[p.name]
+    return { name: e.title, sanskrit: e.name, start: time(p.start, loc), end: time(p.end, loc), rating: CHOGHADIYA_RATING[p.name], night: p.night, current: inside(p) }
+  })
 
   // ── What comes next: "Sunset in 4 h 48 min" ────────────────────────────────
   let next: DayView['next'] = null
@@ -228,6 +247,8 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     nowWindows,
     next,
     windows,
+    choghadiya,
+    choghadiyaNow: choghadiya.find((c) => c.current) ?? null,
     facts,
     moreFacts,
     tradition,
@@ -247,13 +268,14 @@ function paranaFact(day: DayPanchang, loc: Location): Fact {
 // A 24-hour clock face, live like the moon: solar noon at the top, solar midnight at the
 // bottom, morning on the left, evening on the right; the hour numbers sit at their clock
 // times, so "12" is off the top by the gap between clock noon and solar noon. The light part
-// of the ring is the day. Calm and good windows run on a lane just outside the ring, avoid on
-// one just inside, so windows that share time (Friday's Abhijit and Rahu Kaal) both show.
+// of the ring is the day. Calm and good windows run on a lane just outside the ring, the three
+// times to avoid on one just inside, so windows that share time (Friday's Abhijit and Rahu
+// Kaal) both show.
 // By day the sun travels outside the ring, joined to it by a thin line at now; at night it is
 // not drawn (the centre says "Sunrise in …"), so no room is kept for it below the ring.
 function sunDial(day: DayPanchang, loc: Location, now: Date, next: DayView['next']): string {
   if (!day.sunrise || !day.sunset) return ''
-  const { brahma, abhijit, rahuKaal } = day.windows
+  const { brahma, abhijit, rahuKaal, yamaganda, gulika } = day.windows
   // As wide as the sun's path, so the ring is as large as the card allows; it ends just below
   // the ring, where the sunrise/sunset labels stand in the corners, level with the ring's bottom.
   const W = 240, cx = W / 2, cy = 120, R = 82, LANE = 4, SUN = 109, H = cy + R + LANE + 6
@@ -302,7 +324,7 @@ function sunDial(day: DayPanchang, loc: Location, now: Date, next: DayView['next
     ${face}
     <path class="horizon" d="M ${f(rx - 18)} ${f(ry)} H ${f(rx - 4)} M ${f(setx + 4)} ${f(sety)} H ${f(setx + 18)}"/>
     ${corner(2, 'start', t('sunrise'), time(day.sunrise, loc))}${corner(W - 2, 'end', t('sunset'), time(day.sunset, loc))}
-    ${seg(brahma, 'mark-calm', R + LANE)}${seg(abhijit, 'mark-good', R + LANE)}${seg(rahuKaal, 'mark-avoid', R - LANE)}
+    ${seg(brahma, 'mark-calm', R + LANE)}${seg(abhijit, 'mark-good', R + LANE)}${[rahuKaal, yamaganda, gulika].map((w) => seg(w, 'mark-avoid', R - LANE)).join('')}
     ${up && !low ? `<path class="sun-line" d="M ${f(lx1)} ${f(ly1)} L ${f(lx2)} ${f(ly2)}"/>` : ''}${up ? `<circle class="sun" cx="${f(sx)}" cy="${f(sy)}" r="7"/>` : ''}
   </svg>`
 }

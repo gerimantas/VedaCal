@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest'
 import { computeDay } from '../src/core/panchang'
 import type { Location, Span } from '../src/core/types'
 import { CITIES, type CityKey } from '../scripts/cities'
+import { range } from '../scripts/fetch-drik'
 
 const MIN = 60_000
 
@@ -29,6 +30,8 @@ type DrikFixture = {
   rahuKalam: { start: string; end: string } | null
   abhijit: { start: string; end: string } | null
   brahmaMuhurta: { start: string; end: string } | null
+  tz: string
+  raw: Record<string, Record<string, string[]>>
 }
 type MypanchangFixture = { city: CityKey; date: string; tithi: Ref[]; nakshatra: Ref[]; yoga: Ref[]; karana: Ref[] }
 
@@ -76,9 +79,14 @@ describe.each(load<DrikFixture>('drik'))('Drik $city $date', (f) => {
     expect(day.rhythm.ayana).toBe(f.ayana.toLowerCase())
   })
 
-  it('Rahu Kaal, Abhijit and Brahma Muhurta within 2 min', () => {
+  it('Rahu Kaal, Yamaganda, Gulika, Abhijit and Brahma Muhurta within 2 min', () => {
+    // Yamaganda and Gulika were not lifted out of the page when the fixtures were made; they
+    // are read from the same page's cards (`raw`), with the fetch script's own parser.
+    const bad = f.raw['Inauspicious Timings']
     const windows = [
       ['Rahu Kaal', day.windows.rahuKaal, f.rahuKalam],
+      ['Yamaganda', day.windows.yamaganda, range(f.tz, f.date, bad['Yamaganda'][0])],
+      ['Gulika', day.windows.gulika, range(f.tz, f.date, bad['Gulikai Kalam'][0])],
       ['Abhijit', day.windows.abhijit, f.abhijit],
       ['Brahma Muhurta', day.windows.brahma, f.brahmaMuhurta],
     ] as const

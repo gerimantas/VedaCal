@@ -67,11 +67,12 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
     expect(v.moon).toMatchObject({ illumination: day.moon.illumination, waxing: day.moon.waxing })
   })
 
-  it('sunrise, sunset and the three windows', () => {
+  it('sunrise, sunset and the five windows, in time order', () => {
     expect(v.sunrise).toBe(time(day.sunrise, loc))
     expect(v.sunset).toBe(time(day.sunset, loc))
     const shown = Object.fromEntries(v.windows.map((w) => [w.term, w]))
-    for (const k of ['brahma', 'abhijit', 'rahuKaal'] as const) {
+    expect(v.windows).toHaveLength(5)
+    for (const k of ['brahma', 'abhijit', 'rahuKaal', 'yamaganda', 'gulika'] as const) {
       const w = day.windows[k]
       if (w) expect(shown[k], k).toMatchObject({ start: time(w.start, loc), end: time(w.end, loc) })
       else expect(shown[k].start, k).toBe('')
@@ -94,6 +95,33 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
     expect(facts.masa.sanskrit).toContain(content.masa[String(day.masa.purnimanta) as '1'].name)
     const ritu = content.rhythm[`ritu${day.rhythm.ritu}` as 'ritu1']
     expect(facts.rhythm).toMatchObject({ value: ritu.title, sanskrit: ritu.name })
+  })
+})
+
+describe('Yamaganda, Gulika and Choghadiya (Vilnius, Tuesday 2026-10-06; Drik: Gulika 13:06–14:31)', () => {
+  const loc = city('Vilnius')
+  const day = computeDay('2026-10-06', loc)
+  const at = (iso: string) => dayView(day, loc, new Date(iso))
+
+  it('says where the good time runs into Gulika, and colours that part of its bar', () => {
+    const good = at('2026-10-06T09:00:00Z').windows.find((w) => w.term === 'abhijit')!
+    expect(good.overlap).toBe(`${time(day.windows.gulika!.start, loc)}–${time(day.windows.abhijit!.end, loc)} falls in Gulika`)
+    expect(good.split![0]).toBeGreaterThan(0)
+    expect(good.split![1]).toBe(1)
+  })
+
+  it('counts Yamaganda and Gulika as time to avoid in the dial centre', () => {
+    expect(at('2026-10-06T07:30:00Z').nowWindows).toEqual(['avoid']) // 10:30, Yamaganda
+    expect(at('2026-10-06T11:00:00Z').nowWindows).toEqual(['avoid']) // 14:00, Gulika
+    expect(at('2026-10-06T10:15:00Z').nowWindows).toEqual(['avoid', 'good']) // 13:15, both
+  })
+
+  it('lists 16 Choghadiya parts and marks the one now', () => {
+    const v = at('2026-10-06T09:00:00Z') // 12:00 — Labh, 11:42–13:06
+    expect(v.choghadiya).toHaveLength(16)
+    expect(v.choghadiya.filter((c) => c.current)).toHaveLength(1)
+    expect(v.choghadiyaNow).toMatchObject({ name: 'Gain', sanskrit: 'Labh', rating: 'good', night: false })
+    expect(at('2026-10-06T02:00:00Z').choghadiyaNow).toBeNull() // 05:00, before sunrise
   })
 })
 

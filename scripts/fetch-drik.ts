@@ -45,7 +45,7 @@ export function parseCards(html: string): Cards {
 }
 
 /** "01:23 AM, Oct 05" or "09:43 PM" → ISO instant. Times without a date belong to `date`. */
-function instant(tz: string, date: string, s: string): string {
+export function instant(tz: string, date: string, s: string): string {
   const m = s.match(/(\d{1,2}):(\d{2})\s*(AM|PM)(?:\s*,\s*([A-Z][a-z]{2})\s+(\d{1,2}))?/)
   if (!m) throw new Error(`Unparsable time "${s}"`)
   let hour = Number(m[1]) % 12
@@ -72,7 +72,7 @@ const span = (tz: string, date: string) => (v: string) => {
 }
 
 /** "05:23 PM to 06:48 PM" → { start, end }; Drik writes "None" when a window does not occur. */
-const range = (tz: string, date: string, v: string | null) => {
+export const range = (tz: string, date: string, v: string | null | undefined) => {
   if (!v || /None/i.test(v)) return null
   const [a, b] = v.split(/\s*to\s*/)
   return { start: instant(tz, date, a), end: instant(tz, date, b) }

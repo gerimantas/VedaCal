@@ -1,10 +1,10 @@
 // Calculation core (.planning/SPEC.md sections 4 and 11).
 //
 // From @ishubhamx/panchangam-js we take sunrise/sunset/moonrise/moonset, the Lahiri
-// ayanamsa, the weekday and the Rahu Kaal / Abhijit / Brahma Muhurta formulas. Element
-// boundaries (tithi, nakshatra, yoga, karana) are found here with the library's own angle
-// formulas but a bracketing search: its getPanchangam() and transition finders made a month
-// take 1.3 s on a 4×-throttled CPU (P1 gate: 300 ms), and its karana list drops the fixed
+// ayanamsa, the weekday and the Rahu Kaal / Yamaganda / Gulika / Abhijit / Brahma Muhurta
+// formulas (Choghadiya is ours: the library's tables swap names). Element boundaries (tithi, nakshatra, yoga, karana) are found here with
+// the library's own angle formulas but a bracketing search: its getPanchangam() and
+// transition finders made a month take 1.3 s on a 4×-throttled CPU (P1 gate: 300 ms), and its karana list drops the fixed
 // karanas around the new moon. The P1 fixtures (Drik, mypanchang) check every value.
 import {
   Body,
@@ -29,10 +29,10 @@ import {
 import { getAyanamsa as libraryAyanamsa } from '@ishubhamx/panchangam-js/dist/core/ayanamsa'
 import { getMoonrise, getMoonset, getSunrise, getSunset } from '@ishubhamx/panchangam-js/dist/core/rise-set'
 import { calculateAbhijitMuhurta, calculateBrahmaMuhurta } from '@ishubhamx/panchangam-js/dist/muhurta/abhijit'
-import { calculateRahuKalam } from '@ishubhamx/panchangam-js/dist/muhurta/rahu-kaal'
+import { calculateGulikaKalam, calculateRahuKalam, calculateYamagandaKalam } from '@ishubhamx/panchangam-js/dist/muhurta/rahu-kaal'
 import { getVara } from '@ishubhamx/panchangam-js/dist/calendar/vara'
 import { addDays, civilDate, tzOffsetMinutes, zonedTimeToUtc } from './time'
-import type { Ayana, DayMark, DayPanchang, Interval, Location, MonthDay, Span } from './types'
+import type { Ayana, Choghadiya, ChoghadiyaName, DayMark, DayPanchang, Interval, Location, MonthDay, Span } from './types'
 
 const DAY_MS = 86_400_000
 
@@ -405,6 +405,29 @@ const interval = (w: { start: Date; end: Date } | null | undefined): Interval | 
 
 const computed = new Map<string, DayPanchang>()
 
+/**
+ * Choghadiya (SPEC 4.5): day and night each split into 8 equal parts. The names follow the
+ * cycle of their ruling lights — Sun, Venus, Mercury, Moon, Saturn, Jupiter, Mars. By day the
+ * first part is the weekday's own light and each part takes the next; by night the first is
+ * five steps on and each part goes two steps back. The 8th part repeats the 1st. Checked
+ * against Drik's pages for every weekday (tests/choghadiya.test.ts). panchangam-js 3.0.0 has
+ * Rog and Shubh swapped in its day cycle, so its Sunday, Monday, Wednesday and Friday day
+ * tables differ from Drik (its night tables agree) — it is not used.
+ */
+const CHOGHADIYA_CYCLE: ChoghadiyaName[] = ['udveg', 'chal', 'labh', 'amrit', 'kaal', 'shubh', 'rog']
+/** Where each weekday (0 = Sunday) starts in the cycle: Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn. */
+const CHOGHADIYA_DAY_START = [0, 3, 6, 2, 5, 1, 4]
+
+function choghadiyaParts(sunrise: Date, sunset: Date, nextSunrise: Date, vara: number): Choghadiya[] {
+  const parts = (from: Date, to: Date, first: number, step: number, night: boolean) =>
+    Array.from({ length: 8 }, (_, i): Choghadiya => {
+      const at = (k: number) => new Date(from.getTime() + ((to.getTime() - from.getTime()) * k) / 8)
+      return { name: CHOGHADIYA_CYCLE[(((first + step * i) % 7) + 7) % 7], start: at(i), end: i === 7 ? to : at(i + 1), night }
+    })
+  const day = CHOGHADIYA_DAY_START[vara]
+  return [...parts(sunrise, sunset, day, 1, false), ...parts(sunset, nextSunrise, day + 5, -2, true)]
+}
+
 export function computeDay(date: string, loc: Location): DayPanchang {
   return remember(computed, key(loc, date), () => {
     const observer = observerOf(loc)
@@ -426,7 +449,8 @@ export function computeDay(date: string, loc: Location): DayPanchang {
       sectorSpans(angle, step, from, to, indexOf, maxDays)
     const sign = (k: number) => k + 1
     const ekadashi = smartaEkadashiOn(loc, date)
-    const rahu = sunrise && sunset ? calculateRahuKalam(sunrise, sunset, vara) : null
+    const lit = sunrise && sunset ? ([sunrise, sunset] as const) : null
+    const rahu = lit ? calculateRahuKalam(...lit, vara) : null
 
     return {
       date,
@@ -449,7 +473,10 @@ export function computeDay(date: string, loc: Location): DayPanchang {
         // Drik shows no Abhijit Muhurta on Wednesdays (P1 fixtures, SPEC 4.5).
         abhijit: sunrise && sunset && vara !== 3 ? interval(calculateAbhijitMuhurta(sunrise, sunset)) : null,
         rahuKaal: interval(rahu),
+        yamaganda: lit ? interval(calculateYamagandaKalam(...lit, vara)) : null,
+        gulika: lit ? interval(calculateGulikaKalam(...lit, vara)) : null,
       },
+      choghadiya: lit && nextSunrise ? choghadiyaParts(...lit, nextSunrise, vara) : [],
       ekadashi,
       parana: ekadashi ? paranaAfter(loc, date) : smartaEkadashiOn(loc, addDays(date, -1)) ? paranaAfter(loc, addDays(date, -1)) : null,
       masa: masaAt(ref),
