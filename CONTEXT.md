@@ -6,6 +6,9 @@ S5 added a fifth tab, **Sky** (top-down Sun/Moon/stars chart, SPEC 5.5), and rew
 Yamaganda/Gulika/Choghadiya explained, terms grouped, every sheet rewritten in plain facts
 for Western readers, sources linked in Credits. 1127 tests pass. The day screen still shows
 only Brahma/Abhijit/Rahu Kaal — the three new windows are texts only. Next: P7 pilot.
+S6 (no code change): VedaCal now installed as an app on the user's tablet. Chrome 154's
+menu install says "already installed" for any app on `gerimantas.github.io` once one app
+there is installed — install via the app's own Settings → Install app (Key Facts).
 Workflow: the user reviews on localhost; commit locally, push only on the user's command.
 
 ## Next Tasks
@@ -21,6 +24,9 @@ Workflow: the user reviews on localhost; commit locally, push only on the user's
   with us on tithi to 8 s). Inside the gate, so only if the user asks. rules: SPEC 4.11.
 
 ## Done Log
+
+### 2026-10-06 (S6)
+- Tablet install fixed (no code); Chrome 154 same-origin install bug documented
 
 ### 2026-10-05 (S5)
 - About: Yamaganda/Gulika/Choghadiya texts; key grouped; all sheets factual; Credits sources
@@ -55,6 +61,10 @@ Workflow: the user reviews on localhost; commit locally, push only on the user's
   --resolveJsonModule --types vite/client mockups/*.ts src/globals.d.ts`
 - Browser auto-dark (Chrome force-dark) ignores `color-scheme` and inverts SVG fills; reproduce
   with Chromium arg `--blink-settings=forceDarkModeEnabled=true`. Photos are left alone.
+- Android install: Chrome 154 menu "Install and create shortcut" checks by origin, so with
+  BakeStack installed it shows "already installed" for VedaCal. Use Settings → Install app
+  (`src/ui/install.svelte.ts`). Keep that button. Details: vault
+  `wiki/frameworks/chrome-android-pwa-install-same-origin.md`
 - App shows `v<package version> · <git commit> · built <time>` (vite `define`, `src/globals.d.ts`)
 - NotebookLM notebook "VedaCal": `2a0fad75-caeb-4d03-9f73-7c91e341d1f2`
   (Panchang websites, research imports on daily windows and month names; notes, 2 PRD reports)
@@ -75,6 +85,23 @@ Workflow: the user reviews on localhost; commit locally, push only on the user's
   is wrong; real value is Krishna Navami, waning. Only computed or Drik-fetched values count.
 
 ## Archive
+
+### Session 2026-10-06 (S6) — tablet install fixed; Chrome 154 install-sheet bug found
+
+- **Done:** VedaCal installed as a real app (WebAPK, scope `/VedaCal/`) on the user's Galaxy Tab
+  S9+ and confirmed opening standalone. No code change, nothing pushed.
+- **Done:** root cause from Chromium source + adb on the tablet: Chrome 154's menu item
+  "Install and create shortcut" (`AppInstallMenuHandler.doUniversalInstall`) calls
+  `WebappRegistry.isAppInstalledForUrl`, which matches by ORIGIN. BakeStack's WebAPK on
+  `gerimantas.github.io` makes every app on that origin read "already installed"; "open"
+  then fails. Workaround: the app's own Settings → Install app button (`beforeinstallprompt`,
+  scope-based check) installs normally.
+- **Decided / overturned:** S6's first guesses (stale SVG-only icon, broken old install) were wrong.
+- **Code:** none. Write-up: vault `wiki/frameworks/chrome-android-pwa-install-same-origin.md`
+- **Entry point:** tablet diagnosis: `adb forward tcp:9333 localabstract:chrome_devtools_remote`,
+  then CDP `Page.getInstallabilityErrors`; `adb shell pm list packages | grep webapk`
+- **Not measured:** whether pilot users with no other `gerimantas.github.io` app hit this (they
+  should not, by the code).
 
 ### Session 2026-10-05 (S5) — Sky tab, About texts rewritten for Western readers, sources linked
 
