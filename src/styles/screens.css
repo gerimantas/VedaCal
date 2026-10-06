@@ -23,6 +23,14 @@ body {
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The page's night sky, also behind the top and tab bars: fixed to the screen, so the bars
+   show the very same sky as the page around them (user, 2026-10-06). */
+body,
+.appbar,
+.tabs {
   background-color: var(--color-paper);
   /* Night sky: tiny stars + one soft bloom behind the hero. */
   background-image:
@@ -37,7 +45,6 @@ body {
   background-size: 220px 260px, 260px 300px, 300px 240px, 240px 320px, 280px 280px, 320px 300px, 200px 240px, 100% 100%;
   background-repeat: repeat, repeat, repeat, repeat, repeat, repeat, repeat, no-repeat;
   background-attachment: fixed;
-  -webkit-font-smoothing: antialiased;
 }
 
 .screen {
@@ -82,7 +89,7 @@ h3 {
 
 /* ── App bar ─────────────────────────────────────────────────────────────── */
 /* Top and bottom bars, as in BakeStack's header (user, 2026-10-06): edge to edge, stuck to the
-   screen's edge, translucent over a blur, one amber line with a soft glow on the side that
+   screen's edge, on the page's own sky, one amber line with a soft glow on the side that
    faces the page. The top bar keeps the city and the date on screen while the page scrolls;
    its contents stay in line with the page column. */
 .appbar {
@@ -96,12 +103,10 @@ h3 {
   margin: calc(-1 * var(--space-sm)) calc(50% - 50vw) 0;
   padding: calc(var(--space-2xs) + env(safe-area-inset-top)) calc(50vw - 50%) var(--space-2xs);
   border-bottom: 1px solid color-mix(in oklch, var(--color-accent) 75%, transparent);
-  background: color-mix(in oklch, var(--color-paper) 92%, transparent);
   box-shadow:
     0 1px 4px color-mix(in oklch, var(--color-accent) 55%, transparent),
     0 2px 16px color-mix(in oklch, var(--color-accent) 38%, transparent),
     0 4px 40px color-mix(in oklch, var(--color-accent) 22%, transparent);
-  backdrop-filter: blur(10px) saturate(1.2);
 }
 
 .appbar .chip,
@@ -799,12 +804,10 @@ h3 {
   gap: var(--space-3xs);
   padding: var(--space-3xs) max(var(--space-sm), calc((100% - 26rem) / 2)) calc(var(--space-3xs) + env(safe-area-inset-bottom));
   border-top: 1px solid color-mix(in oklch, var(--color-accent) 75%, transparent);
-  background: color-mix(in oklch, var(--color-paper) 92%, transparent);
   box-shadow:
     0 -1px 4px color-mix(in oklch, var(--color-accent) 55%, transparent),
     0 -2px 16px color-mix(in oklch, var(--color-accent) 38%, transparent),
     0 -4px 40px color-mix(in oklch, var(--color-accent) 22%, transparent);
-  backdrop-filter: blur(10px) saturate(1.2);
 }
 
 /* New-version bar, just above the tab bar. */
