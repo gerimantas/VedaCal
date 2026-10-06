@@ -208,12 +208,18 @@ h3 {
 }
 
 /* Day screen without cards (user, 2026-10-06, trial): no outline, no fill, no glow — the
-   sections sit straight on the night sky. */
+   sections sit straight on the night sky, a thin line between one section and the next. */
 .day .hero,
 .day .card {
   border-color: transparent;
   background: none;
   box-shadow: none;
+}
+
+.day .card {
+  border-width: var(--rule-hair) 0 0;
+  border-top-color: var(--color-card-line);
+  border-radius: 0;
 }
 
 .hero h2 {
