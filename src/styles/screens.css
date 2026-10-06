@@ -563,19 +563,6 @@ h3 {
   background: var(--color-avoid);
 }
 
-/* Good time partly inside Rahu Kaal: the bar stretches over the whole row, and the shared
-   part (--from..--to, top = start) is red like Rahu Kaal's own bar, to scale. */
-.win i.split {
-  align-self: stretch;
-  height: auto;
-  background: linear-gradient(
-    180deg,
-    var(--color-good) var(--from),
-    var(--color-avoid) var(--from) var(--to),
-    var(--color-good) var(--to)
-  );
-}
-
 .win div {
   display: grid;
   min-width: 0;
@@ -592,7 +579,7 @@ h3 {
 }
 
 .win .overlap {
-  color: var(--color-avoid);
+  color: var(--color-neutral);
   font-size: var(--text-xs);
 }
 

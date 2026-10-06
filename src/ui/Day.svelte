@@ -108,8 +108,7 @@
     <ul class="wins">
       {#each v.windows as w (w.term)}
         <li class="win {w.kind}" class:none={!w.start} data-sheet={w.term}>
-          <!-- A window partly inside Rahu Kaal shows that part hatched, to scale. -->
-          <i aria-hidden="true" style={w.split ? `--from:${w.split[0] * 100}%;--to:${w.split[1] * 100}%` : undefined} class:split={w.split}></i>
+          <i aria-hidden="true"></i>
           <div><b>{w.name}</b><span class="sk">{w.sanskrit}</span>{#if w.overlap}<small class="overlap num">{w.overlap}</small>{/if}</div>
           <!-- "12:44–13:29" breaks only at the dash, never inside a time (12-hour clocks). -->
           <span class="when num">

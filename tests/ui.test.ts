@@ -8,7 +8,7 @@ import data from '../src/data/cities.json'
 import { computeDay } from '../src/core/panchang'
 import { civilDate } from '../src/core/time'
 import { buildIndex, nearest, search, type CityData } from '../src/ui/cities'
-import { activeAt, clockOn, dayView } from '../src/ui/day'
+import { activeAt, clockOn, dayView, shownWindows } from '../src/ui/day'
 import { content, entry, time, until } from '../src/ui/format'
 import { skyView } from '../src/ui/sky'
 import { termGroups, terms } from '../src/ui/terms'
@@ -72,8 +72,11 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
     expect(v.sunset).toBe(time(day.sunset, loc))
     const shown = Object.fromEntries(v.windows.map((w) => [w.term, w]))
     expect(v.windows).toHaveLength(5)
+    // As the engine has them, except where the good time and a time to avoid cancel out.
+    const sw = shownWindows(day)
     for (const k of ['brahma', 'abhijit', 'rahuKaal', 'yamaganda', 'gulika'] as const) {
-      const w = day.windows[k]
+      if (!sw.clash || (k !== 'abhijit' && k !== sw.clash.term)) expect(sw[k], k).toEqual(day.windows[k])
+      const w = sw[k]
       if (w) expect(shown[k], k).toMatchObject({ start: time(w.start, loc), end: time(w.end, loc) })
       else expect(shown[k].start, k).toBe('')
     }
@@ -98,22 +101,27 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
   })
 })
 
-describe('Yamaganda, Gulika and Choghadiya (Vilnius, Tuesday 2026-10-06; Drik: Gulika 13:06–14:31)', () => {
+describe('Yamaganda, Gulika and Choghadiya (Vilnius, Tuesday 2026-10-06; Drik: Abhijit 12:44–13:29, Gulika 13:06–14:31)', () => {
   const loc = city('Vilnius')
   const day = computeDay('2026-10-06', loc)
   const at = (iso: string) => dayView(day, loc, new Date(iso))
 
-  it('says where the good time runs into Gulika, and colours that part of its bar', () => {
-    const good = at('2026-10-06T09:00:00Z').windows.find((w) => w.term === 'abhijit')!
-    expect(good.overlap).toBe(`${time(day.windows.gulika!.start, loc)}–${time(day.windows.abhijit!.end, loc)} falls in Gulika`)
-    expect(good.split![0]).toBeGreaterThan(0)
-    expect(good.split![1]).toBe(1)
+  it('the good time and Gulika cancel out where they overlap: both rows leave that part out', () => {
+    const v = at('2026-10-06T09:00:00Z')
+    const row = (term: string) => v.windows.find((w) => w.term === term)!
+    const { abhijit, gulika } = day.windows
+    expect(row('abhijit')).toMatchObject({ start: time(abhijit!.start, loc), end: time(gulika!.start, loc) })
+    expect(row('gulika')).toMatchObject({ start: time(abhijit!.end, loc), end: time(gulika!.end, loc) })
+    expect(row('abhijit').overlap).toBe(`${time(gulika!.start, loc)}–${time(abhijit!.end, loc)}: Abhijit and Gulika cancel each other out`)
+    expect(row('gulika').overlap).toBe('')
+    expect(v.windows.map((w) => w.term), 'still in time order').toEqual(['brahma', 'yamaganda', 'abhijit', 'gulika', 'rahuKaal'])
   })
 
-  it('counts Yamaganda and Gulika as time to avoid in the dial centre', () => {
+  it('counts Yamaganda and Gulika as time to avoid in the dial centre, and nothing where they cancel out', () => {
     expect(at('2026-10-06T07:30:00Z').nowWindows).toEqual(['avoid']) // 10:30, Yamaganda
     expect(at('2026-10-06T11:00:00Z').nowWindows).toEqual(['avoid']) // 14:00, Gulika
-    expect(at('2026-10-06T10:15:00Z').nowWindows).toEqual(['avoid', 'good']) // 13:15, both
+    expect(at('2026-10-06T09:50:00Z').nowWindows).toEqual(['good']) // 12:50, Abhijit only
+    expect(at('2026-10-06T10:15:00Z').nowWindows).toEqual([]) // 13:15, both: cancelled
   })
 
   it('lists 16 Choghadiya parts and marks the one now', () => {

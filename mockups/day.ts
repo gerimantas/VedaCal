@@ -30,7 +30,7 @@ const fact = (f: Fact) =>
 const windowRows = v.windows
   .map(
     (w) =>
-      `<li class="win ${w.kind}${w.start ? '' : ' none'}" data-sheet="${w.term}"><i aria-hidden="true"${w.split ? ` class="split" style="--from:${w.split[0] * 100}%;--to:${w.split[1] * 100}%"` : ''}></i><div><b>${w.name}</b><span class="sk">${w.sanskrit}</span>${w.overlap ? `<small class="overlap num">${w.overlap}</small>` : ''}</div><span class="when num">${w.start ? `<span class="nw">${w.start}–</span><span class="nw">${w.end}</span>` : w.none}</span></li>`,
+      `<li class="win ${w.kind}${w.start ? '' : ' none'}" data-sheet="${w.term}"><i aria-hidden="true"></i><div><b>${w.name}</b><span class="sk">${w.sanskrit}</span>${w.overlap ? `<small class="overlap num">${w.overlap}</small>` : ''}</div><span class="when num">${w.start ? `<span class="nw">${w.start}–</span><span class="nw">${w.end}</span>` : w.none}</span></li>`,
   )
   .join('')
 // Choghadiya, folded under the window rows (user chose layout A, 2026-10-06).
