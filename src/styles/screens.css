@@ -89,9 +89,10 @@ h3 {
 
 /* ── App bar ─────────────────────────────────────────────────────────────── */
 /* Top and bottom bars, as in BakeStack's header (user, 2026-10-06): edge to edge, stuck to the
-   screen's edge, on the page's own sky, one amber line with a soft glow on the side that
-   faces the page. The top bar keeps the city and the date on screen while the page scrolls;
-   its contents stay in line with the page column. */
+   screen's edge, on the page's own sky, one amber line with a narrow glow on the side that
+   faces the page — a wide glow tinted the page and set the bars apart (user, 2026-10-06).
+   The top bar keeps the city and the date on screen while the page scrolls; its contents
+   stay in line with the page column. */
 .appbar {
   position: sticky;
   top: 0;
@@ -103,10 +104,7 @@ h3 {
   margin: calc(-1 * var(--space-sm)) calc(50% - 50vw) 0;
   padding: calc(var(--space-2xs) + env(safe-area-inset-top)) calc(50vw - 50%) var(--space-2xs);
   border-bottom: 1px solid color-mix(in oklch, var(--color-accent) 75%, transparent);
-  box-shadow:
-    0 1px 4px color-mix(in oklch, var(--color-accent) 55%, transparent),
-    0 2px 16px color-mix(in oklch, var(--color-accent) 38%, transparent),
-    0 4px 40px color-mix(in oklch, var(--color-accent) 22%, transparent);
+  box-shadow: 0 1px 6px color-mix(in oklch, var(--color-accent) 35%, transparent);
 }
 
 .appbar .chip,
@@ -804,10 +802,7 @@ h3 {
   gap: var(--space-3xs);
   padding: var(--space-3xs) max(var(--space-sm), calc((100% - 26rem) / 2)) calc(var(--space-3xs) + env(safe-area-inset-bottom));
   border-top: 1px solid color-mix(in oklch, var(--color-accent) 75%, transparent);
-  box-shadow:
-    0 -1px 4px color-mix(in oklch, var(--color-accent) 55%, transparent),
-    0 -2px 16px color-mix(in oklch, var(--color-accent) 38%, transparent),
-    0 -4px 40px color-mix(in oklch, var(--color-accent) 22%, transparent);
+  box-shadow: 0 -1px 6px color-mix(in oklch, var(--color-accent) 35%, transparent);
 }
 
 /* New-version bar, just above the tab bar. */
@@ -856,7 +851,6 @@ h3 {
 }
 
 .tabs a[aria-current='page'] {
-  background: var(--color-paper-3);
   color: var(--color-accent);
 }
 
