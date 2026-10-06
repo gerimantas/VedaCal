@@ -1278,6 +1278,22 @@ h3 {
   color: var(--color-muted);
 }
 
+/* Lists without meanings (months, signs): a little air between the names. */
+.terms .kinds dt + dt {
+  margin-top: var(--space-3xs);
+}
+
+/* About in two parts (user, 2026-10-06): "Using the app" and "Glossary". */
+.about-parts {
+  margin-top: var(--space-sm);
+}
+
+.about-lead {
+  margin: var(--space-sm) 0 0;
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+}
+
 /* ── Tap-to-explain sheet ────────────────────────────────────────────────── */
 [data-sheet] {
   cursor: pointer;
