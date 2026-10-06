@@ -855,18 +855,12 @@ h3 {
 }
 
 /* ── Month ───────────────────────────────────────────────────────────────── */
-.month-head {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  margin-top: var(--space-sm);
-  padding: var(--space-3xs);
-}
-
-.month-head h1 {
-  font-size: var(--text-xl);
-  font-weight: 700;
-  text-align: center;
+.datechip h1 {
+  margin: 0;
+  padding: 0 var(--space-3xs);
+  font-size: var(--text-sm);
+  font-weight: 550;
+  white-space: nowrap;
 }
 
 .grid {

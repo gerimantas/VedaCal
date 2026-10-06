@@ -26,14 +26,15 @@
 </script>
 
 <main class="screen">
+  <!-- The same top bar as the Day screen: city, then the month with ‹ › (user, 2026-10-06). -->
   <header class="appbar">
     <a class="chip" href="#/settings">{@html icon.navigate}<span>{loc.name}, {app.location.cc}</span></a>
+    <div class="datechip">
+      <button aria-label={t('previousMonth')} onclick={() => (shown = shiftMonth(shown, -1))}>{@html icon.left}</button>
+      <h1 class="num">{v.title}</h1>
+      <button aria-label={t('nextMonth')} onclick={() => (shown = shiftMonth(shown, 1))}>{@html icon.right}</button>
+    </div>
   </header>
-  <div class="card month-head">
-    <button class="icon-btn" aria-label={t('previousMonth')} onclick={() => (shown = shiftMonth(shown, -1))}>{@html icon.left}</button>
-    <h1>{v.title}</h1>
-    <button class="icon-btn" aria-label={t('nextMonth')} onclick={() => (shown = shiftMonth(shown, 1))}>{@html icon.right}</button>
-  </div>
 
   <div class="grid">
     {#each v.weekdays as w, i (i)}<span class="dow" aria-hidden="true">{w}</span>{/each}

@@ -2,9 +2,11 @@
   // Sky screen (user, 2026-10-05): a top-down chart of the Sun, the Moon and the Earth over
   // the 30 lunar days, 27 Moon stars and 12 signs (./sky), then the facts it shows, a folded
   // legend and a time slider (±15 days). Prototype: mockups/sky-flat.ts.
-  import { LOCALE, entry, t } from './format'
+  import { LOCALE, MONTH, entry, t } from './format'
+  import { icon } from './icons'
   import { realisticMoon } from './moon'
   import { rashi, skyView } from './sky'
+  import { app } from './state.svelte'
 
   const HOUR = 3600_000
   let base = $state(Date.now())
@@ -19,6 +21,12 @@
   const num = (n: number) => n.toLocaleString(LOCALE, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
   const fmt = new Intl.DateTimeFormat(LOCALE, { dateStyle: 'medium', timeStyle: 'short' })
 
+  // The top bar is the Day screen's: city, then the date with ‹ › — a day back or on.
+  const DAY = 24 * HOUR
+  const shortDate = $derived(
+    new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: MONTH, timeZone: app.location.tz }).format(when),
+  )
+
   const now = () => {
     base = Date.now()
     offset = 0
@@ -32,6 +40,15 @@
 </script>
 
 <main class="screen sky">
+  <header class="appbar">
+    <a class="chip" href="#/settings">{@html icon.navigate}<span>{app.location.name}, {app.location.cc}</span></a>
+    <div class="datechip">
+      <button aria-label={t('previousDay')} onclick={() => (base -= DAY)}>{@html icon.left}</button>
+      <span class="num">{shortDate}</span>
+      <button aria-label={t('nextDay')} onclick={() => (base += DAY)}>{@html icon.right}</button>
+    </div>
+  </header>
+
   <section class="card sky-card">{@html v.svg}</section>
 
   <section class="card sky-facts">

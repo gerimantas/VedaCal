@@ -26,12 +26,12 @@ mount(`
 <main class="screen">
   <header class="appbar">
     <a class="chip" href="${link('location.html')}">${icon.navigate}<span>${loc.name}, LT</span></a>
+    <div class="datechip">
+      <button aria-label="${t('previousMonth')}">${icon.left}</button>
+      <h1 class="num">${v.title}</h1>
+      <button aria-label="${t('nextMonth')}">${icon.right}</button>
+    </div>
   </header>
-  <div class="card month-head">
-    <button class="icon-btn" aria-label="${t('previousMonth')}">${icon.left}</button>
-    <h1>${v.title}</h1>
-    <button class="icon-btn" aria-label="${t('nextMonth')}">${icon.right}</button>
-  </div>
 
   <div class="grid">
     ${v.weekdays.map((w) => `<span class="dow" aria-hidden="true">${w}</span>`).join('')}
