@@ -207,10 +207,13 @@ h3 {
   filter: drop-shadow(0 0 1.25rem var(--glow));
 }
 
-/* Day screen without card outlines (user, 2026-10-06, trial): the cards keep their fill. */
+/* Day screen without cards (user, 2026-10-06, trial): no outline, no fill, no glow — the
+   sections sit straight on the night sky. */
 .day .hero,
 .day .card {
   border-color: transparent;
+  background: none;
+  box-shadow: none;
 }
 
 .hero h2 {
