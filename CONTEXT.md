@@ -1,23 +1,23 @@
 # VedaCal — CONTEXT
 
 ## Status
-P0–P6 done and live (https://gerimantas.github.io/VedaCal/, commit 765faff, CI green).
-S5 added a fifth tab, **Sky** (top-down Sun/Moon/stars chart, SPEC 5.5), and reworked About:
-Yamaganda/Gulika/Choghadiya explained, terms grouped, every sheet rewritten in plain facts
-for Western readers, sources linked in Credits. 1127 tests pass. The day screen still shows
-only Brahma/Abhijit/Rahu Kaal — the three new windows are texts only. Next: P7 pilot.
-S6 (no code change): VedaCal now installed as an app on the user's tablet. Chrome 154's
-menu install says "already installed" for any app on `gerimantas.github.io` once one app
-there is installed — install via the app's own Settings → Install app (Key Facts).
+P0–P6 done and live (https://gerimantas.github.io/VedaCal/, commit 6136f80, CI green).
+S7: the day screen now shows all five windows (Brahma, Abhijit, Rahu Kaal, Yamaganda,
+Gulika) and a folded Choghadiya list; where the good time meets an avoid window the two
+cancel out (user's rule, SPEC 5.1). About has two parts: "Using the app" and a Glossary with
+every value. New look on every screen: sticky top bar, bars on the page sky with an amber
+line, no cards (thin lines between sections), one text size per row, drifting background
+lights. 1159 tests pass. Next: P7 pilot.
+S6 (no code change): Chrome 154's menu install says "already installed" for any app on
+`gerimantas.github.io` once one is installed — use Settings → Install app (Key Facts).
 Workflow: the user reviews on localhost; commit locally, push only on the user's command.
 
 ## Next Tasks
 - P7 pilot: the user shares the link with 5–10 people and collects what confuses them;
   then the user picks the next backlog items (SPEC 10). Fix what the pilot reports first.
   plan: `.planning/PLAN.md` P7.
-- Day screen: show Yamaganda, Gulika and the Choghadiya hour list (engine ready in
-  panchangam-js; Drik fixtures hold Yamaganda/Gulika). The user picks the layout first.
-  rules: SPEC 4.5, 5.1; texts already in `sheets` + `choghadiya` content group.
+- Mockups `mockups/about.ts`, `sky*.ts`, `location.ts` predate S7's About split and no-card
+  look; update them or retire the P3 mockups (ask the user).
 - Ask the user: delete the rejected 3D prototype (`mockups/sky.*`, `mockups/sky/*.jpg`,
   devDependency `three`)?
 - Optional: find the uniform ~57 s Moon offset vs Drik (`npm run accuracy`; mypanchang agrees
@@ -25,17 +25,13 @@ Workflow: the user reviews on localhost; commit locally, push only on the user's
 
 ## Done Log
 
+### 2026-10-07 (S7)
+- Day screen: Yamaganda, Gulika, folded Choghadiya; good/avoid overlap cancels out
+- About: "Using the app" + Glossary with every value
+- Look: sticky bars on the page sky, no cards, one text size, background lights; live at 6136f80
+
 ### 2026-10-06 (S6)
 - Tablet install fixed (no code); Chrome 154 same-origin install bug documented
-
-### 2026-10-05 (S5)
-- About: Yamaganda/Gulika/Choghadiya texts; key grouped; all sheets factual; Credits sources
-- Sky tab (top-down chart) live at 765faff
-
-### 2026-10-05 (S4)
-- P6 PWA + offline (gate met); update-prompt bar
-- Drik evidence complete (Sankranti, eclipses, Pushya, Parana 2027, adhika); ayanamsha fix
-- Sun dial redesign: clock face, overlap shown, solid window colours, other-day clock time
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
@@ -50,7 +46,8 @@ Workflow: the user reviews on localhost; commit locally, push only on the user's
   lt.json is the one file allowed to hold Lithuanian (product text the user asked for); code,
   comments and docs stay English. New UI text = a key in both files.
 - Accuracy vs references: `npm run accuracy`. Refetch references: `node scripts/fetch-drik.ts`,
-  `fetch-mypanchang.ts`, `fetch-ekadashi.ts` (fixtures in `tests/fixtures/`, never hand-typed)
+  `fetch-mypanchang.ts`, `fetch-ekadashi.ts`, `fetch-choghadiya.ts` (fixtures in
+  `tests/fixtures/`, never hand-typed)
 - Speed: `npm run dev`, open `/VedaCal/tests/perf/perf.html` (dev-only harness)
 - Mockups (P3): `npm run dev` → http://localhost:5173/VedaCal/mockups/ . Bump `MOCKUP_VERSION`
   in `mockups/version.ts` on every visible change — each screen shows a version badge so the
@@ -85,6 +82,26 @@ Workflow: the user reviews on localhost; commit locally, push only on the user's
   is wrong; real value is Krishna Navami, waning. Only computed or Drik-fetched values count.
 
 ## Archive
+
+### Session 2026-10-07 (S7) — Yamaganda/Gulika/Choghadiya on the day screen; no-card redesign
+
+- **Done:** Yamaganda + Gulika rows and dial arcs; Choghadiya folded under the rows (16 parts,
+  last night's parts before sunrise). Good time and an overlapping avoid window cancel out:
+  both rows trimmed, note line under the good time. Checked vs Drik (48 day fixtures; new
+  Choghadiya fixtures for all 7 weekdays).
+- **Done:** About split into "Using the app" (install/use/offline, texts after BakeStack) and
+  "Glossary" (every term with all its values). Top bar sticky on Day/Month/Sky; bars edge to
+  edge on the page sky with an amber line. No cards anywhere (lines between sections). One text
+  size per row (tabs excepted). Background lights after vakruska.lt. Pushed, CI green (6136f80).
+- **Decided / overturned:** Choghadiya is our own code — panchangam-js 3.0.0 swaps Rog/Shubh in
+  its Sun/Mon/Wed/Fri day tables. The cancel-out rule is the user's product choice; those two
+  rows differ from Drik by the shared part. Rules recorded in SPEC 4.5, 5, 5.1, 5.4.
+- **Code:** `src/core/panchang.ts`, `types.ts`, `src/ui/day.ts`, `Day.svelte`, `About.svelte`,
+  `Month.svelte`, `Sky.svelte`, `fireflies.ts`, `screens.css`, `scripts/fetch-choghadiya.ts`,
+  `tests/choghadiya.test.ts`, `tests/fixtures/choghadiya/`
+- **Entry point:** `npm test` (1159 pass); `node scripts/fetch-choghadiya.ts <city> <dates>`
+- **Not measured:** the background lights' battery/CPU cost on a real phone; mockups for
+  About/Sky not updated to the no-card look.
 
 ### Session 2026-10-06 (S6) — tablet install fixed; Chrome 154 install-sheet bug found
 
