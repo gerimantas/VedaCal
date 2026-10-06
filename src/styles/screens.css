@@ -87,6 +87,29 @@ h3 {
   background: var(--color-card);
 }
 
+/* No cards on any screen (user, 2026-10-06): sections sit straight on the night sky, a thin
+   line above each. The search field and the city choices keep their box — they are controls. */
+.card:not(.search, .city) {
+  border-width: var(--rule-hair) 0 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  padding-inline: 0;
+}
+
+/* A section with its own heading: the line goes above the heading, not between the heading
+   and what it heads. */
+:is(h2, h3) + .card:not(.search, .city) {
+  margin-top: var(--space-2xs);
+  padding-top: 0;
+  border-top-width: 0;
+}
+
+:is(.about-head, .section-title):not(.page-title + *) {
+  padding-top: var(--space-sm);
+  border-top: var(--rule-hair) solid var(--color-card-line);
+}
+
 /* ── App bar ─────────────────────────────────────────────────────────────── */
 /* Top and bottom bars, as in BakeStack's header (user, 2026-10-06): edge to edge, stuck to the
    screen's edge, on the page's own sky, one amber line with a narrow glow on the side that
@@ -207,19 +230,12 @@ h3 {
   filter: drop-shadow(0 0 1.25rem var(--glow));
 }
 
-/* Day screen without cards (user, 2026-10-06, trial): no outline, no fill, no glow — the
-   sections sit straight on the night sky, a thin line between one section and the next. */
-.day .hero,
-.day .card {
+/* The moon section, like every other, has no card (user, 2026-10-06): no outline, no fill,
+   no glow around it — the Moon keeps its own glow. */
+.hero {
   border-color: transparent;
   background: none;
   box-shadow: none;
-}
-
-.day .card {
-  border-width: var(--rule-hair) 0 0;
-  border-top-color: var(--color-card-line);
-  border-radius: 0;
 }
 
 .hero h2 {
