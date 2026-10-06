@@ -35,6 +35,13 @@
     return dayView(day, loc, momentFor(day, loc, clock), app.settings.zodiac, clockOn(day, loc, clock))
   })
 
+  // Choghadiya list sections: what is left of last night (before sunrise only), day, night.
+  const chogParts = [
+    ['before', t('untilSunrise')],
+    ['day', `${t('sunrise')} → ${t('sunset')}`],
+    ['night', `${t('sunset')} → ${t('sunrise')}`],
+  ] as const
+
   const go = (days: number) => {
     const d = addDays(date, days)
     app.date = d === today ? null : d
@@ -123,17 +130,20 @@
           </span>
           {@html icon.down}
         </summary>
-        {#each [false, true] as night (night)}
-          <p class="chog-head">{night ? `${t('sunset')} → ${t('sunrise')}` : `${t('sunrise')} → ${t('sunset')}`}</p>
-          <ul class="chog-list">
-            {#each v.choghadiya.filter((c) => c.night === night) as c (c.start)}
-              <li class="chog-row {c.rating}" class:current={c.current} data-sheet="choghadiya">
-                <i aria-hidden="true"></i>
-                <div><b>{c.name}</b><span class="sk">{c.sanskrit}</span></div>
-                <span class="when num"><span class="nw">{c.start}–</span><span class="nw">{c.end}</span></span>
-              </li>
-            {/each}
-          </ul>
+        {#each chogParts as [part, head] (part)}
+          {@const rows = v.choghadiya.filter((c) => c.part === part)}
+          {#if rows.length}
+            <p class="chog-head">{head}</p>
+            <ul class="chog-list">
+              {#each rows as c (c.start)}
+                <li class="chog-row {c.rating}" class:current={c.current} data-sheet="choghadiya">
+                  <i aria-hidden="true"></i>
+                  <div><b>{c.name}</b><span class="sk">{c.sanskrit}</span></div>
+                  <span class="when num"><span class="nw">{c.start}–</span><span class="nw">{c.end}</span></span>
+                </li>
+              {/each}
+            </ul>
+          {/if}
         {/each}
       </details>
     {/if}

@@ -35,13 +35,14 @@ const windowRows = v.windows
   .join('')
 // Choghadiya, folded under the window rows (user chose layout A, 2026-10-06).
 const cn = v.choghadiyaNow
-const chogList = (night: boolean) =>
-  `<p class="chog-head">${night ? `${t('sunset')} → ${t('sunrise')}` : `${t('sunrise')} → ${t('sunset')}`}</p><ul class="chog-list">${v.choghadiya
-    .filter((c) => c.night === night)
+const chogList = (part: 'before' | 'day' | 'night', head: string) =>
+  !v.choghadiya.some((c) => c.part === part) ? '' :
+  `<p class="chog-head">${head}</p><ul class="chog-list">${v.choghadiya
+    .filter((c) => c.part === part)
     .map((c) => `<li class="chog-row ${c.rating}${c.current ? ' current' : ''}" data-sheet="choghadiya"><i aria-hidden="true"></i><div><b>${c.name}</b><span class="sk">${c.sanskrit}</span></div><span class="when num"><span class="nw">${c.start}–</span><span class="nw">${c.end}</span></span></li>`)
     .join('')}</ul>`
 const chog = v.choghadiya.length
-  ? `<details class="more chog"><summary><span><span class="chog-title">${terms.choghadiya[0]} · <span class="sk">Choghadiya</span></span>${cn ? `<span class="chog-now ${cn.rating}">${t('now')}: <b>${cn.name}</b> · <span class="sk">${cn.sanskrit}</span></span>` : ''}</span>${icon.down}</summary>${chogList(false)}${chogList(true)}</details>`
+  ? `<details class="more chog"><summary><span><span class="chog-title">${terms.choghadiya[0]} · <span class="sk">Choghadiya</span></span>${cn ? `<span class="chog-now ${cn.rating}">${t('now')}: <b>${cn.name}</b> · <span class="sk">${cn.sanskrit}</span></span>` : ''}</span>${icon.down}</summary>${chogList('before', t('untilSunrise'))}${chogList('day', `${t('sunrise')} → ${t('sunset')}`)}${chogList('night', `${t('sunset')} → ${t('sunrise')}`)}</details>`
   : ''
 const sign = (s: SignLine) =>
   `<p class="sign" data-sheet="rashi"><span>${s.text} · <span class="sk">${s.sanskrit}</span></span><small class="num">${s.until}${s.next ? `, ${s.next}` : ''}</small></p>`

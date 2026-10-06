@@ -66,6 +66,7 @@ export type DayPanchang = {
     gulika: Interval | null
   }
   choghadiya: Choghadiya[] // 16 parts, sunrise to next sunrise; empty without a sunrise or sunset
+  choghadiyaBefore: Choghadiya[] // the 8 night parts of the day before, ending at this sunrise
   ekadashi: boolean
   /**
    * When to end the Ekadashi fast (Parana), on the morning after the Ekadashi day. Set on the

@@ -120,8 +120,16 @@ describe('Yamaganda, Gulika and Choghadiya (Vilnius, Tuesday 2026-10-06; Drik: G
     const v = at('2026-10-06T09:00:00Z') // 12:00 — Labh, 11:42–13:06
     expect(v.choghadiya).toHaveLength(16)
     expect(v.choghadiya.filter((c) => c.current)).toHaveLength(1)
-    expect(v.choghadiyaNow).toMatchObject({ name: 'Gain', sanskrit: 'Labh', rating: 'good', night: false })
-    expect(at('2026-10-06T02:00:00Z').choghadiyaNow).toBeNull() // 05:00, before sunrise
+    expect(v.choghadiyaNow).toMatchObject({ name: 'Gain', sanskrit: 'Labh', rating: 'good', part: 'day' })
+  })
+
+  it('before sunrise, leads with what is left of last night (Monday night, Drik: Chara 05:55–07:30)', () => {
+    const early = at('2026-10-06T03:30:00Z') // 06:30, before the 07:30 sunrise
+    expect(early.choghadiyaNow).toMatchObject({ name: 'Moving', sanskrit: 'Chal', part: 'before' })
+    expect(early.choghadiya.filter((c) => c.part === 'before')).toHaveLength(1)
+    expect(early.choghadiya).toHaveLength(17)
+    expect(early.choghadiya.filter((c) => c.current)).toHaveLength(1)
+    expect(at('2026-10-06T09:00:00Z').choghadiya.some((c) => c.part === 'before'), 'gone after sunrise').toBe(false)
   })
 })
 

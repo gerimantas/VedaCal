@@ -22,8 +22,11 @@ export type WindowRow = {
   overlap: string; split: [number, number] | null; active: boolean
 }
 
-/** One Choghadiya part as a row: "Gain · Labh  11:42 AM–1:06 PM", `current` while it runs. */
-export type ChoghadiyaRow = { name: string; sanskrit: string; start: string; end: string; rating: 'good' | 'neutral' | 'avoid'; night: boolean; current: boolean }
+/**
+ * One Choghadiya part as a row: "Gain · Labh  11:42 AM–1:06 PM", `current` while it runs.
+ * `part`: 'before' = last night's parts still to run before this sunrise (shown only then).
+ */
+export type ChoghadiyaRow = { name: string; sanskrit: string; start: string; end: string; rating: 'good' | 'neutral' | 'avoid'; part: 'before' | 'day' | 'night'; current: boolean }
 
 /** "Moon in Cancer · Karka", with "until …" and "then …" — shown on the moon card and the sun card. */
 export type SignLine = { text: string; sanskrit: string; until: string; next: string }
@@ -42,7 +45,10 @@ export type DayView = {
   nowWindows: WindowKind[]
   next: { label: string; in: string } | null
   windows: WindowRow[]
-  /** The 16 Choghadiya parts, sunrise to next sunrise; `choghadiyaNow` is the one at the dial's time. */
+  /**
+   * The 16 Choghadiya parts, sunrise to next sunrise — before sunrise led by what is left of
+   * last night; `choghadiyaNow` is the one at the dial's time.
+   */
   choghadiya: ChoghadiyaRow[]
   choghadiyaNow: ChoghadiyaRow | null
   facts: Fact[]
@@ -197,10 +203,14 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     })
 
   // ── Choghadiya: hour by hour, folded under the windows ──────────────────────
-  const choghadiya = day.choghadiya.map((p): ChoghadiyaRow => {
-    const e = content.choghadiya[p.name]
-    return { name: e.title, sanskrit: e.name, start: time(p.start, loc), end: time(p.end, loc), rating: CHOGHADIYA_RATING[p.name], night: p.night, current: inside(p) }
-  })
+  // Between midnight and sunrise last night's parts are still running: the ones left lead the list.
+  const before = day.sunrise && clock < day.sunrise ? day.choghadiyaBefore.filter((p) => p.end > clock) : []
+  const choghadiya = [...before.map((p) => ({ p, part: 'before' as const })), ...day.choghadiya.map((p) => ({ p, part: p.night ? ('night' as const) : ('day' as const) }))].map(
+    ({ p, part }): ChoghadiyaRow => {
+      const e = content.choghadiya[p.name]
+      return { name: e.title, sanskrit: e.name, start: time(p.start, loc), end: time(p.end, loc), rating: CHOGHADIYA_RATING[p.name], part, current: inside(p) }
+    },
+  )
 
   // ── What comes next: "Sunset in 4 h 48 min" ────────────────────────────────
   let next: DayView['next'] = null

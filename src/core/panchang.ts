@@ -418,15 +418,12 @@ const CHOGHADIYA_CYCLE: ChoghadiyaName[] = ['udveg', 'chal', 'labh', 'amrit', 'k
 /** Where each weekday (0 = Sunday) starts in the cycle: Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn. */
 const CHOGHADIYA_DAY_START = [0, 3, 6, 2, 5, 1, 4]
 
-function choghadiyaParts(sunrise: Date, sunset: Date, nextSunrise: Date, vara: number): Choghadiya[] {
-  const parts = (from: Date, to: Date, first: number, step: number, night: boolean) =>
-    Array.from({ length: 8 }, (_, i): Choghadiya => {
-      const at = (k: number) => new Date(from.getTime() + ((to.getTime() - from.getTime()) * k) / 8)
-      return { name: CHOGHADIYA_CYCLE[(((first + step * i) % 7) + 7) % 7], start: at(i), end: i === 7 ? to : at(i + 1), night }
-    })
-  const day = CHOGHADIYA_DAY_START[vara]
-  return [...parts(sunrise, sunset, day, 1, false), ...parts(sunset, nextSunrise, day + 5, -2, true)]
+function choghadiyaRun(from: Date, to: Date, first: number, step: number, night: boolean): Choghadiya[] {
+  const at = (k: number) => new Date(from.getTime() + ((to.getTime() - from.getTime()) * k) / 8)
+  return Array.from({ length: 8 }, (_, i) => ({ name: CHOGHADIYA_CYCLE[(((first + step * i) % 7) + 7) % 7], start: at(i), end: i === 7 ? to : at(i + 1), night }))
 }
+const choghadiyaDay = (sunrise: Date, sunset: Date, vara: number) => choghadiyaRun(sunrise, sunset, CHOGHADIYA_DAY_START[vara], 1, false)
+const choghadiyaNight = (sunset: Date, nextSunrise: Date, vara: number) => choghadiyaRun(sunset, nextSunrise, CHOGHADIYA_DAY_START[vara] + 5, -2, true)
 
 export function computeDay(date: string, loc: Location): DayPanchang {
   return remember(computed, key(loc, date), () => {
@@ -436,6 +433,7 @@ export function computeDay(date: string, loc: Location): DayPanchang {
     const sunrise = sunriseOn(loc, date)
     const sunset = sunsetOn(loc, date)
     const nextSunrise = sunriseOn(loc, addDays(date, 1))
+    const lastSunset = sunsetOn(loc, addDays(date, -1))
     const ref = sunrise ?? middle
     const ayanamsa = getAyanamsa(ref)
     const vara = getVara(ref, observer, options.timezoneOffset)
@@ -469,14 +467,16 @@ export function computeDay(date: string, loc: Location): DayPanchang {
       yoga: span(yogaAngle(ayanamsa), NAKSHATRA, (k) => k + 1),
       karana: span(elongation, 6, (k) => karanaType(k + 1)),
       windows: {
-        brahma: sunrise ? interval(calculateBrahmaMuhurta(sunrise, sunsetOn(loc, addDays(date, -1)) ?? undefined)) : null,
+        brahma: sunrise ? interval(calculateBrahmaMuhurta(sunrise, lastSunset ?? undefined)) : null,
         // Drik shows no Abhijit Muhurta on Wednesdays (P1 fixtures, SPEC 4.5).
         abhijit: sunrise && sunset && vara !== 3 ? interval(calculateAbhijitMuhurta(sunrise, sunset)) : null,
         rahuKaal: interval(rahu),
         yamaganda: lit ? interval(calculateYamagandaKalam(...lit, vara)) : null,
         gulika: lit ? interval(calculateGulikaKalam(...lit, vara)) : null,
       },
-      choghadiya: lit && nextSunrise ? choghadiyaParts(...lit, nextSunrise, vara) : [],
+      choghadiya: lit && nextSunrise ? [...choghadiyaDay(...lit, vara), ...choghadiyaNight(lit[1], nextSunrise, vara)] : [],
+      // Between midnight and sunrise the previous Panchang day's night is still running.
+      choghadiyaBefore: sunrise && lastSunset ? choghadiyaNight(lastSunset, sunrise, (vara + 6) % 7) : [],
       ekadashi,
       parana: ekadashi ? paranaAfter(loc, date) : smartaEkadashiOn(loc, addDays(date, -1)) ? paranaAfter(loc, addDays(date, -1)) : null,
       masa: masaAt(ref),
