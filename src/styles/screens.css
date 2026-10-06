@@ -578,9 +578,26 @@ h3 {
   font-size: var(--text-sm);
 }
 
-.win .overlap {
-  color: var(--color-ink);
+/* The good time's cancelled part (SPEC 5.1): a second line at the same size, softer, its
+   range in the time column under the row's own time. */
+/* The colour bar stays on the first line: the cancelled part is not good time. */
+.win.noted {
+  row-gap: 0.15rem;
+}
+
+.win .overlap,
+.win .overlap-when {
+  color: var(--color-muted);
   font-size: var(--text-sm);
+}
+
+.win .overlap {
+  grid-column: 2;
+}
+
+.win .overlap-when {
+  grid-column: 3;
+  text-align: right;
 }
 
 .win .when {
@@ -640,9 +657,8 @@ h3 {
 
 .chog-head {
   margin: var(--space-xs) 0 0;
-  color: var(--color-ink);
+  color: var(--color-muted);
   font-size: var(--text-sm);
-  font-weight: 650;
 }
 
 .chog-list {
@@ -680,7 +696,7 @@ h3 {
 }
 
 .chog-row .when {
-  color: var(--color-ink);
+  color: var(--color-muted);
   font-size: var(--text-sm);
   text-align: right;
 }

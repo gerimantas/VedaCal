@@ -757,7 +757,7 @@
     "langLt": "Lietuvių",
     "installApp": "Įdiegti programėlę",
     "installNote": "Prideda VedaCal prie pagrindinio ekrano. Tada ji atsidaro kaip programėlė ir veikia be interneto.",
-    "cancelOut": "{range}: Abhijit ir {name} atsveria vienas kitą",
+    "cancelOut": "Abhijit ir {name} atsveria vienas kitą",
     "updateReady": "Yra nauja versija.",
     "updateNow": "Atnaujinti"
   },

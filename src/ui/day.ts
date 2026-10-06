@@ -13,12 +13,13 @@ export type Fact = { term: Term; icon: string; label: string; value: string; san
 export type Zodiac = 'vedic' | 'western'
 export type WindowKind = 'calm' | 'good' | 'avoid'
 /**
- * `overlap`: "1:06–1:28 PM: Abhijit and Gulika cancel out" on the good time's row when a time to
- * avoid shares time with it; both rows then show only their own part (user, 2026-10-06).
+ * `overlap`: on the good time's row when a time to avoid shares time with it — "Abhijit and
+ * Gulika cancel each other out" and its range, shown as a second line with the range under the
+ * row's own time; both rows then show only their own part (user, 2026-10-06).
  */
 export type WindowRow = {
   kind: WindowKind; term: Term; name: string; sanskrit: string; start: string; end: string; none: string
-  overlap: string; active: boolean
+  overlap: { text: string; start: string; end: string } | null; active: boolean
 }
 
 /**
@@ -188,7 +189,7 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     .sort((a, b) => a.at.getTime() - b.at.getTime())
     .map(({ kind, term, w, none }): WindowRow => {
       const [name, sanskrit] = terms[term]
-      const overlap = clash && kind === 'good' ? t('cancelOut', { range: `${time(clash.start, loc)}–${time(clash.end, loc)}`, name: terms[clash.term][1] }) : ''
+      const overlap = clash && kind === 'good' ? { text: t('cancelOut', { name: terms[clash.term][1] }), start: time(clash.start, loc), end: time(clash.end, loc) } : null
       return { kind, term, name, sanskrit, start: w ? time(w.start, loc) : '', end: w ? time(w.end, loc) : '', none: w ? '' : none, overlap, active: inside(w) }
     })
 

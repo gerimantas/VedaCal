@@ -107,13 +107,18 @@
     {@render sign(v.sunSign)}
     <ul class="wins">
       {#each v.windows as w (w.term)}
-        <li class="win {w.kind}" class:none={!w.start} data-sheet={w.term}>
+        <li class="win {w.kind}" class:none={!w.start} class:noted={w.overlap} data-sheet={w.term}>
           <i aria-hidden="true"></i>
-          <div><b>{w.name}</b><span class="sk">{w.sanskrit}</span>{#if w.overlap}<small class="overlap num">{w.overlap}</small>{/if}</div>
+          <div><b>{w.name}</b><span class="sk">{w.sanskrit}</span></div>
           <!-- "12:44–13:29" breaks only at the dash, never inside a time (12-hour clocks). -->
           <span class="when num">
             {#if w.start}<span class="nw">{w.start}–</span><span class="nw">{w.end}</span>{:else}{w.none}{/if}
           </span>
+          {#if w.overlap}
+            <!-- The cancelled part: a second line, its range under the row's own time. -->
+            <span class="overlap">{w.overlap.text}</span>
+            <span class="overlap-when num"><span class="nw">{w.overlap.start}–</span><span class="nw">{w.overlap.end}</span></span>
+          {/if}
         </li>
       {/each}
     </ul>

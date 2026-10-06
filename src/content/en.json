@@ -757,7 +757,7 @@
     "langLt": "Lietuvių",
     "installApp": "Install app",
     "installNote": "Adds VedaCal to your home screen. It then opens like an app and works without internet.",
-    "cancelOut": "{range}: Abhijit and {name} cancel each other out",
+    "cancelOut": "Abhijit and {name} cancel each other out",
     "updateReady": "A new version is ready.",
     "updateNow": "Update"
   },
