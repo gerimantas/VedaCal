@@ -94,8 +94,11 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
     expect(v.sunSign).toMatchObject({ text: `Sun in ${rashi(sun.index).title}`, sanskrit: rashi(sun.index).name })
     expect([...v.facts, ...v.moreFacts].some((f) => f.term === 'rashi'), 'signs live on the cards, not in the facts').toBe(false)
     expect(facts.masa.sanskrit).toContain(content.masa[String(day.masa.purnimanta) as '1'].name)
+    // The season row opens its own sheet, led by this season (user, 2026-10-10: it opened the
+    // whole traditional rhythm).
     const ritu = content.rhythm[`ritu${day.rhythm.ritu}` as 'ritu1']
-    expect(facts.rhythm).toMatchObject({ value: ritu.title, sanskrit: ritu.name })
+    expect(facts.ritu).toMatchObject({ value: ritu.title, sanskrit: ritu.name, lead: { title: `${ritu.title} · ${ritu.name}`, text: ritu.meaning } })
+    expect(facts.rhythm, 'the rhythm sheet belongs to the tradition card').toBeUndefined()
   })
 })
 

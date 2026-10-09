@@ -6,6 +6,8 @@
 
   let dialog: HTMLDialogElement
   let term = $state<Term>('tithi')
+  // A row can lead its sheet with what its own value means (the season now), before the term.
+  let lead = $state<{ title: string; text: string } | null>(null)
   const [name, sanskrit] = $derived(terms[term])
 
   $effect(() => {
@@ -15,6 +17,7 @@
       const el = target.closest<HTMLElement>('[data-sheet]')
       if (!el || dialog.contains(el)) return
       term = el.dataset.sheet as Term
+      lead = el.dataset.sheetLead ? { title: el.dataset.sheetLeadTitle ?? '', text: el.dataset.sheetLead } : null
       dialog.showModal()
     }
     document.addEventListener('click', onClick)
@@ -25,6 +28,7 @@
 <dialog class="sheet" bind:this={dialog}>
   <div class="sheet-body">
     <h3>{name}{#if sanskrit}{' '}<span class="sk">{sanskrit}</span>{/if}</h3>
+    {#if lead}<p><b>{lead.title}.</b> {lead.text}</p>{/if}
     <p>{sheet(term)}</p>
     <button class="sheet-close" onclick={() => dialog.close()}>{t('close')}</button>
   </div>

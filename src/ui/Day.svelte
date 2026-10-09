@@ -49,7 +49,7 @@
 </script>
 
 {#snippet fact(f: Fact)}
-  <li class="fact" data-sheet={f.term}>
+  <li class="fact" data-sheet={f.term} data-sheet-lead-title={f.lead?.title} data-sheet-lead={f.lead?.text}>
     {@html f.icon}
     <div>
       <span class="label">{f.label}</span><strong>{f.value}</strong><span class="sk">{f.sanskrit}</span>

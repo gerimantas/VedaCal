@@ -25,13 +25,14 @@ export const terms = {
   pushya: [t('labelFavoured'), 'Guru / Ravi Pushya'],
   amritSiddhi: [t('labelFavoured'), 'Amrit Siddhi'],
   sarvarthaSiddhi: [t('labelAnyTask'), 'Sarvartha Siddhi'],
+  ritu: [t('legendSeason'), 'Ritu'],
   rhythm: [t('sectionTradition'), ''],
 } as const
 export type Term = keyof typeof terms
 
 // The About page's key, grouped so a long list stays easy to scan.
 export const termGroups: [string, Term[]][] = [
-  [t('groupCalendar'), ['tithi', 'vara', 'masa', 'nakshatra', 'rashi', 'yoga', 'karana']],
+  [t('groupCalendar'), ['tithi', 'vara', 'masa', 'ritu', 'nakshatra', 'rashi', 'yoga', 'karana']],
   [t('groupTimes'), ['brahma', 'abhijit', 'rahuKaal', 'yamaganda', 'gulika', 'bhadra', 'vyatipata', 'vaidhriti', 'choghadiya']],
   [t('groupSpecial'), ['parana', 'eclipse', 'sankranti', 'pushya', 'amritSiddhi', 'sarvarthaSiddhi', 'rhythm']],
 ]

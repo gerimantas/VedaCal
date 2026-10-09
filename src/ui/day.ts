@@ -8,8 +8,11 @@ import { icon } from './icons'
 import { markText, shownMarks } from './marks'
 import { terms, type Term } from './terms'
 
-/** `next`: "then …" when the element changes before the Panchang day ends (next sunrise). */
-export type Fact = { term: Term; icon: string; label: string; value: string; sanskrit: string; right: string; next: string }
+/**
+ * `next`: "then …" when the element changes before the Panchang day ends (next sunrise).
+ * `lead`: what this day's value means, shown first in the row's sheet (the season now).
+ */
+export type Fact = { term: Term; icon: string; label: string; value: string; sanskrit: string; right: string; next: string; lead?: { title: string; text: string } }
 export type Zodiac = 'vedic' | 'western'
 export type WindowKind = 'calm' | 'good' | 'avoid'
 /** A stretch of the day's track: 0 = the track's start (Brahma Muhurta), 1 = the next sunrise. */
@@ -165,7 +168,8 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     fact('vara', icon.vara, t('labelWeekday'), vara.title, vara.name),
     fact('masa', icon.month, t('labelMonth'), m.adhika ? t('extraMonth') : month.title, m.adhika ? t('adhika', { name: month.name }) : month.name),
     element('nakshatra', icon.nakshatra, t('labelStar'), day.nakshatra, (i) => entry('nakshatra', i)),
-    fact('rhythm', icon.leaf, t('legendSeason'), ritu.title, ritu.name, t('seasonDay', { day: r.rituDay, length: r.rituLength })),
+    // Its sheet opens on this season, then the six (user, 2026-10-10: it opened the whole rhythm).
+    { ...fact('ritu', icon.leaf, t('legendSeason'), ritu.title, ritu.name, t('seasonDay', { day: r.rituDay, length: r.rituLength })), lead: { title: t('season', { title: ritu.title, name: ritu.name }), text: ritu.meaning } },
   ]
   // Yoga and karana are poetic names with little everyday meaning for a Western reader, so
   // they sit behind "More details".
