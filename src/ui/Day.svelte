@@ -147,7 +147,7 @@
             <p class="chog-head">{head}</p>
             <ul class="chog-list">
               {#each rows as c (c.start)}
-                <li class="chog-row {c.rating}" class:current={c.current} data-sheet="choghadiya" data-sheet-lead-title={c.lead.title} data-sheet-lead={c.lead.text}>
+                <li class="chog-row {c.rating}" class:current={c.current} data-sheet="choghadiya" data-sheet-brief data-sheet-lead-title={c.lead.title} data-sheet-lead={c.lead.text}>
                   <i aria-hidden="true"></i>
                   <div><b>{c.name}</b><span class="sk">{c.sanskrit}</span></div>
                   <span class="when num"><span class="nw">{c.start}–</span><span class="nw">{c.end}</span></span>

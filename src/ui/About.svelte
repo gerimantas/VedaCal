@@ -8,7 +8,13 @@
   import { app } from './state.svelte'
   import { termGroups, terms, type Term } from './terms'
 
-  let part = $state<'use' | 'glossary'>('use')
+  // A sheet's "More about …" link lands here on the glossary, that term open and in view.
+  const asked = app.glossaryTerm
+  app.glossaryTerm = null
+  let part = $state<'use' | 'glossary'>(asked ? 'glossary' : 'use')
+  $effect(() => {
+    if (asked) document.getElementById(`term-${asked}`)?.scrollIntoView({ block: 'start' })
+  })
 
   // Main sources (user, 2026-10-05): what each one is used for, with its link.
   const credits: [string, string, Parameters<typeof t>[0]][] = [
@@ -85,8 +91,8 @@
       <h3 class="about-sub">{title}</h3>
       <ul class="card terms">
         {#each keys.map((k) => [k, terms[k]] as const) as [key, [name, sanskrit]] (key)}
-          <li>
-            <details>
+          <li id="term-{key}">
+            <details open={key === asked}>
               <summary><b>{name}</b>{#if sanskrit}<span class="sk">{sanskrit}</span>{/if}{@html icon.down}</summary>
               <!-- What tradition does in this window, then how it is found (the day sheet leads with today). -->
               {#if tradition(key)}<p>{tradition(key)}</p>{/if}

@@ -336,13 +336,14 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   // ── Choghadiya: hour by hour, folded under the windows ──────────────────────
   // Between midnight and sunrise last night's parts are still running: the ones left lead the list.
   const before = day.sunrise && clock < day.sunrise ? day.choghadiyaBefore.filter((p) => p.end > clock) : []
-  // Each part's sheet names its own half: which of the eight parts of the day or the night it is,
-  // how long they run today, and what that half starts with on its weekday (last night's parts
-  // belong to yesterday); a good part inside Rahu Kaal says it is still avoided.
+  // Each part's sheet is about that part only (user, 2026-10-10): its time, which of the eight
+  // parts of whose day or night it is (last night's belong to yesterday — the Panchang day
+  // starts at sunrise), its meaning, and for a good part inside Rahu Kaal that it is still
+  // avoided. No general text; the sheet links to the glossary instead.
   const groups = {
-    before: { parts: day.choghadiyaBefore, night: true, weekday: day.sunrise ? cap(new Intl.DateTimeFormat(LOCALE, { weekday: 'long', timeZone: loc.tz }).format(new Date(day.sunrise.getTime() - 86_400_000))) : weekday },
-    day: { parts: day.choghadiya.filter((p) => !p.night), night: false, weekday },
-    night: { parts: day.choghadiya.filter((p) => p.night), night: true, weekday },
+    before: { parts: day.choghadiyaBefore, night: true, vara: (day.vara + 6) % 7 },
+    day: { parts: day.choghadiya.filter((p) => !p.night), night: false, vara: day.vara },
+    night: { parts: day.choghadiya.filter((p) => p.night), night: true, vara: day.vara },
   }
   const choghadiya = [...before.map((p) => ({ p, part: 'before' as const })), ...day.choghadiya.map((p) => ({ p, part: p.night ? ('night' as const) : ('day' as const) }))].map(
     ({ p, part }): ChoghadiyaRow => {
@@ -350,14 +351,15 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
       const g = groups[part]
       const rating = CHOGHADIYA_RATING[p.name]
       const inRahu = rating === 'good' && rahuKaal && rahuKaal.start < p.end && p.start < rahuKaal.end
-      const where = lead('choghadiya', {
-        range: range(p), n: g.parts.findIndex((x) => x.start.getTime() === p.start.getTime()) + 1, minutes: minutes(p.end.getTime() - p.start.getTime()),
-        of: lead(g.night ? 'chogNightOf' : 'chogDayOf'), nom: lead(g.night ? 'chogNightNom' : 'chogDayNom'),
-        weekday: g.weekday, first: g.parts[0] ? content.choghadiya[g.parts[0].name].title : '',
+      // "about": the parts are equal, but their shown ends are rounded to the minute.
+      const span = g.parts.length ? g.parts[g.parts.length - 1].end.getTime() - g.parts[0].start.getTime() : 0
+      const which = lead('chogPart', {
+        n: g.parts.findIndex((x) => x.start.getTime() === p.start.getTime()) + 1, minutes: minutes(span / 8),
+        weekday: lead(`wdGen${g.vara}` as 'wdGen0'), half: lead(g.night ? 'chogNight' : 'chogDay'),
       })
       return {
         name: e.title, sanskrit: e.name, start: time(p.start, loc), end: time(p.end, loc), rating, part, current: inside(p),
-        lead: { title: `${e.title} · ${e.name}`, text: joined(where, e.meaning, inRahu ? lead('chogInRahu', { range: range(rahuKaal) }) : '') },
+        lead: { title: `${e.title} · ${e.name} · ${range(p)}`, text: joined(which, e.meaning, inRahu ? lead('chogInRahu', { range: range(rahuKaal) }) : '') },
       }
     },
   )

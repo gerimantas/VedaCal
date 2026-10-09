@@ -330,31 +330,33 @@ describe('day sheets lead with the day (Vilnius 2026)', () => {
   })
 })
 
-// User, 2026-10-10: a night part's sheet said how the *day* starts, and "about an hour and a half".
-describe('Choghadiya sheets name their own half (Vilnius, Tuesday 2026-10-06)', () => {
+// User, 2026-10-10: a night part's sheet said how the *day* starts, and the general text took
+// two thirds of it. Each part's sheet is about that part only; the general text is in the glossary.
+describe('Choghadiya sheets are about the part tapped (Vilnius, Tuesday 2026-10-06)', () => {
   const loc = city('Vilnius')
   const day = computeDay('2026-10-06', loc)
+  const v = dayView(day, loc, new Date('2026-10-06T09:00:00Z'))
 
-  it('day parts say "of the day", night parts "of the night", with today\'s length', () => {
-    const v = dayView(day, loc, new Date('2026-10-06T09:00:00Z'))
+  it("say which of whose eight parts it is, then its meaning", () => {
     const dayRow = v.choghadiya.find((c) => c.part === 'day')!
-    const nightRow = v.choghadiya.find((c) => c.part === 'night')!
-    expect(dayRow.lead.text).toMatch(/^.+: part 1 of 8 of the day, \d+ min each\. On Tuesday the day starts with/)
-    expect(nightRow.lead.text).toMatch(/^.+: part 1 of 8 of the night, \d+ min each\. On Tuesday the night starts with/)
+    const nightRow = v.choghadiya.filter((c) => c.part === 'night')[4]
+    expect(dayRow.lead.title).toBe(`${dayRow.name} · ${dayRow.sanskrit} · ${dayRow.start}–${dayRow.end}`)
+    expect(dayRow.lead.text).toMatch(/^Part 1 of 8 of Tuesday's day, about \d+ min each\. /)
+    expect(nightRow.lead.text).toMatch(/^Part 5 of 8 of Tuesday's night, about \d+ min each\. /)
+    expect(dayRow.lead.text).not.toContain('starts with')
   })
 
-  it('a good part inside Rahu Kaal says tradition still avoids it', () => {
-    const v = dayView(day, loc, new Date('2026-10-06T09:00:00Z'))
+  it('a good part inside Rahu Kaal says tradition still avoids it (Shubh 15:54–17:18)', () => {
     const { rahuKaal } = day.windows
     const good = day.choghadiya.filter((p) => !p.night && ['amrit', 'shubh', 'labh'].includes(p.name) && p.start < rahuKaal!.end && rahuKaal!.start < p.end)
-    const rows = v.choghadiya.filter((c) => c.part === 'day' && /falls in Rahu Kaal/.test(c.lead.text))
-    expect(rows.length).toBe(good.length)
+    expect(good.length).toBeGreaterThan(0)
+    expect(v.choghadiya.filter((c) => c.part === 'day' && /falls in Rahu Kaal/.test(c.lead.text)).length).toBe(good.length)
   })
 
-  it("before sunrise, last night's parts belong to Monday", () => {
-    const v = dayView(day, loc, new Date('2026-10-06T03:00:00Z'), 'vedic', new Date('2026-10-06T03:00:00Z'))
-    const before = v.choghadiya.filter((c) => c.part === 'before')
+  it("before sunrise, last night's parts are Monday's", () => {
+    const early = dayView(day, loc, new Date('2026-10-06T03:00:00Z'), 'vedic', new Date('2026-10-06T03:00:00Z'))
+    const before = early.choghadiya.filter((c) => c.part === 'before')
     expect(before.length).toBeGreaterThan(0)
-    for (const c of before) expect(c.lead.text).toContain('On Monday the night starts with')
+    for (const c of before) expect(c.lead.text).toContain("of Monday's night")
   })
 })

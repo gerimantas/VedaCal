@@ -786,7 +786,8 @@
     "guideOfflineText": "After the first visit VedaCal keeps its own copy on the phone, about 2 MB: it opens instantly, calculates without internet and sends nothing anywhere. When a new version is out, it downloads in the background and a bar offers to update. To remove the app, press and hold its icon and choose Uninstall. Your city and settings live only on this phone, so removing the app removes them too.",
     "guideGlossaryIntro": "Every name the app uses, in plain words. Open one to read what it means and, where it has them, all its values.",
     "updateReady": "A new version is ready.",
-    "updateNow": "Update"
+    "updateNow": "Update",
+    "moreAbout": "More about {name} →"
   },
   "masa": {
     "1": {
@@ -916,37 +917,37 @@
     "amrit": {
       "name": "Amrit",
       "title": "Nectar",
-      "meaning": "Ruled by the Moon, the best of the seven. Tradition holds it good for any kind of work, prayer, travel or celebration."
+      "meaning": "\"Nectar\", ruled by the Moon; the best of the seven parts. Tradition holds it good for any work."
     },
     "shubh": {
       "name": "Shubh",
       "title": "Auspicious",
-      "meaning": "Ruled by Jupiter. Traditionally good for ceremonies, above all weddings, and for prayer and business."
+      "meaning": "\"Auspicious\", ruled by Jupiter; a good part. Traditionally good for ceremonies, above all weddings."
     },
     "labh": {
       "name": "Labh",
       "title": "Gain",
-      "meaning": "Ruled by Mercury. Traditionally good for starting study, learning a skill, trade and money matters."
+      "meaning": "\"Gain\", ruled by Mercury; a good part. Traditionally the best time to begin studies and learn new skills."
     },
     "chal": {
       "name": "Chal",
       "title": "Moving",
-      "meaning": "Ruled by Venus and neutral. Its restless nature makes it traditionally suited to travel, not to ceremonies."
+      "meaning": "\"Moving\" (also called Chanchal), ruled by Venus; a neutral part. Traditionally the best time for travel."
     },
     "udveg": {
       "name": "Udveg",
       "title": "Unease",
-      "meaning": "Ruled by the Sun. Traditionally avoided for new work and journeys, though held suited to dealings with government."
+      "meaning": "\"Unease\", ruled by the Sun; a part to avoid. Traditionally nothing important is begun, except dealings with government offices."
     },
     "rog": {
       "name": "Rog",
       "title": "Friction",
-      "meaning": "Ruled by Mars. Traditionally avoided for anything new; held suited only to contests and facing opponents."
+      "meaning": "\"Friction\", ruled by Mars; a part to avoid. Traditionally no auspicious work is done; it is kept only for contests and overcoming an opponent."
     },
     "kaal": {
       "name": "Kaal",
       "title": "Loss",
-      "meaning": "Ruled by Saturn. Traditionally no auspicious work begins in it, though it is held suited to work that builds savings."
+      "meaning": "\"Loss\", ruled by Saturn; a part to avoid. Traditionally no auspicious work is done, except building up savings."
     }
   },
   "tradition": {
@@ -977,7 +978,6 @@
     "eclipsePeakUnseen": "The greatest phase, at {time}, is not seen here.",
     "pushya": "{weekday}, and the Moon is in Pushya: {range}.",
     "siddhi": "{weekday}, and the Moon is in {star}: this pair makes {yoga}, {range}.",
-    "choghadiya": "{range}: part {n} of 8 of the {of}, {minutes} min each. On {weekday} the {nom} starts with “{first}”.",
     "tithi": "Lunar day {n} of 30, in the {half}. {ends}.",
     "waxingHalf": "waxing half (Shukla)",
     "waningHalf": "waning half (Krishna)",
@@ -997,10 +997,16 @@
     "ayanaBegins": "The Sun's half-year changes today at {time}.",
     "atTomorrow": "{time} tomorrow",
     "atYesterday": "{time} yesterday",
-    "chogDayOf": "day",
-    "chogNightOf": "night",
-    "chogDayNom": "day",
-    "chogNightNom": "night",
-    "chogInRahu": "It falls in Rahu Kaal ({range}), so tradition still avoids it."
+    "chogInRahu": "It falls in Rahu Kaal ({range}), so tradition still avoids it.",
+    "chogPart": "Part {n} of 8 of {weekday}'s {half}, about {minutes} min each.",
+    "chogDay": "day",
+    "chogNight": "night",
+    "wdGen0": "Sunday",
+    "wdGen1": "Monday",
+    "wdGen2": "Tuesday",
+    "wdGen3": "Wednesday",
+    "wdGen4": "Thursday",
+    "wdGen5": "Friday",
+    "wdGen6": "Saturday"
   }
 }

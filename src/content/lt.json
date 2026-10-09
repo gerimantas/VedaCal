@@ -786,7 +786,8 @@
     "guideOfflineText": "Po pirmojo apsilankymo VedaCal pasilieka savo kopiją telefone, apie 2 MB: atsidaro akimirksniu, skaičiuoja be interneto ir niekur nieko nesiunčia. Išleidus naują versiją, ji parsisiunčia fone, o juostelė pasiūlo atnaujinti. Norėdami pašalinti programėlę, palaikykite pirštą ant jos piktogramos ir pasirinkite „Pašalinti“. Miestas ir nustatymai laikomi tik šiame telefone, todėl pašalinus programėlę jie dingsta.",
     "guideGlossaryIntro": "Kiekvienas programėlėje vartojamas pavadinimas paprastais žodžiais. Atidarykite jį ir perskaitysite, ką jis reiškia, o kur yra – ir visas jo reikšmes.",
     "updateReady": "Yra nauja versija.",
-    "updateNow": "Atnaujinti"
+    "updateNow": "Atnaujinti",
+    "moreAbout": "Daugiau apie {name} →"
   },
   "masa": {
     "1": {
@@ -916,37 +917,37 @@
     "amrit": {
       "name": "Amrit",
       "title": "Nektaras",
-      "meaning": "Valdo Mėnulis, geriausia iš septynių. Tradicija ją laiko tinkama bet kokiam darbui, maldai, kelionei ar šventei."
+      "meaning": "„Nektaras“, valdo Mėnulis; geriausia iš septynių dalių. Tradicija ją laiko tinkama bet kokiam darbui."
     },
     "shubh": {
       "name": "Shubh",
       "title": "Palanki",
-      "meaning": "Valdo Jupiteris. Tradiciškai tinka ceremonijoms, ypač vestuvėms, taip pat maldai ir verslui."
+      "meaning": "„Palanki“, valdo Jupiteris; palanki dalis. Tradiciškai tinka apeigoms, ypač vestuvėms."
     },
     "labh": {
       "name": "Labh",
       "title": "Nauda",
-      "meaning": "Valdo Merkurijus. Tradiciškai tinka pradėti mokslus, mokytis įgūdžių, prekiauti ir tvarkyti pinigų reikalus."
+      "meaning": "„Nauda“, valdo Merkurijus; palanki dalis. Tradiciškai tinkamiausia pradėti mokslus ir mokytis naujų įgūdžių."
     },
     "chal": {
       "name": "Chal",
       "title": "Judėjimas",
-      "meaning": "Valdo Venera, neutrali. Dėl nenustygstančios prigimties tradiciškai tinka kelionėms, bet ne ceremonijoms."
+      "meaning": "„Judėjimas“ (dar vadinama Chanchal), valdo Venera; neutrali dalis. Tradiciškai tinkamiausia kelionėms."
     },
     "udveg": {
       "name": "Udveg",
       "title": "Nerimas",
-      "meaning": "Valdo Saulė. Tradiciškai vengiama naujiems darbams ir kelionėms, nors laikoma tinkama reikalams su valdžios įstaigomis."
+      "meaning": "„Nerimas“, valdo Saulė; vengtina dalis. Tradiciškai jos metu nepradedama nieko svarbaus, išskyrus reikalus su valdžios įstaigomis."
     },
     "rog": {
       "name": "Rog",
       "title": "Trintis",
-      "meaning": "Valdo Marsas. Tradiciškai vengiama viskam, kas nauja; laikoma tinkama tik varžyboms ir susidūrimui su priešininkais."
+      "meaning": "„Trintis“, valdo Marsas; vengtina dalis. Tradiciškai jos metu nedaromas joks palankus darbas; ji skiriama tik kovai ir priešininko įveikimui."
     },
     "kaal": {
       "name": "Kaal",
       "title": "Netektis",
-      "meaning": "Valdo Saturnas. Tradiciškai jos metu nepradedamas joks palankus darbas, nors ji laikoma tinkama santaupoms kaupti."
+      "meaning": "„Netektis“, valdo Saturnas; vengtina dalis. Tradiciškai jos metu nedaromas joks palankus darbas, išskyrus turto kaupimą."
     }
   },
   "tradition": {
@@ -977,7 +978,6 @@
     "eclipsePeakUnseen": "Didžiausia fazė, {time}, čia nematoma.",
     "pushya": "{weekday}, o Mėnulis Pushya žvaigždyne: {range}.",
     "siddhi": "{weekday}, o Mėnulis {star} žvaigždyne: ši pora sudaro {yoga}, {range}.",
-    "choghadiya": "{range}: {of} dalis nr. {n} iš 8, kiekviena po {minutes} min. {weekday}: {nom} prasideda dalimi „{first}“.",
     "tithi": "{n}-oji Mėnulio diena iš 30, {half}. {ends}.",
     "waxingHalf": "pilnėjanti pusė (Shukla)",
     "waningHalf": "dylanti pusė (Krishna)",
@@ -997,10 +997,16 @@
     "ayanaBegins": "Šiandien {time} keičiasi Saulės pusmetis.",
     "atTomorrow": "rytoj {time}",
     "atYesterday": "vakar {time}",
-    "chogDayOf": "dienos",
-    "chogNightOf": "nakties",
-    "chogDayNom": "diena",
-    "chogNightNom": "naktis",
-    "chogInRahu": "Ji sutampa su Rahu Kaal ({range}), todėl tradicija jos vis tiek vengia."
+    "chogInRahu": "Ji sutampa su Rahu Kaal ({range}), todėl tradicija jos vis tiek vengia.",
+    "chogPart": "{weekday} {half} dalis nr. {n} iš 8, kiekviena apie {minutes} min.",
+    "chogDay": "dienos",
+    "chogNight": "nakties",
+    "wdGen0": "Sekmadienio",
+    "wdGen1": "Pirmadienio",
+    "wdGen2": "Antradienio",
+    "wdGen3": "Trečiadienio",
+    "wdGen4": "Ketvirtadienio",
+    "wdGen5": "Penktadienio",
+    "wdGen6": "Šeštadienio"
   }
 }

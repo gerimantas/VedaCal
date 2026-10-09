@@ -2,12 +2,16 @@
   // Tap anything marked data-sheet="<term>" and its explanation opens as a bottom sheet —
   // the same text as the About page (one list in en.json).
   import { sheet, t } from './format'
+  import { app } from './state.svelte'
   import { terms, type Term } from './terms'
 
   let dialog: HTMLDialogElement
   let term = $state<Term>('tithi')
   // A row can lead its sheet with what its own value means (the season now), before the term.
   let lead = $state<{ title: string; text: string } | null>(null)
+  // A brief sheet (data-sheet-brief) holds only what is about the row tapped; the general text
+  // stays in the glossary, one tap away (user, 2026-10-10: Choghadiya rows).
+  let brief = $state(false)
   const [name, sanskrit] = $derived(terms[term])
 
   $effect(() => {
@@ -18,6 +22,7 @@
       if (!el || dialog.contains(el)) return
       term = el.dataset.sheet as Term
       lead = el.dataset.sheetLead ? { title: el.dataset.sheetLeadTitle ?? '', text: el.dataset.sheetLead } : null
+      brief = 'sheetBrief' in el.dataset
       dialog.showModal()
     }
     document.addEventListener('click', onClick)
@@ -33,7 +38,11 @@
   <div class="sheet-body" tabindex="-1" autofocus>
     <h3>{name}{#if sanskrit}{' '}<span class="sk">{sanskrit}</span>{/if}</h3>
     {#if lead}<p>{#if lead.title}<b>{lead.title}.</b> {/if}{lead.text}</p>{/if}
-    <p>{sheet(term)}</p>
+    {#if brief}
+      <a class="sheet-more" href="#/about" onclick={() => ((app.glossaryTerm = term), dialog.close())}>{t('moreAbout', { name: sanskrit || name })}</a>
+    {:else}
+      <p>{sheet(term)}</p>
+    {/if}
     <button class="sheet-close" onclick={() => dialog.close()}>{t('close')}</button>
   </div>
 </dialog>

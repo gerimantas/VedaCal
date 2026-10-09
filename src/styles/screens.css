@@ -1406,6 +1406,14 @@ h3 {
   color: var(--color-muted);
 }
 
+.sheet-more {
+  display: inline-block;
+  margin-top: var(--space-2xs);
+  color: var(--color-accent);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+
 .sheet-body:focus {
   outline: none;
 }

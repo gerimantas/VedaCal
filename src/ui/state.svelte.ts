@@ -53,7 +53,8 @@ prefs.hour12 = settings.hour12 ?? undefined
 applyTheme(settings.theme)
 
 /** `date`: the day the Day screen shows, null = today (so it rolls over at midnight). */
-export const app = $state({ location: saved ?? VILNIUS, settings, date: null as string | null })
+/** `glossaryTerm`: a sheet's "More about …" link opens the glossary on this term. */
+export const app = $state({ location: saved ?? VILNIUS, settings, date: null as string | null, glossaryTerm: null as string | null })
 
 export function setSetting<K extends keyof Settings>(key: K, value: Settings[K]) {
   app.settings[key] = value
