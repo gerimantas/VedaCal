@@ -1005,6 +1005,40 @@ h3 {
   color: var(--color-avoid);
 }
 
+/* The Moon's light curve (src/ui/wave.ts): marks drawn as the grid draws them. */
+.wave-cap {
+  margin: var(--space-3xs) 0 var(--space-2xs);
+  font-size: var(--text-sm);
+  color: var(--color-neutral);
+}
+
+.wave-box .wave {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.wave .rest { fill: color-mix(in oklch, var(--color-rest) 22%, transparent); }
+.wave .grid { stroke: var(--color-rule); stroke-width: 0.6; stroke-dasharray: 2 3; }
+.wave .base { stroke: var(--color-rule); stroke-width: 0.8; }
+.wave .s0 { stop-color: var(--color-moon); stop-opacity: 0.35; }
+.wave .s1 { stop-color: var(--color-moon); stop-opacity: 0.02; }
+.wave .area { fill: url(#wave-fill); }
+.wave .curve { fill: none; stroke: var(--color-moon); stroke-width: 1.8; stroke-linejoin: round; }
+.wave .today { stroke: var(--color-moon); stroke-width: 1; stroke-dasharray: 3 2; }
+.wave .full { fill: #f3f0e6; stroke: var(--color-moon); stroke-width: 1; }
+.wave .new { fill: var(--color-moon-dark); stroke: var(--color-neutral); stroke-width: 1; }
+.wave .ekadashi { fill: var(--color-accent); }
+.wave .favoured { fill: var(--color-good); }
+.wave .eclipse { fill: none; stroke: var(--color-avoid); stroke-width: 1.6; }
+.wave text { font-family: var(--font-body); font-variant-numeric: tabular-nums; }
+.wave .dn { fill: var(--color-neutral); font-size: 8px; }
+.wave .dn.on { fill: var(--color-ink); font-weight: 700; }
+.wave .pc { fill: var(--color-neutral); font-size: 7px; }
+.wave .hit { fill: transparent; cursor: pointer; }
+.wave .hit:hover { fill: color-mix(in oklch, var(--color-ink) 6%, transparent); }
+
 /* Legend: two columns, each swatch drawn as the grid draws it. */
 .legend {
   display: grid;

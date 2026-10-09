@@ -710,6 +710,8 @@
     "legendSeason": "Season",
     "legendFasting": "Fasting",
     "keyDates": "Key dates",
+    "waveTitle": "The Moon's light this month",
+    "waveCaption": "How much of the Moon is lit, day by day. Tap a day to open it.",
     "locating": "Finding your location…",
     "locationError": "Your location is not available. Search for a city instead.",
     "noCities": "No city found",
