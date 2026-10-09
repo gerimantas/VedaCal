@@ -5,7 +5,6 @@ import { describe, expect, it } from 'vitest'
 import { computeDay, computeMonth } from '../src/core/panchang'
 import { prefs, time } from '../src/ui/format'
 import { monthView, shiftMonth } from '../src/ui/month'
-import { moonWave } from '../src/ui/wave'
 import { CITIES } from '../scripts/cities'
 
 const c = CITIES.vilnius
@@ -64,38 +63,4 @@ it('formats times 12- or 24-hour as set', () => {
   prefs.hour12 = true
   expect(time(at, loc)).toMatch(/6[:.]30\s?PM/i)
   prefs.hour12 = undefined
-})
-
-describe("the Moon's light curve, October 2026, Vilnius", () => {
-  const wave = moonWave(days, '2026-10-05')
-  const dayOf = (x: number) => days[Math.floor(x)].date
-
-  it('dips to new moon and peaks at full moon on the days Drik gives', () => {
-    expect(wave.phases.filter((p) => p.kind === 'new').map((p) => dayOf(p.x))).toEqual(['2026-10-10'])
-    expect(wave.phases.filter((p) => p.kind === 'full').map((p) => dayOf(p.x))).toEqual(['2026-10-26'])
-  })
-
-  it('places each turn within an hour of the exact moment', () => {
-    for (const p of wave.phases) {
-      const d = days[Math.floor(p.x)]
-      const at = (p.kind === 'new' ? d.newMoon : d.fullMoon)!
-      const local = new Date(at.toLocaleString('en-US', { timeZone: loc.tz }))
-      const hours = local.getHours() + local.getMinutes() / 60
-      expect(Math.abs((p.x % 1) * 24 - hours), `${d.date} ${p.kind}`).toBeLessThan(1)
-    }
-  })
-
-  it('agrees with the lit share shown for each day, to 1 %', () => {
-    for (const [i, d] of days.entries()) expect(Math.abs(wave.lit(i + 0.5) - d.moon.illumination), d.date).toBeLessThan(0.01)
-  })
-
-  it('draws one mark per Ekadashi, Pushya and eclipse day, a band per rest day, and today', () => {
-    const count = (cls: string) => wave.svg.split(`class="${cls}"`).length - 1
-    expect(count('ekadashi')).toBe(days.filter((d) => d.ekadashi).length)
-    expect(count('favoured')).toBe(days.filter((d) => d.marks.some((m) => m.kind === 'pushya')).length)
-    expect(count('eclipse')).toBe(days.filter((d) => d.marks.some((m) => m.kind === 'eclipse')).length)
-    expect(count('rest')).toBe(days.filter((d) => d.rhythm.restDay).length)
-    expect(count('today')).toBe(1)
-    expect(count('hit')).toBe(31)
-  })
 })

@@ -8,31 +8,20 @@
   import { keyDateWhen, legend, monthView, shiftMonth } from './month'
   import { realisticMoon } from './moon'
   import { app } from './state.svelte'
-  import { moonWave } from './wave'
 
   const loc = $derived(app.location)
   const today = $derived(civilDate(loc.tz, new Date()))
   // Opens on the month of the day last shown, else this month.
   let shown = $state((app.date ?? civilDate(app.location.tz, new Date())).slice(0, 7))
-  const days = $derived.by(() => {
-    const [y, m] = shown.split('-').map(Number)
-    return computeMonth(y, m, loc)
-  })
   const v = $derived.by(() => {
     void app.settings.hour12 // key-date times are formatted inside monthView
-    return monthView(days, loc, today, app.settings.zodiac)
+    const [y, m] = shown.split('-').map(Number)
+    return monthView(computeMonth(y, m, loc), loc, today, app.settings.zodiac)
   })
-  const wave = $derived(moonWave(days, today))
 
   function open(date: string) {
     app.date = date === today ? null : date
     location.hash = '#/day'
-  }
-
-  // The curve is drawn as one SVG; each day's column carries its date.
-  function openFromWave(e: MouseEvent) {
-    const date = (e.target as Element).closest('[data-date]')?.getAttribute('data-date')
-    if (date) open(date)
   }
 </script>
 
@@ -62,12 +51,6 @@
       </a>
     {/each}
   </div>
-
-  <h2 class="section-title">{t('waveTitle')}</h2>
-  <p class="wave-cap">{t('waveCaption')}</p>
-  <!-- The grid above is the keyboard path to each day; the curve is a tap shortcut. -->
-  <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-  <div class="wave-box" onclick={openFromWave}>{@html wave.svg}</div>
   <ul class="legend">
     {#each legend() as item (item.swatch)}
       <li>
