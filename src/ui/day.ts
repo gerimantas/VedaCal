@@ -128,11 +128,16 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   const ends = (end: Date) => until(end, day, loc)
   const fact = (term: Term, svg: string, label: string, value: string, sanskrit: string, right = '', next = ''): Fact =>
     ({ term, icon: svg, label, value, sanskrit, right, next })
-  /** A row for a changing element: the span in force now, its end, and what follows it. */
-  const element = (term: Term, svg: string, label: string, spans: Span[], name: (i: number) => { title: string; name: string }) => {
+  /** "Autumn · Sharad" and its meaning: what a row's sheet opens on before the term itself. */
+  const leadOf = (e: { title: string; name: string; meaning: string }) => ({ title: `${e.title} · ${e.name}`, text: e.meaning })
+  /**
+   * A row for a changing element: the span in force now, its end, and what follows it; its
+   * sheet opens on what this one means (user, 2026-10-10: the meanings were never shown).
+   */
+  const element = (term: Term, svg: string, label: string, spans: Span[], name: (i: number) => { title: string; name: string; meaning: string }) => {
     const s = activeAt(spans, now)
     const n = following(spans, s, day)
-    return fact(term, svg, label, name(s.index).title, name(s.index).name, ends(s.end), n ? t('then', { name: name(n.index).title }) : '')
+    return { ...fact(term, svg, label, name(s.index).title, name(s.index).name, ends(s.end), n ? t('then', { name: name(n.index).title }) : ''), lead: leadOf(name(s.index)) }
   }
   const r = day.rhythm
   const ritu = content.rhythm[`ritu${r.ritu}` as 'ritu1']
@@ -165,11 +170,11 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   const facts = [
     ...marks,
     ...(day.parana ? [paranaFact(day, loc)] : []),
-    fact('vara', icon.vara, t('labelWeekday'), vara.title, vara.name),
+    { ...fact('vara', icon.vara, t('labelWeekday'), vara.title, vara.name), lead: leadOf(vara) },
     fact('masa', icon.month, t('labelMonth'), m.adhika ? t('extraMonth') : month.title, m.adhika ? t('adhika', { name: month.name }) : month.name),
     element('nakshatra', icon.nakshatra, t('labelStar'), day.nakshatra, (i) => entry('nakshatra', i)),
     // Its sheet opens on this season, then the six (user, 2026-10-10: it opened the whole rhythm).
-    { ...fact('ritu', icon.leaf, t('legendSeason'), ritu.title, ritu.name, t('seasonDay', { day: r.rituDay, length: r.rituLength })), lead: { title: t('season', { title: ritu.title, name: ritu.name }), text: ritu.meaning } },
+    { ...fact('ritu', icon.leaf, t('legendSeason'), ritu.title, ritu.name, t('seasonDay', { day: r.rituDay, length: r.rituLength })), lead: leadOf(ritu) },
   ]
   // Yoga and karana are poetic names with little everyday meaning for a Western reader, so
   // they sit behind "More details".

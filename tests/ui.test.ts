@@ -83,10 +83,14 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
   it('day facts', () => {
     const facts = Object.fromEntries([...v.facts, ...v.moreFacts].map((f) => [f.term, f]))
     expect(facts.vara.value).toBe(entry('vara', day.vara).title)
+    // Each row's sheet opens on what this day's value means (user, 2026-10-10: the sheets said
+    // the meaning was on the day screen, and it was not).
+    const lead = (e: { title: string; name: string; meaning: string }) => ({ title: `${e.title} · ${e.name}`, text: e.meaning })
     for (const el of ['nakshatra', 'yoga', 'karana'] as const) {
       const s = activeAt(day[el], now)
-      expect(facts[el], el).toMatchObject({ value: entry(el, s.index).title, right: until(s.end, day, loc) })
+      expect(facts[el], el).toMatchObject({ value: entry(el, s.index).title, right: until(s.end, day, loc), lead: lead(entry(el, s.index)) })
     }
+    expect(facts.vara.lead).toEqual(lead(entry('vara', day.vara)))
     const moon = activeAt(day.signs.vedic.moon, now)
     const rashi = (i: number) => content.rashi[String(i) as '1']
     expect(v.moonSign).toMatchObject({ text: `Moon in ${rashi(moon.index).title}`, sanskrit: rashi(moon.index).name, until: until(moon.end, day, loc) })
