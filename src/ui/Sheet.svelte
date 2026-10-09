@@ -2,7 +2,7 @@
   // Tap anything marked data-sheet="<term>" and its explanation opens as a bottom sheet —
   // the same text as the About page (one list in en.json).
   import { sheet, t } from './format'
-  import { app } from './state.svelte'
+  import { icon } from './icons'
   import { terms, type Term } from './terms'
 
   let dialog: HTMLDialogElement
@@ -10,7 +10,8 @@
   // A row can lead its sheet with what its own value means (the season now), before the term.
   let lead = $state<{ title: string; text: string } | null>(null)
   // A brief sheet (data-sheet-brief) holds only what is about the row tapped; the general text
-  // stays in the glossary, one tap away (user, 2026-10-10: Choghadiya rows).
+  // folds out below it, in the same sheet — the day screen stays where it was (user, 2026-10-10:
+  // Choghadiya rows).
   let brief = $state(false)
   const [name, sanskrit] = $derived(terms[term])
 
@@ -37,9 +38,16 @@
   <!-- svelte-ignore a11y_autofocus -->
   <div class="sheet-body" tabindex="-1" autofocus>
     <h3>{name}{#if sanskrit}{' '}<span class="sk">{sanskrit}</span>{/if}</h3>
-    {#if lead}<p>{#if lead.title}<b>{lead.title}.</b> {/if}{lead.text}</p>{/if}
+    <!-- {' '}: a bare space before {/if} is dropped, which glued "Kanya.The Moon". -->
+    {#if lead}<p>{#if lead.title}<b>{lead.title}.</b>{' '}{/if}{lead.text}</p>{/if}
     {#if brief}
-      <a class="sheet-more" href="#/about" onclick={() => ((app.glossaryTerm = term), dialog.close())}>{t('moreAbout', { name: sanskrit || name })}</a>
+      <!-- Folded again on every opening: the dialog element is reused. -->
+      {#key lead}
+        <details class="more sheet-more">
+          <summary>{t('moreAbout', { name: sanskrit || name })}{@html icon.down}</summary>
+          <p>{sheet(term)}</p>
+        </details>
+      {/key}
     {:else}
       <p>{sheet(term)}</p>
     {/if}

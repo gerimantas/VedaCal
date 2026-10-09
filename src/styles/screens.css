@@ -1407,11 +1407,11 @@ h3 {
 }
 
 .sheet-more {
-  display: inline-block;
-  margin-top: var(--space-2xs);
-  color: var(--color-accent);
-  font-size: var(--text-sm);
-  text-decoration: none;
+  margin-top: var(--space-xs);
+}
+
+.sheet-more p {
+  margin-top: 0;
 }
 
 .sheet-body:focus {
