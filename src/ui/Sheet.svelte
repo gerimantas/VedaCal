@@ -26,7 +26,11 @@
 </script>
 
 <dialog class="sheet" bind:this={dialog}>
-  <div class="sheet-body">
+  <!-- Focus lands on the text, not on "Close": the browser drew its focus ring on the button
+       only sometimes, depending on how the sheet was opened (user, 2026-10-10). Tab still
+       reaches the button, ring and all. -->
+  <!-- svelte-ignore a11y_autofocus -->
+  <div class="sheet-body" tabindex="-1" autofocus>
     <h3>{name}{#if sanskrit}{' '}<span class="sk">{sanskrit}</span>{/if}</h3>
     {#if lead}<p>{#if lead.title}<b>{lead.title}.</b> {/if}{lead.text}</p>{/if}
     <p>{sheet(term)}</p>

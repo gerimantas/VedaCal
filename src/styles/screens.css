@@ -1406,6 +1406,10 @@ h3 {
   color: var(--color-muted);
 }
 
+.sheet-body:focus {
+  outline: none;
+}
+
 .sheet-close {
   width: 100%;
   margin-top: var(--space-md);
