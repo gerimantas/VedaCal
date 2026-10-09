@@ -114,7 +114,7 @@ describe('Yamaganda, Gulika and Choghadiya (Vilnius, Tuesday 2026-10-06; Drik: A
     expect(row('gulika')).toMatchObject({ start: time(abhijit!.end, loc), end: time(gulika!.end, loc) })
     expect(row('abhijit').overlap).toEqual({ text: 'Abhijit and Gulika cancel each other out', start: time(gulika!.start, loc), end: time(abhijit!.end, loc) })
     expect(row('gulika').overlap).toBeNull()
-    expect(v.windows.map((w) => w.term), 'still in time order').toEqual(['brahma', 'yamaganda', 'abhijit', 'gulika', 'rahuKaal'])
+    expect(v.windows.map((w) => w.term), 'still in time order').toEqual(['brahma', 'sarvarthaSiddhi', 'yamaganda', 'abhijit', 'gulika', 'rahuKaal'])
   })
 
   it('counts Yamaganda and Gulika as time to avoid in the dial centre, and nothing where they cancel out', () => {

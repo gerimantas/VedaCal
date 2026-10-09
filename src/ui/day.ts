@@ -18,7 +18,8 @@ export type WindowKind = 'calm' | 'good' | 'avoid'
  * row's own time; both rows then show only their own part (user, 2026-10-06).
  */
 export type WindowRow = {
-  kind: WindowKind; term: Term; name: string; sanskrit: string; start: string; end: string; none: string
+  /** `favoured`: a Pushya or Siddhi window (SPEC 4.11) — a time-list row, not drawn on the dial. */
+  kind: WindowKind | 'favoured'; term: Term; name: string; sanskrit: string; start: string; end: string; none: string
   overlap: { text: string; start: string; end: string } | null; active: boolean
 }
 
@@ -146,19 +147,17 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     }
   }
 
-  // Eclipses, Sankranti, Pushya and Siddhi on this day lead the facts (SPEC 4.11).
-  const marks = shownMarks(day.marks).map((mk): Fact => {
-    const x = markText(mk, loc, zodiac)
-    // A favoured day's row is labelled "Favoured for beginnings"; its value is the window.
-    if (mk.kind === 'pushya' || mk.kind === 'siddhi') return { term: x.term, icon: x.svg, label: x.label, value: x.when, sanskrit: x.sanskrit, right: '', next: '' }
-    return { term: x.term, icon: x.svg, label: x.label, value: x.title, sanskrit: x.sanskrit, right: x.when, next: x.note }
-  })
-  // Sarvartha Siddhi, about ten days a month, follows the fast's end time rather than leading.
-  const common = (f: Fact) => f.term === 'sarvarthaSiddhi'
+  // Eclipses and Sankranti on this day lead the facts (SPEC 4.11). Pushya and Siddhi are time
+  // windows: they sit in the time list below (user, 2026-10-09: looked for there, not found).
+  const marks = day.marks
+    .filter((mk) => mk.kind === 'eclipse' || mk.kind === 'sankranti')
+    .map((mk): Fact => {
+      const x = markText(mk, loc, zodiac)
+      return { term: x.term, icon: x.svg, label: x.label, value: x.title, sanskrit: x.sanskrit, right: x.when, next: x.note }
+    })
   const facts = [
-    ...marks.filter((f) => !common(f)),
+    ...marks,
     ...(day.parana ? [paranaFact(day, loc)] : []),
-    ...marks.filter(common),
     fact('vara', icon.vara, t('labelWeekday'), vara.title, vara.name),
     fact('masa', icon.month, t('labelMonth'), m.adhika ? t('extraMonth') : month.title, m.adhika ? t('adhika', { name: month.name }) : month.name),
     element('nakshatra', icon.nakshatra, t('labelStar'), day.nakshatra, (i) => entry('nakshatra', i)),
@@ -187,11 +186,18 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     { kind: 'good', term: 'abhijit', w: abhijit, at: abhijit?.start ?? midday, none: day.vara === 3 ? t('notOnWednesdays') : t('none') },
     ...avoids.map(([term, w]) => ({ kind: 'avoid', term, w, at: w?.start ?? now, none: t('none') }) as const),
   ] as const
-  // In time order — the rows are also the dial's colour key.
-  const windows = [...windowList]
+  // The day's favoured window (Pushya over Amrit over Sarvartha Siddhi), named by its tradition.
+  const favoured = shownMarks(day.marks).flatMap((mk) => (mk.kind === 'pushya' || mk.kind === 'siddhi' ? [mk] : []))
+  const favouredRows = favoured.map((mk) => {
+    const x = markText(mk, loc, zodiac)
+    return { kind: 'favoured', term: x.term, w: { start: mk.start, end: mk.end }, at: mk.start, none: '', name: x.label, sanskrit: x.sanskrit } as const
+  })
+  // In time order — the calm, good and avoid rows are also the dial's colour key.
+  const windows = [...windowList, ...favouredRows]
     .sort((a, b) => a.at.getTime() - b.at.getTime())
-    .map(({ kind, term, w, none }): WindowRow => {
-      const [name, sanskrit] = terms[term]
+    .map((row): WindowRow => {
+      const { kind, term, w, none } = row
+      const [name, sanskrit] = 'name' in row ? [row.name, row.sanskrit] : terms[term]
       const overlap = clash && kind === 'good' ? { text: t('cancelOut', { name: terms[clash.term][1] }), start: time(clash.start, loc), end: time(clash.end, loc) } : null
       return { kind, term, name, sanskrit, start: w ? time(w.start, loc) : '', end: w ? time(w.end, loc) : '', none: w ? '' : none, overlap, active: inside(w) }
     })

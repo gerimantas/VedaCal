@@ -627,7 +627,8 @@ h3 {
   background: var(--color-calm);
 }
 
-.win.good i {
+.win.good i,
+.win.favoured i {
   background: var(--color-good);
 }
 
@@ -685,7 +686,9 @@ h3 {
 }
 
 .win.good b,
-.win.good .when {
+.win.good .when,
+.win.favoured b,
+.win.favoured .when {
   color: var(--color-good);
 }
 
