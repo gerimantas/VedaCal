@@ -91,20 +91,25 @@ describe('favoured days, October 2026, Vilnius (SPEC 4.11)', () => {
   })
 })
 
-describe('legend: only what the month shows, each with a plain note', () => {
+describe('legend: only the marks this month shows, with what they are for and on which days', () => {
   const swatches = (cells: typeof view.cells) => legend(cells).map((x) => x.swatch)
+  const days = (swatch: string) => legend(view.cells).find((x) => x.swatch === swatch)!.days
 
-  it('October 2026 has no eclipse, so the legend does not list one', () => {
-    expect(swatches(view.cells)).toEqual(['moon', 'today', 'rest', 'ekadashi', 'favoured'])
+  it('October 2026 has no eclipse, so the legend does not list one (shape and today need no key)', () => {
+    expect(swatches(view.cells)).toEqual(['rest', 'ekadashi', 'favoured'])
   })
 
-  it('August 2026 lists the eclipse; a month without today drops "today"', () => {
-    const aug = monthView(computeMonth(2026, 8, loc), loc, '2026-10-05')
-    expect(swatches(aug.cells)).toContain('eclipse')
-    expect(swatches(aug.cells)).not.toContain('today')
+  it('August 2026 lists the eclipse', () => {
+    expect(swatches(monthView(computeMonth(2026, 8, loc), loc, '2026-10-05').cells)).toContain('eclipse')
   })
 
-  it('every mark row says what it is for', () => {
-    for (const x of legend(view.cells).filter((x) => x.swatch !== 'moon' && x.swatch !== 'today')) expect(x.note, x.swatch).not.toBe('')
+  it('every row says what it is for', () => {
+    for (const x of legend(view.cells)) expect(x.note, x.swatch).not.toBe('')
+  })
+
+  it('names the days, a run of three or more as a range, and which tradition each favoured day follows', () => {
+    expect(days('rest')).toBe('10, 25–27')
+    expect(days('ekadashi')).toBe('6, 22')
+    expect(days('favoured')).toBe('4 Ravi Pushya, 14 Amrit Siddhi')
   })
 })

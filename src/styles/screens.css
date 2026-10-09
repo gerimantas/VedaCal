@@ -947,9 +947,12 @@ h3 {
   background: color-mix(in oklch, var(--color-rest) 34%, var(--color-card));
 }
 
+/* Today glows clearly (user, 2026-10-09: the soft glow was easy to miss). */
 .cell.today {
   border-color: var(--color-moon);
-  box-shadow: 0 0 0.6rem var(--glow);
+  box-shadow:
+    0 0 0 1px var(--color-moon),
+    0 0 1rem 0.2rem color-mix(in oklch, var(--color-moon) 55%, transparent);
 }
 
 .cell .d {
@@ -958,8 +961,7 @@ h3 {
 }
 
 /* Small moons: no glow, so 31 of them stay calm. */
-.cell .moon-real,
-.legend .moon-real {
+.cell .moon-real {
   filter: none;
 }
 
@@ -1005,28 +1007,22 @@ h3 {
   color: var(--color-avoid);
 }
 
-/* Legend: shape and today side by side, then one row per mark; swatches drawn as the grid draws them. */
+/* Legend: one row per mark this month shows — name, what it is for, on which days; each
+   swatch drawn as the grid draws it. */
 .legend {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-2xs) var(--space-sm);
+  gap: var(--space-xs);
   margin: var(--space-sm) 0 0;
   padding: 0;
   list-style: none;
   font-size: var(--text-sm);
-  color: var(--color-neutral);
+  color: var(--color-ink);
 }
 
 .legend li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-2xs);
-}
-
-/* A mark with a note takes the whole row: name on top, what it is for underneath. */
-.legend li.wide {
-  grid-column: 1 / -1;
-  color: var(--color-ink);
 }
 
 .legend li small {
@@ -1035,27 +1031,27 @@ h3 {
   color: var(--color-neutral);
 }
 
+.legend li small.days {
+  color: var(--color-muted);
+}
+
 .legend .sk {
   color: var(--color-moon);
 }
 
-.legend .sw.rest,
-.legend .sw.today {
+.legend .sw.rest {
   flex: none;
   width: 0.9rem;
   height: 0.9rem;
+  margin-top: 0.15rem;
   border-radius: 3px;
-}
-
-.legend .sw.today {
-  border: 1px solid var(--color-moon);
 }
 
 .legend .sw.ekadashi,
 .legend .sw.favoured,
 .legend .sw.eclipse {
   flex: none;
-  margin: 0 0.2rem;
+  margin: 0.4rem 0.2rem 0;
 }
 
 .events {

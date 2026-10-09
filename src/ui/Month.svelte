@@ -53,11 +53,12 @@
   </div>
   <ul class="legend">
     {#each legend(v.cells) as item (item.swatch)}
-      <li class:wide={item.note}>
-        {#if item.swatch === 'moon'}{@html realisticMoon(0.6, true, 14, '')}{:else}<i class="sw {item.swatch}"></i>{/if}
+      <li>
+        <i class="sw {item.swatch}"></i>
         <span>
           {item.label}{#if item.sanskrit}{' · '}<span class="sk">{item.sanskrit}</span>{/if}
-          {#if item.note}<small>{item.note}</small>{/if}
+          <small>{item.note}</small>
+          <small class="days num">{item.days}</small>
         </span>
       </li>
     {/each}
