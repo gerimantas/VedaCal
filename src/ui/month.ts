@@ -9,19 +9,25 @@ import { isFavoured, markText, shownMarks } from './marks'
 /** `favoured`: Guru/Ravi Pushya or Amrit Siddhi; `eclipse`: an eclipse peaks that day. */
 export type Cell = { date: string; n: number; rest: boolean; today: boolean; ekadashi: boolean; favoured: boolean; eclipse: boolean; illumination: number; waxing: boolean; label: string }
 export type KeyDate = { at: Date; date: string; svg: string; cls: string; title: string; sub: string; when: string }
-/** One legend row; `swatch` is drawn exactly as the grid draws it. */
-export type LegendItem = { swatch: 'moon' | 'rest' | 'today' | 'ekadashi' | 'favoured' | 'eclipse'; label: string; sanskrit: string }
 export type MonthView = { title: string; lead: number; weekdays: string[]; cells: Cell[]; events: KeyDate[] }
+/** One legend row; `swatch` is drawn exactly as the grid draws it; `note` says what it is for. */
+export type LegendItem = { swatch: 'moon' | 'rest' | 'today' | 'ekadashi' | 'favoured' | 'eclipse'; label: string; sanskrit: string; note: string }
 
-/** The month legend, in the order a reader meets things: tiles first, then the dots. */
-export const legend = (): LegendItem[] => [
-  { swatch: 'moon', label: t('legendMoonShape'), sanskrit: '' },
-  { swatch: 'today', label: t('legendToday'), sanskrit: '' },
-  { swatch: 'rest', label: t('legendRest'), sanskrit: '' },
-  { swatch: 'ekadashi', label: t('legendEkadashi'), sanskrit: 'Ekadashi' },
-  { swatch: 'favoured', label: t('legendFavoured'), sanskrit: 'Pushya, Amrit Siddhi' },
-  { swatch: 'eclipse', label: t('legendEclipse'), sanskrit: 'Grahan' },
-]
+/**
+ * The month legend, in the order a reader meets things: tiles first, then the dots. Only what
+ * this month's grid shows (user, 2026-10-09: an eclipse row with no eclipse in sight confused).
+ */
+export function legend(cells: Cell[]): LegendItem[] {
+  const all: [LegendItem, boolean][] = [
+    [{ swatch: 'moon', label: t('legendMoonShape'), sanskrit: '', note: '' }, true],
+    [{ swatch: 'today', label: t('legendToday'), sanskrit: '', note: '' }, cells.some((c) => c.today)],
+    [{ swatch: 'rest', label: t('legendRest'), sanskrit: '', note: t('legendRestNote') }, cells.some((c) => c.rest)],
+    [{ swatch: 'ekadashi', label: t('legendEkadashi'), sanskrit: 'Ekadashi', note: t('legendEkadashiNote') }, cells.some((c) => c.ekadashi)],
+    [{ swatch: 'favoured', label: t('legendFavoured'), sanskrit: 'Pushya, Amrit Siddhi', note: t('legendFavouredNote') }, cells.some((c) => c.favoured)],
+    [{ swatch: 'eclipse', label: t('legendEclipse'), sanskrit: 'Grahan', note: t('legendEclipseNote') }, cells.some((c) => c.eclipse)],
+  ]
+  return all.filter(([, shown]) => shown).map(([item]) => item)
+}
 
 /** "2026-10" ± n months. */
 export function shiftMonth(ym: string, n: number): string {

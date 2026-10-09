@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest'
 import { computeDay, computeMonth } from '../src/core/panchang'
 import { prefs, time } from '../src/ui/format'
 import { dayView } from '../src/ui/day'
-import { monthView, shiftMonth } from '../src/ui/month'
+import { legend, monthView, shiftMonth } from '../src/ui/month'
 import { CITIES } from '../scripts/cities'
 
 const c = CITIES.vilnius
@@ -88,5 +88,23 @@ describe('favoured days, October 2026, Vilnius (SPEC 4.11)', () => {
     expect(terms('2026-10-14').filter((x) => /Siddhi|pushya/.test(x))).toEqual(['amritSiddhi'])
     expect(terms('2026-10-04').filter((x) => /Siddhi|pushya/.test(x))).toEqual(['pushya'])
     expect(terms('2026-10-06').filter((x) => /Siddhi|pushya/.test(x))).toEqual(['sarvarthaSiddhi'])
+  })
+})
+
+describe('legend: only what the month shows, each with a plain note', () => {
+  const swatches = (cells: typeof view.cells) => legend(cells).map((x) => x.swatch)
+
+  it('October 2026 has no eclipse, so the legend does not list one', () => {
+    expect(swatches(view.cells)).toEqual(['moon', 'today', 'rest', 'ekadashi', 'favoured'])
+  })
+
+  it('August 2026 lists the eclipse; a month without today drops "today"', () => {
+    const aug = monthView(computeMonth(2026, 8, loc), loc, '2026-10-05')
+    expect(swatches(aug.cells)).toContain('eclipse')
+    expect(swatches(aug.cells)).not.toContain('today')
+  })
+
+  it('every mark row says what it is for', () => {
+    for (const x of legend(view.cells).filter((x) => x.swatch !== 'moon' && x.swatch !== 'today')) expect(x.note, x.swatch).not.toBe('')
   })
 })
