@@ -20,6 +20,8 @@ export const terms = {
   eclipse: [t('labelEclipse'), 'Grahan'],
   sankranti: [t('labelSankranti'), 'Sankranti'],
   pushya: [t('labelFavoured'), 'Guru / Ravi Pushya'],
+  amritSiddhi: [t('labelFavoured'), 'Amrit Siddhi'],
+  sarvarthaSiddhi: [t('labelAnyTask'), 'Sarvartha Siddhi'],
   rhythm: [t('sectionTradition'), ''],
 } as const
 export type Term = keyof typeof terms
@@ -28,5 +30,5 @@ export type Term = keyof typeof terms
 export const termGroups: [string, Term[]][] = [
   [t('groupCalendar'), ['tithi', 'vara', 'masa', 'nakshatra', 'rashi', 'yoga', 'karana']],
   [t('groupTimes'), ['brahma', 'abhijit', 'rahuKaal', 'yamaganda', 'gulika', 'choghadiya']],
-  [t('groupSpecial'), ['parana', 'eclipse', 'sankranti', 'pushya', 'rhythm']],
+  [t('groupSpecial'), ['parana', 'eclipse', 'sankranti', 'pushya', 'amritSiddhi', 'sarvarthaSiddhi', 'rhythm']],
 ]

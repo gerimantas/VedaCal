@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { computeDay, computeMonth } from '../src/core/panchang'
 import { prefs, time } from '../src/ui/format'
+import { dayView } from '../src/ui/day'
 import { monthView, shiftMonth } from '../src/ui/month'
 import { CITIES } from '../scripts/cities'
 
@@ -63,4 +64,29 @@ it('formats times 12- or 24-hour as set', () => {
   prefs.hour12 = true
   expect(time(at, loc)).toMatch(/6[:.]30\s?PM/i)
   prefs.hour12 = undefined
+})
+
+describe('favoured days, October 2026, Vilnius (SPEC 4.11)', () => {
+  const cell = (date: string) => view.cells.find((x) => x.date === date)!
+  const keyDates = (date: string) => view.events.filter((e) => e.date === date).map((e) => e.sub)
+
+  it('marks Amrit Siddhi (Oct 14) and Ravi Pushya (Oct 4) green, not Sarvartha Siddhi alone (Oct 6)', () => {
+    expect(cell('2026-10-14').favoured).toBe(true)
+    expect(cell('2026-10-04').favoured).toBe(true)
+    expect(cell('2026-10-06').favoured).toBe(false)
+    expect(view.cells.filter((x) => x.favoured).map((x) => x.date)).toEqual(['2026-10-04', '2026-10-14'])
+  })
+
+  it('lists Amrit Siddhi in key dates, Pushya once, and no Sarvartha Siddhi', () => {
+    expect(keyDates('2026-10-14')).toEqual(['Amrit Siddhi'])
+    expect(keyDates('2026-10-04')).toEqual(['Ravi Pushya'])
+    expect(view.events.some((e) => e.sub === 'Sarvartha Siddhi')).toBe(false)
+  })
+
+  it('shows one favoured row on the day screen: the strongest', () => {
+    const terms = (date: string) => dayView(computeDay(date, loc), loc, new Date(`${date}T10:00:00Z`)).facts.map((f) => f.term)
+    expect(terms('2026-10-14').filter((x) => /Siddhi|pushya/.test(x))).toEqual(['amritSiddhi'])
+    expect(terms('2026-10-04').filter((x) => /Siddhi|pushya/.test(x))).toEqual(['pushya'])
+    expect(terms('2026-10-06').filter((x) => /Siddhi|pushya/.test(x))).toEqual(['sarvarthaSiddhi'])
+  })
 })

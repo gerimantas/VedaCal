@@ -186,6 +186,19 @@ function lunation(t: Date): [Date, Date] {
 
 const MIN_MS = 60_000
 const PUSHYA = 8
+// Weekday (0 = Sunday) → the Moon's stars that make it Amrit Siddhi / Sarvartha Siddhi, as
+// derived from Drik's 2026 lists (SPEC 4.11): Hasta, Mrigashira, Ashwini, Anuradha, Pushya,
+// Revati, Rohini; every Amrit pair is also in the Sarvartha list.
+const AMRIT_SIDDHI = [13, 5, 1, 17, 8, 27, 4]
+const SARVARTHA_SIDDHI = [
+  [1, 8, 12, 13, 19, 21, 26],
+  [4, 5, 8, 17, 22],
+  [1, 3, 9, 26],
+  [3, 4, 5, 13, 17],
+  [1, 7, 8, 17, 27],
+  [1, 7, 17, 22, 27],
+  [4, 15, 22],
+]
 
 /** Is the Moon above the horizon here at any of these instants? */
 const moonUp = (loc: Location, times: Date[]) =>
@@ -234,23 +247,33 @@ function monthMarks(loc: Location, first: string): Map<string, DayMark[]> {
       if (s.start >= start && s.start < end) add(s.start, { kind: 'sankranti', sign: s.index, at: s.start })
     }
 
-    // Guru / Ravi Pushya: Pushya overlapping a Thursday or Sunday Panchang day.
+    // Star days: the Moon in a given star during a given weekday's Panchang day (sunrise to
+    // sunrise) — Guru/Ravi Pushya, Amrit Siddhi, Sarvartha Siddhi. One pass over the stars.
     const moon = siderealMoon(getAyanamsa(start))
-    const lo = (PUSHYA - 1) * NAKSHATRA
-    for (let t = new Date(start.getTime() - 2 * DAY_MS); t < end; ) {
-      const days = norm(lo - moon(t)) / 13.2 // the Moon moves ~13.2°/day
-      const from = crossing(moon, lo, new Date(t.getTime() + (days - 1.5) * DAY_MS), new Date(t.getTime() + (days + 1.5) * DAY_MS))
-      const to = crossing(moon, lo + NAKSHATRA, new Date(from.getTime() + 0.5 * DAY_MS), new Date(from.getTime() + 1.6 * DAY_MS))
-      // A Panchang day runs sunrise to sunrise, so Pushya starting before dawn on Monday still
+    // The month's last Panchang day runs to the next sunrise, past the month's end.
+    for (const s of sectorSpans(moon, NAKSHATRA, new Date(start.getTime() - 2 * DAY_MS), new Date(end.getTime() + 1.5 * DAY_MS), (k) => k + 1)) {
+      // A Panchang day runs sunrise to sunrise, so a star starting before dawn on Monday still
       // belongs to Sunday: start one civil day early.
-      for (let d = addDays(civilDate(loc.tz, from), -1); d <= civilDate(loc.tz, to); d = addDays(d, 1)) {
+      for (let d = addDays(civilDate(loc.tz, s.start), -1); d <= civilDate(loc.tz, s.end); d = addDays(d, 1)) {
+        if (d < first || d >= next) continue
         const weekday = new Date(`${d}T12:00:00Z`).getUTCDay()
+        const pushya = s.index === PUSHYA && (weekday === 4 || weekday === 0)
+        const amrit = AMRIT_SIDDHI[weekday] === s.index
+        const sarvartha = SARVARTHA_SIDDHI[weekday].includes(s.index)
+        if (!pushya && !sarvartha) continue // every Amrit Siddhi pair is also Sarvartha
         const rise = sunriseOn(loc, d), nextRise = sunriseOn(loc, addDays(d, 1))
-        if ((weekday !== 4 && weekday !== 0) || !rise || !nextRise || d < first || d >= next) continue
-        const a = from > rise ? from : rise, b = to < nextRise ? to : nextRise
-        if (a < b) out.set(d, [...(out.get(d) ?? []), { kind: 'pushya', weekday, start: a, end: b }])
+        if (!rise || !nextRise) continue
+        const a = s.start > rise ? s.start : rise, b = s.end < nextRise ? s.end : nextRise
+        if (a >= b) continue
+        const marks = out.get(d) ?? []
+        if (pushya) marks.push({ kind: 'pushya', weekday: weekday as 0 | 4, start: a, end: b })
+        if (amrit) marks.push({ kind: 'siddhi', yoga: 'amrit', start: a, end: b })
+        // Two qualifying stars back to back on one day make one window, as on Drik.
+        const prev = marks.find((m) => m.kind === 'siddhi' && m.yoga === 'sarvartha' && m.end.getTime() === a.getTime())
+        if (prev && prev.kind === 'siddhi') prev.end = b
+        else marks.push({ kind: 'siddhi', yoga: 'sarvartha', start: a, end: b })
+        out.set(d, marks)
       }
-      t = new Date(to.getTime() + DAY_MS)
     }
     return out
   })

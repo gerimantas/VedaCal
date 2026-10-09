@@ -36,12 +36,15 @@ export type SignSpans = { moon: Span[]; sun: Span[] }
  *   visible solar eclipse `type` is what this place sees (partial where the path is total);
  * - Sankranti: the Sun enters the next Vedic (sidereal) sign at `at`;
  * - Pushya: Pushya nakshatra overlaps a Thursday (Guru Pushya) or Sunday (Ravi Pushya)
- *   Panchang day, sunrise to sunrise — traditionally favoured for beginnings.
+ *   Panchang day, sunrise to sunrise — traditionally favoured for beginnings;
+ * - Siddhi: the Moon's star and the weekday make Amrit Siddhi (rare, favoured) or Sarvartha
+ *   Siddhi (about ten days a month) Yoga, sunrise to sunrise; times are the overlap.
  */
 export type DayMark =
   | { kind: 'eclipse'; body: 'sun' | 'moon'; type: 'penumbral' | 'partial' | 'annular' | 'total'; peak: Date; visible: boolean }
   | { kind: 'sankranti'; sign: number; at: Date }
   | { kind: 'pushya'; weekday: 0 | 4; start: Date; end: Date }
+  | { kind: 'siddhi'; yoga: 'amrit' | 'sarvartha'; start: Date; end: Date }
 
 export type Ayana = 'uttarayana' | 'dakshinayana'
 

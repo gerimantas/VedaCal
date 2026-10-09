@@ -596,7 +596,9 @@
     "parana": "Ekadashi is a fast kept twice a month and ended the next day. VedaCal shows when to end it: not too early, because the first quarter of the twelfth lunar day (Hari Vasara) still counts as part of the fast, and not too late, while the twelfth lunar day (Dwadashi) is still running. Usually that is the first few hours after sunrise (the first fifth of the daylight). When Hari Vasara runs long, the time moves to the afternoon (the fourth fifth), because tradition avoids midday. VedaCal shows the exact time on the day screen.",
     "eclipse": "By tradition, no new work is started and no meals are eaten during an eclipse (Grahan), and the time is given to prayer or meditation. VedaCal shows the moment of greatest eclipse and whether any of it can be seen from your location.",
     "sankranti": "Sankranti is the moment the Sun moves into the next sign of the Vedic zodiac, twelve times a year. Each one opens a solar month; Makara Sankranti in mid-January, a harvest festival, is celebrated across India.",
-    "pushya": "Pushya, \"nourishment\", is one of the Moon's 27 star sections and is held the most favourable of them. When the Moon is in Pushya on a Thursday (Guru Pushya) or a Sunday (Ravi Pushya), tradition sees that time as good for beginnings, for buying gold and for starting to learn. The times shown are when the two overlap."
+    "pushya": "Pushya, \"nourishment\", is one of the Moon's 27 star sections and is held the most favourable of them. When the Moon is in Pushya on a Thursday (Guru Pushya) or a Sunday (Ravi Pushya), tradition sees that time as good for beginnings, for buying gold and for starting to learn. The times shown are when the two overlap.",
+    "amritSiddhi": "Amrit Siddhi, \"nectar of success\", forms when a weekday meets its own Moon star: Sunday with Hasta, Monday with Mrigashira, Tuesday with Ashwini, Wednesday with Anuradha, Thursday with Pushya, Friday with Revati, Saturday with Rohini. It comes one to three times a month, and tradition holds it among the most favourable times to begin something. The times shown are when the two overlap.",
+    "sarvarthaSiddhi": "Sarvartha Siddhi, \"success in every aim\", forms when the weekday and the Moon's star are one of about thirty traditionally helpful pairs. It is common, about ten days a month, so VedaCal shows it on the day screen only and does not mark it on the month. The times shown are when the two overlap."
   },
   "ui": {
     "today": "Today",
@@ -734,6 +736,7 @@
     "labelEclipse": "Eclipse",
     "labelSankranti": "Sun changes sign",
     "labelFavoured": "Favoured for beginnings",
+    "labelAnyTask": "Favoured for any task",
     "eclipseTitle": "{type} {what} eclipse",
     "eclipseTotal": "Total",
     "eclipsePartial": "Partial",

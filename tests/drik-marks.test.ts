@@ -1,4 +1,5 @@
-// Day marks (SPEC 4.11) against Drik's own Sankranti, eclipse and Guru/Ravi Pushya pages
+// Day marks (SPEC 4.11) against Drik's own Sankranti, eclipse, Guru/Ravi Pushya, Amrit Siddhi
+// and Sarvartha Siddhi pages
 // (`scripts/fetch-marks.ts`). Drik shows minutes, so times must agree within 2 min.
 import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
@@ -12,6 +13,8 @@ type Fixture = {
   sankranti: { sign: number; observed: string; at: string }[]
   eclipses: { date: string; body: 'sun' | 'moon'; type: string; visible: boolean; local: string }[]
   pushya: { weekday: 0 | 4; date: string; start: string; end: string }[]
+  amrit: { date: string; start: string; end: string }[]
+  sarvartha: { date: string; start: string; end: string }[]
 }
 
 const fixtures: Fixture[] = readdirSync('tests/fixtures/marks').map((f) => JSON.parse(readFileSync(`tests/fixtures/marks/${f}`, 'utf8')))
@@ -49,6 +52,21 @@ describe.each(fixtures)('Drik marks $city $year', (f) => {
       near(ours[i].m.start, p.start, `${p.date} start`)
       near(ours[i].m.end, p.end, `${p.date} end`)
     })
+  })
+
+  it.each(['amrit', 'sarvartha'] as const)('%s Siddhi: the same windows, within 2 min', (yoga) => {
+    // Compared by window, as Pushya above. Drik's lists are by year (Amrit) and by month
+    // (Sarvartha, a window may sit on the next month's page): keep the year's windows.
+    const ours = marksOf(l, f.year, 'siddhi').filter((x) => x.m.yoga === yoga)
+    const drik = f[yoga].filter((w) => w.start.startsWith(String(f.year)) || w.end.startsWith(String(f.year)))
+    const minute = (t: Date | string) => Math.round(new Date(t).getTime() / 60_000)
+    const missing = drik.filter((w) => !ours.some((x) => Math.abs(minute(x.m.start) - minute(w.start)) <= 2))
+    const extra = ours.filter((x) => !drik.some((w) => Math.abs(minute(x.m.start) - minute(w.start)) <= 2))
+    expect({ missing: missing.map((w) => `${w.date} ${w.start}`), extra: extra.map((x) => `${x.date} ${x.m.start.toISOString()}`) }).toEqual({ missing: [], extra: [] })
+    for (const w of drik) {
+      const x = ours.find((o) => Math.abs(minute(o.m.start) - minute(w.start)) <= 2)!
+      near(x.m.end, w.end, `${w.date} end`)
+    }
   })
 
   it('eclipses: same days, and visible here exactly when Drik says so', () => {

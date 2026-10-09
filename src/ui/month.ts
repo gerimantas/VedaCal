@@ -4,9 +4,9 @@ import type { Location, MonthDay } from '../core/types'
 import type { Zodiac } from './day'
 import { LOCALE, MONTH, content, entry, t, time } from './format'
 import { icon } from './icons'
-import { markText } from './marks'
+import { isFavoured, markText, shownMarks } from './marks'
 
-/** `favoured`: Guru/Ravi Pushya; `eclipse`: an eclipse peaks that day. */
+/** `favoured`: Guru/Ravi Pushya or Amrit Siddhi; `eclipse`: an eclipse peaks that day. */
 export type Cell = { date: string; n: number; rest: boolean; today: boolean; ekadashi: boolean; favoured: boolean; eclipse: boolean; illumination: number; waxing: boolean; label: string }
 export type KeyDate = { at: Date; date: string; svg: string; cls: string; title: string; sub: string; when: string }
 /** One legend row; `swatch` is drawn exactly as the grid draws it. */
@@ -19,7 +19,7 @@ export const legend = (): LegendItem[] => [
   { swatch: 'today', label: t('legendToday'), sanskrit: '' },
   { swatch: 'rest', label: t('legendRest'), sanskrit: '' },
   { swatch: 'ekadashi', label: t('legendEkadashi'), sanskrit: 'Ekadashi' },
-  { swatch: 'favoured', label: t('legendFavoured'), sanskrit: 'Pushya' },
+  { swatch: 'favoured', label: t('legendFavoured'), sanskrit: 'Pushya, Amrit Siddhi' },
   { swatch: 'eclipse', label: t('legendEclipse'), sanskrit: 'Grahan' },
 ]
 
@@ -45,11 +45,11 @@ export function monthView(days: MonthDay[], loc: Location, today: string, zodiac
     rest: !!d.rhythm.restDay,
     today: d.date === today,
     ekadashi: d.ekadashi,
-    favoured: d.marks.some((m) => m.kind === 'pushya'),
+    favoured: d.marks.some(isFavoured),
     eclipse: d.marks.some((m) => m.kind === 'eclipse'),
     illumination: d.moon.illumination,
     waxing: d.moon.waxing,
-    label: [`${d.date}: ${entry('tithi', d.tithi).name}`, d.ekadashi && 'Ekadashi', d.rhythm.restDay && t('restDay'), ...d.marks.map((m) => markText(m, loc, zodiac).title)]
+    label: [`${d.date}: ${entry('tithi', d.tithi).name}`, d.ekadashi && 'Ekadashi', d.rhythm.restDay && t('restDay'), ...shownMarks(d.marks).filter((m) => m.kind !== 'siddhi' || m.yoga === 'amrit').map((m) => markText(m, loc, zodiac).title)]
       .filter(Boolean)
       .join(', '),
   }))
@@ -70,9 +70,11 @@ export function monthView(days: MonthDay[], loc: Location, today: string, zodiac
       events.push({ at: e.at, date: d.date, svg: icon.season, cls: '', title: e.kind === 'ritu' ? t('begins', { title: next.title }) : next.title, sub: next.name, when: time(e.at, loc) })
     }
   }
-  // Eclipses, Sankranti and Guru/Ravi Pushya (SPEC 4.11).
+  // Eclipses, Sankranti, Guru/Ravi Pushya and Amrit Siddhi (SPEC 4.11); Sarvartha Siddhi, about
+  // ten days a month, stays on the day screen.
   for (const d of days)
-    for (const m of d.marks) {
+    for (const m of shownMarks(d.marks)) {
+      if (m.kind === 'siddhi' && m.yoga === 'sarvartha') continue
       const x = markText(m, loc, zodiac)
       const at = m.kind === 'eclipse' ? m.peak : m.kind === 'sankranti' ? m.at : m.start
       const title = x.note ? `${x.title}, ${x.note}` : x.title

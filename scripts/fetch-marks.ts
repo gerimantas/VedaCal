@@ -1,5 +1,6 @@
 // Fetch Drik's own pages for the day marks (SPEC 4.11) — Sankranti moments, eclipses as seen
-// from the city, Guru/Ravi Pushya windows — and store them as a fixture.
+// from the city, Guru/Ravi Pushya, Amrit Siddhi and Sarvartha Siddhi windows — and store them
+// as a fixture.
 //   node scripts/fetch-marks.ts <city> <year>
 // Fixtures are evidence: values come from the pages, never typed by hand.
 import { mkdirSync, writeFileSync } from 'node:fs'
@@ -83,6 +84,37 @@ export async function eclipses(city: CityKey, year: number) {
   return out
 }
 
+/**
+ * Rows of a Drik window list ("October 4, 2026, Sunday 09:43 PM to 07:28 AM , Oct 05") as
+ * instants. The row date is the civil date Drik files the window under: for a window before
+ * the next sunrise it is that later date ("March 27, 2026, Friday 05:54 AM", a Thursday window).
+ */
+function windows(section: string, tz: string) {
+  const out = []
+  for (const m of section.matchAll(/(\w+) (\d{1,2}), (\d{4}), \w+ (\d{1,2}:\d{2} [AP]M) to (\d{1,2}:\d{2} [AP]M(?: , [A-Z][a-z]{2} \d{1,2})?)/g)) {
+    const date = iso(m[3], m[1], m[2])
+    // Drik leaves the next-day suffix off a start just past midnight when the end carries it
+    // ("October 4, 2026, Sunday 12:13 AM to 06:16 AM , Oct 05" in New Delhi = Oct 5, 00:13 —
+    // Pushya begins at one instant everywhere, 18:43 UTC, as the New York and Vilnius rows show).
+    // No window starts between midnight and 04:00 on its own day: every test city's sunrise is
+    // later. Without a suffix on the end, both times are on the row's date ("November 21, 2026,
+    // Saturday 03:20 AM to 08:01 AM" = Friday's Revati before Saturday's sunrise).
+    const early = m[5].includes(',') && /^(12|0?[1-3]):\d{2} AM$/.test(m[4])
+    const startDate = early ? new Date(Date.parse(`${date}T12:00:00Z`) + 86_400_000).toISOString().slice(0, 10) : date
+    const start = instant(tz, startDate, m[4])
+    const end = instant(tz, date, m[5])
+    out.push({ date, start, end })
+  }
+  return out
+}
+
+/** The list between a page's "<head>" heading and its notes. */
+function listAfter(body: string, head: string) {
+  const at = body.indexOf(head)
+  if (at < 0) throw new Error(`no "${head}" list`)
+  return body.slice(at, body.indexOf('Notes:', at))
+}
+
 export async function pushya(city: CityKey, year: number) {
   const c = CITIES[city]
   const out = []
@@ -90,22 +122,31 @@ export async function pushya(city: CityKey, year: number) {
     const url = `${D}/yoga/${page}-yoga-date-time.html?year=${year}&geoname-id=${c.drikId}`
     const html = await get(url)
     checkCity(html, url, c.drikName)
-    const body = text(html)
-    const section = body.slice(body.indexOf('Pushya Yoga Days'), body.indexOf('Notes:', body.indexOf('Pushya Yoga Days')))
-    for (const m of section.matchAll(/(\w+) (\d{1,2}), (\d{4}), \w+ (\d{1,2}:\d{2} [AP]M) to (\d{1,2}:\d{2} [AP]M(?: , [A-Z][a-z]{2} \d{1,2})?)/g)) {
-      // The row date is the civil date Drik files the window under: for a window before the next
-      // sunrise it is that later date ("March 27, 2026, Friday 05:54 AM", a Thursday window).
-      const date = iso(m[3], m[1], m[2])
-      // Drik leaves the next-day suffix off a start just past midnight ("October 4, 2026, Sunday
-      // 12:13 AM to 06:16 AM , Oct 05" in New Delhi = Oct 5, 00:13 — Pushya begins at one instant
-      // everywhere, 18:43 UTC, as the New York and Vilnius rows show). No window starts between
-      // midnight and 04:00 on its own day: every test city's sunrise is later.
-      const early = /^(12|0?[1-3]):\d{2} AM$/.test(m[4])
-      const startDate = early ? new Date(Date.parse(`${date}T12:00:00Z`) + 86_400_000).toISOString().slice(0, 10) : date
-      out.push({ weekday, date, start: instant(c.tz, startDate, m[4]), end: instant(c.tz, date, m[5]), source: url })
-    }
+    for (const w of windows(listAfter(text(html), 'Pushya Yoga Days'), c.tz)) out.push({ weekday, ...w, source: url })
   }
   return out.sort((a, b) => a.start.localeCompare(b.start))
+}
+
+/** Amrit Siddhi Yoga: one page per year. */
+export async function amrit(city: CityKey, year: number) {
+  const c = CITIES[city]
+  const url = `${D}/yoga/amritsiddhi-yoga-date-time.html?year=${year}&geoname-id=${c.drikId}`
+  const html = await get(url)
+  checkCity(html, url, c.drikName)
+  return windows(listAfter(text(html), 'Amrit Siddhi Yoga Days'), c.tz).map((w) => ({ ...w, source: url }))
+}
+
+/** Sarvartha Siddhi Yoga: one page per month; a page may list a window filed under the next month. */
+export async function sarvartha(city: CityKey, year: number) {
+  const c = CITIES[city]
+  const out = new Map<string, { date: string; start: string; end: string; source: string }>()
+  for (let mo = 1; mo <= 12; mo++) {
+    const url = `${D}/yoga/sarvarthasiddhi-yoga-date-time.html?date=01/${String(mo).padStart(2, '0')}/${year}&geoname-id=${c.drikId}`
+    const html = await get(url)
+    checkCity(html, url, c.drikName)
+    for (const w of windows(listAfter(text(html), 'Sarvartha Siddhi Yoga Days'), c.tz)) out.set(w.start, { ...w, source: url })
+  }
+  return [...out.values()].sort((a, b) => a.start.localeCompare(b.start))
 }
 
 if (import.meta.main) {
@@ -115,9 +156,9 @@ if (import.meta.main) {
     process.exit(1)
   }
   const y = Number(year)
-  const f = { fetchedAt: new Date().toISOString(), city, year: y, sankranti: await sankrantis(city, y), eclipses: await eclipses(city, y), pushya: await pushya(city, y) }
+  const f = { fetchedAt: new Date().toISOString(), city, year: y, sankranti: await sankrantis(city, y), eclipses: await eclipses(city, y), pushya: await pushya(city, y), amrit: await amrit(city, y), sarvartha: await sarvartha(city, y) }
   mkdirSync('tests/fixtures/marks', { recursive: true })
   const file = `tests/fixtures/marks/${city}-${year}.json`
   writeFileSync(file, JSON.stringify(f, null, 2) + '\n')
-  console.log(`${file}: ${f.sankranti.length} Sankrantis, ${f.eclipses.length} eclipses, ${f.pushya.length} Pushya windows`)
+  console.log(`${file}: ${f.sankranti.length} Sankrantis, ${f.eclipses.length} eclipses, ${f.pushya.length} Pushya, ${f.amrit.length} Amrit Siddhi, ${f.sarvartha.length} Sarvartha Siddhi windows`)
 }
