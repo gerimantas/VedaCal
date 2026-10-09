@@ -5,7 +5,7 @@
   import { civilDate } from '../core/time'
   import { t } from './format'
   import { icon } from './icons'
-  import { keyDateWhen, legend, monthView, shiftMonth } from './month'
+  import { keyDateWhen, monthView, shiftMonth } from './month'
   import { realisticMoon } from './moon'
   import { app } from './state.svelte'
 
@@ -51,26 +51,18 @@
       </a>
     {/each}
   </div>
-  <ul class="legend">
-    {#each legend(v.cells) as item (item.swatch)}
-      <li>
-        <i class="sw {item.swatch}"></i>
-        <span>
-          {item.label}{#if item.sanskrit}{' · '}<span class="sk">{item.sanskrit}</span>{/if}
-          <small>{item.note}</small>
-          <small class="days num">{item.days}</small>
-        </span>
-      </li>
-    {/each}
-  </ul>
 
   <h2 class="section-title">{t('keyDates')}</h2>
   <ul class="events">
-    {#each v.events as e (`${e.date}${e.title}`)}
+    {#each v.events as e (`${e.date}${e.title}${e.sub}`)}
       <li>
         <a class="card event {e.cls}" href="#/day" style="color:inherit;text-decoration:none" onclick={(ev) => (ev.preventDefault(), open(e.date))}>
-          {@html e.svg}
-          <div><b>{e.title}</b><small>{e.sub}</small></div>
+          <!-- A grid mark's row shows the mark itself, so the list doubles as the legend. -->
+          {#if e.swatch}<span class="mark"><i class="sw {e.swatch}"></i></span>{:else}{@html e.svg}{/if}
+          <div>
+            <b>{e.title}</b>{#if e.sub}<small>{e.sub}</small>{/if}
+            {#if e.note}<span class="note">{e.note}</span>{/if}
+          </div>
           <span class="when num">{keyDateWhen(e, loc)}</span>
         </a>
       </li>

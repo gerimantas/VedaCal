@@ -6,47 +6,17 @@ import { LOCALE, MONTH, content, entry, t, time } from './format'
 import { icon } from './icons'
 import { isFavoured, markText, shownMarks } from './marks'
 
-/** `favoured`: Guru/Ravi Pushya or Amrit Siddhi, named in `favouredBy`; `eclipse`: an eclipse peaks that day. */
-export type Cell = { date: string; n: number; rest: boolean; today: boolean; ekadashi: boolean; favoured: boolean; favouredBy: string; eclipse: boolean; illumination: number; waxing: boolean; label: string }
-export type KeyDate = { at: Date; date: string; svg: string; cls: string; title: string; sub: string; when: string }
-export type MonthView = { title: string; lead: number; weekdays: string[]; cells: Cell[]; events: KeyDate[] }
-/** One legend row; `swatch` is drawn exactly as the grid draws it; `note` says what it is for, `days` when. */
-export type LegendItem = { swatch: 'rest' | 'ekadashi' | 'favoured' | 'eclipse'; label: string; sanskrit: string; note: string; days: string }
-
-/** "10, 25–27": day numbers, a run of three or more unnamed days as a range. */
-function dayList(cells: Cell[], name: (c: Cell) => string = () => ''): string {
-  const out: string[] = []
-  for (let i = 0; i < cells.length; ) {
-    let j = i
-    while (!name(cells[j]) && j + 1 < cells.length && cells[j + 1].n === cells[j].n + 1 && !name(cells[j + 1])) j++
-    if (j - i >= 2) {
-      out.push(`${cells[i].n}–${cells[j].n}`)
-      i = j + 1
-    } else {
-      out.push([cells[i].n, name(cells[i])].filter(Boolean).join(' '))
-      i++
-    }
-  }
-  return out.join(', ')
-}
-
+/** `favoured`: Guru/Ravi Pushya or Amrit Siddhi; `eclipse`: an eclipse peaks that day. */
+export type Cell = { date: string; n: number; rest: boolean; today: boolean; ekadashi: boolean; favoured: boolean; eclipse: boolean; illumination: number; waxing: boolean; label: string }
+/** A grid mark, drawn in a key date's row exactly as the grid draws it. */
+export type Swatch = '' | 'rest' | 'ekadashi' | 'favoured' | 'eclipse'
 /**
- * The month legend: only the marks this month's grid shows, each with what it is for and on
- * which days (user, 2026-10-09: an eclipse row with no eclipse in sight, and bare names like
- * "Favoured day", left the reader guessing; the moon shape and today need no key).
+ * One key date. Rows of a grid mark carry its `swatch`, so the list doubles as the legend
+ * (user, 2026-10-09: a separate legend repeated the list); the first row of each mark says what
+ * it is for in `note`. `last`: the end date of a run of rest days.
  */
-export function legend(cells: Cell[]): LegendItem[] {
-  const rows: [Omit<LegendItem, 'days'>, (c: Cell) => boolean, ((c: Cell) => string)?][] = [
-    [{ swatch: 'rest', label: t('legendRest'), sanskrit: '', note: t('legendRestNote') }, (c) => c.rest],
-    [{ swatch: 'ekadashi', label: t('legendEkadashi'), sanskrit: 'Ekadashi', note: t('legendEkadashiNote') }, (c) => c.ekadashi],
-    [{ swatch: 'favoured', label: t('legendFavoured'), sanskrit: '', note: t('legendFavouredNote') }, (c) => c.favoured, (c) => c.favouredBy],
-    [{ swatch: 'eclipse', label: t('legendEclipse'), sanskrit: 'Grahan', note: t('legendEclipseNote') }, (c) => c.eclipse],
-  ]
-  return rows.flatMap(([item, has, name]) => {
-    const marked = cells.filter(has)
-    return marked.length ? [{ ...item, days: dayList(marked, name) }] : []
-  })
-}
+export type KeyDate = { at: Date; date: string; last: string; svg: string; cls: string; swatch: Swatch; title: string; sub: string; note: string; when: string }
+export type MonthView = { title: string; lead: number; weekdays: string[]; cells: Cell[]; events: KeyDate[] }
 
 /** "2026-10" ± n months. */
 export function shiftMonth(ym: string, n: number): string {
@@ -64,39 +34,43 @@ export function monthView(days: MonthDay[], loc: Location, today: string, zodiac
     new Intl.DateTimeFormat(LOCALE, { weekday: 'narrow', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, 0, 5 + i))),
   )
 
-  const cells = days.map((d): Cell => {
-    const favoured = shownMarks(d.marks).find(isFavoured)
-    return {
-      date: d.date,
-      n: Number(d.date.slice(8)),
-      rest: !!d.rhythm.restDay,
-      today: d.date === today,
-      ekadashi: d.ekadashi,
-      favoured: !!favoured,
-      favouredBy: favoured ? markText(favoured, loc, zodiac).sanskrit : '',
-      eclipse: d.marks.some((m) => m.kind === 'eclipse'),
-      illumination: d.moon.illumination,
-      waxing: d.moon.waxing,
-      label: [`${d.date}: ${entry('tithi', d.tithi).name}`, d.ekadashi && 'Ekadashi', d.rhythm.restDay && t('restDay'), ...shownMarks(d.marks).filter((m) => m.kind !== 'siddhi' || m.yoga === 'amrit').map((m) => markText(m, loc, zodiac).title)]
-        .filter(Boolean)
-        .join(', '),
-    }
-  })
+  const cells = days.map((d): Cell => ({
+    date: d.date,
+    n: Number(d.date.slice(8)),
+    rest: !!d.rhythm.restDay,
+    today: d.date === today,
+    ekadashi: d.ekadashi,
+    favoured: d.marks.some(isFavoured),
+    eclipse: d.marks.some((m) => m.kind === 'eclipse'),
+    illumination: d.moon.illumination,
+    waxing: d.moon.waxing,
+    label: [`${d.date}: ${entry('tithi', d.tithi).name}`, d.ekadashi && 'Ekadashi', d.rhythm.restDay && t('restDay'), ...shownMarks(d.marks).filter((m) => m.kind !== 'siddhi' || m.yoga === 'amrit').map((m) => markText(m, loc, zodiac).title)]
+      .filter(Boolean)
+      .join(', '),
+  }))
 
-  // Key dates: moon phases, Ekadashi, season and half-year changes — plain English first,
-  // the same words as the legend.
+  // Key dates: moon phases, rest days, Ekadashi, season and half-year changes — plain English
+  // first, the same words as the grid's marks.
   const events: KeyDate[] = []
-  for (const d of days) {
-    const noon = new Date(`${d.date}T12:00:00Z`)
-    if (d.newMoon) events.push({ at: d.newMoon, date: d.date, svg: icon.newMoon, cls: '', title: t('newMoon'), sub: 'Amavasya', when: time(d.newMoon, loc) })
-    if (d.fullMoon) events.push({ at: d.fullMoon, date: d.date, svg: icon.fullMoon, cls: '', title: t('fullMoon'), sub: 'Purnima', when: time(d.fullMoon, loc) })
-    if (d.ekadashi) events.push({ at: noon, date: d.date, svg: icon.leaf, cls: 'ekadashi', title: t('legendEkadashi'), sub: 'Ekadashi', when: '' })
+  const row = (e: Partial<KeyDate> & Pick<KeyDate, 'at' | 'date' | 'title'>) =>
+    events.push({ last: '', svg: '', cls: '', swatch: '', sub: '', note: '', when: '', ...e })
+  const noon = (date: string) => new Date(`${date}T12:00:00Z`)
+  for (const [i, d] of days.entries()) {
+    if (d.newMoon) row({ at: d.newMoon, date: d.date, svg: icon.newMoon, title: t('newMoon'), sub: 'Amavasya', when: time(d.newMoon, loc) })
+    if (d.fullMoon) row({ at: d.fullMoon, date: d.date, svg: icon.fullMoon, title: t('fullMoon'), sub: 'Purnima', when: time(d.fullMoon, loc) })
+    // Rest days come in runs around the new and full moon: one row per run.
+    if (d.rhythm.restDay && !days[i - 1]?.rhythm.restDay) {
+      let j = i
+      while (days[j + 1]?.rhythm.restDay) j++
+      row({ at: noon(d.date), date: d.date, last: j > i ? days[j].date : '', swatch: 'rest', title: t('legendRest') })
+    }
+    if (d.ekadashi) row({ at: noon(d.date), date: d.date, cls: 'ekadashi', swatch: 'ekadashi', title: t('legendEkadashi'), sub: 'Ekadashi' })
     for (const e of d.rhythm.events) {
       const next =
         e.kind === 'ritu'
           ? content.rhythm[`ritu${(d.rhythm.ritu % 6) + 1}` as 'ritu1']
           : content.rhythm[d.rhythm.ayana === 'uttarayana' ? 'dakshinayana' : 'uttarayana']
-      events.push({ at: e.at, date: d.date, svg: icon.season, cls: '', title: e.kind === 'ritu' ? t('begins', { title: next.title }) : next.title, sub: next.name, when: time(e.at, loc) })
+      row({ at: e.at, date: d.date, svg: icon.season, title: e.kind === 'ritu' ? t('begins', { title: next.title }) : next.title, sub: next.name, when: time(e.at, loc) })
     }
   }
   // Eclipses, Sankranti, Guru/Ravi Pushya and Amrit Siddhi (SPEC 4.11); Sarvartha Siddhi, about
@@ -106,13 +80,22 @@ export function monthView(days: MonthDay[], loc: Location, today: string, zodiac
       if (m.kind === 'siddhi' && m.yoga === 'sarvartha') continue
       const x = markText(m, loc, zodiac)
       const at = m.kind === 'eclipse' ? m.peak : m.kind === 'sankranti' ? m.at : m.start
-      const title = x.note ? `${x.title}, ${x.note}` : x.title
-      events.push({ at, date: d.date, svg: x.svg, cls: x.cls, title, sub: x.sanskrit, when: m.kind === 'eclipse' ? time(m.peak, loc) : x.when })
+      const swatch = m.kind === 'eclipse' ? 'eclipse' : isFavoured(m) ? 'favoured' : ''
+      row({ at, date: d.date, svg: x.svg, cls: x.cls, swatch, title: x.note ? `${x.title}, ${x.note}` : x.title, sub: x.sanskrit, when: m.kind === 'eclipse' ? time(m.peak, loc) : x.when })
     }
   events.sort((a, b) => a.at.getTime() - b.at.getTime())
+  // What a mark is for, said once: on its first row.
+  const NOTE = { rest: 'legendRestNote', ekadashi: 'legendEkadashiNote', favoured: 'legendFavouredNote', eclipse: 'legendEclipseNote' } as const
+  for (const swatch of Object.keys(NOTE) as (keyof typeof NOTE)[]) {
+    const first = events.find((e) => e.swatch === swatch)
+    if (first) first.note = t(NOTE[swatch])
+  }
   return { title, lead, weekdays, cells, events }
 }
 
-/** "Oct 10 · 6:49 PM" for a key date. */
-export const keyDateWhen = (e: KeyDate, loc: Location) =>
-  `${new Intl.DateTimeFormat(LOCALE, { day: 'numeric', month: MONTH, timeZone: loc.tz }).format(e.at)}${e.when ? ` · ${e.when}` : ''}`
+/** "Oct 10 · 6:49 PM" for a key date; "Oct 25 – 27" for a run of rest days. */
+export function keyDateWhen(e: KeyDate, loc: Location): string {
+  const f = new Intl.DateTimeFormat(LOCALE, { day: 'numeric', month: MONTH, timeZone: loc.tz })
+  const day = e.last ? f.formatRange(e.at, new Date(`${e.last}T12:00:00Z`)) : f.format(e.at)
+  return `${day}${e.when ? ` · ${e.when}` : ''}`
+}

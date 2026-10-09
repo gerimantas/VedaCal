@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest'
 import { computeDay, computeMonth } from '../src/core/panchang'
 import { prefs, time } from '../src/ui/format'
 import { dayView } from '../src/ui/day'
-import { legend, monthView, shiftMonth } from '../src/ui/month'
+import { keyDateWhen, monthView, shiftMonth } from '../src/ui/month'
 import { CITIES } from '../scripts/cities'
 
 const c = CITIES.vilnius
@@ -91,25 +91,27 @@ describe('favoured days, October 2026, Vilnius (SPEC 4.11)', () => {
   })
 })
 
-describe('legend: only the marks this month shows, with what they are for and on which days', () => {
-  const swatches = (cells: typeof view.cells) => legend(cells).map((x) => x.swatch)
-  const days = (swatch: string) => legend(view.cells).find((x) => x.swatch === swatch)!.days
+describe('key dates double as the legend (user, 2026-10-09: the two repeated each other)', () => {
+  const marked = (swatch: string) => view.events.filter((e) => e.swatch === swatch)
 
-  it('October 2026 has no eclipse, so the legend does not list one (shape and today need no key)', () => {
-    expect(swatches(view.cells)).toEqual(['rest', 'ekadashi', 'favoured'])
+  it('each grid mark has rows with the same swatch: rest runs, Ekadashi, favoured days', () => {
+    expect(marked('rest').map((e) => [e.date, e.last])).toEqual([['2026-10-10', ''], ['2026-10-25', '2026-10-27']])
+    expect(marked('ekadashi').map((e) => e.date)).toEqual(['2026-10-06', '2026-10-22'])
+    expect(marked('favoured').map((e) => e.sub)).toEqual(['Ravi Pushya', 'Amrit Siddhi'])
+    expect(marked('eclipse')).toEqual([])
   })
 
-  it('August 2026 lists the eclipse', () => {
-    expect(swatches(monthView(computeMonth(2026, 8, loc), loc, '2026-10-05').cells)).toContain('eclipse')
+  it('says what a mark is for once, on its first row', () => {
+    for (const s of ['rest', 'ekadashi', 'favoured']) expect(marked(s).map((e) => !!e.note), s).toEqual(marked(s).map((_, i) => i === 0))
   })
 
-  it('every row says what it is for', () => {
-    for (const x of legend(view.cells)) expect(x.note, x.swatch).not.toBe('')
+  it('shows a run of rest days as one date range', () => {
+    expect(keyDateWhen(marked('rest')[1], loc)).toMatch(/25.*27/)
+    expect(keyDateWhen(marked('rest')[0], loc)).not.toMatch(/–/)
   })
 
-  it('names the days, a run of three or more as a range, and which tradition each favoured day follows', () => {
-    expect(days('rest')).toBe('10, 25–27')
-    expect(days('ekadashi')).toBe('6, 22')
-    expect(days('favoured')).toBe('4 Ravi Pushya, 14 Amrit Siddhi')
+  it('an eclipse month marks the eclipse row (August 2026)', () => {
+    const aug = monthView(computeMonth(2026, 8, loc), loc, '2026-10-05')
+    expect(aug.events.filter((e) => e.swatch === 'eclipse').length).toBeGreaterThan(0)
   })
 })

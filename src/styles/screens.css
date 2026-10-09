@@ -941,7 +941,7 @@ h3 {
 
 /* Rest days: a violet tint — paper-3 was nearly invisible on dark cards (user, 2026-10-05). */
 .cell.rest,
-.legend .sw.rest {
+.event .sw.rest {
   border: 1px solid;
   border-color: color-mix(in oklch, var(--color-rest) 75%, var(--color-card));
   background: color-mix(in oklch, var(--color-rest) 34%, var(--color-card));
@@ -965,38 +965,39 @@ h3 {
   filter: none;
 }
 
-/* Day marks sit together in the cell's top-right corner; only the colour differs. */
+/* Day marks sit together in the cell's top-right corner; only the colour differs. Large
+   enough to see at a glance (user, 2026-10-09). */
 .cell .marks {
   position: absolute;
-  top: 0.3rem;
-  right: 0.3rem;
+  top: 0.25rem;
+  right: 0.25rem;
   display: flex;
   gap: 2px;
 }
 
 .marks i,
-.legend .sw.ekadashi,
-.legend .sw.favoured,
-.legend .sw.eclipse {
+.event .sw.ekadashi,
+.event .sw.favoured,
+.event .sw.eclipse {
   display: block;
-  width: 7px;
-  height: 7px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
 }
 
 .marks .ekadashi,
-.legend .sw.ekadashi {
+.event .sw.ekadashi {
   background: var(--color-accent);
 }
 
 .marks .favoured,
-.legend .sw.favoured {
+.event .sw.favoured {
   background: var(--color-good);
 }
 
 .marks .eclipse,
-.legend .sw.eclipse {
-  border: 2px solid var(--color-avoid);
+.event .sw.eclipse {
+  border: 2.5px solid var(--color-avoid);
 }
 
 .event.favoured svg {
@@ -1007,51 +1008,24 @@ h3 {
   color: var(--color-avoid);
 }
 
-/* Legend: one row per mark this month shows — name, what it is for, on which days; each
-   swatch drawn as the grid draws it. */
-.legend {
+/* A grid mark in a key date's row, centred where the other rows have their icon. */
+.event .mark {
   display: grid;
-  gap: var(--space-xs);
-  margin: var(--space-sm) 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: var(--text-sm);
-  color: var(--color-ink);
+  place-items: center;
+  width: 20px;
+  height: 20px;
 }
 
-.legend li {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-2xs);
-}
-
-.legend li small {
-  display: block;
-  font-size: var(--text-xs);
-  color: var(--color-neutral);
-}
-
-.legend li small.days {
-  color: var(--color-muted);
-}
-
-.legend .sk {
-  color: var(--color-moon);
-}
-
-.legend .sw.rest {
-  flex: none;
-  width: 0.9rem;
-  height: 0.9rem;
-  margin-top: 0.15rem;
+.event .sw.rest {
+  width: 1rem;
+  height: 1rem;
   border-radius: 3px;
 }
 
-.legend .sw.ekadashi,
-.legend .sw.favoured,
-.legend .sw.eclipse {
-  flex: none;
-  margin: 0.4rem 0.2rem 0;
+.event .note {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-neutral);
 }
 
 .events {
@@ -1091,6 +1065,7 @@ h3 {
 }
 
 .event small {
+  display: block;
   color: var(--color-moon);
   font-size: var(--text-sm);
 }
