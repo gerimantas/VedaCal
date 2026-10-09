@@ -60,7 +60,7 @@
 {/snippet}
 
 {#snippet sign(s: SignLine)}
-  <p class="sign" data-sheet="rashi">
+  <p class="sign" data-sheet="rashi" data-sheet-lead-title={s.lead.title} data-sheet-lead={s.lead.text}>
     <span>{s.text} · <span class="sk">{s.sanskrit}</span></span>
     <small class="num">{s.until}{s.next ? `, ${s.next}` : ''}</small>
   </p>
@@ -79,7 +79,7 @@
     <a class="today-link" href="#/day" onclick={() => (app.date = null)}>{t('today')} →</a>
   {/if}
 
-  <section class="hero" aria-label={v.tithi.name} data-sheet="tithi">
+  <section class="hero" aria-label={v.tithi.name} data-sheet="tithi" data-sheet-lead-title={v.tithi.lead.title} data-sheet-lead={v.tithi.lead.text}>
     {@html realisticMoon(v.moon.illumination, v.moon.waxing, 150, v.moon.label)}
     <h2>{v.tithi.title}</h2>
     <p class="sub num"><b>{v.tithi.name}</b> · {t('percentLit', { percent: v.tithi.percent })}</p>
@@ -107,7 +107,7 @@
     {@render sign(v.sunSign)}
     <ul class="wins">
       {#each v.windows as w (w.term)}
-        <li class="win {w.kind}" class:none={!w.start} data-sheet={w.term}>
+        <li class="win {w.kind}" class:none={!w.start} data-sheet={w.term} data-sheet-lead={w.lead.text}>
           <i aria-hidden="true"></i>
           <div><b>{w.name}</b><span class="sk">{w.sanskrit}</span></div>
           <!-- "12:44–13:29" breaks only at the dash, never inside a time (12-hour clocks). -->
@@ -147,7 +147,7 @@
             <p class="chog-head">{head}</p>
             <ul class="chog-list">
               {#each rows as c (c.start)}
-                <li class="chog-row {c.rating}" class:current={c.current} data-sheet="choghadiya">
+                <li class="chog-row {c.rating}" class:current={c.current} data-sheet="choghadiya" data-sheet-lead-title={c.lead.title} data-sheet-lead={c.lead.text}>
                   <i aria-hidden="true"></i>
                   <div><b>{c.name}</b><span class="sk">{c.sanskrit}</span></div>
                   <span class="when num"><span class="nw">{c.start}–</span><span class="nw">{c.end}</span></span>
@@ -173,7 +173,7 @@
   </div>
 
   {#if v.tradition}
-    <section class="card tradition" aria-label={t('sectionTradition')} data-sheet="rhythm">
+    <section class="card tradition" aria-label={t('sectionTradition')} data-sheet="rhythm" data-sheet-lead-title={v.tradition.lead.title} data-sheet-lead={v.tradition.lead.text}>
       <div class="head">{@html icon.leaf}<h3>{v.tradition.title}</h3></div>
       <p>{v.tradition.meaning}</p>
     </section>

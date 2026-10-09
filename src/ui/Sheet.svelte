@@ -28,7 +28,7 @@
 <dialog class="sheet" bind:this={dialog}>
   <div class="sheet-body">
     <h3>{name}{#if sanskrit}{' '}<span class="sk">{sanskrit}</span>{/if}</h3>
-    {#if lead}<p><b>{lead.title}.</b> {lead.text}</p>{/if}
+    {#if lead}<p>{#if lead.title}<b>{lead.title}.</b> {/if}{lead.text}</p>{/if}
     <p>{sheet(term)}</p>
     <button class="sheet-close" onclick={() => dialog.close()}>{t('close')}</button>
   </div>

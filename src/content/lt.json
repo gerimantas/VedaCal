@@ -582,11 +582,11 @@
     "yoga": "Sudėjus, kiek Saulė ir Mėnulis yra nukeliavę dangumi, suma patenka į vieną iš 27 lygių dalių: ta dalis ir yra joga. Ji keičiasi maždaug kartą per dieną. Kiekviena joga turi savo pavadinimą ir prasmę, kurią parodome paspaudus eilutę. Keturių jogų (Atiganda, Ganda, Vyatipata, Vaidhriti) tradicija vengia pradedant svarbius darbus.",
     "karana": "Karana yra pusė Mėnulio dienos, todėl kiekviena Mėnulio diena turi dvi. Yra vienuolika rūšių: septynios paeiliui kartojasi visą mėnesį, o keturios būna tik apie jaunatį.",
     "vara": "Savaitės diena. Tradiciniame kalendoriuje ji trunka nuo saulėtekio iki saulėtekio, o ne nuo vidurnakčio. Kiekviena diena priklauso vienam iš septynių plika akimi matomų šviesulių: Saulei, Mėnuliui, Marsui, Merkurijui, Jupiteriui, Venerai ar Saturnui. Šis šviesulys lemia, nuo kurio vardo prasideda dienos Choghadiya (valanda po valandos).",
-    "brahma": "Brahma Muhurta, „kūrėjo valanda“, yra 48 minutės, prasidedančios maždaug pusantros valandos prieš saulėtekį. Tradicija jas laiko geriausiu metu meditacijai ir maldai.",
-    "abhijit": "Abhijit Muhurta, „pergalės valanda“, yra maždaug 48 minutės apie vietos vidurdienį, kai Saulė pakilusi aukščiausiai. Tradicija ją laiko palankia svarbiai pradžiai, pavyzdžiui, kelionei ar naujam darbui, išskyrus trečiadienius, todėl tada VedaCal jos nerodo.",
-    "rahuKaal": "Padalijus laiką nuo saulėtekio iki saulėlydžio į aštuonias lygias dalis, kiekvieną maždaug pusantros valandos, Rahu Kaal yra viena iš jų, kas savaitės dieną vis kita. Rahu yra šešėlis, kuris, pasak mito, per užtemimą praryja Saulę. Tradicija šiuo metu nepradeda kelionių, verslo, didelių pirkinių ir ceremonijų; jau pradėtus darbus galima tęsti.",
-    "yamaganda": "Yamaganda yra viena iš aštuonių lygių šviesiojo paros meto dalių, kiekviena maždaug pusantros valandos, kas savaitės dieną vis kita. Ji pavadinta Jamos, mirties ir teisingumo dievo, vardu. Tradicija vengia šiuo metu pradėti naujus sumanymus, keliones ar priimti didelius finansinius sprendimus; įprasti darbai ir malda gali tęstis.",
-    "gulika": "Gulika (Gulikai) yra viena iš aštuonių lygių šviesiojo paros meto dalių, kiekviena maždaug pusantros valandos, kas savaitės dieną vis kita, ir siejama su Saturnu. Drik Panchang ir Shubh Panchang ją priskiria nepalankiems laikams kartu su Rahu Kaal ir Yamaganda: tuo metu nepasirašomos sutartys, neperkami brangūs daiktai ir neinvestuojama.",
+    "brahma": "Brahma Muhurta, „kūrėjo valanda“, yra priešpaskutinė iš penkiolikos lygių nakties dalių (muhurtų), todėl ji baigiasi viena dalimi prieš saulėtekį. Jos trukmė priklauso nuo nakties ilgio.",
+    "abhijit": "Abhijit Muhurta, „pergalės valanda“, yra vidurinė iš penkiolikos lygių dienos dalių, apie vietos vidurdienį, kai Saulė pakilusi aukščiausiai. Jos trukmė priklauso nuo dienos ilgio. Trečiadieniais ji nenaudojama, todėl tada VedaCal jos nerodo.",
+    "rahuKaal": "Šviesusis paros metas, nuo saulėtekio iki saulėlydžio, dalijamas į aštuonias lygias dalis; Rahu Kaal yra viena iš jų, kas savaitės dieną vis kita, todėl jo trukmė priklauso nuo dienos ilgio. Rahu yra šešėlis, kuris, pasak mito, per užtemimą praryja Saulę.",
+    "yamaganda": "Yamaganda yra viena iš aštuonių lygių šviesiojo paros meto dalių, kas savaitės dieną vis kita. Ji pavadinta Jamos, mirties ir teisingumo dievo, vardu.",
+    "gulika": "Gulika (Gulikai) yra viena iš aštuonių lygių šviesiojo paros meto dalių, kas savaitės dieną vis kita, ir siejama su Saturnu. Drik Panchang ir Shubh Panchang ją priskiria nepalankiems laikams kartu su Rahu Kaal ir Yamaganda.",
     "choghadiya": "Choghadiya padalija dieną (nuo saulėtekio iki saulėlydžio) ir naktį (iki kito saulėtekio) į aštuonias dalis, kiekvieną maždaug pusantros valandos, ir kiekvienai duoda vieną iš septynių vardų. Trys yra palankios (Amrit, Shubh, Labh), viena neutrali (Chal), o trijų geriau vengti (Udveg, Rog, Kaal); jų tvarka priklauso nuo savaitės dienos. Šiaurės ir Vakarų Indijoje ja renkamasi laiką kelionei ar naujai pradžiai, o palanki dalis, patekusi į Rahu Kaal, vis tiek vengiama.",
     "ritu": "Indijos metai turi šešis metų laikus (Ritu), kiekvienas apie du mėnesius, pagal Saulės padėtį: Vasanta, pavasaris (nuo vasario vidurio iki balandžio vidurio); Grishma, vasara (iki birželio vidurio); Varsha, liūčių metas (iki rugpjūčio vidurio); Sharad, ruduo (iki spalio vidurio); Hemanta, ankstyva žiema (iki gruodžio vidurio); Shishira, vėlyva žiema (iki vasario vidurio). Eilutė rodo dabartinį metų laiką ir kelinta jo diena šiandien.",
     "rhythm": "Tradicinis ritmas seka Mėnulį ir Saulę: poilsio dienos apie pilnatį ir jaunatį, Ekadashi pasninkas du kartus per mėnesį, šeši metų laikai vietoj keturių ir du pusmečiai, kai Saulės kelias po gruodžio saulėgrįžos kyla į šiaurę, o po birželio – leidžiasi į pietus.",
@@ -594,15 +594,15 @@
     "about": "VedaCal paprastais žodžiais rodo tradicinį induistų Mėnulio kalendorių (Panchang). Viskas apskaičiuojama jūsų įrenginyje ir niekur nesiunčiama. Patarimai aprašo tradiciją ir nėra medicininis ar profesionalus patarimas. Miestų duomenys © GeoNames, CC BY 4.0.",
     "masa": "Mėnulio mėnuo trunka vieną Mėnulio ciklą, apie 29,5 dienos, todėl kasmet prasideda vis kitą įprasto kalendoriaus dieną. Mėnuo gauna vardą pagal tai, į kurį ženklą Saulė pereina jo metu (pvz., kai Saulė pereina į Aviną, tai Chaitra). Patys vardai senovėje duoti pagal žvaigždę, prie kurios tą mėnesį būna pilnatis (Chaitra – nuo Chitra, Kartika – nuo Krittika); šiandien šis atitikimas tik apytikslis. VedaCal skaičiuoja mėnesius nuo pilnaties iki pilnaties, kaip Šiaurės Indijoje; Pietų ir Vakarų Indijoje jie skaičiuojami nuo jaunaties iki jaunaties, todėl pusę kiekvieno mėnesio ten jis vadinamas ankstesniu vardu. Maždaug kas trejus metus pridedamas papildomas mėnuo (Adhika), kad kalendorius neatsiliktų nuo metų laikų.",
     "rashi": "Saulė ir Mėnulis keliauja per dvylika zodiako ženklų. Vedų astrologija ženklus sieja su žvaigždėmis, vakarietiška – su metų laikais, ir per šimtmečius jie nutolo vienas nuo kito apie 24°, beveik visu ženklu. Todėl Mėnulis, kuris pagal vedinį skaičiavimą yra Dvyniuose, vakarietiškai dažnai būna Vėžyje. Kurį zodiaką rodyti, pasirinkite nustatymuose.",
-    "parana": "Ekadashi yra pasninkas, laikomas du kartus per mėnesį, o baigiamas kitą dieną. VedaCal rodo, kada jį baigti: ne per anksti, nes pirmasis dvyliktosios Mėnulio dienos ketvirtis (Hari Vasara) dar laikomas pasninko dalimi, ir ne per vėlai, kol dvyliktoji Mėnulio diena (Dwadashi) dar nesibaigė. Paprastai tai pirmosios kelios valandos po saulėtekio (pirmasis šviesiojo paros meto penktadalis). Jei Hari Vasara užsitęsia, laikas persikelia į popietę (ketvirtąjį penktadalį), nes vidurdienio tradicija vengia. Tikslų laiką VedaCal rodo dienos ekrane.",
-    "eclipse": "Pagal tradiciją užtemimo (Grahan) metu nepradedami nauji darbai, nevalgoma, o laikas skiriamas maldai ar meditacijai. VedaCal rodo didžiausio užtemimo momentą ir ar jį bus galima matyti jūsų vietovėje.",
+    "parana": "Ekadashi yra pasninkas, laikomas du kartus per mėnesį, o baigiamas kitą dieną. VedaCal rodo, kada jį baigti: ne per anksti, nes pirmasis dvyliktosios Mėnulio dienos ketvirtis (Hari Vasara) dar laikomas pasninko dalimi, ir ne per vėlai, kol dvyliktoji Mėnulio diena (Dwadashi) dar nesibaigė. Paprastai tai pirmosios kelios valandos po saulėtekio (pirmasis šviesiojo paros meto penktadalis). Jei Hari Vasara užsitęsia, laikas persikelia į popietę (ketvirtąjį penktadalį), nes vidurdienio tradicija vengia.",
+    "eclipse": "Užtemimas (Grahan) yra nepalankus metas. VedaCal rodo tą dalį, kurią galima matyti iš jūsų vietos: Mėnulio užtemimo – nuo pirmo iki paskutinio Mėnulio sąlyčio su Žemės šešėliu, kol Mėnulis virš horizonto; Saulės – nuo pirmo iki paskutinio sąlyčio, kol Saulė virš horizonto.",
     "sankranti": "Sankranti yra momentas, kai Saulė pereina į kitą vedinio zodiako ženklą, dvylika kartų per metus. Kiekvienas pradeda Saulės mėnesį; Makara Sankranti sausio viduryje, derliaus šventė, švenčiama visoje Indijoje.",
-    "pushya": "Pushya, „maitinimas“, yra viena iš 27 Mėnulio žvaigždžių dalių ir laikoma palankiausia iš jų. Kai Mėnulis yra Pushya ketvirtadienį (Guru Pushya) arba sekmadienį (Ravi Pushya), tradicija tą laiką laiko tinkamu pradžioms, auksui pirkti ir mokytis. Rodomas laikas, kai abu sutampa.",
-    "amritSiddhi": "Amrit Siddhi, „sėkmės nektaras“, susidaro, kai savaitės diena sutampa su savo Mėnulio žvaigžde: sekmadienis su Hasta, pirmadienis su Mrigashira, antradienis su Ashwini, trečiadienis su Anuradha, ketvirtadienis su Pushya, penktadienis su Revati, šeštadienis su Rohini. Tai būna vieną–tris kartus per mėnesį, ir tradicija tą laiką laiko vienu palankiausių ką nors pradėti. Rodomas laikas, kai abu sutampa.",
-    "sarvarthaSiddhi": "Sarvartha Siddhi, „sėkmė visuose siekiuose“, susidaro, kai savaitės diena ir Mėnulio žvaigždė sudaro vieną iš maždaug trisdešimties tradiciškai palankių porų. Ji dažna, apie dešimt dienų per mėnesį, todėl VedaCal ją rodo tik dienos ekrane ir mėnesyje nežymi. Rodomas laikas, kai abu sutampa.",
-    "bhadra": "Bhadra yra Mėnulio dienos pusė, vadinama Vishti; ji būna apie aštuonis kartus per mėnesį ir trunka apie dvylika valandų. Tradicija laukia, kol ji baigsis, prieš pradėdama ką nors svarbaus: kelionę, pirkinį ar apeigas.",
-    "vyatipata": "Vyatipata yra viena iš 27 jogų (Saulės ir Mėnulio padėčių sumos) ir būna maždaug kartą per mėnesį, apie parą. Tradicijoje tai vienas labiausiai vengiamų laikų: svarbios pradžios atidedamos, kol jis baigsis.",
-    "vaidhriti": "Vaidhriti yra paskutinė iš 27 jogų ir, kaip Vyatipata, būna maždaug kartą per mėnesį, apie parą. Tradicija tuo metu dirba įprastus darbus, o svarbias pradžias atideda."
+    "pushya": "Pushya, „maitinimas“, yra viena iš 27 Mėnulio žvaigždžių dalių ir laikoma palankiausia iš jų. Guru Pushya yra Mėnulis Pushya ketvirtadienį, Ravi Pushya – sekmadienį; rodomas laikas, kai abu sutampa.",
+    "amritSiddhi": "Amrit Siddhi, „sėkmės nektaras“, susidaro, kai savaitės diena sutampa su savo Mėnulio žvaigžde: sekmadienis su Hasta, pirmadienis su Mrigashira, antradienis su Ashwini, trečiadienis su Anuradha, ketvirtadienis su Pushya, penktadienis su Revati, šeštadienis su Rohini. Tai būna vieną–tris kartus per mėnesį; rodomas laikas, kai abu sutampa.",
+    "sarvarthaSiddhi": "Sarvartha Siddhi, „sėkmė visuose siekiuose“, susidaro, kai savaitės diena ir Mėnulio žvaigždė sudaro vieną iš maždaug trisdešimties tradiciškai palankių porų. Ji dažna, apie dešimt dienų per mėnesį, todėl VedaCal mėnesyje jos nežymi. Rodomas laikas, kai abu sutampa.",
+    "bhadra": "Bhadra yra Mėnulio dienos pusė, vadinama Vishti; ji būna apie aštuonis kartus per mėnesį ir trunka apie dvylika valandų.",
+    "vyatipata": "Vyatipata yra viena iš 27 jogų (Saulės ir Mėnulio padėčių sumos) ir būna maždaug kartą per mėnesį, apie parą.",
+    "vaidhriti": "Vaidhriti yra paskutinė iš 27 jogų ir, kaip Vyatipata, būna maždaug kartą per mėnesį, apie parą."
   },
   "ui": {
     "today": "Šiandien",
@@ -791,101 +791,125 @@
   "masa": {
     "1": {
       "name": "Chaitra",
-      "title": "Kovas–balandis"
+      "title": "Kovas–balandis",
+      "meaning": "Pavadintas pagal žvaigždę Chitra, prie kurios būna jo pilnatis. Šventės: naujieji metai (Ugadi, Gudi Padwa), Chaitra Navaratri, Rama Navami, Hanuman Jayanti."
     },
     "2": {
       "name": "Vaishakha",
-      "title": "Balandis–gegužė"
+      "title": "Balandis–gegužė",
+      "meaning": "Pavadintas pagal žvaigždę Vishakha, prie kurios būna jo pilnatis. Šventės: Akshaya Tritiya, Buddha Purnima."
     },
     "3": {
       "name": "Jyeshtha",
-      "title": "Gegužė–birželis"
+      "title": "Gegužė–birželis",
+      "meaning": "Pavadintas pagal žvaigždę Jyeshtha, prie kurios būna jo pilnatis. Šventės: Ganga Dussehra, Nirjala Ekadashi."
     },
     "4": {
       "name": "Ashadha",
-      "title": "Birželis–liepa"
+      "title": "Birželis–liepa",
+      "meaning": "Pavadintas pagal žvaigždę Purva Ashadha, prie kurios būna jo pilnatis. Šventės: Ratha Yatra, Devshayani Ekadashi, Guru Purnima."
     },
     "5": {
       "name": "Shravana",
-      "title": "Liepa–rugpjūtis"
+      "title": "Liepa–rugpjūtis",
+      "meaning": "Pavadintas pagal žvaigždę Shravana, prie kurios būna jo pilnatis. Šventės: Nag Panchami, Raksha Bandhan."
     },
     "6": {
       "name": "Bhadrapada",
-      "title": "Rugpjūtis–rugsėjis"
+      "title": "Rugpjūtis–rugsėjis",
+      "meaning": "Pavadintas pagal žvaigždę Purva Bhadrapada, prie kurios būna jo pilnatis. Šventės: Krishna Janmashtami, Ganesh Chaturthi."
     },
     "7": {
       "name": "Ashwina",
-      "title": "Rugsėjis–spalis"
+      "title": "Rugsėjis–spalis",
+      "meaning": "Pavadintas pagal žvaigždę Ashwini, prie kurios būna jo pilnatis. Šventės: Pitru Paksha, Navaratri, Dussehra, Sharad Purnima."
     },
     "8": {
       "name": "Kartika",
-      "title": "Spalis–lapkritis"
+      "title": "Spalis–lapkritis",
+      "meaning": "Pavadintas pagal žvaigždę Krittika, prie kurios būna jo pilnatis. Šventės: Diwali, Govardhan Puja, Bhai Dooj, Kartika Purnima."
     },
     "9": {
       "name": "Margashirsha",
-      "title": "Lapkritis–gruodis"
+      "title": "Lapkritis–gruodis",
+      "meaning": "Pavadintas pagal žvaigždę Mrigashira, prie kurios būna jo pilnatis. Šventės: Gita Jayanti, Dattatreya Jayanti."
     },
     "10": {
       "name": "Pausha",
-      "title": "Gruodis–sausis"
+      "title": "Gruodis–sausis",
+      "meaning": "Pavadintas pagal žvaigždę Pushya, prie kurios būna jo pilnatis. Ramus mėnuo; per jo pilnatį Prajagradže prasideda Magh Mela."
     },
     "11": {
       "name": "Magha",
-      "title": "Sausis–vasaris"
+      "title": "Sausis–vasaris",
+      "meaning": "Pavadintas pagal žvaigždę Magha, prie kurios būna jo pilnatis. Šventės: Vasant Panchami, Magha Purnima."
     },
     "12": {
       "name": "Phalguna",
-      "title": "Vasaris–kovas"
+      "title": "Vasaris–kovas",
+      "meaning": "Pavadintas pagal žvaigždę Purva Phalguni, prie kurios būna jo pilnatis. Šventės: Maha Shivaratri, Holi."
     }
   },
   "rashi": {
     "1": {
       "name": "Mesha",
-      "title": "Avinas"
+      "title": "Avinas",
+      "meaning": "Valdo Marsas; ugnies ženklas, judrusis. Tradicija jį sieja su iniciatyva, energija ir savimi."
     },
     "2": {
       "name": "Vrishabha",
-      "title": "Jautis"
+      "title": "Jautis",
+      "meaning": "Valdo Venera; žemės ženklas, pastovusis. Tradicija jį sieja su turtu, grožiu ir pastovumu."
     },
     "3": {
       "name": "Mithuna",
-      "title": "Dvyniai"
+      "title": "Dvyniai",
+      "meaning": "Valdo Merkurijus; oro ženklas, dvilypis. Tradicija jį sieja su bendravimu, dvilypumu ir protu."
     },
     "4": {
       "name": "Karka",
-      "title": "Vėžys"
+      "title": "Vėžys",
+      "meaning": "Valdo Mėnulis; vandens ženklas, judrusis. Tradicija jį sieja su rūpesčiu, namais ir jausmais."
     },
     "5": {
       "name": "Simha",
-      "title": "Liūtas"
+      "title": "Liūtas",
+      "meaning": "Valdo Saulė; ugnies ženklas, pastovusis. Tradicija jį sieja su valdžia, kūryba ir orumu."
     },
     "6": {
       "name": "Kanya",
-      "title": "Mergelė"
+      "title": "Mergelė",
+      "meaning": "Valdo Merkurijus; žemės ženklas, dvilypis. Tradicija jį sieja su analize, tarnyste ir tobulumu."
     },
     "7": {
       "name": "Tula",
-      "title": "Svarstyklės"
+      "title": "Svarstyklės",
+      "meaning": "Valdo Venera; oro ženklas, judrusis. Tradicija jį sieja su pusiausvyra, partneryste ir teisingumu."
     },
     "8": {
       "name": "Vrishchika",
-      "title": "Skorpionas"
+      "title": "Skorpionas",
+      "meaning": "Valdo Marsas; vandens ženklas, pastovusis. Tradicija jį sieja su virsmu, gelme ir paslaptimis."
     },
     "9": {
       "name": "Dhanu",
-      "title": "Šaulys"
+      "title": "Šaulys",
+      "meaning": "Valdo Jupiteris; ugnies ženklas, dvilypis. Tradicija jį sieja su dharma, išmintimi ir augimu."
     },
     "10": {
       "name": "Makara",
-      "title": "Ožiaragis"
+      "title": "Ožiaragis",
+      "meaning": "Valdo Saturnas; žemės ženklas, judrusis. Tradicija jį sieja su karjera, drausme ir valdžia."
     },
     "11": {
       "name": "Kumbha",
-      "title": "Vandenis"
+      "title": "Vandenis",
+      "meaning": "Valdo Saturnas; oro ženklas, pastovusis. Tradicija jį sieja su bendruomene, idealais ir naujomis idėjomis."
     },
     "12": {
       "name": "Meena",
-      "title": "Žuvys"
+      "title": "Žuvys",
+      "meaning": "Valdo Jupiteris; vandens ženklas, dvilypis. Tradicija jį sieja su išsilaisvinimu, vaizduote ir atsidavimu."
     }
   },
   "choghadiya": {
@@ -924,5 +948,54 @@
       "title": "Netektis",
       "meaning": "Valdo Saturnas. Tradiciškai jos metu nepradedamas joks palankus darbas, nors ji laikoma tinkama santaupoms kaupti."
     }
+  },
+  "tradition": {
+    "brahma": "Tradicija jį laiko geriausiu metu meditacijai ir maldai.",
+    "abhijit": "Tradicija jį laiko palankiu svarbiai pradžiai, pavyzdžiui, kelionei ar naujam darbui.",
+    "rahuKaal": "Tradicija šiuo metu nepradeda kelionių, verslo, didelių pirkinių ir ceremonijų; jau pradėtus darbus galima tęsti.",
+    "yamaganda": "Tradicija vengia šiuo metu pradėti naujus sumanymus, keliones ar priimti didelius finansinius sprendimus; įprasti darbai ir malda gali tęstis.",
+    "gulika": "Tradicija šiuo metu nepasirašo sutarčių, neperka brangių daiktų ir neinvestuoja.",
+    "bhadra": "Tradicija laukia, kol ji baigsis, prieš pradėdama ką nors svarbaus: kelionę, pirkinį ar apeigas.",
+    "vyatipata": "Tradicijoje tai vienas labiausiai vengiamų laikų: svarbios pradžios atidedamos, kol jis baigsis.",
+    "vaidhriti": "Tradicija tuo metu dirba įprastus darbus, o svarbias pradžias atideda.",
+    "eclipse": "Pagal tradiciją tuo metu nepradedami nauji darbai, nevalgoma, o laikas skiriamas maldai ar meditacijai.",
+    "pushya": "Tradicija šį laiką laiko tinkamu pradžioms, auksui pirkti ir mokytis.",
+    "amritSiddhi": "Tradicija šį laiką laiko vienu palankiausių ką nors pradėti.",
+    "sarvarthaSiddhi": "Tradicija šį laiką laiko palankiu bet kuriam darbui."
+  },
+  "leads": {
+    "brahma": "Šiandien {range}: priešpaskutinė iš penkiolikos nakties dalių, kiekviena po {minutes} min., prieš saulėtekį {sunrise}.",
+    "abhijit": "Šiandien {range}: vidurinė iš penkiolikos dienos dalių, kiekviena po {minutes} min., apie vietos vidurdienį.",
+    "abhijitWednesday": "Šiandien trečiadienis, o trečiadieniais tradicija Abhijit nenaudoja.",
+    "part": "Šiandien {range}. Šviesusis metas, {sunrise}–{sunset}, dalijamas į aštuonias dalis po {minutes} min.; {weekday}: {name} yra dalis nr. {n}.",
+    "bhadra": "{range}: {half} {tithi}-osios Mėnulio dienos ({title}) pusė.",
+    "firstHalf": "pirmoji",
+    "secondHalf": "antroji",
+    "yoga": "Nuo {from} iki {to}: Saulės ir Mėnulio padėčių suma patenka į 27 dalių nr. {n}.",
+    "eclipse": "Čia matomas {range}.",
+    "eclipsePeak": "Didžiausias {time}.",
+    "eclipsePeakUnseen": "Didžiausia fazė, {time}, čia nematoma.",
+    "pushya": "{weekday}, o Mėnulis Pushya žvaigždyne: {range}.",
+    "siddhi": "{weekday}, o Mėnulis {star} žvaigždyne: ši pora sudaro {yoga}, {range}.",
+    "choghadiya": "{range}. {weekday}: diena prasideda dalimi „{first}“.",
+    "tithi": "{n}-oji Mėnulio diena iš 30, {half}. {ends}.",
+    "waxingHalf": "pilnėjanti pusė (Shukla)",
+    "waningHalf": "dylanti pusė (Krishna)",
+    "moonSign": "Mėnulis ženkle {sign} {until}.",
+    "sunSign": "Saulė ženkle {sign} {until}.",
+    "otherZodiac": "Pagal {zodiac} zodiaką – {sign}.",
+    "vedic": "vedinį",
+    "western": "vakarietišką",
+    "sankranti": "{time} Saulė pereina į ženklą {sign}, ir prasideda Saulės mėnuo.",
+    "paranaMorning": "{when}: pirmasis šviesiojo paros meto penktadalis po saulėtekio.",
+    "paranaAfternoon": "{when}: ketvirtasis šviesiojo paros meto penktadalis, nes Hari Vasara tęsiasi per rytą.",
+    "karana": "{half} {tithi}-osios Mėnulio dienos ({title}) pusė.",
+    "restNewMoon": "Šiandien {time} jaunatis.",
+    "restFullMoon": "Pilnatis: {when}.",
+    "ekadashi": "Šiandien Ekadashi, šios mėnesio pusės 11-oji Mėnulio diena.",
+    "rituBegins": "Šiandien {time} prasideda {season}.",
+    "ayanaBegins": "Šiandien {time} keičiasi Saulės pusmetis.",
+    "atTomorrow": "rytoj {time}",
+    "atYesterday": "vakar {time}"
   }
 }

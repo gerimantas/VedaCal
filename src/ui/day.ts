@@ -1,18 +1,19 @@
 // Day screen (SPEC 5.1) as plain data: every text and shape the screen shows, computed from
 // one DayPanchang. The app's Day.svelte and the P3 mockup both render this, so the approved
 // mockup and the app cannot drift apart, and tests can compare the screen with the engine.
-import { civilDate, tzOffsetMinutes, zonedTimeToUtc } from '../core/time'
+import { addDays, civilDate, tzOffsetMinutes, zonedTimeToUtc } from '../core/time'
 import { CHOGHADIYA_RATING, type DayPanchang, type Interval, type Location, type Span } from '../core/types'
-import { LOCALE, MONTH, content, entry, percent, progress, t, time, until } from './format'
+import { LOCALE, MONTH, content, entry, lead, percent, progress, t, time, tradition as traditionOf, until, type Lead } from './format'
 import { icon } from './icons'
 import { markText, shownMarks } from './marks'
 import { terms, type Term } from './terms'
 
 /**
  * `next`: "then …" when the element changes before the Panchang day ends (next sunrise).
- * `lead`: what this day's value means, shown first in the row's sheet (the season now).
+ * `lead`, here and on every tappable thing below: what it means on this day, shown first in its
+ * sheet, above the general text (user, 2026-10-10: a general text read on a given day misleads).
  */
-export type Fact = { term: Term; icon: string; label: string; value: string; sanskrit: string; right: string; next: string; lead?: { title: string; text: string } }
+export type Fact = { term: Term; icon: string; label: string; value: string; sanskrit: string; right: string; next: string; lead?: Lead }
 export type Zodiac = 'vedic' | 'western'
 export type WindowKind = 'calm' | 'good' | 'avoid'
 /** A stretch of the day's track: 0 = the track's start (Brahma Muhurta), 1 = the next sunrise. */
@@ -25,22 +26,22 @@ export type TrackPart = { from: number; to: number }
  */
 export type WindowRow = {
   kind: WindowKind | 'favoured'; term: Term; name: string; sanskrit: string; start: string; end: string; none: string
-  track: (TrackPart & { clashes: TrackPart[] }) | null; active: boolean
+  track: (TrackPart & { clashes: TrackPart[] }) | null; active: boolean; lead: Lead
 }
 
 /**
  * One Choghadiya part as a row: "Gain · Labh  11:42 AM–1:06 PM", `current` while it runs.
  * `part`: 'before' = last night's parts still to run before this sunrise (shown only then).
  */
-export type ChoghadiyaRow = { name: string; sanskrit: string; start: string; end: string; rating: 'good' | 'neutral' | 'avoid'; part: 'before' | 'day' | 'night'; current: boolean }
+export type ChoghadiyaRow = { name: string; sanskrit: string; start: string; end: string; rating: 'good' | 'neutral' | 'avoid'; part: 'before' | 'day' | 'night'; current: boolean; lead: Lead }
 
 /** "Moon in Cancer · Karka", with "until …" and "then …" — shown on the moon card and the sun card. */
-export type SignLine = { text: string; sanskrit: string; until: string; next: string }
+export type SignLine = { text: string; sanskrit: string; until: string; next: string; lead: Lead }
 
 export type DayView = {
   shortDate: string
   moon: { illumination: number; waxing: boolean; label: string }
-  tithi: { index: number; title: string; name: string; percent: number; progress: number; ends: string; meaning: string }
+  tithi: { index: number; title: string; name: string; percent: number; progress: number; ends: string; meaning: string; lead: Lead }
   moonSign: SignLine
   sunSign: SignLine
   sunrise: string
@@ -61,7 +62,7 @@ export type DayView = {
   choghadiyaNow: ChoghadiyaRow | null
   facts: Fact[]
   moreFacts: Fact[]
-  tradition: { title: string; meaning: string } | null
+  tradition: { title: string; meaning: string; lead: Lead } | null
   polar: boolean
 }
 
@@ -128,6 +129,26 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   const ends = (end: Date) => until(end, day, loc)
   const fact = (term: Term, svg: string, label: string, value: string, sanskrit: string, right = '', next = ''): Fact =>
     ({ term, icon: svg, label, value, sanskrit, right, next })
+  // Pieces of the day-specific sheet lines.
+  const range = (w: Interval) => `${time(w.start, loc)}–${time(w.end, loc)}`
+  const minutes = (ms: number) => Math.round(ms / 60_000)
+  const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+  /** "18:36", "18:36 tomorrow", "18:36 yesterday", or "Sunday 18:36": a moment named without doubt about the day. */
+  const stamp = (x: Date) => {
+    const on = civilDate(loc.tz, x)
+    if (on === day.date) return time(x, loc)
+    if (on === addDays(day.date, 1)) return lead('atTomorrow', { time: time(x, loc) })
+    if (on === addDays(day.date, -1)) return lead('atYesterday', { time: time(x, loc) })
+    return `${new Intl.DateTimeFormat(LOCALE, { weekday: 'long', timeZone: loc.tz }).format(x)} ${time(x, loc)}`
+  }
+  const weekday = cap(new Intl.DateTimeFormat(LOCALE, { weekday: 'long', timeZone: loc.tz }).format(noonish))
+  /** Which half of which lunar day a half-day span (a karana) is. */
+  const halfOf = (s: Span) => {
+    const lunarDay = activeAt(day.tithi, new Date((s.start.getTime() + s.end.getTime()) / 2))
+    const first = Math.abs(s.start.getTime() - lunarDay.start.getTime()) < 120_000
+    return { half: lead(first ? 'firstHalf' : 'secondHalf'), tithi: lunarDay.index, title: entry('tithi', lunarDay.index).name }
+  }
+  const joined = (...parts: string[]) => parts.filter(Boolean).join(' ')
   /** "Autumn · Sharad" and its meaning: what a row's sheet opens on before the term itself. */
   const leadOf = (e: { title: string; name: string; meaning: string }) => ({ title: `${e.title} · ${e.name}`, text: e.meaning })
   /**
@@ -147,15 +168,42 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   // Signs sit with their body — the Moon's on the moon card, the Sun's on the sun card. The
   // English name is already a plain word; the Sanskrit one (or "Western sign") follows it.
   const signs = day.signs[zodiac]
-  const signLine = (spans: Span[], key: 'moonIn' | 'sunIn'): SignLine => {
+  const rashi = (i: number) => content.rashi[String(i) as '1']
+  const otherZodiac = day.signs[zodiac === 'vedic' ? 'western' : 'vedic']
+  const signLine = (body: 'moon' | 'sun'): SignLine => {
+    const spans = signs[body]
     const s = activeAt(spans, now)
     const n = following(spans, s, day)
-    const e = content.rashi[String(s.index) as '1']
+    const e = rashi(s.index)
+    // The sheet: where the body is and until when, where the other zodiac puts it, what the sign means.
+    const other = activeAt(otherZodiac[body], now).index
     return {
-      text: t(key, { sign: e.title }),
+      text: t(body === 'moon' ? 'moonIn' : 'sunIn', { sign: e.title }),
       sanskrit: zodiac === 'vedic' ? e.name : t('westernZodiac'),
       until: ends(s.end),
-      next: n ? t('then', { name: content.rashi[String(n.index) as '1'].title }) : '',
+      next: n ? t('then', { name: rashi(n.index).title }) : '',
+      lead: {
+        title: `${e.title} · ${e.name}`,
+        text: joined(
+          // "until Oct 17" ends in a dot in Lithuanian ("spalio 17 d."): the sentence adds its own.
+          lead(body === 'moon' ? 'moonSign' : 'sunSign', { sign: e.title, until: ends(s.end).replace(/\.$/, '') }),
+          other !== s.index ? lead('otherZodiac', { zodiac: lead(zodiac === 'vedic' ? 'western' : 'vedic'), sign: rashi(other).title }) : '',
+          e.meaning,
+        ),
+      },
+    }
+  }
+  /** An eclipse's sheet: what is seen here and when, then what tradition does. */
+  const eclipseLead = (mk: Extract<DayPanchang['marks'][number], { kind: 'eclipse' }>): Lead => {
+    const seen = mk.seen
+    const peakSeen = !!seen && mk.peak >= seen.start && mk.peak <= seen.end
+    return {
+      title: markText(mk, loc, zodiac).title,
+      text: joined(
+        seen ? lead('eclipse', { range: range(seen) }) : markText(mk, loc, zodiac).note,
+        seen ? lead(peakSeen ? 'eclipsePeak' : 'eclipsePeakUnseen', { time: stamp(mk.peak) }) : '',
+        traditionOf('eclipse'),
+      ),
     }
   }
 
@@ -165,13 +213,20 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     .filter((mk) => mk.kind === 'eclipse' || mk.kind === 'sankranti')
     .map((mk): Fact => {
       const x = markText(mk, loc, zodiac)
-      return { term: x.term, icon: x.svg, label: x.label, value: x.title, sanskrit: x.sanskrit, right: x.when, next: x.note }
+      const sheetLead =
+        mk.kind === 'eclipse'
+          ? eclipseLead(mk)
+          : { title: '', text: joined(lead('sankranti', { time: stamp(mk.at), sign: rashi(mk.sign).title }), rashi(mk.sign).meaning) }
+      return { term: x.term, icon: x.svg, label: x.label, value: x.title, sanskrit: x.sanskrit, right: x.when, next: x.note, lead: sheetLead }
     })
   const facts = [
     ...marks,
     ...(day.parana ? [paranaFact(day, loc)] : []),
     { ...fact('vara', icon.vara, t('labelWeekday'), vara.title, vara.name), lead: leadOf(vara) },
-    fact('masa', icon.month, t('labelMonth'), m.adhika ? t('extraMonth') : month.title, m.adhika ? t('adhika', { name: month.name }) : month.name),
+    {
+      ...fact('masa', icon.month, t('labelMonth'), m.adhika ? t('extraMonth') : month.title, m.adhika ? t('adhika', { name: month.name }) : month.name),
+      lead: { title: `${month.name} · ${month.title}`, text: month.meaning },
+    },
     element('nakshatra', icon.nakshatra, t('labelStar'), day.nakshatra, (i) => entry('nakshatra', i)),
     // Its sheet opens on this season, then the six (user, 2026-10-10: it opened the whole rhythm).
     { ...fact('ritu', icon.leaf, t('legendSeason'), ritu.title, ritu.name, t('seasonDay', { day: r.rituDay, length: r.rituLength })), lead: leadOf(ritu) },
@@ -180,8 +235,13 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   // they sit behind "More details".
   const moreFacts = [
     element('yoga', icon.yoga, t('labelYoga'), day.yoga, (i) => entry('yoga', i)),
-    element('karana', icon.karana, t('labelKarana'), day.karana, (i) => entry('karana', i)),
+    karanaFact(),
   ]
+  /** The karana row's sheet also says which half of which lunar day it is. */
+  function karanaFact(): Fact {
+    const row = element('karana', icon.karana, t('labelKarana'), day.karana, (i) => entry('karana', i))
+    return { ...row, lead: { ...row.lead, text: joined(cap(lead('karana', halfOf(activeAt(day.karana, now)))), row.lead.text) } }
+  }
 
   // ── The time list: calm, good, avoid and favoured windows, whole, in time order ──
   const inside = (w: Interval | null) => !!w && clock >= w.start && clock < w.end
@@ -199,28 +259,47 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     return start < end ? { start, end } : null
   }
   /** The Panchang day's parts of an element: Bhadra is the Vishti karana, Vyatipata and Vaidhriti yogas 17 and 27. */
-  const partsOf = (spans: Span[], index: number) => spans.filter((s) => s.index === index).flatMap((s) => inDay(s) ?? [])
+  const partsOf = (spans: Span[], index: number) => spans.filter((s) => s.index === index).flatMap((s) => (inDay(s) ? [{ s, w: inDay(s)! }] : []))
 
-  type Row = { kind: WindowRow['kind']; term: Term; w: Interval | null; none: string; name?: string; sanskrit?: string }
-  const avoid = (term: Term) => (w: Interval): Row => ({ kind: 'avoid', term, w, none: '' })
+  // Each row's sheet opens on today: its times and why they fall there, then what tradition does.
+  type Row = { kind: WindowRow['kind']; term: Term; w: Interval | null; none: string; lead: string; name?: string; sanskrit?: string }
+  const daylight = day.sunrise && day.sunset ? day.sunset.getTime() - day.sunrise.getTime() : 0
+  /** Rahu Kaal, Yamaganda, Gulika: which of the eight parts of daylight this weekday gives them. */
+  const eighth = (term: 'rahuKaal' | 'yamaganda' | 'gulika', w: Interval | null) =>
+    w && day.sunrise && day.sunset
+      ? lead('part', {
+          range: range(w), sunrise: time(day.sunrise, loc), sunset: time(day.sunset, loc), minutes: minutes(daylight / 8), weekday, name: terms[term][1],
+          n: Math.round((w.start.getTime() - day.sunrise.getTime()) / (daylight / 8)) + 1,
+        })
+      : ''
   const rows: Row[] = [
-    { kind: 'calm', term: 'brahma', w: brahma, none: t('none') },
-    { kind: 'good', term: 'abhijit', w: abhijit, none: day.vara === 3 ? t('notOnWednesdays') : t('none') },
-    { kind: 'avoid', term: 'rahuKaal', w: rahuKaal, none: t('none') },
-    { kind: 'avoid', term: 'yamaganda', w: yamaganda, none: t('none') },
-    { kind: 'avoid', term: 'gulika', w: gulika, none: t('none') },
+    {
+      kind: 'calm', term: 'brahma', w: brahma, none: t('none'),
+      lead: brahma && day.sunrise ? lead('brahma', { range: range(brahma), minutes: minutes(brahma.end.getTime() - brahma.start.getTime()), sunrise: time(day.sunrise, loc) }) : '',
+    },
+    {
+      kind: 'good', term: 'abhijit', w: abhijit, none: day.vara === 3 ? t('notOnWednesdays') : t('none'),
+      lead: abhijit ? lead('abhijit', { range: range(abhijit), minutes: minutes(abhijit.end.getTime() - abhijit.start.getTime()) }) : day.vara === 3 ? lead('abhijitWednesday') : '',
+    },
+    ...(['rahuKaal', 'yamaganda', 'gulika'] as const).map((term): Row => ({ kind: 'avoid', term, w: day.windows[term], none: t('none'), lead: eighth(term, day.windows[term]) })),
     // Times to avoid that are not daily (user, 2026-10-10): too many days to mark on the month.
-    ...partsOf(day.karana, 7).map(avoid('bhadra')),
-    ...partsOf(day.yoga, 17).map(avoid('vyatipata')),
-    ...partsOf(day.yoga, 27).map(avoid('vaidhriti')),
+    ...partsOf(day.karana, 7).map(({ s, w }): Row => ({ kind: 'avoid', term: 'bhadra', w, none: '', lead: lead('bhadra', { range: range(w), ...halfOf(s) }) })),
+    ...([[17, 'vyatipata'], [27, 'vaidhriti']] as const).flatMap(([n, term]) =>
+      partsOf(day.yoga, n).map(({ s, w }): Row => ({ kind: 'avoid', term, w, none: '', lead: lead('yoga', { from: stamp(s.start), to: stamp(s.end), n }) })),
+    ),
     ...day.marks.flatMap((mk): Row[] =>
-      mk.kind === 'eclipse' && mk.seen ? [{ ...avoid('eclipse')(mk.seen), name: t('labelEclipse'), sanskrit: markText(mk, loc, zodiac).sanskrit }] : [],
+      mk.kind === 'eclipse' && mk.seen
+        ? [{ kind: 'avoid', term: 'eclipse', w: mk.seen, none: '', lead: eclipseLead(mk).text, name: t('labelEclipse'), sanskrit: markText(mk, loc, zodiac).sanskrit }]
+        : [],
     ),
     // The day's favoured window (Pushya over Amrit over Sarvartha Siddhi), named by its tradition.
     ...shownMarks(day.marks).flatMap((mk): Row[] => {
       if (mk.kind !== 'pushya' && mk.kind !== 'siddhi') return []
       const x = markText(mk, loc, zodiac)
-      return [{ kind: 'favoured', term: x.term, w: { start: mk.start, end: mk.end }, none: '', name: x.label, sanskrit: x.sanskrit }]
+      const w = { start: mk.start, end: mk.end }
+      const star = entry('nakshatra', activeAt(day.nakshatra, new Date(mk.start.getTime() + 60_000)).index).name
+      const why = mk.kind === 'pushya' ? lead('pushya', { weekday, range: range(w) }) : lead('siddhi', { weekday, star, yoga: x.sanskrit, range: range(w) })
+      return [{ kind: 'favoured', term: x.term, w, none: '', lead: why, name: x.label, sanskrit: x.sanskrit }]
     }),
   ]
 
@@ -236,7 +315,7 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   const midday = day.sunrise && day.sunset ? new Date((day.sunrise.getTime() + day.sunset.getTime()) / 2) : now
   const windows = rows
     .sort((a, b) => (a.w?.start ?? midday).getTime() - (b.w?.start ?? midday).getTime())
-    .map(({ kind, term, w, none, name, sanskrit }): WindowRow => {
+    .map(({ kind, term, w, none, name, sanskrit, lead: today }): WindowRow => {
       const [plain, sk] = name !== undefined ? [name, sanskrit ?? ''] : terms[term]
       const p = w && part(w)
       return {
@@ -244,6 +323,8 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
         start: w ? time(w.start, loc) : '', end: w ? time(w.end, loc) : '', none: w ? '' : none,
         track: p ? { ...p, clashes: kind === 'avoid' ? [] : clashesWith(w) } : null,
         active: inside(w),
+        // An eclipse's own lead already ends with what tradition does.
+        lead: { title: '', text: term === 'eclipse' ? today : joined(today, traditionOf(term)) },
       }
     })
   const track = {
@@ -258,7 +339,11 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   const choghadiya = [...before.map((p) => ({ p, part: 'before' as const })), ...day.choghadiya.map((p) => ({ p, part: p.night ? ('night' as const) : ('day' as const) }))].map(
     ({ p, part }): ChoghadiyaRow => {
       const e = content.choghadiya[p.name]
-      return { name: e.title, sanskrit: e.name, start: time(p.start, loc), end: time(p.end, loc), rating: CHOGHADIYA_RATING[p.name], part, current: inside(p) }
+      const first = day.choghadiya[0] ? content.choghadiya[day.choghadiya[0].name].title : ''
+      return {
+        name: e.title, sanskrit: e.name, start: time(p.start, loc), end: time(p.end, loc), rating: CHOGHADIYA_RATING[p.name], part, current: inside(p),
+        lead: { title: `${e.title} · ${e.name}`, text: joined(lead('choghadiya', { range: range(p), weekday, first }), e.meaning) },
+      }
     },
   )
 
@@ -275,13 +360,33 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   }
 
   // ── Tradition card: only on special days — the season row covers ordinary ones ──
-  let tradition: DayView['tradition'] = null
-  if (r.events.some((e) => e.kind === 'ritu')) tradition = { title: t('season', { title: ritu.title, name: ritu.name }), meaning: ritu.meaning }
-  if (r.events.some((e) => e.kind === 'ayana')) tradition = content.rhythm[r.ayana]
-  if (r.restDay) tradition = content.rhythm[r.restDay === 'fullMoon' ? 'restFullMoon' : 'restNewMoon']
+  // Its sheet opens on why today is special: "New moon today at 18:49".
+  let card: { title: string; meaning: string } | null = null
+  let why = ''
+  const ritu1 = r.events.find((e) => e.kind === 'ritu')
+  const ayana1 = r.events.find((e) => e.kind === 'ayana')
+  if (ritu1) {
+    card = { title: t('season', { title: ritu.title, name: ritu.name }), meaning: ritu.meaning }
+    why = lead('rituBegins', { season: ritu.title, time: time(ritu1.at, loc) })
+  }
+  if (ayana1) {
+    card = content.rhythm[r.ayana]
+    why = lead('ayanaBegins', { time: time(ayana1.at, loc) })
+  }
+  if (r.restDay) {
+    card = content.rhythm[r.restDay === 'fullMoon' ? 'restFullMoon' : 'restNewMoon']
+    why = r.restDay === 'newMoon' && day.newMoon ? lead('restNewMoon', { time: time(day.newMoon, loc) }) : day.fullMoon ? lead('restFullMoon', { when: time(day.fullMoon, loc) }) : ''
+  }
   // Ekadashi gets the card only when the moon card does not already say it (tithi 11 or 26).
-  if (day.ekadashi && !(tithi.index === 11 || tithi.index === 26)) tradition = content.rhythm.ekadashi
-  if (tradition) tradition = { title: tradition.title, meaning: tradition.meaning }
+  if (day.ekadashi && !(tithi.index === 11 || tithi.index === 26)) {
+    card = content.rhythm.ekadashi
+    why = lead('ekadashi')
+  }
+  const tradition: DayView['tradition'] = card ? { title: card.title, meaning: card.meaning, lead: { title: card.title, text: joined(why, card.meaning) } } : null
+  const tithiEnds =
+    // "Ends at 1:24 AM tomorrow": the "until" wording minus its own "until".
+    t('lunarDayEnds', { when: until(tithi.end, day, loc).replace(t('until', { time: '' }), '') }) +
+    (nextTithi ? `, ${t('then', { name: entry('tithi', nextTithi.index).title })}` : '')
 
   return {
     shortDate,
@@ -293,14 +398,15 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
       percent: percent(day.moon.illumination),
       progress: progress(tithi, now),
       // The bar under the moon is unlabeled on its own, so one short line says what it measures.
-      ends:
-        // "Ends at 1:24 AM tomorrow": the "until" wording minus its own "until".
-        t('lunarDayEnds', { when: until(tithi.end, day, loc).replace(t('until', { time: '' }), '') }) +
-        (nextTithi ? `, ${t('then', { name: entry('tithi', nextTithi.index).title })}` : ''),
+      ends: tithiEnds,
       meaning: te.meaning,
+      lead: {
+        title: `${te.title} · ${te.name}`,
+        text: joined(lead('tithi', { n: tithi.index, half: lead(tithi.index <= 15 ? 'waxingHalf' : 'waningHalf'), ends: tithiEnds }), te.meaning),
+      },
     },
-    moonSign: signLine(signs.moon, 'moonIn'),
-    sunSign: signLine(signs.sun, 'sunIn'),
+    moonSign: signLine('moon'),
+    sunSign: signLine('sun'),
     sunrise: time(day.sunrise, loc),
     sunset: time(day.sunset, loc),
     dial: sunDial(day, loc, clock, next),
@@ -322,8 +428,12 @@ function paranaFact(day: DayPanchang, loc: Location): Fact {
   const p = day.parana!
   const sameDay = civilDate(loc.tz, p.start) === civilDate(loc.tz, p.end)
   const range = sameDay ? `${time(p.start, loc)}–${time(p.end, loc)}` : t('paranaAfter', { time: time(p.start, loc) })
-  const value = t(civilDate(loc.tz, p.start) === day.date ? 'paranaToday' : 'paranaTomorrow', { range })
-  return { term: 'parana', icon: icon.dawn, label: t('labelParana'), value, sanskrit: 'Parana', right: '', next: '' }
+  const today = civilDate(loc.tz, p.start) === day.date
+  const value = t(today ? 'paranaToday' : 'paranaTomorrow', { range })
+  // Morning (the first fifth of daylight) unless Hari Vasara pushed it to the afternoon.
+  const sunrise = today ? day.sunrise : day.nextSunrise
+  const morning = !sunrise || p.end.getTime() - sunrise.getTime() <= 6 * 3_600_000
+  return { term: 'parana', icon: icon.dawn, label: t('labelParana'), value, sanskrit: 'Parana', right: '', next: '', lead: { title: '', text: lead(morning ? 'paranaMorning' : 'paranaAfternoon', { when: value }) } }
 }
 
 // A 24-hour clock face, live like the moon: solar noon at the top, solar midnight at the

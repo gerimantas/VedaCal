@@ -86,10 +86,15 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
     // Each row's sheet opens on what this day's value means (user, 2026-10-10: the sheets said
     // the meaning was on the day screen, and it was not).
     const lead = (e: { title: string; name: string; meaning: string }) => ({ title: `${e.title} · ${e.name}`, text: e.meaning })
-    for (const el of ['nakshatra', 'yoga', 'karana'] as const) {
+    for (const el of ['nakshatra', 'yoga'] as const) {
       const s = activeAt(day[el], now)
       expect(facts[el], el).toMatchObject({ value: entry(el, s.index).title, right: until(s.end, day, loc), lead: lead(entry(el, s.index)) })
     }
+    // The karana's sheet also says which half of which lunar day it is.
+    const k = entry('karana', activeAt(day.karana, now).index)
+    expect(facts.karana.lead!.title).toBe(lead(k).title)
+    expect(facts.karana.lead!.text).toMatch(/^The (first|second) half of lunar day \d+ /)
+    expect(facts.karana.lead!.text.endsWith(k.meaning)).toBe(true)
     expect(facts.vara.lead).toEqual(lead(entry('vara', day.vara)))
     const moon = activeAt(day.signs.vedic.moon, now)
     const rashi = (i: number) => content.rashi[String(i) as '1']
@@ -272,5 +277,55 @@ describe('times to avoid beyond Rahu Kaal (Vilnius 2026)', () => {
     }
     expect(v.track.dusk).toBeGreaterThan(0.3)
     expect(v.track.dusk).toBeLessThan(0.6)
+  })
+})
+
+// User, 2026-10-10: every sheet read on the day screen opens on that day — its times, why they
+// fall there, and what tradition does — and its numbers are the ones the row shows.
+describe('day sheets lead with the day (Vilnius 2026)', () => {
+  const loc = city('Vilnius')
+  const view = (date: string, at = `${date}T09:00:00Z`) => dayView(computeDay(date, loc), loc, new Date(at))
+  const row = (date: string, term: string) => view(date).windows.find((w) => w.term === term)!
+
+  it("Rahu Kaal: today's range, the eighth it is on this weekday, then what tradition does", () => {
+    const r = row('2026-10-10', 'rahuKaal') // Saturday: the third eighth
+    expect(r.lead.text).toContain(`${r.start}–${r.end}`)
+    expect(r.lead.text).toContain('on Saturday Rahu Kaal is part 3')
+    expect(r.lead.text.endsWith(content.tradition.rahuKaal)).toBe(true)
+  })
+
+  it("Amrit Siddhi names the weekday and the Moon's star that make it (Wed + Anuradha)", () => {
+    const r = row('2026-10-14', 'amritSiddhi')
+    expect(r.lead.text).toContain('Wednesday, and the Moon is in Anuradha: this pair makes Amrit Siddhi')
+    expect(r.lead.text).toContain(`${r.start}–${r.end}`)
+  })
+
+  it('Bhadra says which half of which lunar day it is (Oct 14: the second half of day 4)', () => {
+    expect(row('2026-10-14', 'bhadra').lead.text).toMatch(/^.+: the second half of lunar day 4 /)
+  })
+
+  it("the month, the signs and the tradition card say what today's value means", () => {
+    const v = view('2026-10-10')
+    const facts = Object.fromEntries(v.facts.map((f) => [f.term, f]))
+    expect(facts.masa.lead).toEqual({ title: 'Ashwina · September–October', text: content.masa['7'].meaning })
+    expect(v.moonSign.lead.text).toContain(content.rashi['6'].meaning) // the Moon in Virgo
+    expect(v.moonSign.lead.text).toContain('By the Western zodiac it is in Libra')
+    expect(v.tradition!.lead.text).toMatch(/^New moon today at /)
+  })
+
+  it('an eclipse names what is seen here (Aug 28: from 05:33 to moonset; the peak after it)', () => {
+    const r = row('2026-08-28', 'eclipse')
+    expect(r.lead.text).toContain(`Seen here ${r.start}–${r.end}`)
+    expect(r.lead.text).toContain('is not seen here')
+  })
+
+  it('every tappable thing on the day screen has a lead', () => {
+    for (const date of ['2026-10-06', '2026-10-10', '2026-10-14', '2026-10-17', '2026-08-28']) {
+      const v = view(date)
+      for (const w of v.windows) expect(w.lead.text, `${date} ${w.term}`).not.toBe('')
+      for (const f of [...v.facts, ...v.moreFacts]) expect(f.lead?.text, `${date} ${f.term}`).toBeTruthy()
+      for (const c of v.choghadiya) expect(c.lead.text).toBeTruthy()
+      expect(v.tithi.lead.text && v.moonSign.lead.text && v.sunSign.lead.text).toBeTruthy()
+    }
   })
 })

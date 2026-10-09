@@ -3,7 +3,7 @@
   // to install it, what each tab does, offline/updates/removal, credits; "Glossary" — every
   // term with its explanation and, where it has them, all its values, then how times are
   // calculated.
-  import { content, sheet, t } from './format'
+  import { content, sheet, t, tradition } from './format'
   import { icon } from './icons'
   import { app } from './state.svelte'
   import { termGroups, terms, type Term } from './terms'
@@ -88,6 +88,8 @@
           <li>
             <details>
               <summary><b>{name}</b>{#if sanskrit}<span class="sk">{sanskrit}</span>{/if}{@html icon.down}</summary>
+              <!-- What tradition does in this window, then how it is found (the day sheet leads with today). -->
+              {#if tradition(key)}<p>{tradition(key)}</p>{/if}
               <p>{sheet(key)}</p>
               {#if values(key).length}
                 <dl class="kinds">

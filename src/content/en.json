@@ -582,11 +582,11 @@
     "yoga": "Add up how far the Sun and the Moon have each travelled around the sky, and the total falls into one of 27 equal sections: that section is the yoga. It changes about once a day. Each yoga has its own name and meaning, shown first when you tap the row. Tradition avoids four of them (Atiganda, Ganda, Vyatipata, Vaidhriti) for important beginnings.",
     "karana": "A karana is half a lunar day, so each lunar day has two. There are eleven kinds: seven repeat in turn through the month, and four come only around the new moon.",
     "vara": "The weekday. In the traditional calendar it runs from sunrise to sunrise, not from midnight. Each day belongs to one of the seven heavenly lights seen by eye: Sun, Moon, Mars, Mercury, Jupiter, Venus or Saturn, the same ones behind the names Sunday, Monday and Saturday. That light decides which name the day's Choghadiya (hour by hour) starts with.",
-    "brahma": "Brahma Muhurta, \"the creator's hour\", is the 48 minutes that begin about an hour and a half before sunrise. Tradition holds it the best time for meditation and prayer.",
-    "abhijit": "Abhijit Muhurta, \"the victorious hour\", is about 48 minutes around local midday, when the Sun is highest. Tradition holds it good for an important beginning, such as a journey or new work, except on Wednesdays, so VedaCal does not show it then.",
-    "rahuKaal": "Split the time from sunrise to sunset into eight equal parts, each about an hour and a half; Rahu Kaal is one of them, a different one each weekday. Rahu is the shadow that, in myth, swallows the Sun during an eclipse. Tradition does not start journeys, businesses, big purchases or ceremonies in this time; work already under way can continue.",
-    "yamaganda": "Yamaganda is one of the eight equal parts of the daylight, each about an hour and a half, a different part each weekday. It is named after Yama, the god of death and judgement. Tradition avoids starting new ventures, journeys or big money decisions in it; routine work and prayer can go on.",
-    "gulika": "Gulika (Gulikai) is one of the eight equal parts of the daylight, each about an hour and a half, a different part each weekday, and is linked to Saturn. Drik Panchang and Shubh Panchang list it with Rahu Kaal and Yamaganda as an unfavourable time: no contracts are signed, no big purchases made and no money invested in it.",
+    "brahma": "Brahma Muhurta, \"the creator's hour\", is the second-last of the night's fifteen equal parts (muhurtas), so it ends one part before sunrise. Its length follows the length of the night.",
+    "abhijit": "Abhijit Muhurta, \"the victorious hour\", is the middle of the day's fifteen equal parts, around local noon, when the Sun stands highest. Its length follows the length of the day. It is not used on Wednesdays, so VedaCal shows none then.",
+    "rahuKaal": "Daylight, sunrise to sunset, splits into eight equal parts; Rahu Kaal is one of them, a different one each weekday, so its length follows the length of the day. Rahu is the shadow that, in myth, swallows the Sun at an eclipse.",
+    "yamaganda": "Yamaganda is one of the eight equal parts of daylight, a different one each weekday. It is named after Yama, god of death and justice.",
+    "gulika": "Gulika (Gulikai) is one of the eight equal parts of daylight, a different one each weekday, and is linked to Saturn. Drik Panchang and Shubh Panchang list it among the times to avoid, with Rahu Kaal and Yamaganda.",
     "choghadiya": "Choghadiya splits the day (sunrise to sunset) and the night (sunset to the next sunrise) into eight parts each, about an hour and a half long, and gives each part one of seven names. Three are good (Amrit, Shubh, Labh), one is neutral (Chal) and three are best avoided (Udveg, Rog, Kaal); their order depends on the weekday. It is popular in North and West India for choosing a time to travel or start something, and a good part that falls in Rahu Kaal is still avoided.",
     "ritu": "The Indian year has six seasons (Ritu) of about two months each, set by the Sun: Vasanta, spring (mid-February to mid-April); Grishma, summer (to mid-June); Varsha, the rains (to mid-August); Sharad, autumn (to mid-October); Hemanta, early winter (to mid-December); Shishira, late winter (to mid-February). The row shows the season now and which of its days today is.",
     "rhythm": "The traditional rhythm follows the Moon and the Sun: rest days around the full and new moon, the Ekadashi fast twice a month, six seasons instead of four, and two half-years, as the Sun's path moves north after the December solstice and south after the June one.",
@@ -594,15 +594,15 @@
     "about": "VedaCal shows the traditional Hindu lunar calendar (Panchang) in plain words. Everything is calculated on your device and nothing is sent anywhere. The guidance describes tradition and is not medical or professional advice. City data © GeoNames, CC BY 4.0.",
     "masa": "A lunar month lasts one cycle of the Moon, about 29.5 days, so it begins on a different Western date each year. A month takes its name from the sign the Sun moves into during it (when the Sun enters Aries, it is Chaitra). The names themselves were given long ago after the star near which the month's full moon falls (Chaitra from Chitra, Kartika from Krittika); today the match is only approximate. VedaCal counts months from full moon to full moon, as in North India; South and West India count from new moon to new moon, so for half of each month the name there is one behind. About every three years an extra month (Adhika) is added so that the calendar keeps pace with the seasons.",
     "rashi": "The Sun and the Moon move through the twelve signs of the zodiac. Vedic astrology ties the signs to the stars, Western astrology to the seasons, and over the centuries the two have drifted about 24°, almost a whole sign, apart. So a Moon in Gemini by the Vedic count is often in Cancer by the Western one. Choose which one VedaCal shows in Settings.",
-    "parana": "Ekadashi is a fast kept twice a month and ended the next day. VedaCal shows when to end it: not too early, because the first quarter of the twelfth lunar day (Hari Vasara) still counts as part of the fast, and not too late, while the twelfth lunar day (Dwadashi) is still running. Usually that is the first few hours after sunrise (the first fifth of the daylight). When Hari Vasara runs long, the time moves to the afternoon (the fourth fifth), because tradition avoids midday. VedaCal shows the exact time on the day screen.",
-    "eclipse": "By tradition, no new work is started and no meals are eaten during an eclipse (Grahan), and the time is given to prayer or meditation. VedaCal shows the moment of greatest eclipse and whether any of it can be seen from your location.",
+    "parana": "Ekadashi is a fast kept twice a month and ended the next day. VedaCal shows when to end it: not too early, because the first quarter of the twelfth lunar day (Hari Vasara) still counts as part of the fast, and not too late, while the twelfth lunar day (Dwadashi) is still running. Usually that is the first few hours after sunrise (the first fifth of the daylight). When Hari Vasara runs long, the time moves to the afternoon (the fourth fifth), because tradition avoids midday.",
+    "eclipse": "An eclipse (Grahan) is a time to avoid. VedaCal shows the part that can be seen from your location: for the Moon, from its first to its last contact with the Earth's shadow, while the Moon is up; for the Sun, from first to last contact, while the Sun is up.",
     "sankranti": "Sankranti is the moment the Sun moves into the next sign of the Vedic zodiac, twelve times a year. Each one opens a solar month; Makara Sankranti in mid-January, a harvest festival, is celebrated across India.",
-    "pushya": "Pushya, \"nourishment\", is one of the Moon's 27 star sections and is held the most favourable of them. When the Moon is in Pushya on a Thursday (Guru Pushya) or a Sunday (Ravi Pushya), tradition sees that time as good for beginnings, for buying gold and for starting to learn. The times shown are when the two overlap.",
-    "amritSiddhi": "Amrit Siddhi, \"nectar of success\", forms when a weekday meets its own Moon star: Sunday with Hasta, Monday with Mrigashira, Tuesday with Ashwini, Wednesday with Anuradha, Thursday with Pushya, Friday with Revati, Saturday with Rohini. It comes one to three times a month, and tradition holds it among the most favourable times to begin something. The times shown are when the two overlap.",
-    "sarvarthaSiddhi": "Sarvartha Siddhi, \"success in every aim\", forms when the weekday and the Moon's star are one of about thirty traditionally helpful pairs. It is common, about ten days a month, so VedaCal shows it on the day screen only and does not mark it on the month. The times shown are when the two overlap.",
-    "bhadra": "Bhadra is the half lunar day called Vishti, which comes about eight times a month and lasts some twelve hours. Tradition waits for it to end before starting anything important, such as a journey, a purchase or a ceremony.",
-    "vyatipata": "Vyatipata is one of the 27 yogas, the sum of the Sun's and the Moon's positions, and comes about once a month for about a day. It is among the most avoided times in tradition: important beginnings are put off until it ends.",
-    "vaidhriti": "Vaidhriti is the last of the 27 yogas and, like Vyatipata, comes about once a month for about a day. Tradition keeps it for routine work and puts off important beginnings."
+    "pushya": "Pushya, \"nourishment\", is one of the Moon's 27 star sections and is held the most favourable of them. Guru Pushya is the Moon in Pushya on a Thursday, Ravi Pushya on a Sunday; the times shown are when the two overlap.",
+    "amritSiddhi": "Amrit Siddhi, \"nectar of success\", forms when a weekday meets its own Moon star: Sunday with Hasta, Monday with Mrigashira, Tuesday with Ashwini, Wednesday with Anuradha, Thursday with Pushya, Friday with Revati, Saturday with Rohini. It comes one to three times a month; the times shown are when the two overlap.",
+    "sarvarthaSiddhi": "Sarvartha Siddhi, \"success in every aim\", forms when the weekday and the Moon's star are one of about thirty traditionally helpful pairs. It is common, about ten days a month, so VedaCal does not mark it on the month. The times shown are when the two overlap.",
+    "bhadra": "Bhadra is the half lunar day called Vishti, which comes about eight times a month and lasts some twelve hours.",
+    "vyatipata": "Vyatipata is one of the 27 yogas, the sum of the Sun's and the Moon's positions, and comes about once a month for about a day.",
+    "vaidhriti": "Vaidhriti is the last of the 27 yogas and, like Vyatipata, comes about once a month for about a day."
   },
   "ui": {
     "today": "Today",
@@ -791,101 +791,125 @@
   "masa": {
     "1": {
       "name": "Chaitra",
-      "title": "March–April"
+      "title": "March–April",
+      "meaning": "Named after the star Chitra, near which its full moon falls. Festivals: the new year (Ugadi, Gudi Padwa), Chaitra Navaratri, Rama Navami, Hanuman Jayanti."
     },
     "2": {
       "name": "Vaishakha",
-      "title": "April–May"
+      "title": "April–May",
+      "meaning": "Named after the star Vishakha, near which its full moon falls. Festivals: Akshaya Tritiya, Buddha Purnima."
     },
     "3": {
       "name": "Jyeshtha",
-      "title": "May–June"
+      "title": "May–June",
+      "meaning": "Named after the star Jyeshtha, near which its full moon falls. Festivals: Ganga Dussehra, Nirjala Ekadashi."
     },
     "4": {
       "name": "Ashadha",
-      "title": "June–July"
+      "title": "June–July",
+      "meaning": "Named after the star Purva Ashadha, near which its full moon falls. Festivals: Ratha Yatra, Devshayani Ekadashi, Guru Purnima."
     },
     "5": {
       "name": "Shravana",
-      "title": "July–August"
+      "title": "July–August",
+      "meaning": "Named after the star Shravana, near which its full moon falls. Festivals: Nag Panchami, Raksha Bandhan."
     },
     "6": {
       "name": "Bhadrapada",
-      "title": "August–September"
+      "title": "August–September",
+      "meaning": "Named after the star Purva Bhadrapada, near which its full moon falls. Festivals: Krishna Janmashtami, Ganesh Chaturthi."
     },
     "7": {
       "name": "Ashwina",
-      "title": "September–October"
+      "title": "September–October",
+      "meaning": "Named after the star Ashwini, near which its full moon falls. Festivals: Pitru Paksha, Navaratri, Dussehra, Sharad Purnima."
     },
     "8": {
       "name": "Kartika",
-      "title": "October–November"
+      "title": "October–November",
+      "meaning": "Named after the star Krittika, near which its full moon falls. Festivals: Diwali, Govardhan Puja, Bhai Dooj, Kartika Purnima."
     },
     "9": {
       "name": "Margashirsha",
-      "title": "November–December"
+      "title": "November–December",
+      "meaning": "Named after the star Mrigashira, near which its full moon falls. Festivals: Gita Jayanti, Dattatreya Jayanti."
     },
     "10": {
       "name": "Pausha",
-      "title": "December–January"
+      "title": "December–January",
+      "meaning": "Named after the star Pushya, near which its full moon falls. A quiet month; at its full moon the Magh Mela begins at Prayagraj."
     },
     "11": {
       "name": "Magha",
-      "title": "January–February"
+      "title": "January–February",
+      "meaning": "Named after the star Magha, near which its full moon falls. Festivals: Vasant Panchami, Magha Purnima."
     },
     "12": {
       "name": "Phalguna",
-      "title": "February–March"
+      "title": "February–March",
+      "meaning": "Named after the star Purva Phalguni, near which its full moon falls. Festivals: Maha Shivaratri, Holi."
     }
   },
   "rashi": {
     "1": {
       "name": "Mesha",
-      "title": "Aries"
+      "title": "Aries",
+      "meaning": "Ruled by Mars; a fire sign of the movable kind. Tradition links it with initiative, energy and the self."
     },
     "2": {
       "name": "Vrishabha",
-      "title": "Taurus"
+      "title": "Taurus",
+      "meaning": "Ruled by Venus; an earth sign of the fixed kind. Tradition links it with wealth, beauty and stability."
     },
     "3": {
       "name": "Mithuna",
-      "title": "Gemini"
+      "title": "Gemini",
+      "meaning": "Ruled by Mercury; an air sign of the dual kind. Tradition links it with communication, duality and intellect."
     },
     "4": {
       "name": "Karka",
-      "title": "Cancer"
+      "title": "Cancer",
+      "meaning": "Ruled by the Moon; a water sign of the movable kind. Tradition links it with care, home and feelings."
     },
     "5": {
       "name": "Simha",
-      "title": "Leo"
+      "title": "Leo",
+      "meaning": "Ruled by the Sun; a fire sign of the fixed kind. Tradition links it with authority, creativity and pride."
     },
     "6": {
       "name": "Kanya",
-      "title": "Virgo"
+      "title": "Virgo",
+      "meaning": "Ruled by Mercury; an earth sign of the dual kind. Tradition links it with analysis, service and perfection."
     },
     "7": {
       "name": "Tula",
-      "title": "Libra"
+      "title": "Libra",
+      "meaning": "Ruled by Venus; an air sign of the movable kind. Tradition links it with balance, partnership and justice."
     },
     "8": {
       "name": "Vrishchika",
-      "title": "Scorpio"
+      "title": "Scorpio",
+      "meaning": "Ruled by Mars; a water sign of the fixed kind. Tradition links it with transformation, depth and secrets."
     },
     "9": {
       "name": "Dhanu",
-      "title": "Sagittarius"
+      "title": "Sagittarius",
+      "meaning": "Ruled by Jupiter; a fire sign of the dual kind. Tradition links it with dharma, wisdom and growth."
     },
     "10": {
       "name": "Makara",
-      "title": "Capricorn"
+      "title": "Capricorn",
+      "meaning": "Ruled by Saturn; an earth sign of the movable kind. Tradition links it with career, discipline and authority."
     },
     "11": {
       "name": "Kumbha",
-      "title": "Aquarius"
+      "title": "Aquarius",
+      "meaning": "Ruled by Saturn; an air sign of the fixed kind. Tradition links it with community, ideals and new ideas."
     },
     "12": {
       "name": "Meena",
-      "title": "Pisces"
+      "title": "Pisces",
+      "meaning": "Ruled by Jupiter; a water sign of the dual kind. Tradition links it with liberation, imagination and surrender."
     }
   },
   "choghadiya": {
@@ -924,5 +948,54 @@
       "title": "Loss",
       "meaning": "Ruled by Saturn. Traditionally no auspicious work begins in it, though it is held suited to work that builds savings."
     }
+  },
+  "tradition": {
+    "brahma": "Tradition holds it the best time for meditation and prayer.",
+    "abhijit": "Tradition holds it good for an important start, such as a journey or new work.",
+    "rahuKaal": "Tradition starts no journeys, business, big purchases or ceremonies now; work already begun can go on.",
+    "yamaganda": "Tradition avoids starting new plans, journeys or big money decisions now; routine work and prayer go on.",
+    "gulika": "Tradition signs no contracts, buys nothing costly and makes no investments now.",
+    "bhadra": "Tradition waits for it to end before starting anything important, such as a journey, a purchase or a ceremony.",
+    "vyatipata": "It is among the most avoided times in tradition: important beginnings are put off until it ends.",
+    "vaidhriti": "Tradition keeps it for routine work and puts off important beginnings.",
+    "eclipse": "By tradition no new work is started and no meals are eaten; the time is given to prayer or meditation.",
+    "pushya": "Tradition sees this time as good for beginnings, for buying gold and for starting to learn.",
+    "amritSiddhi": "Tradition holds it among the most favourable times to begin something.",
+    "sarvarthaSiddhi": "Tradition holds it helpful for any task."
+  },
+  "leads": {
+    "brahma": "Today {range}: the second-last of the night's fifteen parts, each {minutes} min, before sunrise at {sunrise}.",
+    "abhijit": "Today {range}: the middle of the day's fifteen parts, each {minutes} min, around local noon.",
+    "abhijitWednesday": "Today is Wednesday, when tradition does not use Abhijit.",
+    "part": "Today {range}. Daylight, {sunrise}–{sunset}, splits into eight parts of {minutes} min; on {weekday} {name} is part {n}.",
+    "bhadra": "{range}: the {half} half of lunar day {tithi} ({title}).",
+    "firstHalf": "first",
+    "secondHalf": "second",
+    "yoga": "From {from} to {to}: the Sun's and the Moon's positions together fall in section {n} of 27.",
+    "eclipse": "Seen here {range}.",
+    "eclipsePeak": "Greatest at {time}.",
+    "eclipsePeakUnseen": "The greatest phase, at {time}, is not seen here.",
+    "pushya": "{weekday}, and the Moon is in Pushya: {range}.",
+    "siddhi": "{weekday}, and the Moon is in {star}: this pair makes {yoga}, {range}.",
+    "choghadiya": "{range}. On {weekday} the day starts with “{first}”.",
+    "tithi": "Lunar day {n} of 30, in the {half}. {ends}.",
+    "waxingHalf": "waxing half (Shukla)",
+    "waningHalf": "waning half (Krishna)",
+    "moonSign": "The Moon is in {sign} {until}.",
+    "sunSign": "The Sun is in {sign} {until}.",
+    "otherZodiac": "By the {zodiac} zodiac it is in {sign}.",
+    "vedic": "Vedic",
+    "western": "Western",
+    "sankranti": "At {time} the Sun enters {sign}, and a solar month begins.",
+    "paranaMorning": "{when}: the first fifth of daylight after sunrise.",
+    "paranaAfternoon": "{when}: the fourth fifth of daylight, because Hari Vasara runs past the morning.",
+    "karana": "The {half} half of lunar day {tithi} ({title}).",
+    "restNewMoon": "New moon today at {time}.",
+    "restFullMoon": "Full moon: {when}.",
+    "ekadashi": "Today is Ekadashi, the 11th lunar day of this half of the month.",
+    "rituBegins": "{season} begins today at {time}.",
+    "ayanaBegins": "The Sun's half-year changes today at {time}.",
+    "atTomorrow": "{time} tomorrow",
+    "atYesterday": "{time} yesterday"
   }
 }

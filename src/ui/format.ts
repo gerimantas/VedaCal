@@ -42,6 +42,17 @@ export function sheet(key: keyof typeof en.sheets, vars: Record<string, string |
   return content.sheets[key].replace(/\{(\w+)\}/g, (_, k: string) => String(vars[k] ?? ''))
 }
 
+/** A day-specific sheet line with {placeholders} (user, 2026-10-10: say what it means today). */
+export function lead(key: keyof typeof en.leads, vars: Record<string, string | number> = {}): string {
+  return content.leads[key].replace(/\{(\w+)\}/g, (_, k: string) => String(vars[k] ?? ''))
+}
+
+/** What tradition does in a time window, said once: in its day sheet and on the About page. */
+export const tradition = (key: string): string => (content.tradition as Record<string, string>)[key] ?? ''
+
+/** A row's sheet opens on this: what its value means on this day. `title` may be ''. */
+export type Lead = { title: string; text: string }
+
 /**
  * Dates and times are written in the app's language, not the device's: an English page on a
  * Lithuanian phone would otherwise mix "popiet" or "spal." into English sentences.
