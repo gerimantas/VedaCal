@@ -528,7 +528,7 @@
     "restNewMoon": {
       "name": "Amavasya rest",
       "title": "Jaunaties poilsio diena",
-      "meaning": "Tradicija laikė dvi poilsio dienas aplink kiekvieną jaunatį. Natūralus metas sulėtinti tempą ir atsigręžti į vidų."
+      "meaning": "Tradicija ilsėdavosi per jaunatį; šaltinis mini dvi dienas, bet nenurodo, kuri antra, todėl VedaCal žymi jaunaties dieną. Natūralus metas sulėtinti tempą ir atsigręžti į vidų."
     },
     "ekadashi": {
       "name": "Ekadashi",

@@ -528,7 +528,7 @@
     "restNewMoon": {
       "name": "Amavasya rest",
       "title": "A new-moon rest day",
-      "meaning": "Tradition kept two days of rest around each new moon. A natural time to slow down and turn inward."
+      "meaning": "Tradition rested at the new moon; the source speaks of two days but does not say which is the second, so VedaCal marks the new-moon day. A natural time to slow down and turn inward."
     },
     "ekadashi": {
       "name": "Ekadashi",
