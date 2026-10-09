@@ -336,13 +336,28 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   // ── Choghadiya: hour by hour, folded under the windows ──────────────────────
   // Between midnight and sunrise last night's parts are still running: the ones left lead the list.
   const before = day.sunrise && clock < day.sunrise ? day.choghadiyaBefore.filter((p) => p.end > clock) : []
+  // Each part's sheet names its own half: which of the eight parts of the day or the night it is,
+  // how long they run today, and what that half starts with on its weekday (last night's parts
+  // belong to yesterday); a good part inside Rahu Kaal says it is still avoided.
+  const groups = {
+    before: { parts: day.choghadiyaBefore, night: true, weekday: day.sunrise ? cap(new Intl.DateTimeFormat(LOCALE, { weekday: 'long', timeZone: loc.tz }).format(new Date(day.sunrise.getTime() - 86_400_000))) : weekday },
+    day: { parts: day.choghadiya.filter((p) => !p.night), night: false, weekday },
+    night: { parts: day.choghadiya.filter((p) => p.night), night: true, weekday },
+  }
   const choghadiya = [...before.map((p) => ({ p, part: 'before' as const })), ...day.choghadiya.map((p) => ({ p, part: p.night ? ('night' as const) : ('day' as const) }))].map(
     ({ p, part }): ChoghadiyaRow => {
       const e = content.choghadiya[p.name]
-      const first = day.choghadiya[0] ? content.choghadiya[day.choghadiya[0].name].title : ''
+      const g = groups[part]
+      const rating = CHOGHADIYA_RATING[p.name]
+      const inRahu = rating === 'good' && rahuKaal && rahuKaal.start < p.end && p.start < rahuKaal.end
+      const where = lead('choghadiya', {
+        range: range(p), n: g.parts.findIndex((x) => x.start.getTime() === p.start.getTime()) + 1, minutes: minutes(p.end.getTime() - p.start.getTime()),
+        of: lead(g.night ? 'chogNightOf' : 'chogDayOf'), nom: lead(g.night ? 'chogNightNom' : 'chogDayNom'),
+        weekday: g.weekday, first: g.parts[0] ? content.choghadiya[g.parts[0].name].title : '',
+      })
       return {
-        name: e.title, sanskrit: e.name, start: time(p.start, loc), end: time(p.end, loc), rating: CHOGHADIYA_RATING[p.name], part, current: inside(p),
-        lead: { title: `${e.title} · ${e.name}`, text: joined(lead('choghadiya', { range: range(p), weekday, first }), e.meaning) },
+        name: e.title, sanskrit: e.name, start: time(p.start, loc), end: time(p.end, loc), rating, part, current: inside(p),
+        lead: { title: `${e.title} · ${e.name}`, text: joined(where, e.meaning, inRahu ? lead('chogInRahu', { range: range(rahuKaal) }) : '') },
       }
     },
   )

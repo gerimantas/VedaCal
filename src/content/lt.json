@@ -587,7 +587,7 @@
     "rahuKaal": "Šviesusis paros metas, nuo saulėtekio iki saulėlydžio, dalijamas į aštuonias lygias dalis; Rahu Kaal yra viena iš jų, kas savaitės dieną vis kita, todėl jo trukmė priklauso nuo dienos ilgio. Rahu yra šešėlis, kuris, pasak mito, per užtemimą praryja Saulę.",
     "yamaganda": "Yamaganda yra viena iš aštuonių lygių šviesiojo paros meto dalių, kas savaitės dieną vis kita. Ji pavadinta Jamos, mirties ir teisingumo dievo, vardu.",
     "gulika": "Gulika (Gulikai) yra viena iš aštuonių lygių šviesiojo paros meto dalių, kas savaitės dieną vis kita, ir siejama su Saturnu. Drik Panchang ir Shubh Panchang ją priskiria nepalankiems laikams kartu su Rahu Kaal ir Yamaganda.",
-    "choghadiya": "Choghadiya padalija dieną (nuo saulėtekio iki saulėlydžio) ir naktį (iki kito saulėtekio) į aštuonias dalis, kiekvieną maždaug pusantros valandos, ir kiekvienai duoda vieną iš septynių vardų. Trys yra palankios (Amrit, Shubh, Labh), viena neutrali (Chal), o trijų geriau vengti (Udveg, Rog, Kaal); jų tvarka priklauso nuo savaitės dienos. Šiaurės ir Vakarų Indijoje ja renkamasi laiką kelionei ar naujai pradžiai, o palanki dalis, patekusi į Rahu Kaal, vis tiek vengiama.",
+    "choghadiya": "Choghadiya padalija dieną (nuo saulėtekio iki saulėlydžio) ir naktį (iki kito saulėtekio) į aštuonias lygias dalis, todėl jų trukmė priklauso nuo dienos ir nakties ilgio, ir kiekvienai duoda vieną iš septynių vardų. Trys yra palankios (Amrit, Shubh, Labh), viena neutrali (Chal), o trijų geriau vengti (Udveg, Rog, Kaal); jų tvarka priklauso nuo savaitės dienos. Šiaurės ir Vakarų Indijoje ja renkamasi laiką kelionei ar naujai pradžiai, o palanki dalis, patekusi į Rahu Kaal, vis tiek vengiama.",
     "ritu": "Indijos metai turi šešis metų laikus (Ritu), kiekvienas apie du mėnesius, pagal Saulės padėtį: Vasanta, pavasaris (nuo vasario vidurio iki balandžio vidurio); Grishma, vasara (iki birželio vidurio); Varsha, liūčių metas (iki rugpjūčio vidurio); Sharad, ruduo (iki spalio vidurio); Hemanta, ankstyva žiema (iki gruodžio vidurio); Shishira, vėlyva žiema (iki vasario vidurio). Eilutė rodo dabartinį metų laiką ir kelinta jo diena šiandien.",
     "rhythm": "Tradicinis ritmas seka Mėnulį ir Saulę: poilsio dienos apie pilnatį ir jaunatį, Ekadashi pasninkas du kartus per mėnesį, šeši metų laikai vietoj keturių ir du pusmečiai, kai Saulės kelias po gruodžio saulėgrįžos kyla į šiaurę, o po birželio – leidžiasi į pietus.",
     "times": "Visi laikai pateikti vietovei {city} ir apskaičiuoti jūsų įrenginyje. Saulėtekis yra tada, kai pasirodo viršutinis Saulės kraštas, kaip ir Drik Panchang, plačiausiai naudojamame internetiniame induistų kalendoriuje. VedaCal laikai nuo jo skiriasi mažiau nei 2 minutėmis.",
@@ -977,7 +977,7 @@
     "eclipsePeakUnseen": "Didžiausia fazė, {time}, čia nematoma.",
     "pushya": "{weekday}, o Mėnulis Pushya žvaigždyne: {range}.",
     "siddhi": "{weekday}, o Mėnulis {star} žvaigždyne: ši pora sudaro {yoga}, {range}.",
-    "choghadiya": "{range}. {weekday}: diena prasideda dalimi „{first}“.",
+    "choghadiya": "{range}: {of} dalis nr. {n} iš 8, kiekviena po {minutes} min. {weekday}: {nom} prasideda dalimi „{first}“.",
     "tithi": "{n}-oji Mėnulio diena iš 30, {half}. {ends}.",
     "waxingHalf": "pilnėjanti pusė (Shukla)",
     "waningHalf": "dylanti pusė (Krishna)",
@@ -996,6 +996,11 @@
     "rituBegins": "Šiandien {time} prasideda {season}.",
     "ayanaBegins": "Šiandien {time} keičiasi Saulės pusmetis.",
     "atTomorrow": "rytoj {time}",
-    "atYesterday": "vakar {time}"
+    "atYesterday": "vakar {time}",
+    "chogDayOf": "dienos",
+    "chogNightOf": "nakties",
+    "chogDayNom": "diena",
+    "chogNightNom": "naktis",
+    "chogInRahu": "Ji sutampa su Rahu Kaal ({range}), todėl tradicija jos vis tiek vengia."
   }
 }

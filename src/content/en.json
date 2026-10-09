@@ -587,7 +587,7 @@
     "rahuKaal": "Daylight, sunrise to sunset, splits into eight equal parts; Rahu Kaal is one of them, a different one each weekday, so its length follows the length of the day. Rahu is the shadow that, in myth, swallows the Sun at an eclipse.",
     "yamaganda": "Yamaganda is one of the eight equal parts of daylight, a different one each weekday. It is named after Yama, god of death and justice.",
     "gulika": "Gulika (Gulikai) is one of the eight equal parts of daylight, a different one each weekday, and is linked to Saturn. Drik Panchang and Shubh Panchang list it among the times to avoid, with Rahu Kaal and Yamaganda.",
-    "choghadiya": "Choghadiya splits the day (sunrise to sunset) and the night (sunset to the next sunrise) into eight parts each, about an hour and a half long, and gives each part one of seven names. Three are good (Amrit, Shubh, Labh), one is neutral (Chal) and three are best avoided (Udveg, Rog, Kaal); their order depends on the weekday. It is popular in North and West India for choosing a time to travel or start something, and a good part that falls in Rahu Kaal is still avoided.",
+    "choghadiya": "Choghadiya splits the day (sunrise to sunset) and the night (sunset to the next sunrise) into eight equal parts each, so their length follows the length of the day and of the night, and gives each part one of seven names. Three are good (Amrit, Shubh, Labh), one is neutral (Chal) and three are best avoided (Udveg, Rog, Kaal); their order depends on the weekday. It is popular in North and West India for choosing a time to travel or start something, and a good part that falls in Rahu Kaal is still avoided.",
     "ritu": "The Indian year has six seasons (Ritu) of about two months each, set by the Sun: Vasanta, spring (mid-February to mid-April); Grishma, summer (to mid-June); Varsha, the rains (to mid-August); Sharad, autumn (to mid-October); Hemanta, early winter (to mid-December); Shishira, late winter (to mid-February). The row shows the season now and which of its days today is.",
     "rhythm": "The traditional rhythm follows the Moon and the Sun: rest days around the full and new moon, the Ekadashi fast twice a month, six seasons instead of four, and two half-years, as the Sun's path moves north after the December solstice and south after the June one.",
     "times": "All times are for {city} and calculated on your device. Sunrise is when the top edge of the Sun appears, the same rule as Drik Panchang, the most widely used online Hindu calendar. VedaCal's times differ from it by less than 2 minutes.",
@@ -977,7 +977,7 @@
     "eclipsePeakUnseen": "The greatest phase, at {time}, is not seen here.",
     "pushya": "{weekday}, and the Moon is in Pushya: {range}.",
     "siddhi": "{weekday}, and the Moon is in {star}: this pair makes {yoga}, {range}.",
-    "choghadiya": "{range}. On {weekday} the day starts with “{first}”.",
+    "choghadiya": "{range}: part {n} of 8 of the {of}, {minutes} min each. On {weekday} the {nom} starts with “{first}”.",
     "tithi": "Lunar day {n} of 30, in the {half}. {ends}.",
     "waxingHalf": "waxing half (Shukla)",
     "waningHalf": "waning half (Krishna)",
@@ -996,6 +996,11 @@
     "rituBegins": "{season} begins today at {time}.",
     "ayanaBegins": "The Sun's half-year changes today at {time}.",
     "atTomorrow": "{time} tomorrow",
-    "atYesterday": "{time} yesterday"
+    "atYesterday": "{time} yesterday",
+    "chogDayOf": "day",
+    "chogNightOf": "night",
+    "chogDayNom": "day",
+    "chogNightNom": "night",
+    "chogInRahu": "It falls in Rahu Kaal ({range}), so tradition still avoids it."
   }
 }

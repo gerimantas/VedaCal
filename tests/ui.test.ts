@@ -329,3 +329,32 @@ describe('day sheets lead with the day (Vilnius 2026)', () => {
     }
   })
 })
+
+// User, 2026-10-10: a night part's sheet said how the *day* starts, and "about an hour and a half".
+describe('Choghadiya sheets name their own half (Vilnius, Tuesday 2026-10-06)', () => {
+  const loc = city('Vilnius')
+  const day = computeDay('2026-10-06', loc)
+
+  it('day parts say "of the day", night parts "of the night", with today\'s length', () => {
+    const v = dayView(day, loc, new Date('2026-10-06T09:00:00Z'))
+    const dayRow = v.choghadiya.find((c) => c.part === 'day')!
+    const nightRow = v.choghadiya.find((c) => c.part === 'night')!
+    expect(dayRow.lead.text).toMatch(/^.+: part 1 of 8 of the day, \d+ min each\. On Tuesday the day starts with/)
+    expect(nightRow.lead.text).toMatch(/^.+: part 1 of 8 of the night, \d+ min each\. On Tuesday the night starts with/)
+  })
+
+  it('a good part inside Rahu Kaal says tradition still avoids it', () => {
+    const v = dayView(day, loc, new Date('2026-10-06T09:00:00Z'))
+    const { rahuKaal } = day.windows
+    const good = day.choghadiya.filter((p) => !p.night && ['amrit', 'shubh', 'labh'].includes(p.name) && p.start < rahuKaal!.end && rahuKaal!.start < p.end)
+    const rows = v.choghadiya.filter((c) => c.part === 'day' && /falls in Rahu Kaal/.test(c.lead.text))
+    expect(rows.length).toBe(good.length)
+  })
+
+  it("before sunrise, last night's parts belong to Monday", () => {
+    const v = dayView(day, loc, new Date('2026-10-06T03:00:00Z'), 'vedic', new Date('2026-10-06T03:00:00Z'))
+    const before = v.choghadiya.filter((c) => c.part === 'before')
+    expect(before.length).toBeGreaterThan(0)
+    for (const c of before) expect(c.lead.text).toContain('On Monday the night starts with')
+  })
+})
