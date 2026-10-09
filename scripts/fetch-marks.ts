@@ -1,5 +1,6 @@
 // Fetch Drik's own pages for the day marks (SPEC 4.11) — Sankranti moments, eclipses as seen
-// from the city, Guru/Ravi Pushya, Amrit Siddhi and Sarvartha Siddhi windows — and store them
+// from the city, Guru/Ravi Pushya, Amrit Siddhi, Sarvartha Siddhi, Bhadra, Vyatipata and Vaidhriti
+// windows — and store them
 // as a fixture.
 //   node scripts/fetch-marks.ts <city> <year>
 // Fixtures are evidence: values come from the pages, never typed by hand.
@@ -149,6 +150,39 @@ export async function sarvartha(city: CityKey, year: number) {
   return [...out.values()].sort((a, b) => a.start.localeCompare(b.start))
 }
 
+/** "Bhadra begins October 2, 2026, Friday at 07:45 AM Bhadra ends October 2, 2026, Friday at 06:36 PM": one page per month. */
+export async function bhadra(city: CityKey, year: number) {
+  const c = CITIES[city]
+  const out = new Map<string, { start: string; end: string; source: string }>()
+  for (let mo = 1; mo <= 12; mo++) {
+    const url = `${D}/panchang/bhadra-dates-timings.html?date=01/${String(mo).padStart(2, '0')}/${year}&geoname-id=${c.drikId}`
+    const html = await get(url)
+    checkCity(html, url, c.drikName)
+    const at = (month: string, d: string, y: string, t: string) => instant(c.tz, iso(y, month, d), t)
+    for (const m of text(html).matchAll(/Bhadra begins (\w+) (\d{1,2}), (\d{4}), \w+ at (\d{1,2}:\d{2} [AP]M) Bhadra ends (\w+) (\d{1,2}), (\d{4}), \w+ at (\d{1,2}:\d{2} [AP]M)/g)) {
+      const start = at(m[1], m[2], m[3], m[4])
+      out.set(start, { start, end: at(m[5], m[6], m[7], m[8]), source: url })
+    }
+  }
+  return [...out.values()].sort((a, b) => a.start.localeCompare(b.start))
+}
+
+/** Vyatipata or Vaidhriti Yoga, one page per year: "Begins: 04:31 PM , Jan 20 Ends: 03:28 PM , Jan 21". */
+export async function yogaSpans(city: CityKey, year: number, page: 'vyatipata' | 'vaidhriti') {
+  const c = CITIES[city]
+  const url = `${D}/panchang/yoga/daily/${page}-yoga-date-time.html?year=${year}&geoname-id=${c.drikId}`
+  const html = await get(url)
+  checkCity(html, url, c.drikName)
+  const at = (t: string, month: string, d: string) => instant(c.tz, iso(String(year), month, d), t)
+  const out = []
+  for (const m of text(html).matchAll(/Begins: (\d{1,2}:\d{2} [AP]M) , ([A-Z][a-z]{2}) (\d{1,2}) Ends: (\d{1,2}:\d{2} [AP]M) , ([A-Z][a-z]{2}) (\d{1,2})/g)) {
+    // A span that starts in late December ends in January of the next year.
+    const end = at(m[4], m[5], m[6])
+    out.push({ start: at(m[1], m[2], m[3]), end: m[2] === 'Dec' && m[5] === 'Jan' ? instant(c.tz, iso(String(year + 1), m[5], m[6]), m[4]) : end, source: url })
+  }
+  return out
+}
+
 if (import.meta.main) {
   const [city, year] = process.argv.slice(2) as [CityKey, string]
   if (!CITIES[city] || !year) {
@@ -156,9 +190,9 @@ if (import.meta.main) {
     process.exit(1)
   }
   const y = Number(year)
-  const f = { fetchedAt: new Date().toISOString(), city, year: y, sankranti: await sankrantis(city, y), eclipses: await eclipses(city, y), pushya: await pushya(city, y), amrit: await amrit(city, y), sarvartha: await sarvartha(city, y) }
+  const f = { fetchedAt: new Date().toISOString(), city, year: y, sankranti: await sankrantis(city, y), eclipses: await eclipses(city, y), pushya: await pushya(city, y), amrit: await amrit(city, y), sarvartha: await sarvartha(city, y), bhadra: await bhadra(city, y), vyatipata: await yogaSpans(city, y, 'vyatipata'), vaidhriti: await yogaSpans(city, y, 'vaidhriti') }
   mkdirSync('tests/fixtures/marks', { recursive: true })
   const file = `tests/fixtures/marks/${city}-${year}.json`
   writeFileSync(file, JSON.stringify(f, null, 2) + '\n')
-  console.log(`${file}: ${f.sankranti.length} Sankrantis, ${f.eclipses.length} eclipses, ${f.pushya.length} Pushya, ${f.amrit.length} Amrit Siddhi, ${f.sarvartha.length} Sarvartha Siddhi windows`)
+  console.log(`${file}: ${f.sankranti.length} Sankrantis, ${f.eclipses.length} eclipses, ${f.pushya.length} Pushya, ${f.amrit.length} Amrit Siddhi, ${f.sarvartha.length} Sarvartha Siddhi, ${f.bhadra.length} Bhadra, ${f.vyatipata.length} Vyatipata, ${f.vaidhriti.length} Vaidhriti windows`)
 }

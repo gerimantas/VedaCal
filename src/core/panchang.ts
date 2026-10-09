@@ -208,6 +208,31 @@ const moonUp = (loc: Location, times: Date[]) =>
   })
 
 /**
+ * Is the body up here at `t`, by Drik's rules? The Sun: its upper edge, refraction included
+ * (Drik's sunrise). The Moon: its centre, without refraction — that rule meets all 91 of Drik's
+ * moonrise and moonset times in tests/fixtures/drik within 0.7 min; the library's moonrise, with
+ * refraction, is 4–10 min early (not shown in the app).
+ */
+const limbUp = (loc: Location, body: Body.Sun | Body.Moon, t: Date) => {
+  const eq = Equator(body, t, observerOf(loc), true, true)
+  return body === Body.Sun
+    ? Horizon(t, observerOf(loc), eq.ra, eq.dec, 'normal').altitude > -0.27 // half the Sun's disc
+    : Horizon(t, observerOf(loc), eq.ra, eq.dec).altitude > 0
+}
+
+/** The part of [from, to] while the body is up here, to the minute; null if it never is. */
+function upPart(loc: Location, body: Body.Sun | Body.Moon, from: Date, to: Date): Interval | null {
+  let a: Date | null = null, b: Date | null = null
+  for (let t = from.getTime(); t <= to.getTime(); t += MIN_MS) {
+    if (!limbUp(loc, body, new Date(t))) continue
+    a ??= new Date(t)
+    b = new Date(t)
+  }
+  if (a && b && b.getTime() + MIN_MS > to.getTime()) b = to
+  return a && b && a < b ? { start: a, end: b } : null
+}
+
+/**
  * Marks for every civil day of a month, found once per month: each search below spans the
  * month, not a day, so the month screen stays inside its speed budget.
  */
@@ -230,7 +255,11 @@ function monthMarks(loc: Location, first: string): Map<string, DayMark[]> {
       // ended makes a total eclipse partial here (New Delhi, 2026-03-03).
       const phases = [['total', e.sd_total], ['partial', e.sd_partial], ['penumbral', e.sd_penum]] as const
       const seen = phases.find(([, sd]) => sd > 0 && moonUp(loc, Array.from({ length: 13 }, (_, i) => new Date(p + (i / 6 - 1) * sd * MIN_MS))))
-      add(e.peak.date, { kind: 'eclipse', body: 'moon', type: seen ? seen[0] : e.kind, peak: e.peak.date, visible: !!seen })
+      // The time to avoid, as on Drik: from the first to the last contact with the umbra (the
+      // penumbra when the Moon misses the umbra), while the Moon is up here.
+      const sd = e.sd_partial > 0 ? e.sd_partial : e.sd_penum
+      const shown = seen ? upPart(loc, Body.Moon, new Date(p - sd * MIN_MS), new Date(p + sd * MIN_MS)) : null
+      add(e.peak.date, { kind: 'eclipse', body: 'moon', type: seen ? seen[0] : e.kind, peak: e.peak.date, visible: !!seen, seen: shown })
     }
     for (let e = SearchGlobalSolarEclipse(start); e.peak.date < end; e = NextGlobalSolarEclipse(e.peak)) {
       if (e.peak.date < start) continue
@@ -239,7 +268,8 @@ function monthMarks(loc: Location, first: string): Map<string, DayMark[]> {
       const visible = same && [local.partial_begin, local.peak, local.partial_end].some((x) => x.altitude > 0)
       // Seen from here, a total eclipse is usually partial: report what this place gets.
       const type = (visible ? local.kind : e.kind) as 'partial' | 'annular' | 'total'
-      add(e.peak.date, { kind: 'eclipse', body: 'sun', type, peak: e.peak.date, visible })
+      const shown = visible ? upPart(loc, Body.Sun, local.partial_begin.time.date, local.partial_end.time.date) : null
+      add(e.peak.date, { kind: 'eclipse', body: 'sun', type, peak: e.peak.date, visible, seen: shown })
     }
 
     // Sankranti: the start of each Vedic Sun-sign span inside the month.

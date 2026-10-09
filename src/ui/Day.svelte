@@ -107,17 +107,24 @@
     {@render sign(v.sunSign)}
     <ul class="wins">
       {#each v.windows as w (w.term)}
-        <li class="win {w.kind}" class:none={!w.start} class:noted={w.overlap} data-sheet={w.term}>
+        <li class="win {w.kind}" class:none={!w.start} data-sheet={w.term}>
           <i aria-hidden="true"></i>
           <div><b>{w.name}</b><span class="sk">{w.sanskrit}</span></div>
           <!-- "12:44–13:29" breaks only at the dash, never inside a time (12-hour clocks). -->
           <span class="when num">
             {#if w.start}<span class="nw">{w.start}–</span><span class="nw">{w.end}</span>{:else}{w.none}{/if}
           </span>
-          {#if w.overlap}
-            <!-- The cancelled part: a second line, its range under the row's own time. -->
-            <span class="overlap">{w.overlap.text}</span>
-            <span class="overlap-when num"><span class="nw">{w.overlap.start}–</span><span class="nw">{w.overlap.end}</span></span>
+          {#if w.track}
+            <!-- One day track per row, the same scale on every row: overlaps line up down the list,
+                 and a time to avoid inside this window shows as red stripes on it. -->
+            <span class="track" aria-hidden="true">
+              <span class="daylight" style:left="{v.track.dawn * 100}%" style:width="{(v.track.dusk - v.track.dawn) * 100}%"></span>
+              <span class="seg" style:left="{w.track.from * 100}%" style:width="{(w.track.to - w.track.from) * 100}%"></span>
+              {#each w.track.clashes as c, i (i)}
+                <span class="clash" style:left="{c.from * 100}%" style:width="{(c.to - c.from) * 100}%"></span>
+              {/each}
+              {#if v.track.now !== null}<span class="now" style:left="{v.track.now * 100}%"></span>{/if}
+            </span>
           {/if}
         </li>
       {/each}

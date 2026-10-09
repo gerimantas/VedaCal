@@ -15,6 +15,9 @@ export const terms = {
   rahuKaal: [t('legendAvoidTime'), 'Rahu Kaal'],
   yamaganda: [t('labelYamaganda'), 'Yamaganda'],
   gulika: [t('labelGulika'), 'Gulika'],
+  bhadra: [t('windowBhadra'), 'Bhadra'],
+  vyatipata: [t('windowVyatipata'), 'Vyatipata'],
+  vaidhriti: [t('windowVaidhriti'), 'Vaidhriti'],
   choghadiya: [t('labelChoghadiya'), 'Choghadiya'],
   parana: [t('labelParana'), 'Parana'],
   eclipse: [t('labelEclipse'), 'Grahan'],
@@ -29,6 +32,6 @@ export type Term = keyof typeof terms
 // The About page's key, grouped so a long list stays easy to scan.
 export const termGroups: [string, Term[]][] = [
   [t('groupCalendar'), ['tithi', 'vara', 'masa', 'nakshatra', 'rashi', 'yoga', 'karana']],
-  [t('groupTimes'), ['brahma', 'abhijit', 'rahuKaal', 'yamaganda', 'gulika', 'choghadiya']],
+  [t('groupTimes'), ['brahma', 'abhijit', 'rahuKaal', 'yamaganda', 'gulika', 'bhadra', 'vyatipata', 'vaidhriti', 'choghadiya']],
   [t('groupSpecial'), ['parana', 'eclipse', 'sankranti', 'pushya', 'amritSiddhi', 'sarvarthaSiddhi', 'rhythm']],
 ]

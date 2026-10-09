@@ -598,7 +598,10 @@
     "sankranti": "Sankranti yra momentas, kai Saulė pereina į kitą vedinio zodiako ženklą, dvylika kartų per metus. Kiekvienas pradeda Saulės mėnesį; Makara Sankranti sausio viduryje, derliaus šventė, švenčiama visoje Indijoje.",
     "pushya": "Pushya, „maitinimas“, yra viena iš 27 Mėnulio žvaigždžių dalių ir laikoma palankiausia iš jų. Kai Mėnulis yra Pushya ketvirtadienį (Guru Pushya) arba sekmadienį (Ravi Pushya), tradicija tą laiką laiko tinkamu pradžioms, auksui pirkti ir mokytis. Rodomas laikas, kai abu sutampa.",
     "amritSiddhi": "Amrit Siddhi, „sėkmės nektaras“, susidaro, kai savaitės diena sutampa su savo Mėnulio žvaigžde: sekmadienis su Hasta, pirmadienis su Mrigashira, antradienis su Ashwini, trečiadienis su Anuradha, ketvirtadienis su Pushya, penktadienis su Revati, šeštadienis su Rohini. Tai būna vieną–tris kartus per mėnesį, ir tradicija tą laiką laiko vienu palankiausių ką nors pradėti. Rodomas laikas, kai abu sutampa.",
-    "sarvarthaSiddhi": "Sarvartha Siddhi, „sėkmė visuose siekiuose“, susidaro, kai savaitės diena ir Mėnulio žvaigždė sudaro vieną iš maždaug trisdešimties tradiciškai palankių porų. Ji dažna, apie dešimt dienų per mėnesį, todėl VedaCal ją rodo tik dienos ekrane ir mėnesyje nežymi. Rodomas laikas, kai abu sutampa."
+    "sarvarthaSiddhi": "Sarvartha Siddhi, „sėkmė visuose siekiuose“, susidaro, kai savaitės diena ir Mėnulio žvaigždė sudaro vieną iš maždaug trisdešimties tradiciškai palankių porų. Ji dažna, apie dešimt dienų per mėnesį, todėl VedaCal ją rodo tik dienos ekrane ir mėnesyje nežymi. Rodomas laikas, kai abu sutampa.",
+    "bhadra": "Bhadra yra Mėnulio dienos pusė, vadinama Vishti; ji būna apie aštuonis kartus per mėnesį ir trunka apie dvylika valandų. Tradicija laukia, kol ji baigsis, prieš pradėdama ką nors svarbaus: kelionę, pirkinį ar apeigas.",
+    "vyatipata": "Vyatipata yra viena iš 27 jogų (Saulės ir Mėnulio padėčių sumos) ir būna maždaug kartą per mėnesį, apie parą. Tradicijoje tai vienas labiausiai vengiamų laikų: svarbios pradžios atidedamos, kol jis baigsis.",
+    "vaidhriti": "Vaidhriti yra paskutinė iš 27 jogų ir, kaip Vyatipata, būna maždaug kartą per mėnesį, apie parą. Tradicija tuo metu dirba įprastus darbus, o svarbias pradžias atideda."
   },
   "ui": {
     "today": "Šiandien",
@@ -732,6 +735,9 @@
     "hours12": "12 val.",
     "hours24": "24 val.",
     "labelEclipse": "Užtemimas",
+    "windowBhadra": "Pauzė",
+    "windowVyatipata": "Nelaimė",
+    "windowVaidhriti": "Atskyrimas",
     "labelSankranti": "Saulė keičia ženklą",
     "labelFavoured": "Palanku pradžioms",
     "labelAnyTask": "Palanku bet kuriam darbui",
@@ -778,7 +784,6 @@
     "guideOfflineHead": "Be interneto, atnaujinimai ir pašalinimas",
     "guideOfflineText": "Po pirmojo apsilankymo VedaCal pasilieka savo kopiją telefone, apie 2 MB: atsidaro akimirksniu, skaičiuoja be interneto ir niekur nieko nesiunčia. Išleidus naują versiją, ji parsisiunčia fone, o juostelė pasiūlo atnaujinti. Norėdami pašalinti programėlę, palaikykite pirštą ant jos piktogramos ir pasirinkite „Pašalinti“. Miestas ir nustatymai laikomi tik šiame telefone, todėl pašalinus programėlę jie dingsta.",
     "guideGlossaryIntro": "Kiekvienas programėlėje vartojamas pavadinimas paprastais žodžiais. Atidarykite jį ir perskaitysite, ką jis reiškia, o kur yra – ir visas jo reikšmes.",
-    "cancelOut": "Abhijit ir {name} atsveria vienas kitą",
     "updateReady": "Yra nauja versija.",
     "updateNow": "Atnaujinti"
   },

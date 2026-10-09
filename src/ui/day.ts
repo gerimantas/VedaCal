@@ -12,15 +12,17 @@ import { terms, type Term } from './terms'
 export type Fact = { term: Term; icon: string; label: string; value: string; sanskrit: string; right: string; next: string }
 export type Zodiac = 'vedic' | 'western'
 export type WindowKind = 'calm' | 'good' | 'avoid'
+/** A stretch of the day's track: 0 = the track's start (Brahma Muhurta), 1 = the next sunrise. */
+export type TrackPart = { from: number; to: number }
 /**
- * `overlap`: on the good time's row when a time to avoid shares time with it — "Abhijit and
- * Gulika cancel each other out" and its range, shown as a second line with the range under the
- * row's own time; both rows then show only their own part (user, 2026-10-06).
+ * One row of the day's time list. Nothing is cut where windows overlap, as on Drik (user,
+ * 2026-10-10): every row carries its place on one shared day `track`, and a calm, good or
+ * favoured row marks the parts a time to avoid shares with it (`clashes`), so the overlap is
+ * seen down the list. `favoured`: a Pushya or Siddhi window (SPEC 4.11), not drawn on the dial.
  */
 export type WindowRow = {
-  /** `favoured`: a Pushya or Siddhi window (SPEC 4.11) — a time-list row, not drawn on the dial. */
   kind: WindowKind | 'favoured'; term: Term; name: string; sanskrit: string; start: string; end: string; none: string
-  overlap: { text: string; start: string; end: string } | null; active: boolean
+  track: (TrackPart & { clashes: TrackPart[] }) | null; active: boolean
 }
 
 /**
@@ -46,6 +48,8 @@ export type DayView = {
   nowWindows: WindowKind[]
   next: { label: string; in: string } | null
   windows: WindowRow[]
+  /** The shared day track: daylight from `dawn` to `dusk`, and `now` while the clock is on it. */
+  track: { dawn: number; dusk: number; now: number | null }
   /**
    * The 16 Choghadiya parts, sunrise to next sunrise — before sunrise led by what is left of
    * last night; `choghadiyaNow` is the one at the dial's time.
@@ -170,37 +174,74 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     element('karana', icon.karana, t('labelKarana'), day.karana, (i) => entry('karana', i)),
   ]
 
-  // ── Calm / good / avoid windows ─────────────────────────────────────────────
+  // ── The time list: calm, good, avoid and favoured windows, whole, in time order ──
   const inside = (w: Interval | null) => !!w && clock >= w.start && clock < w.end
-  const shown = shownWindows(day)
-  const { brahma, abhijit, clash } = shown
-  const avoids = [['rahuKaal', shown.rahuKaal], ['yamaganda', shown.yamaganda], ['gulika', shown.gulika]] as const
-  // Inside the cancelled part neither window is in force, so the dial's centre says nothing.
-  const nowWindows = ([['avoid', avoids.some(([, w]) => inside(w))], ['good', inside(abhijit)], ['calm', inside(brahma)]] as const)
+  const { brahma, abhijit, rahuKaal, yamaganda, gulika } = day.windows
+  const nowWindows = ([['avoid', [rahuKaal, yamaganda, gulika].some(inside)], ['good', inside(abhijit)], ['calm', inside(brahma)]] as const)
     .filter(([, on]) => on)
     .map(([k]) => k as WindowKind)
 
-  const midday = day.sunrise && day.sunset ? new Date((day.sunrise.getTime() + day.sunset.getTime()) / 2) : now
-  const windowList = [
-    { kind: 'calm', term: 'brahma', w: brahma, at: brahma?.start ?? now, none: t('none') },
-    { kind: 'good', term: 'abhijit', w: abhijit, at: abhijit?.start ?? midday, none: day.vara === 3 ? t('notOnWednesdays') : t('none') },
-    ...avoids.map(([term, w]) => ({ kind: 'avoid', term, w, at: w?.start ?? now, none: t('none') }) as const),
-  ] as const
-  // The day's favoured window (Pushya over Amrit over Sarvartha Siddhi), named by its tradition.
-  const favoured = shownMarks(day.marks).flatMap((mk) => (mk.kind === 'pushya' || mk.kind === 'siddhi' ? [mk] : []))
-  const favouredRows = favoured.map((mk) => {
-    const x = markText(mk, loc, zodiac)
-    return { kind: 'favoured', term: x.term, w: { start: mk.start, end: mk.end }, at: mk.start, none: '', name: x.label, sanskrit: x.sanskrit } as const
-  })
+  // The Panchang day runs sunrise to next sunrise; without them (polar day or night), the civil day.
+  const [y, mo, d] = day.date.split('-').map(Number)
+  const dayFrom = day.sunrise ?? zonedTimeToUtc(loc.tz, y, mo, d, 0, 0)
+  const dayTo = day.nextSunrise ?? zonedTimeToUtc(loc.tz, y, mo, d + 1, 0, 0)
+  const inDay = (w: Interval): Interval | null => {
+    const start = w.start > dayFrom ? w.start : dayFrom, end = w.end < dayTo ? w.end : dayTo
+    return start < end ? { start, end } : null
+  }
+  /** The Panchang day's parts of an element: Bhadra is the Vishti karana, Vyatipata and Vaidhriti yogas 17 and 27. */
+  const partsOf = (spans: Span[], index: number) => spans.filter((s) => s.index === index).flatMap((s) => inDay(s) ?? [])
+
+  type Row = { kind: WindowRow['kind']; term: Term; w: Interval | null; none: string; name?: string; sanskrit?: string }
+  const avoid = (term: Term) => (w: Interval): Row => ({ kind: 'avoid', term, w, none: '' })
+  const rows: Row[] = [
+    { kind: 'calm', term: 'brahma', w: brahma, none: t('none') },
+    { kind: 'good', term: 'abhijit', w: abhijit, none: day.vara === 3 ? t('notOnWednesdays') : t('none') },
+    { kind: 'avoid', term: 'rahuKaal', w: rahuKaal, none: t('none') },
+    { kind: 'avoid', term: 'yamaganda', w: yamaganda, none: t('none') },
+    { kind: 'avoid', term: 'gulika', w: gulika, none: t('none') },
+    // Times to avoid that are not daily (user, 2026-10-10): too many days to mark on the month.
+    ...partsOf(day.karana, 7).map(avoid('bhadra')),
+    ...partsOf(day.yoga, 17).map(avoid('vyatipata')),
+    ...partsOf(day.yoga, 27).map(avoid('vaidhriti')),
+    ...day.marks.flatMap((mk): Row[] =>
+      mk.kind === 'eclipse' && mk.seen ? [{ ...avoid('eclipse')(mk.seen), name: t('labelEclipse'), sanskrit: markText(mk, loc, zodiac).sanskrit }] : [],
+    ),
+    // The day's favoured window (Pushya over Amrit over Sarvartha Siddhi), named by its tradition.
+    ...shownMarks(day.marks).flatMap((mk): Row[] => {
+      if (mk.kind !== 'pushya' && mk.kind !== 'siddhi') return []
+      const x = markText(mk, loc, zodiac)
+      return [{ kind: 'favoured', term: x.term, w: { start: mk.start, end: mk.end }, none: '', name: x.label, sanskrit: x.sanskrit }]
+    }),
+  ]
+
+  // One track for every row: from Brahma Muhurta, before sunrise, to the next sunrise.
+  const t0 = Math.min(dayFrom.getTime(), brahma?.start.getTime() ?? Infinity), t1 = dayTo.getTime()
+  const at = (x: Date) => Math.min(1, Math.max(0, (x.getTime() - t0) / (t1 - t0)))
+  const part = (w: Interval): TrackPart | null => (at(w.start) < at(w.end) ? { from: at(w.start), to: at(w.end) } : null)
+  const avoids = rows.flatMap((r) => (r.kind === 'avoid' && r.w ? [r.w] : []))
+  const clashesWith = (w: Interval) =>
+    avoids.flatMap((a) => (a.start < w.end && w.start < a.end ? (part({ start: a.start > w.start ? a.start : w.start, end: a.end < w.end ? a.end : w.end }) ?? []) : []))
+
   // In time order — the calm, good and avoid rows are also the dial's colour key.
-  const windows = [...windowList, ...favouredRows]
-    .sort((a, b) => a.at.getTime() - b.at.getTime())
-    .map((row): WindowRow => {
-      const { kind, term, w, none } = row
-      const [name, sanskrit] = 'name' in row ? [row.name, row.sanskrit] : terms[term]
-      const overlap = clash && kind === 'good' ? { text: t('cancelOut', { name: terms[clash.term][1] }), start: time(clash.start, loc), end: time(clash.end, loc) } : null
-      return { kind, term, name, sanskrit, start: w ? time(w.start, loc) : '', end: w ? time(w.end, loc) : '', none: w ? '' : none, overlap, active: inside(w) }
+  const midday = day.sunrise && day.sunset ? new Date((day.sunrise.getTime() + day.sunset.getTime()) / 2) : now
+  const windows = rows
+    .sort((a, b) => (a.w?.start ?? midday).getTime() - (b.w?.start ?? midday).getTime())
+    .map(({ kind, term, w, none, name, sanskrit }): WindowRow => {
+      const [plain, sk] = name !== undefined ? [name, sanskrit ?? ''] : terms[term]
+      const p = w && part(w)
+      return {
+        kind, term, name: plain, sanskrit: sk,
+        start: w ? time(w.start, loc) : '', end: w ? time(w.end, loc) : '', none: w ? '' : none,
+        track: p ? { ...p, clashes: kind === 'avoid' ? [] : clashesWith(w) } : null,
+        active: inside(w),
+      }
     })
+  const track = {
+    dawn: day.sunrise ? at(day.sunrise) : 0,
+    dusk: day.sunset ? at(day.sunset) : 0,
+    now: clock.getTime() >= t0 && clock.getTime() < t1 ? at(clock) : null,
+  }
 
   // ── Choghadiya: hour by hour, folded under the windows ──────────────────────
   // Between midnight and sunrise last night's parts are still running: the ones left lead the list.
@@ -253,10 +294,11 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     sunSign: signLine(signs.sun, 'sunIn'),
     sunrise: time(day.sunrise, loc),
     sunset: time(day.sunset, loc),
-    dial: sunDial(day, loc, clock, next, shown),
+    dial: sunDial(day, loc, clock, next),
     nowWindows,
     next,
     windows,
+    track,
     choghadiya,
     choghadiyaNow: choghadiya.find((c) => c.current) ?? null,
     facts,
@@ -264,34 +306,6 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     tradition,
     polar: !day.sunrise || !day.sunset,
   }
-}
-
-type Shown = Record<'brahma' | 'abhijit' | 'rahuKaal' | 'yamaganda' | 'gulika', Interval | null> & {
-  clash: (Interval & { term: 'rahuKaal' | 'yamaganda' | 'gulika' }) | null
-}
-
-/**
- * The windows as the screen shows them. The good time sits at solar noon, and on most weekdays
- * one time to avoid starts or ends inside it (Rahu Kaal on Fridays, Yamaganda on Sundays and
- * Mondays, Gulika on Tuesdays). The shared part counts as neither: the two cancel out (user,
- * 2026-10-06), so both rows, their dial arcs and "Now" leave it out. It always lies at one end
- * of each window, so what is left of each is one interval.
- */
-export function shownWindows(day: DayPanchang): Shown {
-  const { brahma, abhijit, rahuKaal, yamaganda, gulika } = day.windows
-  const shown: Shown = { brahma, abhijit, rahuKaal, yamaganda, gulika, clash: null }
-  if (!abhijit) return shown
-  for (const term of ['rahuKaal', 'yamaganda', 'gulika'] as const) {
-    const w = day.windows[term]
-    if (!w || !(abhijit.start < w.end && w.start < abhijit.end)) continue
-    const clash = { term, start: abhijit.start > w.start ? abhijit.start : w.start, end: abhijit.end < w.end ? abhijit.end : w.end }
-    const without = (x: Interval): Interval | null => {
-      const left = x.start < clash.start ? { start: x.start, end: clash.start } : { start: clash.end, end: x.end }
-      return left.start < left.end ? left : null
-    }
-    return { ...shown, abhijit: without(abhijit), [term]: without(w), clash }
-  }
-  return shown
 }
 
 /** "Tomorrow, 7:32–9:46 AM" on the Ekadashi day, "Today, …" on the day after. */
@@ -307,13 +321,12 @@ function paranaFact(day: DayPanchang, loc: Location): Fact {
 // bottom, morning on the left, evening on the right; the hour numbers sit at their clock
 // times, so "12" is off the top by the gap between clock noon and solar noon. The light part
 // of the ring is the day. Calm and good windows run on a lane just outside the ring, the three
-// times to avoid on one just inside; where the good time and one to avoid cancel out the ring
-// has neither.
+// daily times to avoid on one just inside, each whole (the lanes show where they overlap).
 // By day the sun travels outside the ring, joined to it by a thin line at now; at night it is
 // not drawn (the centre says "Sunrise in …"), so no room is kept for it below the ring.
-function sunDial(day: DayPanchang, loc: Location, now: Date, next: DayView['next'], shown: Shown): string {
+function sunDial(day: DayPanchang, loc: Location, now: Date, next: DayView['next']): string {
   if (!day.sunrise || !day.sunset) return ''
-  const { brahma, abhijit, rahuKaal, yamaganda, gulika } = shown
+  const { brahma, abhijit, rahuKaal, yamaganda, gulika } = day.windows
   // As wide as the sun's path, so the ring is as large as the card allows; it ends just below
   // the ring, where the sunrise/sunset labels stand in the corners, level with the ring's bottom.
   const W = 240, cx = W / 2, cy = 120, R = 82, LANE = 4, SUN = 109, H = cy + R + LANE + 6

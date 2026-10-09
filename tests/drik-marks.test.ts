@@ -3,8 +3,9 @@
 // (`scripts/fetch-marks.ts`). Drik shows minutes, so times must agree within 2 min.
 import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { computeMonth } from '../src/core/panchang'
+import { computeDay, computeMonth } from '../src/core/panchang'
 import type { DayMark, Location } from '../src/core/types'
+import { zonedTimeToUtc } from '../src/core/time'
 import { CITIES, type CityKey } from '../scripts/cities'
 
 type Fixture = {
@@ -15,6 +16,9 @@ type Fixture = {
   pushya: { weekday: 0 | 4; date: string; start: string; end: string }[]
   amrit: { date: string; start: string; end: string }[]
   sarvartha: { date: string; start: string; end: string }[]
+  bhadra: { start: string; end: string }[]
+  vyatipata: { start: string; end: string }[]
+  vaidhriti: { start: string; end: string }[]
 }
 
 const fixtures: Fixture[] = readdirSync('tests/fixtures/marks').map((f) => JSON.parse(readFileSync(`tests/fixtures/marks/${f}`, 'utf8')))
@@ -67,6 +71,49 @@ describe.each(fixtures)('Drik marks $city $year', (f) => {
       const x = ours.find((o) => Math.abs(minute(o.m.start) - minute(w.start)) <= 2)!
       near(x.m.end, w.end, `${w.date} end`)
     }
+  })
+
+  // Times to avoid on the day screen (user, 2026-10-10): Bhadra = the Vishti karana (7),
+  // Vyatipata and Vaidhriti = yogas 17 and 27. Every window on Drik's 2026 lists is one of ours.
+  it.each([
+    ['bhadra', 'karana', 7],
+    ['vyatipata', 'yoga', 17],
+    ['vaidhriti', 'yoga', 27],
+  ] as const)('%s: every Drik window is a %s %i span of ours, within 2 min', (list, element, index) => {
+    for (const w of f[list]) {
+      const date = new Intl.DateTimeFormat('en-CA', { timeZone: l.tz }).format(new Date(w.start))
+      const before = new Date(Date.parse(`${date}T12:00:00Z`) - 86_400_000).toISOString().slice(0, 10)
+      const spans = [before, date].flatMap((d) => computeDay(d, l)[element]).filter((s) => s.index === index)
+      const ours = spans.find((s) => Math.abs(s.start.getTime() - Date.parse(w.start)) <= 2 * 60_000)
+      expect(ours, `${list} from ${w.start}`).toBeDefined()
+      near(ours!.end, w.end, `${list} from ${w.start}: end`)
+    }
+  })
+
+  it('eclipses: the time to avoid is what Drik shows here, within 2 min', () => {
+    // "Lunar Eclipse Starts (With Moonrise) - 06:26 PM", "Eclipse would end with Sunset - 08:58 PM".
+    const clock = (text: string, re: RegExp) => {
+      const m = text.match(re)
+      if (!m) throw new Error(`no time in "${text.slice(0, 120)}"`)
+      return m[1]
+    }
+    const START = /(?:Lunar Eclipse Starts|Eclipse Start Time)(?: \([^)]*\))? - (\d{1,2}:\d{2} [AP]M)/
+    const END = /(?:Lunar Eclipse Ends|Eclipse End Time|Eclipse would end with Sunset)(?: \([^)]*\))? - (\d{1,2}:\d{2} [AP]M)/
+    const ours = marksOf(l, f.year, 'eclipse')
+    f.eclipses.forEach((e, i) => {
+      const seen = ours[i].m.seen
+      if (!e.visible) return expect(seen, e.date).toBeNull()
+      // Drik gives clock times; take the one of the three days around the peak nearest ours.
+      const near2 = (actual: Date, hhmm: string, what: string) => {
+        const [h, m] = hhmm.split(/[: ]/).map((x, k) => (k < 2 ? Number(x) : x)) as [number, number, string]
+        const hour = (h % 12) + (hhmm.endsWith('PM') ? 12 : 0)
+        const [y, mo, d] = e.date.split('-').map(Number)
+        const best = Math.min(...[-1, 0, 1].map((k) => Math.abs(zonedTimeToUtc(CITIES[f.city].tz, y, mo, d + k, hour, m).getTime() - actual.getTime())))
+        expect(best / 60_000, `${e.date} ${what}`).toBeLessThanOrEqual(2)
+      }
+      near2(seen!.start, clock(e.local, START), 'start')
+      near2(seen!.end, clock(e.local, END), 'end')
+    })
   })
 
   it('eclipses: same days, and visible here exactly when Drik says so', () => {

@@ -8,7 +8,7 @@ import data from '../src/data/cities.json'
 import { computeDay } from '../src/core/panchang'
 import { civilDate } from '../src/core/time'
 import { buildIndex, nearest, search, type CityData } from '../src/ui/cities'
-import { activeAt, clockOn, dayView, shownWindows } from '../src/ui/day'
+import { activeAt, clockOn, dayView } from '../src/ui/day'
 import { content, entry, time, until } from '../src/ui/format'
 import { skyView } from '../src/ui/sky'
 import { termGroups, terms } from '../src/ui/terms'
@@ -67,19 +67,17 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
     expect(v.moon).toMatchObject({ illumination: day.moon.illumination, waxing: day.moon.waxing })
   })
 
-  it('sunrise, sunset and the five windows, in time order', () => {
+  it('sunrise, sunset and the five windows, whole, as the engine has them', () => {
     expect(v.sunrise).toBe(time(day.sunrise, loc))
     expect(v.sunset).toBe(time(day.sunset, loc))
     const shown = Object.fromEntries(v.windows.map((w) => [w.term, w]))
-    expect(v.windows).toHaveLength(5)
-    // As the engine has them, except where the good time and a time to avoid cancel out.
-    const sw = shownWindows(day)
     for (const k of ['brahma', 'abhijit', 'rahuKaal', 'yamaganda', 'gulika'] as const) {
-      if (!sw.clash || (k !== 'abhijit' && k !== sw.clash.term)) expect(sw[k], k).toEqual(day.windows[k])
-      const w = sw[k]
+      const w = day.windows[k]
       if (w) expect(shown[k], k).toMatchObject({ start: time(w.start, loc), end: time(w.end, loc) })
       else expect(shown[k].start, k).toBe('')
     }
+    const at = v.windows.filter((w) => w.track).map((w) => w.track!.from)
+    expect(at, 'in time order').toEqual([...at].sort((a, b) => a - b))
   })
 
   it('day facts', () => {
@@ -106,22 +104,24 @@ describe('Yamaganda, Gulika and Choghadiya (Vilnius, Tuesday 2026-10-06; Drik: A
   const day = computeDay('2026-10-06', loc)
   const at = (iso: string) => dayView(day, loc, new Date(iso))
 
-  it('the good time and Gulika cancel out where they overlap: both rows leave that part out', () => {
+  // User, 2026-10-10: nothing is cut, as on Drik; the overlap shows on each row's day track.
+  it('the good time and Gulika both stay whole; the good row marks where Gulika overlaps it', () => {
     const v = at('2026-10-06T09:00:00Z')
     const row = (term: string) => v.windows.find((w) => w.term === term)!
     const { abhijit, gulika } = day.windows
-    expect(row('abhijit')).toMatchObject({ start: time(abhijit!.start, loc), end: time(gulika!.start, loc) })
-    expect(row('gulika')).toMatchObject({ start: time(abhijit!.end, loc), end: time(gulika!.end, loc) })
-    expect(row('abhijit').overlap).toEqual({ text: 'Abhijit and Gulika cancel each other out', start: time(gulika!.start, loc), end: time(abhijit!.end, loc) })
-    expect(row('gulika').overlap).toBeNull()
-    expect(v.windows.map((w) => w.term), 'still in time order').toEqual(['brahma', 'sarvarthaSiddhi', 'yamaganda', 'abhijit', 'gulika', 'rahuKaal'])
+    expect(row('abhijit')).toMatchObject({ start: time(abhijit!.start, loc), end: time(abhijit!.end, loc) })
+    expect(row('gulika')).toMatchObject({ start: time(gulika!.start, loc), end: time(gulika!.end, loc) })
+    const g = row('gulika').track!, a = row('abhijit').track!
+    expect(a.clashes.some((c) => Math.abs(c.from - g.from) < 1e-9 && Math.abs(c.to - a.to) < 1e-9), 'Gulika inside Abhijit').toBe(true)
+    expect(g.clashes).toEqual([]) // a time to avoid carries no clash marks
+    expect(v.windows.map((w) => w.term).slice(0, 6), 'in time order').toEqual(['brahma', 'sarvarthaSiddhi', 'yamaganda', 'abhijit', 'gulika', 'rahuKaal'])
   })
 
-  it('counts Yamaganda and Gulika as time to avoid in the dial centre, and nothing where they cancel out', () => {
+  it('counts Yamaganda and Gulika as time to avoid in the dial centre, and both where they overlap the good time', () => {
     expect(at('2026-10-06T07:30:00Z').nowWindows).toEqual(['avoid']) // 10:30, Yamaganda
     expect(at('2026-10-06T11:00:00Z').nowWindows).toEqual(['avoid']) // 14:00, Gulika
     expect(at('2026-10-06T09:50:00Z').nowWindows).toEqual(['good']) // 12:50, Abhijit only
-    expect(at('2026-10-06T10:15:00Z').nowWindows).toEqual([]) // 13:15, both: cancelled
+    expect(at('2026-10-06T10:15:00Z').nowWindows).toEqual(['avoid', 'good']) // 13:15, both
   })
 
   it('lists 16 Choghadiya parts and marks the one now', () => {
@@ -221,4 +221,49 @@ it('Sky chart agrees with the day screen at sunrise', () => {
     expect(v.tithi, q).toBe(day.tithi[0].index)
     expect(v.nakshatra, q).toBe(day.nakshatra[0].index)
   }
+})
+
+// User, 2026-10-10 (whole-app review): days to avoid are too many to mark on the month (Drik,
+// October 2026 Vilnius: Panchak, Bhadra and Ganda Mool touch 19 of 31 days), so the day's time
+// list carries Bhadra, Vyatipata, Vaidhriti and the eclipse as times to avoid, each with the
+// same day track as the other rows.
+describe('times to avoid beyond Rahu Kaal (Vilnius 2026)', () => {
+  const loc = city('Vilnius')
+  const rows = (date: string) => dayView(computeDay(date, loc), loc, new Date(`${date}T09:00:00Z`)).windows
+  const row = (date: string, term: string) => rows(date).find((w) => w.term === term)
+
+  it('Bhadra is the Vishti half lunar day, cut to the Panchang day (Drik Oct 14: 09:46–22:43)', () => {
+    const day = computeDay('2026-10-14', loc)
+    const vishti = day.karana.find((k) => k.index === 7)!
+    expect(row('2026-10-14', 'bhadra')).toMatchObject({ kind: 'avoid', sanskrit: 'Bhadra', start: time(vishti.start, loc), end: time(vishti.end, loc) })
+    expect(row('2026-10-14', 'amritSiddhi')!.track!.clashes.length, 'Bhadra inside Amrit Siddhi').toBeGreaterThan(0)
+    expect(row('2026-10-15', 'bhadra')).toBeUndefined()
+  })
+
+  it('Vyatipata and Vaidhriti come from the yoga of the day (Drik: Vyatipata from Oct 27 07:23)', () => {
+    const day = computeDay('2026-10-27', loc)
+    const v = day.yoga.find((y) => y.index === 17)!
+    expect(row('2026-10-27', 'vyatipata')).toMatchObject({ kind: 'avoid', start: time(v.start > day.sunrise! ? v.start : day.sunrise, loc) })
+    const october = Array.from({ length: 31 }, (_, i) => `2026-10-${String(i + 1).padStart(2, '0')}`)
+    const vaidhriti = october.filter((d) => row(d, 'vaidhriti'))
+    expect(vaidhriti.length).toBeGreaterThanOrEqual(1)
+    expect(vaidhriti.length).toBeLessThanOrEqual(3)
+  })
+
+  it('an eclipse is a time to avoid while it can be seen here (Drik Aug 28: 05:34 to moonset 06:16)', () => {
+    expect(row('2026-08-28', 'eclipse')).toMatchObject({ kind: 'avoid', sanskrit: 'Chandra Grahan' })
+    expect(row('2026-03-03', 'eclipse'), 'not visible in Vilnius').toBeUndefined()
+  })
+
+  it('every row with a time has a track inside the day, and the track knows where daylight ends', () => {
+    const v = dayView(computeDay('2026-10-14', loc), loc, new Date('2026-10-14T09:00:00Z'))
+    for (const w of v.windows.filter((x) => x.start)) {
+      expect(w.track, w.term).not.toBeNull()
+      expect(w.track!.from).toBeGreaterThanOrEqual(0)
+      expect(w.track!.to).toBeLessThanOrEqual(1)
+      expect(w.track!.from).toBeLessThan(w.track!.to)
+    }
+    expect(v.track.dusk).toBeGreaterThan(0.3)
+    expect(v.track.dusk).toBeLessThan(0.6)
+  })
 })

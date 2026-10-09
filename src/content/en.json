@@ -598,7 +598,10 @@
     "sankranti": "Sankranti is the moment the Sun moves into the next sign of the Vedic zodiac, twelve times a year. Each one opens a solar month; Makara Sankranti in mid-January, a harvest festival, is celebrated across India.",
     "pushya": "Pushya, \"nourishment\", is one of the Moon's 27 star sections and is held the most favourable of them. When the Moon is in Pushya on a Thursday (Guru Pushya) or a Sunday (Ravi Pushya), tradition sees that time as good for beginnings, for buying gold and for starting to learn. The times shown are when the two overlap.",
     "amritSiddhi": "Amrit Siddhi, \"nectar of success\", forms when a weekday meets its own Moon star: Sunday with Hasta, Monday with Mrigashira, Tuesday with Ashwini, Wednesday with Anuradha, Thursday with Pushya, Friday with Revati, Saturday with Rohini. It comes one to three times a month, and tradition holds it among the most favourable times to begin something. The times shown are when the two overlap.",
-    "sarvarthaSiddhi": "Sarvartha Siddhi, \"success in every aim\", forms when the weekday and the Moon's star are one of about thirty traditionally helpful pairs. It is common, about ten days a month, so VedaCal shows it on the day screen only and does not mark it on the month. The times shown are when the two overlap."
+    "sarvarthaSiddhi": "Sarvartha Siddhi, \"success in every aim\", forms when the weekday and the Moon's star are one of about thirty traditionally helpful pairs. It is common, about ten days a month, so VedaCal shows it on the day screen only and does not mark it on the month. The times shown are when the two overlap.",
+    "bhadra": "Bhadra is the half lunar day called Vishti, which comes about eight times a month and lasts some twelve hours. Tradition waits for it to end before starting anything important, such as a journey, a purchase or a ceremony.",
+    "vyatipata": "Vyatipata is one of the 27 yogas, the sum of the Sun's and the Moon's positions, and comes about once a month for about a day. It is among the most avoided times in tradition: important beginnings are put off until it ends.",
+    "vaidhriti": "Vaidhriti is the last of the 27 yogas and, like Vyatipata, comes about once a month for about a day. Tradition keeps it for routine work and puts off important beginnings."
   },
   "ui": {
     "today": "Today",
@@ -732,6 +735,9 @@
     "hours12": "12 h",
     "hours24": "24 h",
     "labelEclipse": "Eclipse",
+    "windowBhadra": "Pause",
+    "windowVyatipata": "Calamity",
+    "windowVaidhriti": "Division",
     "labelSankranti": "Sun changes sign",
     "labelFavoured": "Favoured for beginnings",
     "labelAnyTask": "Favoured for any task",
@@ -778,7 +784,6 @@
     "guideOfflineHead": "Offline, updates and removal",
     "guideOfflineText": "After the first visit VedaCal keeps its own copy on the phone, about 2 MB: it opens instantly, calculates without internet and sends nothing anywhere. When a new version is out, it downloads in the background and a bar offers to update. To remove the app, press and hold its icon and choose Uninstall. Your city and settings live only on this phone, so removing the app removes them too.",
     "guideGlossaryIntro": "Every name the app uses, in plain words. Open one to read what it means and, where it has them, all its values.",
-    "cancelOut": "Abhijit and {name} cancel each other out",
     "updateReady": "A new version is ready.",
     "updateNow": "Update"
   },

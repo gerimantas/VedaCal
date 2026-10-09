@@ -34,6 +34,7 @@ export type SignSpans = { moon: Span[]; sun: Span[] }
  * Day-level markers for the month and day screens (SPEC 4.11):
  * - eclipse on this civil day (peak), and whether any of it is above the horizon here; for a
  *   visible solar eclipse `type` is what this place sees (partial where the path is total);
+ *   `seen`: the time to avoid here — the eclipse (lunar: umbral contacts) while the body is up;
  * - Sankranti: the Sun enters the next Vedic (sidereal) sign at `at`;
  * - Pushya: Pushya nakshatra overlaps a Thursday (Guru Pushya) or Sunday (Ravi Pushya)
  *   Panchang day, sunrise to sunrise — traditionally favoured for beginnings;
@@ -41,7 +42,7 @@ export type SignSpans = { moon: Span[]; sun: Span[] }
  *   Siddhi (about ten days a month) Yoga, sunrise to sunrise; times are the overlap.
  */
 export type DayMark =
-  | { kind: 'eclipse'; body: 'sun' | 'moon'; type: 'penumbral' | 'partial' | 'annular' | 'total'; peak: Date; visible: boolean }
+  | { kind: 'eclipse'; body: 'sun' | 'moon'; type: 'penumbral' | 'partial' | 'annular' | 'total'; peak: Date; visible: boolean; seen: Interval | null }
   | { kind: 'sankranti'; sign: number; at: Date }
   | { kind: 'pushya'; weekday: 0 | 4; start: Date; end: Date }
   | { kind: 'siddhi'; yoga: 'amrit' | 'sarvartha'; start: Date; end: Date }
