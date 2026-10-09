@@ -1,18 +1,24 @@
 # VedaCal — CONTEXT
 
 ## Status
-P0–P6 done and live (https://gerimantas.github.io/VedaCal/, commit 6136f80, CI green).
-S7: the day screen now shows all five windows (Brahma, Abhijit, Rahu Kaal, Yamaganda,
-Gulika) and a folded Choghadiya list; where the good time meets an avoid window the two
-cancel out (user's rule, SPEC 5.1). About has two parts: "Using the app" and a Glossary with
-every value. New look on every screen: sticky top bar, bars on the page sky with an amber
-line, no cards (thin lines between sections), one text size per row, drifting background
-lights. 1159 tests pass. Next: P7 pilot.
-S6 (no code change): Chrome 154's menu install says "already installed" for any app on
-`gerimantas.github.io` once one is installed — use Settings → Install app (Key Facts).
-Workflow: the user reviews on localhost; commit locally, push only on the user's command.
+P0–P6 done and live (https://gerimantas.github.io/VedaCal/, commit 950f429, CI green).
+S8: month marks favoured days (Pushya, Amrit Siddhi) green; key dates double as the legend.
+The day time list holds every window whole — nothing is cut, as on Drik (S7's Abhijit
+cancel-out rule is gone) — plus Bhadra, Vyatipata, Vaidhriti, the eclipse as seen here and
+the favoured window, each with a shared day track showing overlaps. Every day sheet opens on
+that day (times, why, what tradition does; SPEC 5.1 "Day sheets lead with the day").
+Choghadiya sheets are brief (general text folds out); other sheets still add the general
+text below. All new windows match Drik within 2 min in 3 cities. 1197 tests pass.
+S7: About = "Using the app" + Glossary; no-card look, background lights.
+Workflow: the user reviews on localhost; show proposals before changing code; commit
+locally, push only on the user's command.
 
 ## Next Tasks
+- Make the other day sheets brief like Choghadiya (user chose this for all, 2026-10-10):
+  drop the general text below the lead, fold it out instead. Show each group's texts to the
+  user before changing code. Rule: SPEC 5.1 "Day sheets lead with the day"; code `src/ui/Sheet.svelte`.
+- New moon shows 18:49 (tithi end, moon card) and 18:50 (key dates, tradition card): two
+  methods ~40 s apart (SPEC 11). Use one instant for both. Code: `src/core/panchang.ts`.
 - P7 pilot: the user shares the link with 5–10 people and collects what confuses them;
   then the user picks the next backlog items (SPEC 10). Fix what the pilot reports first.
   plan: `.planning/PLAN.md` P7.
@@ -25,13 +31,15 @@ Workflow: the user reviews on localhost; commit locally, push only on the user's
 
 ## Done Log
 
+### 2026-10-10 (S8)
+- Amrit Siddhi favoured day; Sarvartha Siddhi on the day screen; key dates double as legend
+- Day time list: Bhadra, Vyatipata, Vaidhriti, eclipse, favoured window; day tracks; nothing cut
+- Every day sheet leads with that day; Choghadiya sheets brief; live at 950f429
+
 ### 2026-10-07 (S7)
-- Day screen: Yamaganda, Gulika, folded Choghadiya; good/avoid overlap cancels out
+- Day screen: Yamaganda, Gulika, folded Choghadiya (its cancel-out rule overturned in S8)
 - About: "Using the app" + Glossary with every value
 - Look: sticky bars on the page sky, no cards, one text size, background lights; live at 6136f80
-
-### 2026-10-06 (S6)
-- Tablet install fixed (no code); Chrome 154 same-origin install bug documented
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
@@ -82,6 +90,14 @@ Workflow: the user reviews on localhost; commit locally, push only on the user's
   is wrong; real value is Krishna Navami, waning. Only computed or Drik-fetched values count.
 
 ## Archive
+
+### Session 2026-10-10 (S8) — favoured/avoid days, day tracks, every day sheet about that day
+
+- **Done:** Amrit Siddhi = green favoured day (month grid, key dates); Sarvartha Siddhi day screen only. Key dates replace the legend (grid swatch + note on first row); rest days stronger violet; today glows. Day time list adds Bhadra, Vyatipata, Vaidhriti, eclipse window and the favoured window; one shared day track per row, red stripes where avoid overlaps good. Every day sheet leads with that day (times, why, tradition); Choghadiya sheets hold only the part tapped, general text folds out. Live at 950f429.
+- **Decided / overturned:** Moon-light curve built then reverted (user: no use). Days to avoid NOT on the month (Drik Oct 2026: 19/31 days). Abhijit cancel-out rule (S7) overturned: nothing cut, as Drik. Chal stays neutral. New-moon rest stays one day; text says why.
+- **Code:** `src/core/panchang.ts` (star days, eclipse `seen`, `limbUp`), `src/ui/day.ts` (rows, tracks, leads), `src/ui/month.ts`, `src/ui/marks.ts`, `src/ui/Sheet.svelte`, `src/content/*.json` (`leads`, `tradition`, rashi/masa meanings), `scripts/fetch-marks.ts` (Amrit, Sarvartha, Bhadra, Vyatipata, Vaidhriti), `tests/fixtures/marks/*`.
+- **Entry point:** `npm run dev`; `npm test` (1197); `node scripts/fetch-marks.ts <city> 2026`. Rules: SPEC 4.11, 5.1, 5.2.
+- **Not measured:** new moon 18:49 (tithi end) vs 18:50 (key dates) — two methods ~40 s apart. Library moonrise 4–10 min off Drik (not shown; Drik = centre, no refraction). Other day sheets still carry general text below the lead.
 
 ### Session 2026-10-07 (S7) — Yamaganda/Gulika/Choghadiya on the day screen; no-card redesign
 
