@@ -943,8 +943,8 @@ h3 {
 .cell.rest,
 .legend .sw.rest {
   border: 1px solid;
-  border-color: color-mix(in oklch, var(--color-rest) 60%, var(--color-card));
-  background: color-mix(in oklch, var(--color-rest) 24%, var(--color-card));
+  border-color: color-mix(in oklch, var(--color-rest) 75%, var(--color-card));
+  background: color-mix(in oklch, var(--color-rest) 34%, var(--color-card));
 }
 
 .cell.today {

@@ -28,7 +28,7 @@
   --color-calm: oklch(66% 0.19 255); /* pre-dawn Brahma Muhurta */
   --color-good: oklch(74% 0.22 148);
   --color-avoid: oklch(64% 0.24 27);
-  --color-rest: oklch(74% 0.1 290); /* rest days on the month grid */
+  --color-rest: oklch(62% 0.2 295); /* rest days on the month grid: clearly violet, so neither a dark nor a bright moon changes how the tile reads (user, 2026-10-09) */
   --color-arc-a: oklch(80% 0.1 215); /* morning */
   --color-arc-b: oklch(82% 0.15 80); /* evening */
   --glow: oklch(76.7% 0.139 91 / 0.28);
@@ -55,7 +55,7 @@
   --color-calm: oklch(52% 0.22 258); /* pre-dawn Brahma Muhurta */
   --color-good: oklch(56% 0.19 148);
   --color-avoid: oklch(55% 0.23 27);
-  --color-rest: oklch(50% 0.13 290); /* rest days on the month grid */
+  --color-rest: oklch(55% 0.2 295); /* rest days on the month grid */
   --color-arc-a: oklch(62% 0.11 225);
   --color-arc-b: oklch(66% 0.14 70);
   --glow: oklch(74% 0.13 88 / 0.22);
@@ -83,7 +83,7 @@
     --color-calm: oklch(52% 0.22 258); /* pre-dawn Brahma Muhurta */
     --color-good: oklch(56% 0.19 148);
     --color-avoid: oklch(55% 0.23 27);
-    --color-rest: oklch(50% 0.13 290); /* rest days on the month grid */
+    --color-rest: oklch(55% 0.2 295); /* rest days on the month grid */
     --color-arc-a: oklch(62% 0.11 225);
     --color-arc-b: oklch(66% 0.14 70);
     --glow: oklch(74% 0.13 88 / 0.22);
