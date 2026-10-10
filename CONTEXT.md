@@ -15,7 +15,7 @@ locally, push only on the user's command.
 
 ## Next Tasks
 - Periods plan Q3.1: design survey (how others show a day of periods and a month) → user
-  picks 2–3 directions. Also: fetch Drik day + extra pages for 2026-08-12 (example 4).
+  picks 2–3 directions. Also: work example 4 (2026-08-12) — its Drik pages are fetched.
   plan: `.planning/PLAN-periods.md` Q3; model SPEC 13. Push e7cbe9b only on the user's word.
 - New moon shows 18:49 (tithi end, moon card) and 18:50 (key dates, tradition card): two
   methods ~40 s apart (SPEC 11). Use one instant for both. Code: `src/core/panchang.ts`.
