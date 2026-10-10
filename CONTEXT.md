@@ -9,14 +9,18 @@ AND bad at every level (day part, day, month — SPEC 4.11's hidden avoid days a
 every verdict per 10 activity groups; base systems Muhurta Chintamani + Drik, regional
 items later; decide from sources, not from what the app shows now. App code unchanged.
 Drik extra-page fixtures complete: `tests/fixtures/drik-extra/` (49 days, 3 cities).
+S11: Q3.1 survey at `mockups/research/` (screenshots + directions D1–D4, M1–M2) and D5
+`mockups/research/d5-graph.html` — a graded 24 h chart (hours × verdict levels, one chart
+per system, tap = why), computed by SPEC 13.4, matching example 1. User: thick colour
+bands are not informative; graph variants come next. No direction picked yet.
 S9 (local, not pushed: e7cbe9b): every day sheet brief, general text folds out.
 Workflow: the user reviews on localhost; show proposals before changing code; commit
 locally, push only on the user's command.
 
 ## Next Tasks
-- Periods plan Q3.1: design survey (how others show a day of periods and a month) → user
-  picks 2–3 directions. Also: work example 4 (2026-08-12) — its Drik pages are fetched.
-  plan: `.planning/PLAN-periods.md` Q3; model SPEC 13. Push e7cbe9b only on the user's word.
+- Periods plan Q3.1 gate: draw graph variants of the graded 24 h day chart, starting from
+  D5 (`mockups/research/d5-graph.html`); the user then picks 2–3 directions. Also work
+  example 4 (2026-08-12, pages fetched). plan: `.planning/PLAN-periods.md` Q3; SPEC 13.
 - New moon shows 18:49 (tithi end, moon card) and 18:50 (key dates, tradition card): two
   methods ~40 s apart (SPEC 11). Use one instant for both. Code: `src/core/panchang.ts`.
 - P7 pilot: the user shares the link with 5–10 people and collects what confuses them;
@@ -30,6 +34,10 @@ locally, push only on the user's command.
   with us on tithi to 8 s). Inside the gate, so only if the user asks. rules: SPEC 4.11.
 
 ## Done Log
+
+### 2026-10-10 (S11)
+- Drik extra fixtures complete (Delhi dates, Vilnius Do Ghati, 2026-08-12)
+- Q3.1 survey page `mockups/research/` + D5 graded day graph
 
 ### 2026-10-10 (S10)
 - PLAN-periods audited (16 fixes); Q0 catalogue + `fetch-drik-extra.ts`; Q1 registry; Q2 model (SPEC 13) + examples
@@ -100,6 +108,18 @@ locally, push only on the user's command.
   is wrong; real value is Krishna Navami, waning. Only computed or Drik-fetched values count.
 
 ## Archive
+
+Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation, newest first). This section keeps the most recent 10 sessions.
+
+### Session 2026-10-10 (S11) — Q3.1 design survey; D5 graded day graph
+
+- **Done:** Drik extra fixtures completed: New Delhi's 10 missing dates; all 16 Vilnius dates refetched to add Do Ghati (only `fetchedAt` changed otherwise); Vilnius 2026-08-12 day + extra pages for example 4.
+- **Done:** Q3.1 survey page: 18 phone-width screenshots (Drik, Prokerala, Shubh, DekhoPanchang, timeanddate, yr, meteoblue, GitHub, Gantt, hypnogram, VedaCal) with works/fails lines; directions D1–D4 (day), M1–M2 (month).
+- **Done:** D5 (user's idea): graded 24 h chart — hour axis, verdict levels; verdict line + one chart per system; tap shows what is active and what decides. Computes SPEC 13.4 from Drik times; group 0 matches example 1 segment for segment; group 7 (rites) toggle.
+- **Decided / overturned:** User: a thick coloured band is not informative — wants a graded 24 h chart (hours + levels). Verdicts are never summed (a sum would let pluses cancel a veto). Graph variants are next session's work; no directions picked yet.
+- **Code:** `mockups/research/{index.html,d5-graph.html,shots/*.webp}`; `tests/fixtures/drik-extra/*`, `tests/fixtures/drik/vilnius-2026-08-12.json`.
+- **Entry point:** `npm run dev` → http://localhost:5173/VedaCal/mockups/research/ (D5: `d5-graph.html`, `?theme=dark`).
+- **Not measured:** D5 on a real phone; Prokerala's "overlapped by vaar vela" rule not checked against the registry; example 4 still not worked.
 
 ### Session 2026-10-10 (S10) — plan audit; Q0 catalogue, Q1 source registry, Q2 model
 
@@ -236,22 +256,3 @@ locally, push only on the user's command.
 - **Entry point:** `npm run dev` → `/VedaCal/mockups/day.html` (`?at=HH:MM`, `?date=`).
 - **Not measured:** user has not approved v21; moonrise/moonset not in mockups (decide
   before P4); forced-dark fix verified only in headless Chromium, not the user's browser.
-
-### Session 2026-10-04 (S1) — project start through P0, P1, P2 and P3 mockups v4
-
-- **Done:** NotebookLM analysis → SPEC + gated PLAN (private `.planning/` repo); P0 PWA
-  skeleton live on Pages with CI; P1 calculation core validated (383 tests, 61 reference
-  days, 147 Ekadashi dates); P2 113 plain-English entries approved; P3 mockups v1→v4.
-- **Decided / overturned:** audience = Western wellness; PWA; English UI; public code repo,
-  private plans; Drik upper-limb sunrise; engine = panchangam-js for rise/set/ayanamsa/
-  window formulas + own element search (library too slow, drops fixed karanas); Smarta
-  Ekadashi rule (SPEC 4.7); new-moon rest = that day only; design direction A
-  "dashboard" (user's reference image) — v1–v3 calm/editorial overturned.
-- **Code:** `src/core/{panchang,time,types}.ts`, `src/ui/{format,moon}.ts`,
-  `src/styles/tokens.css`, `src/content/en.json`, `mockups/*`, `scripts/{fetch-drik,
-  fetch-mypanchang,fetch-ekadashi,cities}.ts`, `scripts/{scan-deps,check-bundle}.mjs`,
-  `tests/*` + `tests/fixtures/`, `.github/workflows/ci.yml`.
-- **Entry point:** `npm run dev` → http://localhost:5173/VedaCal/mockups/ ; `npm test` ;
-  `npm run accuracy`.
-- **Not measured:** month speed on a real phone (throttled browser looked weaker than 4×);
-  user has not approved the v4 design and has not yet said what to change.
