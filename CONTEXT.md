@@ -1,26 +1,32 @@
 # VedaCal — CONTEXT
 
 ## Status
-P0–P6 done and live (https://gerimantas.github.io/VedaCal/, commit 950f429, CI green).
-S10: periods plan (`.planning/PLAN-periods.md`) audited and through Q0–Q2. Q1 registry
-`.planning/research/rules.md` (sources, verdicts, index of every value); Q2 model = SPEC 13
-(planned, not built) with worked examples `research/examples.md`. User decisions: show good
-AND bad at every level (day part, day, month — SPEC 4.11's hidden avoid days are reopened);
-every verdict per 10 activity groups; base systems Muhurta Chintamani + Drik, regional
-items later; decide from sources, not from what the app shows now. App code unchanged.
-Drik extra-page fixtures complete: `tests/fixtures/drik-extra/` (49 days, 3 cities).
-S11: Q3.1 survey at `mockups/research/` (screenshots + directions D1–D4, M1–M2) and D5
-`mockups/research/d5-graph.html` — a graded 24 h chart (hours × verdict levels, one chart
-per system, tap = why), computed by SPEC 13.4, matching example 1. User: thick colour
-bands are not informative; graph variants come next. No direction picked yet.
-S9 (local, not pushed: e7cbe9b): every day sheet brief, general text folds out.
+Live: P0–P6 (https://gerimantas.github.io/VedaCal/, 950f429). Local, not pushed: S9's brief
+sheets and all of S12.
+Periods work (`.planning/PLAN-periods.md`): Q0–Q2 done (registry `research/rules.md`, model
+SPEC 13, worked examples `research/examples.md`). S12: day view direction approved = the
+24 h clock (mockup `mockups/research/d7-clock.html`; every user decision in PLAN-periods Q3
+"Decisions so far"). Engine step 1 built: `src/core/periods.ts` (values derivable from
+computeDay + SPEC 13.4 verdict; still-missing values listed in its `MISSING`). Step 2 built:
+the clock on the Day screen (`src/ui/DayClock.svelte`), under the moon hero; the old sun dial
+and time list stay below it until the user approves the clock. Choghadiya is shown only,
+never decides (R21). Known: with values missing, some times look better than they are (e.g.
+2026-10-06 shows Sarvartha good; the eclipse-star veto E1 is not computed yet) — the clock
+says so. Open SPEC questions: day start BM (13.1) vs sunrise (13.5); D3 paksha-randhra
+remainder neutral or fallback.
 Workflow: the user reviews on localhost; show proposals before changing code; commit
 locally, push only on the user's command.
 
 ## Next Tasks
-- Periods plan Q3.1 gate: draw graph variants of the graded 24 h day chart, starting from
-  D5 (`mockups/research/d5-graph.html`); the user then picks 2–3 directions. Also work
-  example 4 (2026-08-12, pages fetched). plan: `.planning/PLAN-periods.md` Q3; SPEC 13.
+- Engine step 3 (PLAN-periods Q4): compute the `MISSING` values in `src/core/periods.ts` one
+  at a time, test-first vs Drik fixtures (3 cities), each then shown by the clock. Order:
+  E1 eclipse star + 3-day windows (rules.md E1; example 2 and example 4 = 2026-08-12, pages
+  fetched), Dur Muhurtam (R10), Varjyam (R7), Amrit Kalam (R23), lagna junctions (D5, needs
+  ascendant — Q4.g), Baana (R19), month rules (M1–M6). Read first: PLAN-periods Q3 decisions
+  + Q4, SPEC 13, `tests/periods.test.ts`. Ask the user how the app clock looks before starting.
+- User review of the app clock (Day screen); on approval remove the old sun dial, time list
+  and folded Choghadiya (PLAN-periods Q7 gate). Button style: one decision for all pages.
+- Open SPEC questions for the user: day start BM vs sunrise (13.1 vs 13.5); D3 remainder.
 - New moon shows 18:49 (tithi end, moon card) and 18:50 (key dates, tradition card): two
   methods ~40 s apart (SPEC 11). Use one instant for both. Code: `src/core/panchang.ts`.
 - P7 pilot: the user shares the link with 5–10 people and collects what confuses them;
@@ -35,26 +41,16 @@ locally, push only on the user's command.
 
 ## Done Log
 
+### 2026-10-10 (S12)
+- D6 graph variants, D7 24 h clock mockup (approved direction); Choghadiya → shown only
+- `src/core/periods.ts` (engine step 1) + tests; day clock on the Day screen; activity and palette settings
+
 ### 2026-10-10 (S11)
 - Drik extra fixtures complete (Delhi dates, Vilnius Do Ghati, 2026-08-12)
 - Q3.1 survey page `mockups/research/` + D5 graded day graph
 
 ### 2026-10-10 (S10)
 - PLAN-periods audited (16 fixes); Q0 catalogue + `fetch-drik-extra.ts`; Q1 registry; Q2 model (SPEC 13) + examples
-
-### 2026-10-10 (S9)
-- Every day sheet brief, general text folds out (e7cbe9b, local)
-- Plan for periods, combinations, month and personal values: `.planning/PLAN-periods.md`
-
-### 2026-10-10 (S8)
-- Amrit Siddhi favoured day; Sarvartha Siddhi on the day screen; key dates double as legend
-- Day time list: Bhadra, Vyatipata, Vaidhriti, eclipse, favoured window; day tracks; nothing cut
-- Every day sheet leads with that day; Choghadiya sheets brief; live at 950f429
-
-### 2026-10-07 (S7)
-- Day screen: Yamaganda, Gulika, folded Choghadiya (its cancel-out rule overturned in S8)
-- About: "Using the app" + Glossary with every value
-- Look: sticky bars on the page sky, no cards, one text size, background lights; live at 6136f80
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
@@ -66,6 +62,11 @@ locally, push only on the user's command.
   (re-parse without re-fetching), 12 s between requests (`DRIK_DELAY_MS`), stop at the first
   reCAPTCHA. Drik blocked even at 12 s spacing after ~180 pages (S10); the block lifted
   within an hour. WebFetch gets the reCAPTCHA too — read Drik text from `.cache/drik/`.
+- Periods engine: `src/core/periods.ts` (pure; `dayPeriods`, `daySegments`, `verdictOf`,
+  `MISSING`); clock view model `src/ui/verdict.ts`. To print a day's segments, a throwaway
+  vitest file calling `daySegments` works (Node cannot run `src/` TS directly: extensionless
+  imports). Every verdict must match `.planning/research/examples.md`; fix the example when
+  the engine proves it wrong, and say so in the example.
 - Source texts for the periods registry are archive.org scans; the clean Muhurta
   Chintamani is Pyarelal Mishra's Hindi edition (link in `.planning/research/rules.md`).
 - Two languages: `src/content/en.json` and `lt.json` (same keys, `tests/content.test.ts`).
@@ -110,6 +111,16 @@ locally, push only on the user's command.
 ## Archive
 
 Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation, newest first). This section keeps the most recent 10 sessions.
+
+### Session 2026-10-10 (S12) — day clock designed (D6, D7), engine step 1, clock in the app
+
+- **Done:** D6 (5 graph variants) → user picked the ring → D7 24 h clock mockup, iterated (12 on top, sun marks, hand B, icons, inner rings hidden, two days). Audit: SPEC 13.4 made every day 43–65 % "avoid", mostly Choghadiya → Choghadiya now shown only (R21).
+- **Done:** Engine step 1: `src/core/periods.ts` — easy values, day base per group, 13.4 verdict, `MISSING` list; 25 tests from the examples. Examples 1–3 corrected (3 hand errors the tests found), example 5 (2026-05-10) added.
+- **Done:** Step 2: day clock on the Day screen (`DayClock.svelte`), activity setting (10 groups, General default), palette setting (current / rainbow), EN+LT labels.
+- **Decided / overturned:** Choghadiya never decides; group 0 = "General"; group 6 named "Care and remedies" (content test bans "health"); palette in Settings; button style decided later for all pages. All in PLAN-periods Q3 "Decisions so far".
+- **Code:** `src/core/periods.ts`, `src/ui/{DayClock.svelte,verdict.ts,Day.svelte,LocationPicker.svelte,state.svelte.ts}`, `src/styles/tokens.css`, `src/content/{en,lt}.json`, `tests/periods.test.ts`, `mockups/research/{d6-variants,d7-clock}.html`; planning: SPEC 13.2, rules R21/C4/C5, examples.md.
+- **Entry point:** `npm run dev` → http://localhost:5173/VedaCal/ (Day screen); mockup `/VedaCal/mockups/research/d7-clock.html`; `npx vitest run tests/periods.test.ts`.
+- **Not measured:** the clock on a real phone; user has not reviewed the app clock yet.
 
 ### Session 2026-10-10 (S11) — Q3.1 design survey; D5 graded day graph
 
@@ -239,20 +250,3 @@ Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation,
 - **Entry point:** `npm run dev` → `/VedaCal/`; `npm test` (918); live https://gerimantas.github.io/VedaCal/
 - **Not measured:** Drik pages for eclipses, Sankranti, Pushya, adhika day pages, NY/Delhi
   2027 Parana (reCAPTCHA) — Next Tasks; month speed on a real phone (4× throttle: 169–232 ms).
-
-### Session 2026-10-04 (S2) — P3 mockups v4 → v21 from the user's fixes
-
-- **Done:** real NASA moon photo (public domain) replaces the fake SVG moon; night side drawn
-  as the dimmed photo so browser auto-dark cannot invert it; 24-hour sun dial with live sun,
-  calm/good/avoid rows as its key; six Sanskrit tiles → plain-English fact rows ("More
-  details" folds yoga/karana); tap-to-explain sheets; About tab; month grid uses photo moons,
-  no tithi number; duplicates removed (legend, window cards, footer, season card).
-- **Decided / overturned:** rule — plain English first, Sanskrit name same size in gold,
-  never alone, one fact one place (SPEC 5.1); user page (birth data, horoscope, biorhythms)
-  deferred to backlog (SPEC 10); six-tile grid and half sun arc overturned.
-- **Code:** `src/ui/moon.ts`, `src/ui/format.ts` (moonSvg removed), `src/styles/tokens.css`
-  (`--color-calm`), `src/content/en.json` (new ui keys), `mockups/{day,month,common,about,
-  version}.ts`, `mockups/{about,index}.html`, `mockups/screens.css`, `public/moon-full.webp`.
-- **Entry point:** `npm run dev` → `/VedaCal/mockups/day.html` (`?at=HH:MM`, `?date=`).
-- **Not measured:** user has not approved v21; moonrise/moonset not in mockups (decide
-  before P4); forced-dark fix verified only in headless Chromium, not the user's browser.

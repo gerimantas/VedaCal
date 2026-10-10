@@ -2,6 +2,22 @@
 
 Older session entries moved out of `CONTEXT.md`.
 
+## Session 2026-10-04 (S2) — P3 mockups v4 → v21 from the user's fixes
+
+- **Done:** real NASA moon photo (public domain) replaces the fake SVG moon; night side drawn
+  as the dimmed photo so browser auto-dark cannot invert it; 24-hour sun dial with live sun,
+  calm/good/avoid rows as its key; six Sanskrit tiles → plain-English fact rows ("More
+  details" folds yoga/karana); tap-to-explain sheets; About tab; month grid uses photo moons,
+  no tithi number; duplicates removed (legend, window cards, footer, season card).
+- **Decided / overturned:** rule — plain English first, Sanskrit name same size in gold,
+  never alone, one fact one place (SPEC 5.1); user page (birth data, horoscope, biorhythms)
+  deferred to backlog (SPEC 10); six-tile grid and half sun arc overturned.
+- **Code:** `src/ui/moon.ts`, `src/ui/format.ts` (moonSvg removed), `src/styles/tokens.css`
+  (`--color-calm`), `src/content/en.json` (new ui keys), `mockups/{day,month,common,about,
+  version}.ts`, `mockups/{about,index}.html`, `mockups/screens.css`, `public/moon-full.webp`.
+- **Entry point:** `npm run dev` → `/VedaCal/mockups/day.html` (`?at=HH:MM`, `?date=`).
+- **Not measured:** user has not approved v21; moonrise/moonset not in mockups (decide
+  before P4); forced-dark fix verified only in headless Chromium, not the user's browser.
 ## Session 2026-10-04 (S1) — project start through P0, P1, P2 and P3 mockups v4
 
 - **Done:** NotebookLM analysis → SPEC + gated PLAN (private `.planning/` repo); P0 PWA
