@@ -92,6 +92,31 @@
         background: var(--color-card);
         color: var(--color-ink);
       }
+      .center-btn {
+        text-align: center;
+        margin-top: var(--space-xs);
+      }
+      .center-btn button {
+        font: inherit;
+        font-size: var(--text-sm);
+        padding: var(--space-3xs) var(--space-sm);
+        border-radius: var(--radius-pill);
+        border: var(--rule-hair) solid var(--color-rule);
+        background: transparent;
+        color: var(--color-ink);
+        cursor: pointer;
+      }
+      .ringkey {
+        font-size: var(--text-sm);
+        margin: var(--space-xs) 0 0;
+        padding-left: 1.1rem;
+      }
+      .ringkey li {
+        margin-bottom: var(--space-3xs);
+      }
+      .ringkey i {
+        color: var(--color-muted);
+      }
       .settings {
         margin-top: var(--space-md);
         padding-top: var(--space-sm);
@@ -237,7 +262,17 @@
       <p class="key">
         <span id="sunkey"></span>
       </p>
-      <p class="key">Rings, outside in: hours · day and night · verdict · day base · Choghadiya · fixed windows</p>
+      <div class="center-btn">
+        <button id="inputs" aria-pressed="false">Show what the colour is made of</button>
+      </div>
+      <ul class="ringkey" id="ringkey" hidden>
+        <li><b>Thin ring 1 — fixed windows.</b> Red: Rahu Kaal, Yamaganda, Dur Muhurtam, Varjyam, junctions, noon and
+          midnight. Green: Abhijit, Amrit Kalam, Brahma Muhurta. <i>Decides.</i></li>
+        <li><b>Thin ring 2 — day base.</b> Weekday, tithi, nakshatra, yoga: grey neutral, orange poor, red avoid.
+          <i>Decides.</i></li>
+        <li><b>Thin ring 3, faded — Choghadiya.</b> Popular practice without a classical source. <i>Shown only, does
+          not decide.</i></li>
+      </ul>
       <div class="readout" id="readout" aria-live="polite"></div>
       <section class="settings">
         <h2>Settings</h2>
@@ -444,6 +479,7 @@
 
       let group = 0 // default activity: General (group 0, the base rules only)
       let handMode = 'dodge'
+      let showInputs = false // the three thin rings: hidden by default, one tap shows them with their key
       let cursor = NOW
       const updaters = []
 
@@ -550,8 +586,8 @@
         g2.stroke()
         el('image', { href: cv.toDataURL(), x: 0, y: 0, width: S, height: S }, svg)
 
-        // Input rings: base, Choghadiya, fixed windows (bad + good).
-        const lanes = [['base'], ['ch'], ['bad', 'good']]
+        // Input rings (only when shown): the two that decide next to the verdict ring, Choghadiya innermost.
+        const lanes = showInputs ? [['bad', 'good'], ['base'], ['ch']] : []
         lanes.forEach((ids, i) => {
           arc(T0, T1 - 0.01, rIn[i], inW, css('--color-rule'), { opacity: 0.6 })
           V.filter((v) => ids.includes(v.lane) && v.groups.includes(group) && v.s < T1).forEach((v) =>
@@ -571,7 +607,7 @@
         //   dodge   — a full hand from the centre; the text moves to the side away from it
         //   outside — a full hand from the centre; the text sits above the dial
         const tip = outer - 2
-        const r0 = rIn[2] - inW / 2 - 4
+        const r0 = showInputs ? rIn[2] - inW / 2 - 4 : rVer - verW / 2 - 5
         const hand = el('g', {}, svg)
         if (handMode === 'ring') {
           el('path', { d: `M${c - 2.8},${c - r0} L${c - 1},${c - tip} L${c + 1},${c - tip} L${c + 2.8},${c - r0} Z`, fill: css('--color-ink'), opacity: 0.9 }, hand)
@@ -613,9 +649,9 @@
           const GAP = 12
           const rFree = r0 - 3
           const place = (k) => {
-            tTime.setAttribute('font-size', 30 * k)
-            const fs = 17 * k
-            const base = c + 26 * k
+            tTime.setAttribute('font-size', (showInputs ? 30 : 34) * k)
+            const fs = (showInputs ? 17 : 19) * k
+            const base = c + (showInputs ? 26 : 29) * k
             tLine.setAttribute('font-size', fs)
             tLine.setAttribute('y', base)
             const iz = fs * 1.3
@@ -683,6 +719,13 @@
           `${iconHTML(r.verdict)}<b style="color:${colour(r.verdict)}">${hhmm(cursor)} · ${label(r.verdict)}</b> <span style="color:var(--color-muted)">(${GROUP_LABEL[group]})</span><ul>${lines}</ul>`
       }
 
+      document.getElementById('inputs').addEventListener('click', (e) => {
+        showInputs = !showInputs
+        e.target.setAttribute('aria-pressed', String(showInputs))
+        e.target.textContent = showInputs ? 'Hide the inner rings' : 'Show what the colour is made of'
+        document.getElementById('ringkey').hidden = !showInputs
+        draw()
+      })
       document.getElementById('day').addEventListener('change', (e) => {
         loadDay(e.target.value)
         cursor = Math.min(Math.max(cursor, X0), X1 - 1)
