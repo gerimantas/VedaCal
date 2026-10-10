@@ -132,6 +132,27 @@
       :root {
         --fb: #b8690b;
         --sun: #e2a72e;
+        --rb-red: #d62828;
+        --rb-orange: #e8730c;
+        --rb-yellow: #c49600;
+        --rb-green: #2b9348;
+        --rb-blue: #1d6fd6;
+      }
+      :root[data-theme='dark'] {
+        --rb-red: #ff5a4f;
+        --rb-orange: #ff9a2e;
+        --rb-yellow: #f2cf1d;
+        --rb-green: #4cc96b;
+        --rb-blue: #4ea8ff;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --rb-red: #ff5a4f;
+          --rb-orange: #ff9a2e;
+          --rb-yellow: #f2cf1d;
+          --rb-green: #4cc96b;
+          --rb-blue: #4ea8ff;
+        }
       }
       :root[data-theme='dark'] {
         --fb: #f0a43a;
@@ -162,14 +183,13 @@
         <button data-h="dodge" aria-pressed="false">B · Text steps aside</button>
         <button data-h="outside" aria-pressed="false">C · Text above</button>
       </div>
+      <div class="groups" role="group" aria-label="Colours">
+        <button data-p="classic" aria-pressed="true">Colours: current</button>
+        <button data-p="rainbow" aria-pressed="false">Rainbow</button>
+      </div>
       <p id="big" hidden></p>
       <div id="dial"></div>
-      <div class="key">
-        <span data-v="good">Good</span>
-        <span data-v="neutral">Neutral</span>
-        <span data-v="fb">Only if it cannot wait</span>
-        <span data-v="avoid">Avoid</span>
-      </div>
+      <div class="key" id="legend"></div>
       <p class="key">
         <span>&uarr; Sunrise 07:38</span><span>&#9728; Solar noon 13:05</span><span>&darr; Sunset 18:33</span>
       </p>
@@ -177,7 +197,7 @@
       <div class="readout" id="readout" aria-live="polite"></div>
       <p class="note">
         Times are Drik Panchang's. Verdicts follow SPEC 13.4 and reproduce worked example 1
-        (.planning/research/examples.md). Gulika is disputed: drawn faint, never decides. The dial shows 05:54 to 05:54 next
+        (.planning/research/examples.md). Gulika is disputed: drawn faint, never decides. Choghadiya is practice (R21): its ring is shown half-faded and never decides (user, 2026-10-10). The dial shows 05:54 to 05:54 next
         morning. Concept sketch for Q3, not the app; built on D6 variant C. "Now" is fixed at 13:15.
       </p>
     </main>
@@ -225,7 +245,7 @@
         ['Labha', '06:01', '07:40', true],
       ].forEach(([n, s, e, nx]) => {
         const sn = m(s, nx && s < '12:00' && n !== 'Amrita')
-        add('ch', n, sn, m(e, nx), CH[n])
+        add('ch', n, sn, m(e, nx), CH[n], ALL, { note: true }) // R21: shown, never decides
       })
 
       add('bad', 'Dur Muhurtam', m('07:38'), m('09:05'), 'veto')
@@ -252,7 +272,7 @@
       // ---- SPEC 13.4 verdict for one moment (same as D5) ----
       function at(t, g) {
         const act = V.filter((v) => v.groups.includes(g) && v.s <= t && t < v.e)
-        const deciding = act.filter((v) => !v.disputed)
+        const deciding = act.filter((v) => !v.disputed && !v.note)
         const vetoes = deciding.filter((v) => v.level === 'veto')
         const fbs = deciding.filter((v) => v.level === 'fb')
         const strong = deciding.filter((v) => v.level === 'strong')
@@ -262,7 +282,7 @@
         let verdict, by
         if (vetoes.length) [verdict, by] = ['avoid', vetoes]
         else if (fbs.length) [verdict, by] = ['fb', fbs]
-        else if (strong.length) [verdict, by] = ['good', strong]
+        else if (strong.length) [verdict, by] = ['best', strong] // "good" decided by a strong + (shown apart only in the rainbow palette)
         else if (b === 'plus' || (b === 'zero' && plus.length)) [verdict, by] = ['good', plus.length ? plus : [base]]
         else if (b === 'zero' || (b === 'poor' && plus.length)) [verdict, by] = ['neutral', [base, ...plus].filter(Boolean)]
         else [verdict, by] = ['fb', [base]]
@@ -286,17 +306,26 @@
       // ---- colour helpers ----
       const NS = 'http://www.w3.org/2000/svg'
       const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim()
-      const COLVAR = { good: '--color-good', strong: '--color-good', plus: '--color-good', neutral: '--color-neutral', zero: '--color-neutral', poor: '--fb', fb: '--fb', avoid: '--color-avoid', veto: '--color-avoid' }
+      let palette = 'classic'
+      const PAL = {
+        classic: { best: '--color-good', good: '--color-good', strong: '--color-good', plus: '--color-good', neutral: '--color-neutral', zero: '--color-neutral', poor: '--fb', fb: '--fb', avoid: '--color-avoid', veto: '--color-avoid' },
+        // rainbow order, best to worst: blue, green, yellow, orange, red
+        rainbow: { best: '--rb-blue', strong: '--rb-blue', good: '--rb-green', plus: '--rb-green', neutral: '--rb-yellow', zero: '--rb-yellow', poor: '--rb-orange', fb: '--rb-orange', avoid: '--rb-red', veto: '--rb-red' },
+      }
+      const COLVAR = new Proxy({}, { get: (_, k) => PAL[palette][k] })
+      const label = (v) => (v === 'best' ? (palette === 'rainbow' ? 'Best (strong +)' : 'Good') : VERDICT_LABEL[v])
+      const legendOrder = () => (palette === 'rainbow' ? ['best', 'good', 'neutral', 'fb', 'avoid'] : ['good', 'neutral', 'fb', 'avoid'])
       const colour = (lv) => css(COLVAR[lv])
       const ctx = Object.assign(document.createElement('canvas'), { width: 1, height: 1 }).getContext('2d', { willReadFrequently: true })
       const rgbCache = {}
       function rgb(lv) {
-        if (rgbCache[lv]) return rgbCache[lv]
+        const key = palette + lv
+        if (rgbCache[key]) return rgbCache[key]
         ctx.clearRect(0, 0, 1, 1)
         ctx.fillStyle = colour(lv)
         ctx.fillRect(0, 0, 1, 1)
         const d = ctx.getImageData(0, 0, 1, 1).data
-        return (rgbCache[lv] = [d[0], d[1], d[2]])
+        return (rgbCache[key] = [d[0], d[1], d[2]])
       }
       const mix = (a, b, k) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(',')})`
 
@@ -343,7 +372,9 @@
         const f = colour(v)
         const w = css('--color-card')
         const line = (d, sw = 2.6) => `<path d="${d}" fill="none" stroke="${w}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`
-        if (v === 'good') return `<circle cx="12" cy="12" r="11" fill="${f}"/>` + line('M6.6 12.4l3.6 3.6 7.2-7.8')
+        if (v === 'best' && palette === 'rainbow')
+          return `<path d="M12 1.2l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.3l-6.4 3.5 1.4-7.1-5.3-5 7.2-.9Z" fill="${f}" stroke="${f}" stroke-width="1.2" stroke-linejoin="round"/>`
+        if (v === 'good' || v === 'best') return `<circle cx="12" cy="12" r="11" fill="${f}"/>` + line('M6.6 12.4l3.6 3.6 7.2-7.8')
         if (v === 'neutral') return `<rect x="1.5" y="1.5" width="21" height="21" rx="5" fill="${f}"/>` + line('M7 12h10', 2.8)
         if (v === 'fb') return `<path d="M12 2.2L22.6 21H1.4Z" fill="${f}" stroke="${f}" stroke-width="1.6" stroke-linejoin="round"/>` + line('M12 9v5.4') + `<circle cx="12" cy="17.6" r="1.5" fill="${w}"/>`
         return `<path d="M16.4 1.4L22.6 7.6V16.4L16.4 22.6H7.6L1.4 16.4V7.6L7.6 1.4Z" fill="${f}"/>` + line('M8.3 8.3l7.4 7.4M15.7 8.3l-7.4 7.4')
@@ -442,7 +473,7 @@
         lanes.forEach((ids, i) => {
           arc(T0, T1 - 0.01, rIn[i], inW, css('--color-rule'), { opacity: 0.6 })
           V.filter((v) => ids.includes(v.lane) && v.groups.includes(group) && v.s < T1).forEach((v) =>
-            arc(Math.max(v.s, T0), Math.min(v.e, T1), rIn[i], inW, colour(v.level), { opacity: v.disputed ? 0.3 : 0.95 }),
+            arc(Math.max(v.s, T0), Math.min(v.e, T1), rIn[i], inW, colour(v.level), { opacity: v.disputed ? 0.3 : v.note ? 0.5 : 0.95 }),
           )
         })
 
@@ -552,7 +583,9 @@
       }
 
       function draw() {
-        document.querySelectorAll('.key [data-v]').forEach((e) => (e.innerHTML = iconHTML(e.dataset.v) + e.textContent.trim()))
+        document.getElementById('legend').innerHTML = legendOrder()
+          .map((v) => `<span>${iconHTML(v)}${label(v)}</span>`)
+          .join('')
         drawDial(segsFor(group))
         mark()
       }
@@ -560,12 +593,11 @@
       function mark() {
         updaters.forEach((f) => f())
         const r = at(cursor, group)
-        const cls = { good: 'lv-good', avoid: 'lv-avoid', fb: 'lv-fb', neutral: '' }[r.verdict]
         const lines = r.act
-          .map((v) => `<li>${v.name} — ${v.disputed ? 'disputed, does not decide' : LEVEL_LABEL[v.level]}${r.by.includes(v) ? ' <b>← decides</b>' : ''}</li>`)
+          .map((v) => `<li>${v.name} — ${v.disputed ? 'disputed, does not decide' : v.note ? `${LEVEL_LABEL[v.level]} · practice, shown, does not decide` : LEVEL_LABEL[v.level]}${r.by.includes(v) ? ' <b>← decides</b>' : ''}</li>`)
           .join('')
         document.getElementById('readout').innerHTML =
-          `${iconHTML(r.verdict)}<b class="${cls}">${hhmm(cursor)} · ${VERDICT_LABEL[r.verdict]}</b> <span style="color:var(--color-muted)">(${GROUP_LABEL[group]})</span><ul>${lines}</ul>`
+          `${iconHTML(r.verdict)}<b style="color:${colour(r.verdict)}">${hhmm(cursor)} · ${label(r.verdict)}</b> <span style="color:var(--color-muted)">(${GROUP_LABEL[group]})</span><ul>${lines}</ul>`
       }
 
       document.querySelectorAll('[data-g]').forEach((b) =>
@@ -582,6 +614,15 @@
           draw()
         }),
       )
+      document.querySelectorAll('[data-p]').forEach((b) =>
+        b.addEventListener('click', () => {
+          palette = b.dataset.p
+          document.querySelectorAll('[data-p]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)))
+          draw()
+        }),
+      )
+      const pq = new URLSearchParams(location.search).get('palette')
+      if (pq) document.querySelector(`[data-p="${pq}"]`)?.click()
       const tq = new URLSearchParams(location.search).get('t')
       if (tq) cursor = m(tq, tq < '05:54')
       const hm = new URLSearchParams(location.search).get('hand')
