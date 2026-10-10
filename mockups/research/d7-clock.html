@@ -444,17 +444,15 @@
         // Centre text (drawn after the hand, so it is always on top).
         const halo = { stroke: css('--color-card'), 'stroke-width': 5, 'paint-order': 'stroke', 'stroke-linejoin': 'round' }
         const textG = el('g', { display: handMode === 'outside' ? 'none' : '' }, svg)
-        const tTime = el('text', { x: c, y: c - 14, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 500, fill: css('--color-ink'), 'font-variant-numeric': 'tabular-nums', ...halo }, textG)
-        const tVerdict = el('text', { x: c, y: c + 10, 'text-anchor': 'middle', 'font-size': 14, 'font-weight': 650, ...halo }, textG)
-        const tSpan = el('text', { x: c, y: c + 28, 'text-anchor': 'middle', 'font-size': 11, fill: css('--color-muted'), ...halo }, textG)
+        // Two lines: the time; then verdict and span as one line, one size, one colour.
+        const tTime = el('text', { x: c, y: c, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 500, fill: css('--color-ink'), 'font-variant-numeric': 'tabular-nums', ...halo }, textG)
+        const tLine = el('text', { x: c, y: c + 21, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 600, 'font-variant-numeric': 'tabular-nums', ...halo }, textG)
         const big = document.getElementById('big')
         big.hidden = handMode !== 'outside'
 
         updaters.push(() => {
           const a = ang(wrap(cursor))
           hand.setAttribute('transform', `rotate(${(a * 180) / Math.PI} ${c} ${c})`)
-          // dodge: move the text block to the side opposite the hand
-          textG.setAttribute('transform', handMode === 'dodge' ? `translate(${-Math.sin(a) * 46},${Math.cos(a) * 40})` : '')
           const r = at(cursor, group)
           const g = segs.find((s) => s.s <= cursor && cursor < s.e)
           const [x1, y1] = pt(Math.max(g.s, T0), rVer + verW / 2 + 1.5)
@@ -464,9 +462,15 @@
           outline.setAttribute('d', `M${x1},${y1} A${R},${R} 0 ${e - g.s > 720 ? 1 : 0} 1 ${x2},${y2}`)
           const word = VERDICT_LABEL[r.verdict].replace('Only if it cannot wait', 'If it cannot wait')
           tTime.textContent = hhmm(cursor)
-          tVerdict.textContent = word
-          tVerdict.setAttribute('fill', colour(r.verdict))
-          tSpan.textContent = `${hhmm(g.s)}–${hhmm(g.e)}`
+          tLine.textContent = `${word} ${hhmm(g.s)}–${hhmm(g.e)}`
+          tLine.setAttribute('fill', colour(r.verdict))
+          // Place the text block. dodge: below the centre while the hand points into the upper half,
+          // above it while the hand points down — a gap of GAP from the hub, so the hand never touches it.
+          const bb = textG.getBBox()
+          const GAP = 16
+          let ty = c - (bb.y + bb.height / 2)
+          if (handMode === 'dodge') ty = Math.cos(a) > 0 ? c + GAP - bb.y : c - GAP - (bb.y + bb.height)
+          textG.setAttribute('transform', `translate(${c - (bb.x + bb.width / 2)},${ty})`)
           big.innerHTML = `<span class="t">${hhmm(cursor)}</span> <b style="color:${colour(r.verdict)}">${word}</b> <span class="s">${hhmm(g.s)}–${hhmm(g.e)}</span>`
         })
 
