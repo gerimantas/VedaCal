@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>D6 graph variants</title>
+    <link rel="stylesheet" href="../../src/styles/tokens.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: var(--space-md);
+        background: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+        line-height: 1.4;
+      }
+      main {
+        max-width: 40rem;
+        margin: 0 auto;
+      }
+      h1 {
+        font-family: var(--font-display);
+        font-weight: 450;
+        font-size: var(--text-xl);
+        margin: 0 0 var(--space-3xs);
+      }
+      .sub {
+        color: var(--color-muted);
+        font-size: var(--text-sm);
+        margin: 0 0 var(--space-sm);
+      }
+      .groups {
+        display: flex;
+        gap: var(--space-2xs);
+        margin-bottom: var(--space-xs);
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: var(--color-paper);
+        padding: var(--space-2xs) 0;
+      }
+      .groups button {
+        font: inherit;
+        font-size: var(--text-sm);
+        padding: var(--space-3xs) var(--space-sm);
+        border-radius: var(--radius-pill);
+        border: var(--rule-hair) solid var(--color-rule);
+        background: transparent;
+        color: var(--color-ink);
+        cursor: pointer;
+      }
+      .groups button[aria-pressed='true'] {
+        background: var(--color-ink);
+        color: var(--color-paper);
+      }
+      section.v {
+        margin: var(--space-lg) 0;
+        padding-top: var(--space-sm);
+        border-top: var(--rule-hair) solid var(--color-rule);
+      }
+      h2 {
+        font-size: var(--text-base);
+        font-weight: 600;
+        margin: 0;
+      }
+      .from {
+        color: var(--color-muted);
+        font-size: var(--text-xs);
+        margin: var(--space-3xs) 0 var(--space-xs);
+      }
+      .from a {
+        color: inherit;
+      }
+      .pro {
+        font-size: var(--text-sm);
+        margin: var(--space-xs) 0 0;
+      }
+      svg {
+        display: block;
+        width: 100%;
+        touch-action: none;
+        user-select: none;
+      }
+      .readout {
+        position: sticky;
+        bottom: 0;
+        margin-top: var(--space-sm);
+        padding: var(--space-xs) var(--space-sm);
+        background: var(--color-card);
+        border: var(--rule-hair) solid var(--color-card-line);
+        border-radius: var(--radius-md);
+        font-size: var(--text-sm);
+        z-index: 2;
+      }
+      .readout b {
+        font-size: var(--text-base);
+      }
+      .readout ul {
+        margin: var(--space-3xs) 0 0;
+        padding-left: 1rem;
+      }
+      .note {
+        color: var(--color-muted);
+        font-size: var(--text-xs);
+        margin-top: var(--space-md);
+      }
+      .lv-good {
+        color: var(--color-good);
+      }
+      .lv-avoid {
+        color: var(--color-avoid);
+      }
+      :root {
+        --fb: #b8690b;
+        --sun: #e2a72e;
+      }
+      :root[data-theme='dark'] {
+        --fb: #f0a43a;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --fb: #f0a43a;
+        }
+      }
+      .lv-fb {
+        color: var(--fb);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>D6 · Graph variants</h1>
+      <p class="sub">
+        Five ways to draw the same day — Vilnius, Saturday 10 October 2026, same data and verdicts as D5. One cursor moves
+        through all of them: tap or drag on any chart.
+      </p>
+      <div class="groups" role="group" aria-label="Activity">
+        <button data-g="0" aria-pressed="false">New beginning</button>
+        <button data-g="7" aria-pressed="true">Spiritual rites</button>
+      </div>
+
+      <section class="v">
+        <h2>A · Colour strip with soft edges</h2>
+        <p class="from">
+          From weather hour strips: <a href="https://www.macstories.net/?p=72671">Mercury Weather</a>,
+          <a href="https://hunted.space/product/sparrow/launches/sparrow-3">Sparrow</a>,
+          <a href="https://oak.is/thinking/blue/">Blue</a>
+        </p>
+        <div id="vA"></div>
+        <p class="pro">
+          One slim line of colour; neighbouring parts melt into each other instead of hard steps. The good windows are named
+          under it with their times. Smallest of all — fits above the day list. Hides why; the readout tells it.
+        </p>
+      </section>
+
+      <section class="v">
+        <h2>B · Smooth curve, coloured by height</h2>
+        <p class="from">
+          From the <a href="https://www.nilcoalescing.com/blog/AreaChartWithADimmingLayer">iOS Weather UV chart</a>,
+          <a href="https://www.macstories.net/reviews/weather-line-review/">Weather Line</a> and the
+          <a href="https://risescience.com/blog/personal-energy-tracker">RISE energy curve</a>
+        </p>
+        <div id="vB"></div>
+        <p class="pro">
+          Hills are good times, valleys are times to avoid; the colour follows the height, from green at the top to red at
+          the bottom. The past is dimmed. The steps of D5 become slopes, so the eye reads a shape, not a staircase. The level
+          is still one of four — the curve only rounds the corners.
+        </p>
+      </section>
+
+      <section class="v">
+        <h2>C · 24-hour ring</h2>
+        <p class="from">
+          From sun clocks and wheels: <a href="https://apps.apple.com/app/id6759274049">Sloww</a>,
+          <a href="https://github.com/yatanco/solar">yatanco/solar</a>,
+          <a href="https://apps.apple.com/app/id1616219862">Vedic Yantra</a> (Choghadiya wheel),
+          <a href="https://apps.apple.com/app/id6775748860">Lunoris</a> (solunar dial)
+        </p>
+        <div id="vC"></div>
+        <p class="pro">
+          Noon at the top, midnight at the bottom; the thin gold arc outside is daylight. The wide ring is the verdict with
+          soft edges; the three thin rings inside are the inputs (day base, Choghadiya, fixed windows) with hard edges. The
+          hand points at the cursor, the centre says what it means. Close to the app's existing dial. 24 hours only — the last
+          1 h 46 min of D5 (next morning) is left out.
+        </p>
+      </section>
+
+      <section class="v">
+        <h2>D · The sun's path, coloured</h2>
+        <p class="from">
+          From sunrise widgets and <a href="https://github.com/devidw/sunus">sun-path dials</a>
+        </p>
+        <div id="vD"></div>
+        <p class="pro">
+          The line is the sun: it rises above the horizon at sunrise and sinks under it at sunset. Its colour is the verdict.
+          Day and night need no legend. The height is the sun, not the verdict — so only colour carries the answer.
+        </p>
+      </section>
+
+      <section class="v">
+        <h2>E · Heat rows — every activity and every input</h2>
+        <p class="from">
+          From heatmaps (<a href="https://observablehq.com/notebook-kit/ex/d3/horizon">horizon charts</a>, GitHub contributions)
+          and <a href="https://support.ouraring.com/hc/en-us/articles/4410641295763">Oura's day timeline</a>
+        </p>
+        <div id="vE"></div>
+        <p class="pro">
+          One thin row per activity group, then one row per input — all on the same hours. Compare activities at a glance:
+          where they differ is the day base. Only two groups are worked out so far; the other eight would be eight more rows.
+          The activity switch above does not change this chart.
+        </p>
+      </section>
+
+      <div class="readout" id="readout" aria-live="polite"></div>
+      <p class="note">
+        Times are Drik Panchang's. Verdicts follow SPEC 13.4 and reproduce worked example 1
+        (.planning/research/examples.md). Gulika is disputed: drawn faint, never decides. Concept sketches for Q3, not the
+        app. "Now" for dimming in B is fixed at 13:15.
+      </p>
+    </main>
+    <script>
+      // ---- data: Vilnius 2026-10-10, minutes from local midnight; next-day times + 1440 (same as D5) ----
+      const m = (s, next = false) => {
+        const [h, mm] = s.split(':').map(Number)
+        return h * 60 + mm + (next ? 1440 : 0)
+      }
+      const X0 = m('05:54')
+      const X1 = m('07:40', true)
+      const SUNRISE = m('07:38')
+      const SUNSET = m('18:33')
+      const NOON = m('13:05')
+      const NOW = m('13:15')
+
+      const LEVEL_LABEL = { strong: 'strong +', plus: '+', zero: '0', poor: 'poor', fb: 'if must', veto: 'avoid' }
+      const VERDICTS = ['good', 'neutral', 'fb', 'avoid']
+      const VERDICT_LABEL = { good: 'Good', neutral: 'Neutral', fb: 'Only if it cannot wait', avoid: 'Avoid' }
+      const GROUP_LABEL = { 0: 'New beginning', 7: 'Spiritual rites' }
+
+      const ALL = [0, 7]
+      const V = []
+      const add = (lane, name, s, e, level, groups = ALL, extra = {}) => V.push({ lane, name, s, e, level, groups, ...extra })
+
+      const CH = { Amrita: 'plus', Shubha: 'plus', Labha: 'plus', Chara: 'zero', Udvega: 'veto', Roga: 'veto', Kala: 'veto' }
+      ;[
+        ['Chara', '05:54', '06:00'],
+        ['Roga', '06:00', '07:38'],
+        ['Kala', '07:38', '09:00'],
+        ['Shubha', '09:00', '10:22'],
+        ['Roga', '10:22', '11:44'],
+        ['Udvega', '11:44', '13:05'],
+        ['Chara', '13:05', '14:27'],
+        ['Labha', '14:27', '15:49'],
+        ['Amrita', '15:49', '17:11'],
+        ['Kala', '17:11', '18:33'],
+        ['Labha', '18:33', '20:11'],
+        ['Udvega', '20:11', '21:50'],
+        ['Shubha', '21:50', '23:28'],
+        ['Amrita', '23:28', '01:06', true],
+        ['Chara', '01:06', '02:45', true],
+        ['Roga', '02:45', '04:23', true],
+        ['Kala', '04:23', '06:01', true],
+        ['Labha', '06:01', '07:40', true],
+      ].forEach(([n, s, e, nx]) => {
+        const sn = m(s, nx && s < '12:00' && n !== 'Amrita')
+        add('ch', n, sn, m(e, nx), CH[n])
+      })
+
+      add('bad', 'Dur Muhurtam', m('07:38'), m('09:05'), 'veto')
+      add('bad', 'Gulika (disputed)', m('07:38'), m('09:00'), 'veto', ALL, { disputed: true })
+      add('bad', 'Rahu Kaal', m('10:22'), m('11:44'), 'veto')
+      add('bad', 'Noon window', m('13:01'), m('13:09'), 'veto')
+      add('bad', 'Lagna junction', m('14:01'), m('14:13'), 'veto')
+      add('bad', 'Yamaganda', m('14:27'), m('15:49'), 'veto')
+      add('bad', 'Lagna junction', m('18:31'), m('18:43'), 'veto')
+      add('bad', 'Midnight window', m('01:02', true), m('01:10', true), 'veto')
+      add('bad', 'Lagna junction', m('02:22', true), m('02:34', true), 'veto')
+      add('bad', 'Varjyam', m('03:29', true), m('05:08', true), 'veto')
+
+      add('good', 'Brahma Muhurta', m('05:54'), m('06:46'), 'plus', [7])
+      add('good', 'Abhijit', m('12:44'), m('13:27'), 'strong')
+      add('good', 'Amrit Kalam', m('13:06'), m('14:44'), 'plus')
+
+      add('base', 'Amavasya', X0, m('18:49'), 'veto', [0])
+      add('base', "Friday's weekday (before sunrise)", X0, SUNRISE, 'zero', [7])
+      add('base', 'Saturday', SUNRISE, X1, 'poor', [7])
+      add('base', 'Saturday; Pratipada', m('18:49'), m('19:32'), 'poor', [0])
+      add('base', 'Vaidhriti after midday', m('19:32'), X1, 'fb')
+
+      // ---- SPEC 13.4 verdict for one moment (same as D5) ----
+      function at(t, g) {
+        const act = V.filter((v) => v.groups.includes(g) && v.s <= t && t < v.e)
+        const deciding = act.filter((v) => !v.disputed)
+        const vetoes = deciding.filter((v) => v.level === 'veto')
+        const fbs = deciding.filter((v) => v.level === 'fb')
+        const strong = deciding.filter((v) => v.level === 'strong')
+        const plus = deciding.filter((v) => v.level === 'plus' && v.lane !== 'base')
+        const base = deciding.find((v) => v.lane === 'base')
+        const b = base ? base.level : 'zero'
+        let verdict, by
+        if (vetoes.length) [verdict, by] = ['avoid', vetoes]
+        else if (fbs.length) [verdict, by] = ['fb', fbs]
+        else if (strong.length) [verdict, by] = ['good', strong]
+        else if (b === 'plus' || (b === 'zero' && plus.length)) [verdict, by] = ['good', plus.length ? plus : [base]]
+        else if (b === 'zero' || (b === 'poor' && plus.length)) [verdict, by] = ['neutral', [base, ...plus].filter(Boolean)]
+        else [verdict, by] = ['fb', [base]]
+        return { verdict, by, act }
+      }
+
+      const cuts = [...new Set([X0, X1, ...V.flatMap((v) => [v.s, v.e])])].filter((t) => t >= X0 && t <= X1).sort((a, b) => a - b)
+
+      // Verdict segments for one group, equal neighbours merged.
+      function segsFor(g) {
+        const segs = []
+        for (let i = 0; i < cuts.length - 1; i++) {
+          const v = at((cuts[i] + cuts[i + 1]) / 2, g).verdict
+          const last = segs[segs.length - 1]
+          if (last && last.lv === v) last.e = cuts[i + 1]
+          else segs.push({ s: cuts[i], e: cuts[i + 1], lv: v })
+        }
+        return segs
+      }
+
+      // ---- colour helpers ----
+      const NS = 'http://www.w3.org/2000/svg'
+      const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim()
+      const COLVAR = { good: '--color-good', strong: '--color-good', plus: '--color-good', neutral: '--color-neutral', zero: '--color-neutral', poor: '--fb', fb: '--fb', avoid: '--color-avoid', veto: '--color-avoid' }
+      const colour = (lv) => css(COLVAR[lv])
+      const ctx = Object.assign(document.createElement('canvas'), { width: 1, height: 1 }).getContext('2d', { willReadFrequently: true })
+      const rgbCache = {}
+      function rgb(lv) {
+        if (rgbCache[lv]) return rgbCache[lv]
+        ctx.clearRect(0, 0, 1, 1)
+        ctx.fillStyle = colour(lv)
+        ctx.fillRect(0, 0, 1, 1)
+        const d = ctx.getImageData(0, 0, 1, 1).data
+        return (rgbCache[lv] = [d[0], d[1], d[2]])
+      }
+      const mix = (a, b, k) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(',')})`
+
+      // Colour at moment t with soft edges: within FADE minutes of a boundary, blend toward the neighbour.
+      const FADE = 20
+      function softAt(t, segs) {
+        const i = segs.findIndex((g) => g.s <= t && t < g.e)
+        const g = segs[i < 0 ? segs.length - 1 : i]
+        const fade = Math.min(FADE, (g.e - g.s) / 2)
+        const dl = t - g.s
+        const dr = g.e - t
+        const prev = segs[i - 1]
+        const next = segs[i + 1]
+        if (prev && dl < fade) return mix(rgb(g.lv), rgb(prev.lv), 0.5 * (1 - dl / fade))
+        if (next && dr < fade) return mix(rgb(g.lv), rgb(next.lv), 0.5 * (1 - dr / fade))
+        return mix(rgb(g.lv), rgb(g.lv), 0)
+      }
+
+      const el = (tag, attrs, parent) => {
+        const e = document.createElementNS(NS, tag)
+        for (const k in attrs) e.setAttribute(k, attrs[k])
+        parent && parent.appendChild(e)
+        return e
+      }
+      const txt = (parent, x, y, s, attrs = {}) => {
+        const t = el('text', { x, y, 'font-size': 10, fill: css('--color-muted'), ...attrs }, parent)
+        t.textContent = s
+        return t
+      }
+      const hhmm = (t) => {
+        const x = ((Math.round(t) % 1440) + 1440) % 1440
+        return String(Math.floor(x / 60)).padStart(2, '0') + ':' + String(x % 60).padStart(2, '0')
+      }
+
+      let group = 7
+      let cursor = m('13:15')
+      const updaters = []
+      const PAD_L = 8
+      const PAD_R = 8
+
+      // Linear time scale + pointer handling shared by A, B, D, E.
+      function linear(svg, W, padL = PAD_L) {
+        const x = (t) => padL + ((t - X0) / (X1 - X0)) * (W - padL - PAD_R)
+        const pick = (ev) => {
+          const r = svg.getBoundingClientRect()
+          const px = ((ev.clientX - r.left) / r.width) * W
+          cursor = Math.min(X1 - 1, Math.max(X0, X0 + ((px - padL) / (W - padL - PAD_R)) * (X1 - X0)))
+          mark()
+        }
+        svg.addEventListener('pointerdown', (ev) => {
+          pick(ev)
+          svg.setPointerCapture(ev.pointerId)
+        })
+        svg.addEventListener('pointermove', (ev) => ev.buttons && pick(ev))
+        return x
+      }
+      function hourAxis(svg, x, y) {
+        for (let t = Math.ceil(X0 / 180) * 180; t <= X1; t += 180) txt(svg, x(t), y, hhmm(t).slice(0, 2), { 'text-anchor': 'middle' })
+      }
+      function cursorLine(svg, x, y1, y2) {
+        const line = el('line', { y1, y2, stroke: css('--color-ink'), 'stroke-width': 1.5 }, svg)
+        updaters.push(() => {
+          line.setAttribute('x1', x(cursor))
+          line.setAttribute('x2', x(cursor))
+        })
+      }
+      // Horizontal gradient that follows the soft verdict colour, sampled every 2 minutes.
+      function softGradient(svg, id, x, segs, W) {
+        const defs = el('defs', {}, svg)
+        const lg = el('linearGradient', { id, gradientUnits: 'userSpaceOnUse', x1: x(X0), x2: x(X1), y1: 0, y2: 0 }, defs)
+        for (let t = X0; t <= X1; t += 2) el('stop', { offset: (t - X0) / (X1 - X0), 'stop-color': softAt(Math.min(t, X1 - 0.5), segs) }, lg)
+        return `url(#${id})`
+      }
+      // Good windows (merged), for labels.
+      const goodWindows = (segs) => segs.filter((g) => g.lv === 'good' && g.e - g.s >= 15)
+
+      // ---- A: colour strip ----
+      function drawA(W, segs) {
+        const H = 74
+        const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, height: H }, document.getElementById('vA'))
+        const x = linear(svg, W)
+        // sun line: thin gold during the day, ink at night
+        el('rect', { x: x(X0), y: 2, width: x(X1) - x(X0), height: 3, rx: 1.5, fill: css('--color-ink'), opacity: 0.25 }, svg)
+        el('rect', { x: x(SUNRISE), y: 2, width: x(SUNSET) - x(SUNRISE), height: 3, rx: 1.5, fill: css('--sun') }, svg)
+        el('rect', { x: x(X0), y: 9, width: x(X1) - x(X0), height: 16, rx: 8, fill: softGradient(svg, 'gA', x, segs, W) }, svg)
+        hourAxis(svg, x, 38)
+        goodWindows(segs).forEach((g, i) => {
+          const cx = (x(g.s) + x(g.e)) / 2
+          el('line', { x1: cx, x2: cx, y1: 26, y2: 44 + (i % 2) * 12, stroke: css('--color-good'), 'stroke-width': 1 }, svg)
+          txt(svg, cx, 54 + (i % 2) * 12, `${hhmm(g.s)}–${hhmm(g.e)}`, { 'text-anchor': 'middle', fill: css('--color-good'), 'font-weight': 600 })
+        })
+        cursorLine(svg, x, 6, 28)
+      }
+
+      // ---- B: smooth curve ----
+      function drawB(W, segs) {
+        const LAB = 46
+        const rowH = 30
+        const top = 22
+        const H = top + rowH * 3 + 30
+        const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, height: H }, document.getElementById('vB'))
+        const x = linear(svg, W, LAB)
+        const y = (lv) => top + VERDICTS.indexOf(lv) * rowH
+        // night shading
+        el('rect', { x: x(X0), y: 0, width: x(SUNRISE) - x(X0), height: H - 18, fill: css('--color-ink'), opacity: 0.05 }, svg)
+        el('rect', { x: x(SUNSET), y: 0, width: x(X1) - x(SUNSET), height: H - 18, fill: css('--color-ink'), opacity: 0.05 }, svg)
+        VERDICTS.forEach((lv) => {
+          el('line', { x1: LAB, x2: W - PAD_R, y1: y(lv), y2: y(lv), stroke: css('--color-rule'), 'stroke-dasharray': lv === 'neutral' ? '' : '2 3' }, svg)
+          txt(svg, LAB - 5, y(lv) + 3.5, VERDICT_LABEL[lv].replace('Only if it cannot wait', 'if must'), { 'text-anchor': 'end' })
+        })
+        // path: flat runs joined by S-curves of half-width F around each boundary
+        let d = ''
+        segs.forEach((g, i) => {
+          const n = segs[i + 1]
+          const fr = n ? Math.min(FADE, (g.e - g.s) / 2, (n.e - n.s) / 2) : 0
+          if (i === 0) d += `M${x(g.s)},${y(g.lv)}`
+          d += ` L${x(g.e - fr)},${y(g.lv)}`
+          if (n) d += ` C${x(g.e)},${y(g.lv)} ${x(g.e)},${y(n.lv)} ${x(g.e + fr)},${y(n.lv)}`
+        })
+        const defs = el('defs', {}, svg)
+        const vg = (id, op) => {
+          const lg = el('linearGradient', { id, gradientUnits: 'userSpaceOnUse', x1: 0, x2: 0, y1: y('good'), y2: y('avoid') }, defs)
+          ;[
+            [0, 'good', op],
+            [1 / 3, 'neutral', op * 0.25],
+            [2 / 3, 'fb', op],
+            [1, 'avoid', op],
+          ].forEach(([o, lv, a]) => el('stop', { offset: o, 'stop-color': colour(lv), 'stop-opacity': a }, lg))
+          return `url(#${id})`
+        }
+        el('path', { d: `${d} L${x(X1)},${y('neutral')} L${x(X0)},${y('neutral')} Z`, fill: vg('gBf', 0.35) }, svg)
+        el('path', { d, fill: 'none', stroke: vg('gBs', 1), 'stroke-width': 3, 'stroke-linejoin': 'round' }, svg)
+        // dim the past
+        el('rect', { x: x(X0), y: 0, width: x(NOW) - x(X0), height: H - 18, fill: css('--color-paper'), opacity: 0.45 }, svg)
+        el('line', { x1: x(NOW), x2: x(NOW), y1: 0, y2: H - 18, stroke: css('--color-muted'), 'stroke-dasharray': '1 2' }, svg)
+        txt(svg, x(NOW) + 3, 9, 'now')
+        goodWindows(segs).forEach((g) => txt(svg, (x(g.s) + x(g.e)) / 2, top - 6, hhmm(g.s), { 'text-anchor': 'middle', fill: css('--color-good'), 'font-weight': 600 }))
+        hourAxis(svg, x, H - 4)
+        cursorLine(svg, x, 0, H - 18)
+        const dot = el('circle', { r: 5, fill: css('--color-paper'), 'stroke-width': 2.5 }, svg)
+        updaters.push(() => {
+          const v = at(cursor, group).verdict
+          dot.setAttribute('cx', x(cursor))
+          dot.setAttribute('cy', y(v))
+          dot.setAttribute('stroke', colour(v))
+        })
+      }
+
+      // ---- C: 24-hour ring, noon on top ----
+      function drawC(W, segs) {
+        const S = Math.min(W, 380)
+        const svg = el('svg', { viewBox: `0 0 ${S} ${S}`, height: S, style: `max-width:${S}px;margin:0 auto` }, document.getElementById('vC'))
+        const c = S / 2
+        const ang = (t) => ((t - NOON) / 1440) * 2 * Math.PI // 0 = top, clockwise
+        const pt = (t, r) => [c + r * Math.sin(ang(t)), c - r * Math.cos(ang(t))]
+        const arc = (t1, t2, r, w, stroke, attrs = {}) => {
+          const [x1, y1] = pt(t1, r)
+          const [x2, y2] = pt(t2, r)
+          const large = t2 - t1 > 720 ? 1 : 0
+          return el('path', { d: `M${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2}`, fill: 'none', stroke, 'stroke-width': w, ...attrs }, svg)
+        }
+        const T0 = X0
+        const T1 = X0 + 1440
+        const R = c - 22
+        // daylight arc
+        arc(T0, T1, R + 13, 3, css('--color-ink'), { opacity: 0.2 })
+        arc(SUNRISE, SUNSET, R + 13, 3, css('--sun'))
+        // verdict ring, soft edges, 2-minute slices
+        for (let t = T0; t < T1; t += 2) arc(t, Math.min(t + 2.4, T1), R, 18, softAt(t + 1, segs))
+        // input rings
+        const rings = [
+          ['base', R - 17],
+          ['ch', R - 25],
+          ['bad', R - 33],
+        ]
+        rings.forEach(([lane, r]) => {
+          arc(T0, T1 - 0.01, r, 5, css('--color-rule'), { opacity: 0.5 })
+          V.filter((v) => v.lane === lane && v.groups.includes(group) && v.s < T1).forEach((v) =>
+            arc(Math.max(v.s, T0), Math.min(v.e, T1), r, 5, colour(v.level), { opacity: v.disputed ? 0.3 : 0.9 }),
+          )
+        })
+        V.filter((v) => v.lane === 'good' && v.groups.includes(group)).forEach((v) => arc(v.s, v.e, R - 33, 5, colour(v.level)))
+        // hour ticks
+        for (let h = 0; h < 24; h++) {
+          const t = h * 60 + (h * 60 < T0 ? 1440 : 0)
+          const [a1, b1] = pt(t, R + 18)
+          const [a2, b2] = pt(t, R + 22)
+          el('line', { x1: a1, y1: b1, x2: a2, y2: b2, stroke: css('--color-muted'), 'stroke-width': h % 6 === 0 ? 1.5 : 0.7 }, svg)
+          if (h % 3 === 0) {
+            const [lx, ly] = pt(t, R - 50)
+            txt(svg, lx, ly + 3.5, String(h).padStart(2, '0'), { 'text-anchor': 'middle' })
+          }
+        }
+        // hand + centre text
+        const hand = el('line', { x1: c, y1: c, stroke: css('--color-ink'), 'stroke-width': 2, 'stroke-linecap': 'round' }, svg)
+        el('circle', { cx: c, cy: c, r: 3, fill: css('--color-ink') }, svg)
+        const t1 = txt(svg, c, c - 10, '', { 'text-anchor': 'middle', 'font-size': 22, fill: css('--color-ink'), 'font-weight': 500 })
+        const t2 = txt(svg, c, c + 14, '', { 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 600 })
+        updaters.push(() => {
+          const tc = cursor >= T1 ? cursor - 1440 : cursor
+          const [hx, hy] = pt(tc, R + 9)
+          hand.setAttribute('x2', hx)
+          hand.setAttribute('y2', hy)
+          const v = at(cursor, group).verdict
+          t1.textContent = hhmm(cursor)
+          t2.textContent = VERDICT_LABEL[v].replace('Only if it cannot wait', 'If it cannot wait')
+          t2.setAttribute('fill', colour(v))
+        })
+        const pick = (ev) => {
+          const r = svg.getBoundingClientRect()
+          const px = ((ev.clientX - r.left) / r.width) * S - c
+          const py = ((ev.clientY - r.top) / r.height) * S - c
+          let a = Math.atan2(px, -py) // 0 = top, clockwise
+          let t = NOON + (a / (2 * Math.PI)) * 1440
+          while (t < T0) t += 1440
+          while (t >= T1) t -= 1440
+          cursor = t
+          mark()
+        }
+        svg.addEventListener('pointerdown', (ev) => {
+          pick(ev)
+          svg.setPointerCapture(ev.pointerId)
+        })
+        svg.addEventListener('pointermove', (ev) => ev.buttons && pick(ev))
+      }
+
+      // ---- D: the sun's path ----
+      function drawD(W, segs) {
+        const H = 150
+        const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, height: H }, document.getElementById('vD'))
+        const x = linear(svg, W)
+        const alt = (t) => Math.cos(((t - NOON) / 1440) * 2 * Math.PI)
+        const h0 = alt(SUNRISE)
+        const hor = 78
+        const up = (hor - 14) / (1 - h0)
+        const down = (H - 26 - hor) / (1 + h0)
+        const y = (t) => hor - (alt(t) - h0) * (alt(t) >= h0 ? up : down)
+        el('rect', { x: 0, y: hor, width: W, height: H - hor - 18, fill: css('--color-ink'), opacity: 0.05 }, svg)
+        el('line', { x1: x(X0), x2: x(X1), y1: hor, y2: hor, stroke: css('--color-muted'), 'stroke-dasharray': '3 3' }, svg)
+        for (let t = X0; t < X1; t += 3) {
+          const t2 = Math.min(t + 3.5, X1)
+          el('line', { x1: x(t), y1: y(t), x2: x(t2), y2: y(t2), stroke: softAt(t + 1.5, segs), 'stroke-width': 7, 'stroke-linecap': 'round' }, svg)
+        }
+        txt(svg, x(SUNRISE) + 6, hor + 13, `sunrise ${hhmm(SUNRISE)}`)
+        txt(svg, x(SUNSET), hor + 13, `sunset ${hhmm(SUNSET)}`, { 'text-anchor': 'middle' })
+        hourAxis(svg, x, H - 4)
+        cursorLine(svg, x, 0, H - 18)
+        const dot = el('circle', { r: 7, fill: css('--color-paper'), 'stroke-width': 3 }, svg)
+        updaters.push(() => {
+          dot.setAttribute('cx', x(cursor))
+          dot.setAttribute('cy', y(cursor))
+          dot.setAttribute('stroke', colour(at(cursor, group).verdict))
+        })
+      }
+
+      // ---- E: heat rows ----
+      function drawE(W) {
+        const LAB = 96
+        const rows = [
+          { label: GROUP_LABEL[0], kind: 'verdict', g: 0 },
+          { label: GROUP_LABEL[7], kind: 'verdict', g: 7 },
+          { label: 'Day base', kind: 'lane', lane: 'base' },
+          { label: 'Choghadiya', kind: 'lane', lane: 'ch' },
+          { label: 'Fixed bad times', kind: 'lane', lane: 'bad' },
+          { label: 'Good times', kind: 'lane', lane: 'good' },
+        ]
+        const rh = 14
+        const gap = 5
+        const H = rows.length * (rh + gap) + 10 + 20
+        const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, height: H }, document.getElementById('vE'))
+        const x = linear(svg, W, LAB)
+        rows.forEach((r, i) => {
+          const y = 4 + i * (rh + gap) + (i >= 2 ? 8 : 0)
+          txt(svg, LAB - 6, y + rh - 3, r.label, { 'text-anchor': 'end', fill: css(i < 2 ? '--color-ink' : '--color-muted') })
+          el('rect', { x: x(X0), y, width: x(X1) - x(X0), height: rh, fill: css('--color-rule'), opacity: 0.35 }, svg)
+          if (r.kind === 'verdict') {
+            el('rect', { x: x(X0), y, width: x(X1) - x(X0), height: rh, rx: 3, fill: softGradient(svg, 'gE' + r.g, x, segsFor(r.g), W) }, svg)
+          } else {
+            // inputs that apply to the selected group
+            V.filter((v) => v.lane === r.lane && v.groups.includes(group)).forEach((v) =>
+              el('rect', { x: x(v.s), y, width: Math.max(2, x(v.e) - x(v.s)), height: rh, fill: colour(v.level), opacity: v.disputed ? 0.3 : 0.85 }, svg),
+            )
+          }
+        })
+        txt(svg, LAB - 6, 4 + 2 * (rh + gap) + 4, `(inputs: ${GROUP_LABEL[group]})`, { 'text-anchor': 'end', 'font-size': 8 })
+        hourAxis(svg, x, H - 4)
+        cursorLine(svg, x, 0, H - 16)
+      }
+
+      function draw() {
+        updaters.length = 0
+        ;['vA', 'vB', 'vC', 'vD', 'vE'].forEach((id) => (document.getElementById(id).innerHTML = ''))
+        const W = document.getElementById('vA').clientWidth
+        const segs = segsFor(group)
+        drawA(W, segs)
+        drawB(W, segs)
+        drawC(W, segs)
+        drawD(W, segs)
+        drawE(W)
+        mark()
+      }
+
+      function mark() {
+        updaters.forEach((f) => f())
+        const r = at(cursor, group)
+        const seg = cuts.findIndex((c) => c > cursor)
+        const cls = { good: 'lv-good', avoid: 'lv-avoid', fb: 'lv-fb', neutral: '' }[r.verdict]
+        const lines = r.act
+          .map((v) => `<li>${v.name} — ${v.disputed ? 'disputed, does not decide' : LEVEL_LABEL[v.level]}${r.by.includes(v) ? ' <b>← decides</b>' : ''}</li>`)
+          .join('')
+        document.getElementById('readout').innerHTML =
+          `<b class="${cls}">${hhmm(cursor)} · ${VERDICT_LABEL[r.verdict]}</b> <span style="color:var(--color-muted)">(${hhmm(cuts[seg - 1])}–${hhmm(cuts[seg])}, ${GROUP_LABEL[group]})</span><ul>${lines}</ul>`
+      }
+
+      document.querySelectorAll('.groups button').forEach((b) =>
+        b.addEventListener('click', () => {
+          group = Number(b.dataset.g)
+          document.querySelectorAll('.groups button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)))
+          draw()
+        }),
+      )
+      const theme = new URLSearchParams(location.search).get('theme')
+      if (theme) document.documentElement.dataset.theme = theme
+      addEventListener('resize', draw)
+      draw()
+    </script>
+  </body>
+</html>
