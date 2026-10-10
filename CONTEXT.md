@@ -2,27 +2,23 @@
 
 ## Status
 P0–P6 done and live (https://gerimantas.github.io/VedaCal/, commit 950f429, CI green).
-S9 (local, not pushed: e7cbe9b): every day sheet is brief — its general text folds out under
-"More about …" (rhythm card: "Daugiau apie tradicinį ritmą"). User found the time list and
-Choghadiya show the same times twice and asked for one view: new plan
-`.planning/PLAN-periods.md` (Q0–Q8) — every value of the day, combination rules, month,
-personal values, each backed by verified sources with links; graphic design is the main
-part. Q0 started (findings in the plan). The user is not a Vedic specialist: Q1 evidence
-decides what enters, not the user.
-S8: month marks favoured days (Pushya, Amrit Siddhi) green; key dates double as the legend.
-The day time list holds every window whole — nothing is cut, as on Drik (S7's Abhijit
-cancel-out rule is gone) — plus Bhadra, Vyatipata, Vaidhriti, the eclipse as seen here and
-the favoured window, each with a shared day track showing overlaps. Every day sheet opens on
-that day (times, why, what tradition does; SPEC 5.1 "Day sheets lead with the day").
-All new windows match Drik within 2 min in 3 cities. 1197 tests pass.
-S7: About = "Using the app" + Glossary; no-card look, background lights.
+S10: periods plan (`.planning/PLAN-periods.md`) audited and through Q0–Q2. Q1 registry
+`.planning/research/rules.md` (sources, verdicts, index of every value); Q2 model = SPEC 13
+(planned, not built) with worked examples `research/examples.md`. User decisions: show good
+AND bad at every level (day part, day, month — SPEC 4.11's hidden avoid days are reopened);
+every verdict per 10 activity groups; base systems Muhurta Chintamani + Drik, regional
+items later; decide from sources, not from what the app shows now. App code unchanged.
+At close a background Drik fetch (`scripts/fetch-drik-extra.ts`) was still writing
+`tests/fixtures/drik-extra/` — files after the S10 commit are its remainder.
+S9 (local, not pushed: e7cbe9b): every day sheet brief, general text folds out.
 Workflow: the user reviews on localhost; show proposals before changing code; commit
 locally, push only on the user's command.
 
 ## Next Tasks
-- Periods plan Q0 → Q1: write `.planning/research/catalogue.md` (S9 findings are in the plan
-  under Q0), then verify every value and rule with linked sources in `research/rules.md`.
-  plan: `.planning/PLAN-periods.md`. Push e7cbe9b only when the user says so.
+- Periods plan Q3.1: design survey (how others show a day of periods and a month) → user
+  picks 2–3 directions. First: commit the rest of `tests/fixtures/drik-extra/` (rerun
+  `node scripts/fetch-drik-extra.ts <city>` if incomplete), fetch 2026-08-12 for example 4.
+  plan: `.planning/PLAN-periods.md` Q3; model SPEC 13. Push e7cbe9b only on the user's word.
 - New moon shows 18:49 (tithi end, moon card) and 18:50 (key dates, tradition card): two
   methods ~40 s apart (SPEC 11). Use one instant for both. Code: `src/core/panchang.ts`.
 - P7 pilot: the user shares the link with 5–10 people and collects what confuses them;
@@ -36,6 +32,9 @@ locally, push only on the user's command.
   with us on tithi to 8 s). Inside the gate, so only if the user asks. rules: SPEC 4.11.
 
 ## Done Log
+
+### 2026-10-10 (S10)
+- PLAN-periods audited (16 fixes); Q0 catalogue + `fetch-drik-extra.ts`; Q1 registry; Q2 model (SPEC 13) + examples
 
 ### 2026-10-10 (S9)
 - Every day sheet brief, general text folds out (e7cbe9b, local)
@@ -59,12 +58,15 @@ locally, push only on the user's command.
 - After any dependency change: `npm run scan` (security scan, also runs in CI)
 - Drik fixture scripts go through `scripts/drik-page.ts`: pages cached in `.cache/drik/`
   (re-parse without re-fetching), 12 s between requests (`DRIK_DELAY_MS`), stop at the first
-  reCAPTCHA. Drik blocks after ~150 quick requests.
+  reCAPTCHA. Drik blocked even at 12 s spacing after ~180 pages (S10); the block lifted
+  within an hour. WebFetch gets the reCAPTCHA too — read Drik text from `.cache/drik/`.
+- Source texts for the periods registry are archive.org scans; the clean Muhurta
+  Chintamani is Pyarelal Mishra's Hindi edition (link in `.planning/research/rules.md`).
 - Two languages: `src/content/en.json` and `lt.json` (same keys, `tests/content.test.ts`).
   lt.json is the one file allowed to hold Lithuanian (product text the user asked for); code,
   comments and docs stay English. New UI text = a key in both files.
 - Accuracy vs references: `npm run accuracy`. Refetch references: `node scripts/fetch-drik.ts`,
-  `fetch-mypanchang.ts`, `fetch-ekadashi.ts`, `fetch-choghadiya.ts` (fixtures in
+  `fetch-mypanchang.ts`, `fetch-ekadashi.ts`, `fetch-choghadiya.ts`, `fetch-drik-extra.ts` (fixtures in
   `tests/fixtures/`, never hand-typed)
 - Speed: `npm run dev`, open `/VedaCal/tests/perf/perf.html` (dev-only harness)
 - Mockups (P3): `npm run dev` → http://localhost:5173/VedaCal/mockups/ . Bump `MOCKUP_VERSION`
@@ -100,6 +102,16 @@ locally, push only on the user's command.
   is wrong; real value is Krishna Navami, waning. Only computed or Drik-fetched values count.
 
 ## Archive
+
+### Session 2026-10-10 (S10) — plan audit; Q0 catalogue, Q1 source registry, Q2 model
+
+- **Done:** Audit of PLAN-periods (16 findings fixed, files `PLAN-periods_AUDIT_*`). Q0: `research/catalogue.md`; `scripts/fetch-drik-extra.ts` (Drik Hora, Gowri, Lagna, Panchaka Rahita, Chandrabalam, Tarabalam, Do Ghati per day).
+- **Done:** Q1: `research/rules.md` — ~55 records from Muhurta Chintamani (clean Hindi ed. 1939), Kalaprakasika, Brihat Samhita, Ashtanga Hridaya, Raman, Drik; verdict index for every catalogue row.
+- **Done:** Q2: SPEC 13 (periods model) + `research/examples.md` (Vilnius 10-10, 10-06, 10-25 worked by hand).
+- **Decided / overturned:** User: good AND bad shown at every level (replaces SPEC 4.11's hidden avoid days); verdicts per 10 activity groups; base = Muhurta Chintamani + Drik, regional items later; ignore the current app when deciding. Rejected: "Abhijit cancels all doshas" (that is Ravi yoga), "Panchaka bad for everything" (5 acts only).
+- **Code:** `scripts/fetch-drik-extra.ts`, `tests/fixtures/drik-extra/*`; planning repo: `PLAN-periods.md`, `SPEC.md` 13, `research/{catalogue,rules,examples}.md`.
+- **Entry point:** `node scripts/fetch-drik-extra.ts <city> [dates]` (12 s spacing, cached).
+- **Not measured:** Drik fetch still running at close (New Delhi, Vilnius Do Ghati); example 4 (2026-08-12 eclipse) needs its Drik pages; combustion orbs, karana quality, Pitru Paksha unsourced.
 
 ### Session 2026-10-10 (S9) — brief day sheets; plan for one view of the day's periods
 

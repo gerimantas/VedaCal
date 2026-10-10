@@ -1,0 +1,919 @@
+{
+  "source": {
+    "hora": "https://www.drikpanchang.com/muhurat/hora.html?geoname-id=593116&date=15/07/1995",
+    "gowri": "https://www.drikpanchang.com/tamil/tamil-gowri-panchangam.html?geoname-id=593116&date=15/07/1995",
+    "lagna": "https://www.drikpanchang.com/muhurat/lagna.html?geoname-id=593116&date=15/07/1995",
+    "panchakaRahita": "https://www.drikpanchang.com/muhurat/panchaka-rahita-muhurat.html?geoname-id=593116&date=15/07/1995",
+    "chandrabalam": "https://www.drikpanchang.com/panchang/chandrabalam/chandrabalam-timings.html?geoname-id=593116&date=15/07/1995",
+    "tarabalam": "https://www.drikpanchang.com/panchang/tarabalam/tarabalam-timings.html?geoname-id=593116&date=15/07/1995"
+  },
+  "fetchedAt": "2026-10-10T07:20:57.894Z",
+  "city": "vilnius",
+  "date": "1995-07-15",
+  "tz": "Europe/Vilnius",
+  "hora": {
+    "day": [
+      {
+        "name": "Saturn",
+        "quality": "Sluggish",
+        "start": "1995-07-15T02:01:00.000Z",
+        "end": "1995-07-15T03:25:00.000Z"
+      },
+      {
+        "name": "Jupiter",
+        "quality": "Fruitful",
+        "start": "1995-07-15T03:25:00.000Z",
+        "end": "1995-07-15T04:49:00.000Z"
+      },
+      {
+        "name": "Mars",
+        "quality": "Aggressive",
+        "start": "1995-07-15T04:49:00.000Z",
+        "end": "1995-07-15T06:13:00.000Z"
+      },
+      {
+        "name": "Sun",
+        "quality": "Vigorous",
+        "start": "1995-07-15T06:13:00.000Z",
+        "end": "1995-07-15T07:37:00.000Z"
+      },
+      {
+        "name": "Venus",
+        "quality": "Beneficial",
+        "start": "1995-07-15T07:37:00.000Z",
+        "end": "1995-07-15T09:00:00.000Z"
+      },
+      {
+        "name": "Mercury",
+        "quality": "Quick",
+        "start": "1995-07-15T09:00:00.000Z",
+        "end": "1995-07-15T10:24:00.000Z"
+      },
+      {
+        "name": "Moon",
+        "quality": "Gentle",
+        "start": "1995-07-15T10:24:00.000Z",
+        "end": "1995-07-15T11:48:00.000Z"
+      },
+      {
+        "name": "Saturn",
+        "quality": "Sluggish",
+        "start": "1995-07-15T11:48:00.000Z",
+        "end": "1995-07-15T13:12:00.000Z"
+      },
+      {
+        "name": "Jupiter",
+        "quality": "Fruitful",
+        "start": "1995-07-15T13:12:00.000Z",
+        "end": "1995-07-15T14:36:00.000Z"
+      },
+      {
+        "name": "Mars",
+        "quality": "Aggressive",
+        "start": "1995-07-15T14:36:00.000Z",
+        "end": "1995-07-15T16:00:00.000Z"
+      },
+      {
+        "name": "Sun",
+        "quality": "Vigorous",
+        "start": "1995-07-15T16:00:00.000Z",
+        "end": "1995-07-15T17:24:00.000Z"
+      },
+      {
+        "name": "Venus",
+        "quality": "Beneficial",
+        "start": "1995-07-15T17:24:00.000Z",
+        "end": "1995-07-15T18:48:00.000Z"
+      }
+    ],
+    "night": [
+      {
+        "name": "Mercury",
+        "quality": "Quick",
+        "start": "1995-07-15T18:48:00.000Z",
+        "end": "1995-07-15T19:24:00.000Z"
+      },
+      {
+        "name": "Moon",
+        "quality": "Gentle",
+        "start": "1995-07-15T19:24:00.000Z",
+        "end": "1995-07-15T20:00:00.000Z"
+      },
+      {
+        "name": "Saturn",
+        "quality": "Sluggish",
+        "start": "1995-07-15T20:00:00.000Z",
+        "end": "1995-07-15T20:36:00.000Z"
+      },
+      {
+        "name": "Jupiter",
+        "quality": "Fruitful",
+        "start": "1995-07-15T20:36:00.000Z",
+        "end": "1995-07-15T21:13:00.000Z"
+      },
+      {
+        "name": "Mars",
+        "quality": "Aggressive",
+        "start": "1995-07-15T21:13:00.000Z",
+        "end": "1995-07-15T21:49:00.000Z"
+      },
+      {
+        "name": "Sun",
+        "quality": "Vigorous",
+        "start": "1995-07-15T21:49:00.000Z",
+        "end": "1995-07-15T22:25:00.000Z"
+      },
+      {
+        "name": "Venus",
+        "quality": "Beneficial",
+        "start": "1995-07-15T22:25:00.000Z",
+        "end": "1995-07-15T23:01:00.000Z"
+      },
+      {
+        "name": "Mercury",
+        "quality": "Quick",
+        "start": "1995-07-15T23:01:00.000Z",
+        "end": "1995-07-15T23:37:00.000Z"
+      },
+      {
+        "name": "Moon",
+        "quality": "Gentle",
+        "start": "1995-07-15T23:37:00.000Z",
+        "end": "1995-07-16T00:14:00.000Z"
+      },
+      {
+        "name": "Saturn",
+        "quality": "Sluggish",
+        "start": "1995-07-16T00:14:00.000Z",
+        "end": "1995-07-16T00:50:00.000Z"
+      },
+      {
+        "name": "Jupiter",
+        "quality": "Fruitful",
+        "start": "1995-07-16T00:50:00.000Z",
+        "end": "1995-07-16T01:26:00.000Z"
+      },
+      {
+        "name": "Mars",
+        "quality": "Aggressive",
+        "start": "1995-07-16T01:26:00.000Z",
+        "end": "1995-07-16T02:02:00.000Z"
+      }
+    ]
+  },
+  "gowri": {
+    "day": [
+      {
+        "name": "Soram",
+        "quality": "Bad",
+        "start": "1995-07-15T02:01:00.000Z",
+        "end": "1995-07-15T04:07:00.000Z"
+      },
+      {
+        "name": "Uthi",
+        "quality": "Good",
+        "start": "1995-07-15T04:07:00.000Z",
+        "end": "1995-07-15T06:13:00.000Z"
+      },
+      {
+        "name": "Visham",
+        "quality": "Bad",
+        "start": "1995-07-15T06:13:00.000Z",
+        "end": "1995-07-15T08:19:00.000Z"
+      },
+      {
+        "name": "Amirdha",
+        "quality": "Best",
+        "start": "1995-07-15T08:19:00.000Z",
+        "end": "1995-07-15T10:24:00.000Z"
+      },
+      {
+        "name": "Rogam",
+        "quality": "Evil",
+        "start": "1995-07-15T10:24:00.000Z",
+        "end": "1995-07-15T12:30:00.000Z"
+      },
+      {
+        "name": "Laabam",
+        "quality": "Gain",
+        "start": "1995-07-15T12:30:00.000Z",
+        "end": "1995-07-15T14:36:00.000Z"
+      },
+      {
+        "name": "Dhanam",
+        "quality": "Wealth",
+        "start": "1995-07-15T14:36:00.000Z",
+        "end": "1995-07-15T16:42:00.000Z"
+      },
+      {
+        "name": "Sugam",
+        "quality": "Good",
+        "start": "1995-07-15T16:42:00.000Z",
+        "end": "1995-07-15T18:48:00.000Z"
+      }
+    ],
+    "night": [
+      {
+        "name": "Laabam",
+        "quality": "Gain",
+        "start": "1995-07-15T18:48:00.000Z",
+        "end": "1995-07-15T19:42:00.000Z"
+      },
+      {
+        "name": "Dhanam",
+        "quality": "Wealth",
+        "start": "1995-07-15T19:42:00.000Z",
+        "end": "1995-07-15T20:36:00.000Z"
+      },
+      {
+        "name": "Sugam",
+        "quality": "Good",
+        "start": "1995-07-15T20:36:00.000Z",
+        "end": "1995-07-15T21:31:00.000Z"
+      },
+      {
+        "name": "Soram",
+        "quality": "Bad",
+        "start": "1995-07-15T21:31:00.000Z",
+        "end": "1995-07-15T22:25:00.000Z"
+      },
+      {
+        "name": "Uthi",
+        "quality": "Good",
+        "start": "1995-07-15T22:25:00.000Z",
+        "end": "1995-07-15T23:19:00.000Z"
+      },
+      {
+        "name": "Visham",
+        "quality": "Bad",
+        "start": "1995-07-15T23:19:00.000Z",
+        "end": "1995-07-16T00:14:00.000Z"
+      },
+      {
+        "name": "Amirdha",
+        "quality": "Best",
+        "start": "1995-07-16T00:14:00.000Z",
+        "end": "1995-07-16T01:08:00.000Z"
+      },
+      {
+        "name": "Soram",
+        "quality": "Bad",
+        "start": "1995-07-16T01:08:00.000Z",
+        "end": "1995-07-16T02:02:00.000Z"
+      }
+    ]
+  },
+  "lagna": [
+    {
+      "rashi": "Mithuna",
+      "start": "1995-07-14T23:52:00.000Z",
+      "end": "1995-07-15T02:18:00.000Z",
+      "pushkaraNavamsha": [
+        "1995-07-15T01:45:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Karka",
+      "start": "1995-07-15T02:18:00.000Z",
+      "end": "1995-07-15T05:13:00.000Z",
+      "pushkaraNavamsha": [
+        "1995-07-15T02:57:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Simha",
+      "start": "1995-07-15T05:13:00.000Z",
+      "end": "1995-07-15T08:11:00.000Z",
+      "pushkaraNavamsha": [
+        "1995-07-15T07:18:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Kanya",
+      "start": "1995-07-15T08:11:00.000Z",
+      "end": "1995-07-15T11:08:00.000Z",
+      "pushkaraNavamsha": [
+        "1995-07-15T09:34:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Tula",
+      "start": "1995-07-15T11:08:00.000Z",
+      "end": "1995-07-15T14:07:00.000Z",
+      "pushkaraNavamsha": [
+        "1995-07-15T13:31:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Vrishchika",
+      "start": "1995-07-15T14:07:00.000Z",
+      "end": "1995-07-15T16:49:00.000Z",
+      "pushkaraNavamsha": [
+        "1995-07-15T14:47:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Dhanu",
+      "start": "1995-07-15T16:49:00.000Z",
+      "end": "1995-07-15T18:43:00.000Z",
+      "pushkaraNavamsha": [
+        "1995-07-15T18:14:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Makara",
+      "start": "1995-07-15T18:43:00.000Z",
+      "end": "1995-07-15T19:50:00.000Z",
+      "pushkaraNavamsha": [
+        "1995-07-15T19:18:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Kumbha",
+      "start": "1995-07-15T19:50:00.000Z",
+      "end": "1995-07-15T20:37:00.000Z",
+      "pushkaraNavamsha": [
+        "1995-07-15T20:28:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Meena",
+      "start": "1995-07-15T20:37:00.000Z",
+      "end": "1995-07-15T21:21:00.000Z",
+      "pushkaraNavamsha": [
+        "1995-07-15T20:47:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Mesha",
+      "start": "1995-07-15T21:21:00.000Z",
+      "end": "1995-07-15T22:17:00.000Z",
+      "pushkaraNavamsha": [
+        "1995-07-15T21:57:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Vrishabha",
+      "start": "1995-07-15T22:17:00.000Z",
+      "end": "1995-07-15T23:48:00.000Z",
+      "pushkaraNavamsha": [
+        "1995-07-15T22:53:00.000Z"
+      ]
+    }
+  ],
+  "panchakaRahita": [
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "1995-07-15T02:01:00.000Z",
+      "end": "1995-07-15T02:18:00.000Z"
+    },
+    {
+      "name": "Roga",
+      "quality": "Disease",
+      "start": "1995-07-15T02:18:00.000Z",
+      "end": "1995-07-15T05:13:00.000Z"
+    },
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "1995-07-15T05:13:00.000Z",
+      "end": "1995-07-15T05:24:00.000Z"
+    },
+    {
+      "name": "Mrityu",
+      "quality": "Danger",
+      "start": "1995-07-15T05:24:00.000Z",
+      "end": "1995-07-15T08:11:00.000Z"
+    },
+    {
+      "name": "Agni",
+      "quality": "Risk",
+      "start": "1995-07-15T08:11:00.000Z",
+      "end": "1995-07-15T11:08:00.000Z"
+    },
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "1995-07-15T11:08:00.000Z",
+      "end": "1995-07-15T14:07:00.000Z"
+    },
+    {
+      "name": "Raja",
+      "quality": "Bad",
+      "start": "1995-07-15T14:07:00.000Z",
+      "end": "1995-07-15T16:49:00.000Z"
+    },
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "1995-07-15T16:49:00.000Z",
+      "end": "1995-07-15T18:43:00.000Z"
+    },
+    {
+      "name": "Chora",
+      "quality": "Evil",
+      "start": "1995-07-15T18:43:00.000Z",
+      "end": "1995-07-15T19:50:00.000Z"
+    },
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "1995-07-15T19:50:00.000Z",
+      "end": "1995-07-15T20:37:00.000Z"
+    },
+    {
+      "name": "Roga",
+      "quality": "Disease",
+      "start": "1995-07-15T20:37:00.000Z",
+      "end": "1995-07-15T21:21:00.000Z"
+    },
+    {
+      "name": "Chora",
+      "quality": "Evil",
+      "start": "1995-07-15T21:21:00.000Z",
+      "end": "1995-07-15T22:17:00.000Z"
+    },
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "1995-07-15T22:17:00.000Z",
+      "end": "1995-07-15T23:29:00.000Z"
+    },
+    {
+      "name": "Roga",
+      "quality": "Disease",
+      "start": "1995-07-15T23:29:00.000Z",
+      "end": "1995-07-15T23:48:00.000Z"
+    },
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "1995-07-15T23:48:00.000Z",
+      "end": "1995-07-16T02:02:00.000Z"
+    }
+  ],
+  "chandrabalam": [
+    {
+      "name": "Mesha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Good"
+        }
+      ]
+    },
+    {
+      "name": "Vrishabha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Good"
+        }
+      ]
+    },
+    {
+      "name": "Mithuna",
+      "spans": [
+        {
+          "from": null,
+          "state": "Puja Needed"
+        }
+      ]
+    },
+    {
+      "name": "Karka",
+      "spans": [
+        {
+          "from": null,
+          "state": "Bad"
+        }
+      ]
+    },
+    {
+      "name": "Simha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Good"
+        }
+      ]
+    },
+    {
+      "name": "Kanya",
+      "spans": [
+        {
+          "from": null,
+          "state": "Good"
+        }
+      ]
+    },
+    {
+      "name": "Tula",
+      "spans": [
+        {
+          "from": null,
+          "state": "Puja Needed"
+        }
+      ]
+    },
+    {
+      "name": "Vrishchika",
+      "spans": [
+        {
+          "from": null,
+          "state": "Bad"
+        }
+      ]
+    },
+    {
+      "name": "Dhanu",
+      "spans": [
+        {
+          "from": null,
+          "state": "Good"
+        }
+      ]
+    },
+    {
+      "name": "Makara",
+      "spans": [
+        {
+          "from": null,
+          "state": "Puja Needed"
+        }
+      ]
+    },
+    {
+      "name": "Kumbha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Good"
+        }
+      ]
+    },
+    {
+      "name": "Meena",
+      "spans": [
+        {
+          "from": null,
+          "state": "Bad"
+        }
+      ]
+    }
+  ],
+  "tarabalam": [
+    {
+      "name": "Ashwini",
+      "spans": [
+        {
+          "from": null,
+          "state": "Pratyari - Not Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Sadhaka - Very Good"
+        }
+      ]
+    },
+    {
+      "name": "Bharani",
+      "spans": [
+        {
+          "from": null,
+          "state": "Kshema - Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Pratyari - Not Good"
+        }
+      ]
+    },
+    {
+      "name": "Krittika",
+      "spans": [
+        {
+          "from": null,
+          "state": "Vipata - Bad"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Kshema - Good"
+        }
+      ]
+    },
+    {
+      "name": "Rohini",
+      "spans": [
+        {
+          "from": null,
+          "state": "Sampata - Very Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Vipata - Bad"
+        }
+      ]
+    },
+    {
+      "name": "Mrigashira",
+      "spans": [
+        {
+          "from": null,
+          "state": "Janma - Not Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Sampata - Very Good"
+        }
+      ]
+    },
+    {
+      "name": "Ardra",
+      "spans": [
+        {
+          "from": null,
+          "state": "Param Mitra - Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Janma - Not Good"
+        }
+      ]
+    },
+    {
+      "name": "Punarvasu",
+      "spans": [
+        {
+          "from": null,
+          "state": "Mitra - Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Param Mitra - Good"
+        }
+      ]
+    },
+    {
+      "name": "Pushya",
+      "spans": [
+        {
+          "from": null,
+          "state": "Naidhana - Totally Bad"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Mitra - Good"
+        }
+      ]
+    },
+    {
+      "name": "Ashlesha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Sadhaka - Very Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Naidhana - Totally Bad"
+        }
+      ]
+    },
+    {
+      "name": "Magha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Pratyari - Not Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Sadhaka - Very Good"
+        }
+      ]
+    },
+    {
+      "name": "Purva Phalguni",
+      "spans": [
+        {
+          "from": null,
+          "state": "Kshema - Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Pratyari - Not Good"
+        }
+      ]
+    },
+    {
+      "name": "Uttara Phalguni",
+      "spans": [
+        {
+          "from": null,
+          "state": "Vipata - Bad"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Kshema - Good"
+        }
+      ]
+    },
+    {
+      "name": "Hasta",
+      "spans": [
+        {
+          "from": null,
+          "state": "Sampata - Very Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Vipata - Bad"
+        }
+      ]
+    },
+    {
+      "name": "Chitra",
+      "spans": [
+        {
+          "from": null,
+          "state": "Janma - Not Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Sampata - Very Good"
+        }
+      ]
+    },
+    {
+      "name": "Swati",
+      "spans": [
+        {
+          "from": null,
+          "state": "Param Mitra - Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Janma - Not Good"
+        }
+      ]
+    },
+    {
+      "name": "Vishakha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Mitra - Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Param Mitra - Good"
+        }
+      ]
+    },
+    {
+      "name": "Anuradha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Naidhana - Totally Bad"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Mitra - Good"
+        }
+      ]
+    },
+    {
+      "name": "Jyeshtha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Sadhaka - Very Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Naidhana - Totally Bad"
+        }
+      ]
+    },
+    {
+      "name": "Mula",
+      "spans": [
+        {
+          "from": null,
+          "state": "Pratyari - Not Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Sadhaka - Very Good"
+        }
+      ]
+    },
+    {
+      "name": "Purva Ashadha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Kshema - Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Pratyari - Not Good"
+        }
+      ]
+    },
+    {
+      "name": "Uttara Ashadha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Vipata - Bad"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Kshema - Good"
+        }
+      ]
+    },
+    {
+      "name": "Shravana",
+      "spans": [
+        {
+          "from": null,
+          "state": "Sampata - Very Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Vipata - Bad"
+        }
+      ]
+    },
+    {
+      "name": "Dhanishtha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Janma - Not Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Sampata - Very Good"
+        }
+      ]
+    },
+    {
+      "name": "Shatabhisha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Param Mitra - Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Janma - Not Good"
+        }
+      ]
+    },
+    {
+      "name": "Purva Bhadrapada",
+      "spans": [
+        {
+          "from": null,
+          "state": "Mitra - Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Param Mitra - Good"
+        }
+      ]
+    },
+    {
+      "name": "Uttara Bhadrapada",
+      "spans": [
+        {
+          "from": null,
+          "state": "Naidhana - Totally Bad"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Mitra - Good"
+        }
+      ]
+    },
+    {
+      "name": "Revati",
+      "spans": [
+        {
+          "from": null,
+          "state": "Sadhaka - Very Good"
+        },
+        {
+          "from": "1995-07-15T05:24:00.000Z",
+          "state": "Naidhana - Totally Bad"
+        }
+      ]
+    }
+  ]
+}
