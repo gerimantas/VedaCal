@@ -201,9 +201,16 @@
     <main>
       <h1>D7 · The day as a 24-hour clock</h1>
       <p class="sub">
-        Vilnius, Saturday 10 October 2026 · one turn of the hand = one day · 12 at the top, 00 at the bottom · tap or
-        drag anywhere on the dial
+        Vilnius · one turn of the hand = one day · 12 at the top, 00 at the bottom · tap or drag anywhere on the
+        dial
       </p>
+      <label class="act">
+        Day
+        <select id="day">
+          <option value="2026-05-10" selected>Sunday 10 May 2026 · an ordinary day</option>
+          <option value="2026-10-10">Saturday 10 October 2026 · Amavasya</option>
+        </select>
+      </label>
       <label class="act">
         Activity
         <select id="activity">
@@ -228,7 +235,7 @@
       <div id="dial"></div>
       <div class="key" id="legend"></div>
       <p class="key">
-        <span>&uarr; Sunrise 07:38</span><span>&#9728; Solar noon 13:05</span><span>&darr; Sunset 18:33</span>
+        <span id="sunkey"></span>
       </p>
       <p class="key">Rings, outside in: hours · day and night · verdict · day base · Choghadiya · fixed windows</p>
       <div class="readout" id="readout" aria-live="polite"></div>
@@ -241,22 +248,18 @@
         </div>
       </section>
       <p class="note">
-        Times are Drik Panchang's. Verdicts follow SPEC 13.4 and reproduce worked example 1
-        (.planning/research/examples.md). Gulika is disputed: drawn faint, never decides. Choghadiya is practice (R21): its ring is shown half-faded and never decides (user, 2026-10-10). The dial shows 05:54 to 05:54 next
-        morning. Concept sketch for Q3, not the app; built on D6 variant C. "Now" is fixed at 13:15.
+        Times are Drik Panchang's. Verdicts follow SPEC 13.4; 10 October is worked
+        example 1 (.planning/research/examples.md), 10 May is worked the same way from its Drik fixtures. Gulika is disputed: drawn faint, never decides. Choghadiya is practice (R21): its ring is shown half-faded and never decides (user, 2026-10-10). The dial shows 24 hours from the start of Brahma
+        Muhurta; the rest of the night up to the next sunrise is in the readout only. Concept sketch for Q3, not the app; built on D6 variant C. "Now" is fixed at 13:15.
       </p>
     </main>
     <script>
-      // ---- data: Vilnius 2026-10-10, minutes from local midnight; next-day times + 1440 (same as D5) ----
+      // ---- data: two Vilnius days, minutes from local midnight; next-day times + 1440 ----
       const m = (s, next = false) => {
         const [h, mm] = s.split(':').map(Number)
         return h * 60 + mm + (next ? 1440 : 0)
       }
-      const X0 = m('05:54')
-      const X1 = m('07:40', true)
-      const SUNRISE = m('07:38')
-      const SUNSET = m('18:33')
-      const NOON = m('13:05')
+      let X0, X1, SUNRISE, SUNSET, NOON
       const NOW = m('13:15')
 
       const LEVEL_LABEL = { strong: 'strong +', plus: '+', zero: '0', poor: 'poor', fb: 'if must', veto: 'avoid' }
@@ -267,52 +270,87 @@
       const ALL = [0, 7]
       const V = []
       const add = (lane, name, s, e, level, groups = ALL, extra = {}) => V.push({ lane, name, s, e, level, groups, ...extra })
-
       const CH = { Amrita: 'plus', Shubha: 'plus', Labha: 'plus', Chara: 'zero', Udvega: 'veto', Roga: 'veto', Kala: 'veto' }
-      ;[
-        ['Chara', '05:54', '06:00'],
-        ['Roga', '06:00', '07:38'],
-        ['Kala', '07:38', '09:00'],
-        ['Shubha', '09:00', '10:22'],
-        ['Roga', '10:22', '11:44'],
-        ['Udvega', '11:44', '13:05'],
-        ['Chara', '13:05', '14:27'],
-        ['Labha', '14:27', '15:49'],
-        ['Amrita', '15:49', '17:11'],
-        ['Kala', '17:11', '18:33'],
-        ['Labha', '18:33', '20:11'],
-        ['Udvega', '20:11', '21:50'],
-        ['Shubha', '21:50', '23:28'],
-        ['Amrita', '23:28', '01:06', true],
-        ['Chara', '01:06', '02:45', true],
-        ['Roga', '02:45', '04:23', true],
-        ['Kala', '04:23', '06:01', true],
-        ['Labha', '06:01', '07:40', true],
-      ].forEach(([n, s, e, nx]) => {
-        const sn = m(s, nx && s < '12:00' && n !== 'Amrita')
-        add('ch', n, sn, m(e, nx), CH[n], ALL, { note: true }) // R21: shown, never decides
-      })
+      // Choghadiya rows [name, start, end, nx]: nx 0 = this date, 1 = ends on the next date, 2 = wholly on the next date.
+      const addCh = (rows) => rows.forEach(([n, s, e, nx = 0]) => add('ch', n, m(s, nx === 2), m(e, nx > 0), CH[n], ALL, { note: true })) // R21: shown, never decides
 
-      add('bad', 'Dur Muhurtam', m('07:38'), m('09:05'), 'veto')
-      add('bad', 'Gulika (disputed)', m('07:38'), m('09:00'), 'veto', ALL, { disputed: true })
-      add('bad', 'Rahu Kaal', m('10:22'), m('11:44'), 'veto')
-      add('bad', 'Noon window', m('13:01'), m('13:09'), 'veto')
-      add('bad', 'Lagna junction', m('14:01'), m('14:13'), 'veto')
-      add('bad', 'Yamaganda', m('14:27'), m('15:49'), 'veto')
-      add('bad', 'Lagna junction', m('18:31'), m('18:43'), 'veto')
-      add('bad', 'Midnight window', m('01:02', true), m('01:10', true), 'veto')
-      add('bad', 'Lagna junction', m('02:22', true), m('02:34', true), 'veto')
-      add('bad', 'Varjyam', m('03:29', true), m('05:08', true), 'veto')
-
-      add('good', 'Brahma Muhurta', m('05:54'), m('06:46'), 'plus', [7])
-      add('good', 'Abhijit', m('12:44'), m('13:27'), 'strong')
-      add('good', 'Amrit Kalam', m('13:06'), m('14:44'), 'plus')
-
-      add('base', 'Amavasya', X0, m('18:49'), 'veto', [0])
-      add('base', "Friday's weekday (before sunrise)", X0, SUNRISE, 'zero', [7])
-      add('base', 'Saturday', SUNRISE, X1, 'poor', [7])
-      add('base', 'Saturday; Pratipada', m('18:49'), m('19:32'), 'poor', [0])
-      add('base', 'Vaidhriti after midday', m('19:32'), X1, 'fb')
+      const DAYS = {
+        // Example 1 (.planning/research/examples.md): Amavasya, Saturday, Vaidhriti from 19:32.
+        '2026-10-10': {
+          title: 'Saturday 10 October 2026 · Amavasya',
+          load() {
+            ;[X0, X1, SUNRISE, SUNSET, NOON] = [m('05:54'), m('07:40', true), m('07:38'), m('18:33'), m('13:05')]
+            addCh([
+              ['Chara', '05:54', '06:00'], ['Roga', '06:00', '07:38'], ['Kala', '07:38', '09:00'], ['Shubha', '09:00', '10:22'],
+              ['Roga', '10:22', '11:44'], ['Udvega', '11:44', '13:05'], ['Chara', '13:05', '14:27'], ['Labha', '14:27', '15:49'],
+              ['Amrita', '15:49', '17:11'], ['Kala', '17:11', '18:33'], ['Labha', '18:33', '20:11'], ['Udvega', '20:11', '21:50'],
+              ['Shubha', '21:50', '23:28'], ['Amrita', '23:28', '01:06', 1], ['Chara', '01:06', '02:45', 2], ['Roga', '02:45', '04:23', 2],
+              ['Kala', '04:23', '06:01', 2], ['Labha', '06:01', '07:40', 2],
+            ])
+            add('bad', 'Dur Muhurtam', m('07:38'), m('09:05'), 'veto')
+            add('bad', 'Gulika (disputed)', m('07:38'), m('09:00'), 'veto', ALL, { disputed: true })
+            add('bad', 'Rahu Kaal', m('10:22'), m('11:44'), 'veto')
+            add('bad', 'Noon window', m('13:01'), m('13:09'), 'veto')
+            add('bad', 'Lagna junction', m('14:01'), m('14:13'), 'veto')
+            add('bad', 'Yamaganda', m('14:27'), m('15:49'), 'veto')
+            add('bad', 'Lagna junction', m('18:31'), m('18:43'), 'veto')
+            add('bad', 'Midnight window', m('01:02', true), m('01:10', true), 'veto')
+            add('bad', 'Lagna junction', m('02:22', true), m('02:34', true), 'veto')
+            add('bad', 'Varjyam', m('03:29', true), m('05:08', true), 'veto')
+            add('good', 'Brahma Muhurta', m('05:54'), m('06:46'), 'plus', [7])
+            add('good', 'Abhijit', m('12:44'), m('13:27'), 'strong')
+            add('good', 'Amrit Kalam', m('13:06'), m('14:44'), 'plus')
+            add('base', 'Amavasya', X0, m('18:49'), 'veto', [0])
+            add('base', "Friday's weekday (before sunrise)", X0, SUNRISE, 'zero', [7])
+            add('base', 'Saturday', SUNRISE, X1, 'poor', [7])
+            add('base', 'Saturday; Pratipada', m('18:49'), m('19:32'), 'poor', [0])
+            add('base', 'Vaidhriti after midday', m('19:32'), X1, 'fb')
+          },
+        },
+        // Drik day + extra fixtures (tests/fixtures/drik*/vilnius-2026-05-10.json): Krishna Ashtami → 12:36, then Navami;
+        // Dhanishtha → 22:20, then Shatabhisha (both movable); yogas Brahma, Indra; no Vishti, no Varjyam.
+        // Choghadiya from the weekday rule (no Drik Choghadiya fixture for this date; it does not decide).
+        '2026-05-10': {
+          title: 'Sunday 10 May 2026 · an ordinary day',
+          load() {
+            ;[X0, X1, SUNRISE, SUNSET, NOON] = [m('04:16'), m('05:20', true), m('05:22'), m('21:10'), m('13:16')]
+            addCh([
+              ['Kala', '04:16', '04:20'], ['Labha', '04:20', '05:22'], ['Udvega', '05:22', '07:20'], ['Chara', '07:20', '09:19'],
+              ['Labha', '09:19', '11:17'], ['Amrita', '11:17', '13:16'], ['Kala', '13:16', '15:14'], ['Shubha', '15:14', '17:13'],
+              ['Roga', '17:13', '19:11'], ['Udvega', '19:11', '21:10'], ['Shubha', '21:10', '22:11'], ['Amrita', '22:11', '23:12'],
+              ['Chara', '23:12', '00:14', 1], ['Roga', '00:14', '01:15', 2], ['Kala', '01:15', '02:16', 2], ['Labha', '02:16', '03:17', 2],
+              ['Udvega', '03:17', '04:19', 2], ['Shubha', '04:19', '05:20', 2],
+            ])
+            add('bad', 'Lagna junction', m('04:37'), m('04:49'), 'veto')
+            add('bad', 'Lagna junction', m('12:27'), m('12:39'), 'veto')
+            add('bad', 'Noon window', m('13:12'), m('13:20'), 'veto')
+            add('bad', 'Yamaganda', m('13:16'), m('15:14'), 'veto')
+            add('bad', 'Gulika (disputed)', m('17:13'), m('19:11'), 'veto', ALL, { disputed: true })
+            add('bad', 'Dur Muhurtam', m('19:03'), m('20:07'), 'veto')
+            add('bad', 'Rahu Kaal', m('19:11'), m('21:10'), 'veto')
+            add('bad', 'Navami, first 25 ghatikas (D3)', m('12:36'), m('22:36'), 'veto')
+            add('bad', 'Lagna junction', m('00:03', true), m('00:15', true), 'veto')
+            add('bad', 'Baana Roga at night (R19)', m('00:34', true), X1, 'veto', [7])
+            add('bad', 'Midnight window', m('01:11', true), m('01:19', true), 'veto')
+            add('bad', 'Lagna junction', m('04:33', true), m('04:45', true), 'veto')
+            add('good', 'Brahma Muhurta', m('04:16'), m('04:49'), 'plus', [7])
+            add('good', 'Amrit Kalam', m('11:19'), m('13:00'), 'plus')
+            add('good', 'Abhijit', m('12:44'), m('13:47'), 'strong')
+            add('base', "Saturday's weekday (before sunrise)", X0, SUNRISE, 'poor')
+            add('base', 'Sunday; Ashtami; Dhanishtha', SUNRISE, m('12:36'), 'zero')
+            add('base', 'Navami (Rikta)', m('12:36'), X1, 'poor')
+          },
+        },
+      }
+      let day = '2026-05-10'
+      let cuts = []
+      function loadDay(key) {
+        day = key
+        V.length = 0
+        DAYS[key].load()
+        cuts = [...new Set([X0, X1, ...V.flatMap((v) => [v.s, v.e])])].filter((t) => t >= X0 && t <= X1).sort((a, b) => a - b)
+      }
+      loadDay(day)
 
       // ---- SPEC 13.4 verdict for one moment (same as D5) ----
       function at(t, g) {
@@ -334,7 +372,6 @@
         return { verdict, by, act }
       }
 
-      const cuts = [...new Set([X0, X1, ...V.flatMap((v) => [v.s, v.e])])].filter((t) => t >= X0 && t <= X1).sort((a, b) => a - b)
 
       // Verdict segments for one group, equal neighbours merged.
       function segsFor(g) {
@@ -628,6 +665,7 @@
       }
 
       function draw() {
+        document.getElementById('sunkey').innerHTML = `&uarr; Sunrise ${hhmm(SUNRISE)} &nbsp; &#9728; Solar noon ${hhmm(NOON)} &nbsp; &darr; Sunset ${hhmm(SUNSET)}`
         document.getElementById('legend').innerHTML = legendOrder()
           .map((v) => `<span>${iconHTML(v)}${label(v)}</span>`)
           .join('')
@@ -645,6 +683,11 @@
           `${iconHTML(r.verdict)}<b style="color:${colour(r.verdict)}">${hhmm(cursor)} · ${label(r.verdict)}</b> <span style="color:var(--color-muted)">(${GROUP_LABEL[group]})</span><ul>${lines}</ul>`
       }
 
+      document.getElementById('day').addEventListener('change', (e) => {
+        loadDay(e.target.value)
+        cursor = Math.min(Math.max(cursor, X0), X1 - 1)
+        draw()
+      })
       document.getElementById('activity').addEventListener('change', (e) => {
         group = Number(e.target.value)
         draw()
@@ -666,7 +709,12 @@
       const pq = new URLSearchParams(location.search).get('palette')
       if (pq) document.querySelector(`[data-p="${pq}"]`)?.click()
       const tq = new URLSearchParams(location.search).get('t')
-      if (tq) cursor = m(tq, tq < '05:54')
+      const dq = new URLSearchParams(location.search).get('day')
+      if (dq && DAYS[dq]) {
+        document.getElementById('day').value = dq
+        loadDay(dq)
+      }
+      if (tq) cursor = m(tq) < X0 ? m(tq, true) : m(tq)
       const hm = new URLSearchParams(location.search).get('hand')
       if (hm) document.querySelector(`[data-h="${hm}"]`)?.click()
       const theme = new URLSearchParams(location.search).get('theme')
