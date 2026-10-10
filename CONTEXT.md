@@ -2,21 +2,27 @@
 
 ## Status
 P0–P6 done and live (https://gerimantas.github.io/VedaCal/, commit 950f429, CI green).
+S9 (local, not pushed: e7cbe9b): every day sheet is brief — its general text folds out under
+"More about …" (rhythm card: "Daugiau apie tradicinį ritmą"). User found the time list and
+Choghadiya show the same times twice and asked for one view: new plan
+`.planning/PLAN-periods.md` (Q0–Q8) — every value of the day, combination rules, month,
+personal values, each backed by verified sources with links; graphic design is the main
+part. Q0 started (findings in the plan). The user is not a Vedic specialist: Q1 evidence
+decides what enters, not the user.
 S8: month marks favoured days (Pushya, Amrit Siddhi) green; key dates double as the legend.
 The day time list holds every window whole — nothing is cut, as on Drik (S7's Abhijit
 cancel-out rule is gone) — plus Bhadra, Vyatipata, Vaidhriti, the eclipse as seen here and
 the favoured window, each with a shared day track showing overlaps. Every day sheet opens on
 that day (times, why, what tradition does; SPEC 5.1 "Day sheets lead with the day").
-Choghadiya sheets are brief (general text folds out); other sheets still add the general
-text below. All new windows match Drik within 2 min in 3 cities. 1197 tests pass.
+All new windows match Drik within 2 min in 3 cities. 1197 tests pass.
 S7: About = "Using the app" + Glossary; no-card look, background lights.
 Workflow: the user reviews on localhost; show proposals before changing code; commit
 locally, push only on the user's command.
 
 ## Next Tasks
-- Make the other day sheets brief like Choghadiya (user chose this for all, 2026-10-10):
-  drop the general text below the lead, fold it out instead. Show each group's texts to the
-  user before changing code. Rule: SPEC 5.1 "Day sheets lead with the day"; code `src/ui/Sheet.svelte`.
+- Periods plan Q0 → Q1: write `.planning/research/catalogue.md` (S9 findings are in the plan
+  under Q0), then verify every value and rule with linked sources in `research/rules.md`.
+  plan: `.planning/PLAN-periods.md`. Push e7cbe9b only when the user says so.
 - New moon shows 18:49 (tithi end, moon card) and 18:50 (key dates, tradition card): two
   methods ~40 s apart (SPEC 11). Use one instant for both. Code: `src/core/panchang.ts`.
 - P7 pilot: the user shares the link with 5–10 people and collects what confuses them;
@@ -30,6 +36,10 @@ locally, push only on the user's command.
   with us on tithi to 8 s). Inside the gate, so only if the user asks. rules: SPEC 4.11.
 
 ## Done Log
+
+### 2026-10-10 (S9)
+- Every day sheet brief, general text folds out (e7cbe9b, local)
+- Plan for periods, combinations, month and personal values: `.planning/PLAN-periods.md`
 
 ### 2026-10-10 (S8)
 - Amrit Siddhi favoured day; Sarvartha Siddhi on the day screen; key dates double as legend
@@ -90,6 +100,15 @@ locally, push only on the user's command.
   is wrong; real value is Krishna Navami, waning. Only computed or Drik-fetched values count.
 
 ## Archive
+
+### Session 2026-10-10 (S9) — brief day sheets; plan for one view of the day's periods
+
+- **Done:** Every sheet with a lead is brief: general text folds out ("More about …"), closed on each opening; `data-sheet-brief` gone. Rhythm card has its own fold label. Nakshatra/Yoga/Ritu general texts lose "shown when you tap the row". Rahu Kaal/Yamaganda/Gulika lead writes the weekday lower-case mid-sentence (LT "; šeštadienis:").
+- **Done:** Plan `.planning/PLAN-periods.md`: catalogue → source registry (tiers, fake checks, links) → combination model with worked examples → graphic research + mockups + phone task test → engine values one at a time with `scripts/day-trace.ts` → combination engine → texts → views → release. Personal values (default = Drik-style general lists; "My data" switch) run through all phases.
+- **Decided / overturned:** One view replaces time list + folded Choghadiya (Gulika/Rahu/Yamaganda = Choghadiya parts 1/3/6). No "hour" level: a day is periods. Q1 evidence, not the user, decides what enters. No invented default birth date.
+- **Code:** `src/ui/Sheet.svelte`, `src/ui/Day.svelte`, `src/ui/day.ts`, `src/content/en.json`, `lt.json`; `.planning/SPEC.md` 5.1, `.planning/PLAN-periods.md` (planning repo).
+- **Entry point:** `npm run dev`; `npm test` (1197).
+- **Not measured:** Q0 catalogue file not written; Drik Chandrabalam/Tarabalam and Panchaka Rahita sections are empty in fixtures (fetcher does not capture them).
 
 ### Session 2026-10-10 (S8) — favoured/avoid days, day tracks, every day sheet about that day
 
