@@ -84,6 +84,17 @@
         color: var(--color-muted);
         margin-top: var(--space-2xs);
       }
+      .ic {
+        display: inline-block;
+        width: 1.15rem;
+        height: 1.15rem;
+        vertical-align: -0.28rem;
+        margin: 0 4px 0 0;
+      }
+      .key .ic {
+        width: 1rem;
+        height: 1rem;
+      }
       .key i {
         display: inline-block;
         width: 0.7rem;
@@ -154,10 +165,10 @@
       <p id="big" hidden></p>
       <div id="dial"></div>
       <div class="key">
-        <span><i style="background: var(--color-good)"></i>Good</span>
-        <span><i style="background: var(--color-neutral)"></i>Neutral</span>
-        <span><i style="background: var(--fb)"></i>Only if it cannot wait</span>
-        <span><i style="background: var(--color-avoid)"></i>Avoid</span>
+        <span data-v="good">Good</span>
+        <span data-v="neutral">Neutral</span>
+        <span data-v="fb">Only if it cannot wait</span>
+        <span data-v="avoid">Avoid</span>
       </div>
       <p class="key">
         <span>&uarr; Sunrise 07:38</span><span>&#9728; Solar noon 13:05</span><span>&darr; Sunset 18:33</span>
@@ -325,6 +336,20 @@
       let cursor = NOW
       const updaters = []
 
+      // ---- verdict icons: shape + colour, never colour alone (WCAG 1.4.1) ----
+      // Good = circle with a check, Neutral = rounded square with a dash,
+      // If needed = warning triangle with "!", Avoid = stop octagon with a cross. 24 x 24 box.
+      function iconInner(v) {
+        const f = colour(v)
+        const w = css('--color-card')
+        const line = (d, sw = 2.6) => `<path d="${d}" fill="none" stroke="${w}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`
+        if (v === 'good') return `<circle cx="12" cy="12" r="11" fill="${f}"/>` + line('M6.6 12.4l3.6 3.6 7.2-7.8')
+        if (v === 'neutral') return `<rect x="1.5" y="1.5" width="21" height="21" rx="5" fill="${f}"/>` + line('M7 12h10', 2.8)
+        if (v === 'fb') return `<path d="M12 2.2L22.6 21H1.4Z" fill="${f}" stroke="${f}" stroke-width="1.6" stroke-linejoin="round"/>` + line('M12 9v5.4') + `<circle cx="12" cy="17.6" r="1.5" fill="${w}"/>`
+        return `<path d="M16.4 1.4L22.6 7.6V16.4L16.4 22.6H7.6L1.4 16.4V7.6L7.6 1.4Z" fill="${f}"/>` + line('M8.3 8.3l7.4 7.4M15.7 8.3l-7.4 7.4')
+      }
+      const iconHTML = (v) => `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${iconInner(v)}</svg>`
+
       // ---- the clock ----
       function drawDial(segs) {
         const host = document.getElementById('dial')
@@ -449,7 +474,8 @@
         const textG = el('g', { display: handMode === 'outside' ? 'none' : '' }, svg)
         // Two lines: the time; then verdict and span as one line, one size, one colour.
         const tTime = el('text', { x: c, y: c, 'text-anchor': 'middle', 'font-size': 30, 'font-weight': 500, fill: css('--color-ink'), 'font-variant-numeric': 'tabular-nums', ...halo }, textG)
-        const tLine = el('text', { x: c, y: c + 24, 'text-anchor': 'middle', 'font-size': 16, 'font-weight': 600, 'font-variant-numeric': 'tabular-nums', ...halo }, textG)
+        const iconG = el('g', {}, textG)
+        const tLine = el('text', { x: c, y: c + 24, 'text-anchor': 'start', 'font-size': 16, 'font-weight': 600, 'font-variant-numeric': 'tabular-nums', ...halo }, textG)
         const big = document.getElementById('big')
         big.hidden = handMode !== 'outside'
 
@@ -463,10 +489,11 @@
           const [x2, y2] = pt(e, rVer + verW / 2 + 1.5)
           const R = rVer + verW / 2 + 1.5
           outline.setAttribute('d', `M${x1},${y1} A${R},${R} 0 ${e - g.s > 720 ? 1 : 0} 1 ${x2},${y2}`)
-          const word = { good: 'Good', neutral: 'Neutral', fb: 'If needed', avoid: 'Avoid' }[r.verdict]
           tTime.textContent = hhmm(cursor)
-          tLine.textContent = `${word} ${hhmm(g.s)}–${hhmm(g.e)}`
+          // Second line: the verdict icon, then the span in the verdict colour.
+          tLine.textContent = `${hhmm(g.s)}–${hhmm(g.e)}`
           tLine.setAttribute('fill', colour(r.verdict))
+          iconG.innerHTML = iconInner(r.verdict)
           // Place the text block. dodge: below the centre while the hand points into the upper half,
           // above it while the hand points down, GAP from the hub. Shrink only if a line would reach
           // the inner rings (measured per line, after placing).
@@ -474,8 +501,16 @@
           const rFree = r0 - 3
           const place = (k) => {
             tTime.setAttribute('font-size', 30 * k)
-            tLine.setAttribute('font-size', 16 * k)
-            tLine.setAttribute('y', c + 24 * k)
+            const fs = 17 * k
+            const base = c + 26 * k
+            tLine.setAttribute('font-size', fs)
+            tLine.setAttribute('y', base)
+            const iz = fs * 1.3
+            const gap = fs * 0.4
+            const left = c - (iz + gap + tLine.getComputedTextLength()) / 2
+            tLine.setAttribute('x', left + iz + gap)
+            const iy = base - fs * 0.36 - iz / 2
+            iconG.setAttribute('transform', `translate(${left},${iy}) scale(${iz / 24})`)
             textG.removeAttribute('transform')
             const bb = textG.getBBox()
             const dx = c - (bb.x + bb.width / 2)
@@ -483,6 +518,7 @@
             if (handMode === 'dodge') dy = Math.cos(a) > 0 ? c + GAP - bb.y : c - GAP - (bb.y + bb.height)
             textG.setAttribute('transform', `translate(${dx},${dy})`)
             let far = 0
+            for (const x of [left, left + iz]) for (const y of [iy, iy + iz]) far = Math.max(far, Math.hypot(x + dx - c, y + dy - c))
             for (const t of [tTime, tLine]) {
               const b = t.getBBox()
               for (const x of [b.x, b.x + b.width]) for (const y of [b.y + 3 * k, b.y + b.height - 3 * k]) far = Math.max(far, Math.hypot(x + dx - c, y + dy - c))
@@ -495,7 +531,7 @@
             if (far <= rFree) break
             k *= rFree / far
           }
-          big.innerHTML = `<span class="t">${hhmm(cursor)}</span> <b style="color:${colour(r.verdict)}">${word}</b> <span class="s">${hhmm(g.s)}–${hhmm(g.e)}</span>`
+          big.innerHTML = `<span class="t">${hhmm(cursor)}</span> ${iconHTML(r.verdict)}<b style="color:${colour(r.verdict)}">${hhmm(g.s)}–${hhmm(g.e)}</b>`
         })
 
         const pick = (ev) => {
@@ -516,6 +552,7 @@
       }
 
       function draw() {
+        document.querySelectorAll('.key [data-v]').forEach((e) => (e.innerHTML = iconHTML(e.dataset.v) + e.textContent.trim()))
         drawDial(segsFor(group))
         mark()
       }
@@ -528,7 +565,7 @@
           .map((v) => `<li>${v.name} — ${v.disputed ? 'disputed, does not decide' : LEVEL_LABEL[v.level]}${r.by.includes(v) ? ' <b>← decides</b>' : ''}</li>`)
           .join('')
         document.getElementById('readout').innerHTML =
-          `<b class="${cls}">${hhmm(cursor)} · ${VERDICT_LABEL[r.verdict]}</b> <span style="color:var(--color-muted)">(${GROUP_LABEL[group]})</span><ul>${lines}</ul>`
+          `${iconHTML(r.verdict)}<b class="${cls}">${hhmm(cursor)} · ${VERDICT_LABEL[r.verdict]}</b> <span style="color:var(--color-muted)">(${GROUP_LABEL[group]})</span><ul>${lines}</ul>`
       }
 
       document.querySelectorAll('[data-g]').forEach((b) =>
