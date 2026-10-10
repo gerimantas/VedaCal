@@ -121,6 +121,15 @@
     </div>
   </section>
 
+  <h2 class="about-head">{t('paletteTitle')}</h2>
+  <section class="card about-intro">
+    <div class="segmented" role="group" aria-label={t('paletteTitle')}>
+      {#each [['current', t('paletteCurrent')], ['rainbow', t('paletteRainbow')]] as const as [value, label] (value)}
+        <button aria-pressed={app.settings.palette === value} onclick={() => setSetting('palette', value)}>{label}</button>
+      {/each}
+    </div>
+  </section>
+
   {#if install.available}
     <h2 class="about-head">{t('installApp')}</h2>
     <section class="card about-intro">

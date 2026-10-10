@@ -3,6 +3,7 @@
   // render dayView() from ./day, so every value on screen is the engine's output.
   import { computeDay } from '../core/panchang'
   import { addDays, civilDate } from '../core/time'
+  import DayClock from './DayClock.svelte'
   import { clockOn, dayView, momentFor, nowHtml, type Fact, type SignLine } from './day'
   import { t } from './format'
   import { icon } from './icons'
@@ -30,6 +31,7 @@
   // screen sets it when a day is tapped.
   const date = $derived(app.date ?? today)
   const day = $derived(computeDay(date, loc))
+  const prev = $derived(computeDay(addDays(date, -1), loc))
   const v = $derived.by(() => {
     void app.settings.hour12 // times are formatted inside dayView; re-run when the format changes
     return dayView(day, loc, momentFor(day, loc, clock), app.settings.zodiac, clockOn(day, loc, clock))
@@ -88,6 +90,8 @@
     <p class="track-label num">{v.tithi.ends}</p>
     <p class="meaning">{v.tithi.meaning}</p>
   </section>
+
+  <DayClock {day} {prev} {loc} now={clock} />
 
   <section class="card arcbox" aria-labelledby="s-sun">
     <h2 id="s-sun">{t('sectionRhythm')}</h2>

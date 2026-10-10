@@ -34,6 +34,14 @@
   --glow: oklch(76.7% 0.139 91 / 0.28);
   --color-card: oklch(20.5% 0.02 264);
   --color-card-line: oklch(34% 0.025 264);
+  /* Day clock verdicts (SPEC 13.4): fallback = "only if it cannot wait"; rainbow palette (Settings). */
+  --color-fallback: #f0a43a;
+  --color-sun: #e2a72e;
+  --rb-red: #ff5a4f;
+  --rb-orange: #ff9a2e;
+  --rb-yellow: #f2cf1d;
+  --rb-green: #4cc96b;
+  --rb-blue: #4ea8ff;
   --stars: oklch(90% 0.02 264 / 0.55);
 }
 
@@ -61,6 +69,14 @@
   --glow: oklch(74% 0.13 88 / 0.22);
   --color-card: oklch(99% 0.004 264);
   --color-card-line: oklch(86% 0.012 264);
+  /* Day clock verdicts (SPEC 13.4): fallback = "only if it cannot wait"; rainbow palette (Settings). */
+  --color-fallback: #b8690b;
+  --color-sun: #e2a72e;
+  --rb-red: #d62828;
+  --rb-orange: #e8730c;
+  --rb-yellow: #c49600;
+  --rb-green: #2b9348;
+  --rb-blue: #1d6fd6;
   --stars: transparent;
 }
 
@@ -89,6 +105,14 @@
     --glow: oklch(74% 0.13 88 / 0.22);
     --color-card: oklch(99% 0.004 264);
     --color-card-line: oklch(86% 0.012 264);
+    /* Day clock verdicts (SPEC 13.4): fallback = "only if it cannot wait"; rainbow palette (Settings). */
+    --color-fallback: #b8690b;
+    --color-sun: #e2a72e;
+    --rb-red: #d62828;
+    --rb-orange: #e8730c;
+    --rb-yellow: #c49600;
+    --rb-green: #2b9348;
+    --rb-blue: #1d6fd6;
     --stars: transparent;
   }
 }

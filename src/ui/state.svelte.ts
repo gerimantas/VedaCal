@@ -24,8 +24,13 @@ function stored(): Place | null {
 const saved = stored()
 
 export type Theme = 'system' | 'dark' | 'light'
-/** SPEC 5.3. hour12 null = the device's habit until the user picks one; lang null = the device's language. */
-type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme; lang: Lang | null }
+/** Day clock colours (user, 2026-10-10): current by default, rainbow as an option. */
+export type Palette = 'current' | 'rainbow'
+/**
+ * SPEC 5.3. hour12 null = the device's habit until the user picks one; lang null = the device's language.
+ * activity: the day clock's activity group, 0 "General" by default (PLAN-periods Q3 decisions).
+ */
+type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme; lang: Lang | null; activity: number; palette: Palette }
 function storedSettings(): Settings {
   let s: Record<string, unknown> = {}
   try {
@@ -38,6 +43,8 @@ function storedSettings(): Settings {
     hour12: typeof s.hour12 === 'boolean' ? s.hour12 : null,
     theme: s.theme === 'dark' || s.theme === 'light' ? s.theme : 'system',
     lang: s.lang === 'en' || s.lang === 'lt' ? s.lang : null,
+    activity: Number.isInteger(s.activity) && (s.activity as number) >= 0 && (s.activity as number) <= 9 ? (s.activity as number) : 0,
+    palette: s.palette === 'rainbow' ? 'rainbow' : 'current',
   }
 }
 
