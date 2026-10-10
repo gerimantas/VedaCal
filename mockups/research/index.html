@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Periods survey</title>
+    <link rel="stylesheet" href="../../src/styles/tokens.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: var(--space-lg) var(--space-md);
+        background: var(--color-paper-3);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+        line-height: 1.45;
+      }
+      main {
+        max-width: 72rem;
+        margin: 0 auto;
+      }
+      h1,
+      h2 {
+        font-family: var(--font-display);
+        font-weight: 450;
+      }
+      h1 {
+        margin: 0 0 var(--space-xs);
+      }
+      h2 {
+        margin: var(--space-2xl) 0 var(--space-xs);
+      }
+      p.lead {
+        margin: 0 0 var(--space-md);
+        color: var(--color-muted);
+        max-width: 44rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+        gap: var(--space-lg);
+        align-items: start;
+      }
+      figure.card {
+        margin: 0;
+      }
+      .card {
+        background: var(--color-card);
+        border: var(--rule-hair) solid var(--color-card-line);
+        border-radius: var(--radius-md);
+        padding: var(--space-sm);
+      }
+      .card h3 {
+        margin: 0 0 var(--space-2xs);
+        font-size: var(--text-base);
+      }
+      .card p {
+        margin: var(--space-2xs) 0 0;
+        font-size: var(--text-sm);
+      }
+      .card .src {
+        color: var(--color-muted);
+        font-size: var(--text-xs);
+      }
+      .card a {
+        color: var(--color-accent-ink);
+      }
+      .shot {
+        display: block;
+        width: 100%;
+        max-height: 34rem;
+        object-fit: cover;
+        object-position: top;
+        border: var(--rule-hair) solid var(--color-rule);
+        border-radius: var(--radius-sm);
+        cursor: zoom-in;
+      }
+      .shot.open {
+        max-height: none;
+        cursor: zoom-out;
+      }
+      b.ok {
+        color: var(--color-good);
+      }
+      b.no {
+        color: var(--color-avoid);
+      }
+      .dir h3 {
+        font-family: var(--font-display);
+        font-size: var(--text-lg);
+        font-weight: 500;
+      }
+      .tag {
+        display: inline-block;
+        font-size: var(--text-xs);
+        color: var(--color-muted);
+        border: var(--rule-hair) solid var(--color-rule);
+        border-radius: var(--radius-pill);
+        padding: 0 var(--space-xs);
+        margin-right: var(--space-3xs);
+      }
+      /* Shape sketches: shapes only, no real times. */
+      .sk {
+        margin: var(--space-xs) 0;
+        font-size: var(--text-xs);
+        color: var(--color-muted);
+      }
+      .bar {
+        display: flex;
+        height: 0.9rem;
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 3px 0;
+      }
+      .bar.thin {
+        height: 0.45rem;
+      }
+      .bar i {
+        display: block;
+      }
+      .g {
+        background: var(--color-good);
+      }
+      .a {
+        background: var(--color-avoid);
+      }
+      .n {
+        background: var(--color-neutral);
+      }
+      .lane {
+        display: grid;
+        grid-template-columns: minmax(4.5rem, max-content) 1fr;
+        align-items: center;
+        gap: var(--space-2xs);
+      }
+      .dial {
+        width: 8rem;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        margin: 0 auto;
+        background: conic-gradient(
+          var(--color-neutral) 0 40deg,
+          var(--color-good) 40deg 70deg,
+          var(--color-avoid) 70deg 95deg,
+          var(--color-neutral) 95deg 150deg,
+          var(--color-good) 150deg 170deg,
+          var(--color-avoid) 170deg 200deg,
+          var(--color-neutral) 200deg 360deg
+        );
+        -webkit-mask: radial-gradient(closest-side, transparent 80%, #000 81%);
+        mask: radial-gradient(closest-side, transparent 80%, #000 81%);
+        position: relative;
+      }
+      .dial-in {
+        position: absolute;
+        width: 8rem;
+        aspect-ratio: 1;
+        left: 50%;
+        transform: translateX(-50%) scale(0.74);
+        border-radius: 50%;
+        background: conic-gradient(
+          var(--color-avoid) 0 30deg,
+          var(--color-good) 30deg 60deg,
+          var(--color-avoid) 60deg 90deg,
+          var(--color-neutral) 90deg 120deg,
+          var(--color-good) 120deg 180deg,
+          var(--color-avoid) 180deg 240deg,
+          var(--color-neutral) 240deg 360deg
+        );
+        -webkit-mask: radial-gradient(closest-side, transparent 82%, #000 83%);
+        mask: radial-gradient(closest-side, transparent 82%, #000 83%);
+      }
+      .rows div {
+        padding: 2px 6px;
+        margin: 2px 0;
+        border-radius: 3px;
+        color: #fff;
+      }
+      .cal {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+      }
+      .cal i {
+        aspect-ratio: 1;
+        border-radius: 2px;
+      }
+      ul.plain {
+        margin: var(--space-2xs) 0 0;
+        padding-left: 1.1rem;
+        font-size: var(--text-sm);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>How others show a day of periods and a month</h1>
+      <p class="lead">
+        Survey for PLAN-periods Q3.1, captured 2026-10-10 at phone width (390 px). First come the directions to choose
+        from; below them, each screenshot with one line on what works and one on what fails. Tap a screenshot to see it
+        whole. The coloured shapes in the directions are sketches of the idea, not real times.
+      </p>
+
+      <h2>Directions — day view</h2>
+      <div class="grid">
+        <section class="card dir">
+          <h3>D1 · Verdict band + lanes</h3>
+          <div class="sk">
+            <div class="lane"><span>Verdict</span><div class="bar"><i class="n" style="flex:3"></i><i class="g" style="flex:2"></i><i class="a" style="flex:2"></i><i class="n" style="flex:2"></i><i class="g" style="flex:1"></i><i class="a" style="flex:2"></i><i class="n" style="flex:4"></i></div></div>
+            <div class="lane"><span>Choghadiya</span><div class="bar thin"><i class="a" style="flex:2"></i><i class="g" style="flex:2"></i><i class="a" style="flex:2"></i><i class="n" style="flex:2"></i><i class="g" style="flex:2"></i><i class="g" style="flex:2"></i><i class="a" style="flex:4"></i></div></div>
+            <div class="lane"><span>Rahu etc.</span><div class="bar thin"><i style="flex:5"></i><i class="a" style="flex:2"></i><i style="flex:3"></i><i class="a" style="flex:2"></i><i style="flex:4"></i></div></div>
+            <div class="lane"><span>Muhurtas</span><div class="bar thin"><i class="g" style="flex:1"></i><i style="flex:5"></i><i class="g" style="flex:1"></i><i style="flex:9"></i></div></div>
+          </div>
+          <p>
+            The day on one time axis. The top band is the combined answer; under it, one thin lane per system, so you see
+            which period made a part good or bad. Tap a part to see why.
+          </p>
+          <p><span class="tag">Drik graph</span><span class="tag">Gantt chart</span><span class="tag">Hypnogram</span></p>
+        </section>
+
+        <section class="card dir">
+          <h3>D2 · Dial with rings</h3>
+          <div class="sk" style="position: relative"><div class="dial-in"></div><div class="dial"></div></div>
+          <p>
+            Keep today's circle. The outer ring becomes the combined answer, the inner ring shows the systems. The sun marks
+            "now", as it does today.
+          </p>
+          <p><span class="tag">VedaCal dial</span><span class="tag">timeanddate strip</span></p>
+        </section>
+
+        <section class="card dir">
+          <h3>D3 · Answer first, list below</h3>
+          <div class="sk" style="font-size: var(--text-sm); color: var(--color-ink)">
+            <b>Now: avoid</b> — a good Choghadiya, but Rahu Kaal runs until 11:43.<br />
+            <span style="color: var(--color-good)">● Good</span> 12:43–13:27 · 15:49–17:11<br />
+            <span style="color: var(--color-avoid)">● Avoid</span> 10:21–11:43 · 14:27–15:49
+          </div>
+          <p>
+            A sentence says what now is and why. Under it, the day's good and bad windows in time order. Each window opens
+            to its periods and sources. No chart needed to get the answer.
+          </p>
+          <p><span class="tag">DekhoPanchang briefing</span><span class="tag">Prokerala "right now"</span><span class="tag">Shubh "current" cards</span></p>
+        </section>
+
+        <section class="card dir">
+          <h3>D4 · Coloured rows</h3>
+          <div class="sk rows">
+            <div class="a">07:37 Avoid · Kaal, Gulika</div>
+            <div class="g">09:00 Good · Shubh</div>
+            <div class="a">10:21 Avoid · Rog, Rahu Kaal</div>
+            <div class="n" style="color: var(--color-ink)">11:43 Neutral · Udveg</div>
+          </div>
+          <p>
+            The day as a list of parts, one full-width row each, coloured by the combined answer. Each row names the periods
+            active in it.
+          </p>
+          <p><span class="tag">Prokerala Choghadiya</span><span class="tag">Drik Choghadiya</span></p>
+        </section>
+      </div>
+
+      <h2>Directions — month view</h2>
+      <div class="grid">
+        <section class="card dir">
+          <h3>M1 · Coloured month grid</h3>
+          <div class="sk cal">
+            <i class="n"></i><i class="g"></i><i class="n"></i><i class="a"></i><i class="n"></i><i class="g"></i><i class="n"></i>
+            <i class="a"></i><i class="n"></i><i class="n"></i><i class="g"></i><i class="a"></i><i class="n"></i><i class="n"></i>
+            <i class="g"></i><i class="n"></i><i class="a"></i><i class="n"></i><i class="n"></i><i class="g"></i><i class="a"></i>
+          </div>
+          <p>
+            Today's month grid, with each day coloured good / neutral / avoid. Tap a day to open it. Shows the month's shape
+            at a glance; the reasons live one tap away.
+          </p>
+          <p><span class="tag">GitHub heatmap</span><span class="tag">VedaCal month</span></p>
+        </section>
+
+        <section class="card dir">
+          <h3>M2 · Day list with mini strips</h3>
+          <div class="sk">
+            <div class="lane"><span>Sat 10 · avoid</span><div class="bar thin"><i class="n" style="flex:3"></i><i class="a" style="flex:3"></i><i class="g" style="flex:1"></i><i class="a" style="flex:2"></i><i class="n" style="flex:4"></i></div></div>
+            <div class="lane"><span>Sun 11 · good</span><div class="bar thin"><i class="g" style="flex:4"></i><i class="n" style="flex:2"></i><i class="a" style="flex:1"></i><i class="g" style="flex:6"></i></div></div>
+            <div class="lane"><span>Mon 12 · neutral</span><div class="bar thin"><i class="n" style="flex:5"></i><i class="g" style="flex:2"></i><i class="a" style="flex:2"></i><i class="n" style="flex:4"></i></div></div>
+          </div>
+          <p>
+            One row per day: the date, the day's answer in a word, and a tiny strip of its good and bad parts. Shows the
+            best window of each day, not only the day's verdict.
+          </p>
+          <p><span class="tag">yr.no day rows</span><span class="tag">Prokerala list</span><span class="tag">timeanddate strip</span></p>
+        </section>
+      </div>
+
+      <h2>Panchang sites</h2>
+      <div class="grid">
+        <figure class="card">
+          <img class="shot" src="shots/drik-day-graph.webp" alt="Drik day page graph" loading="lazy" />
+          <h3>Drik · day graph</h3>
+          <p><b class="ok">Works:</b> tithi, nakshatra, yoga, karana and weekday share one time axis — you see when each changes.</p>
+          <p><b class="no">Fails:</b> tiny text, numbered footnotes, no colour for good or bad.</p>
+          <p class="src"><a href="https://www.drikpanchang.com/panchang/day-panchang.html?geoname-id=593116">drikpanchang.com</a> · Vilnius</p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/drik-day-lists.webp" alt="Drik auspicious and inauspicious tables" loading="lazy" />
+          <h3>Drik · good and bad lists</h3>
+          <p><b class="ok">Works:</b> a clear split into auspicious and inauspicious times.</p>
+          <p><b class="no">Fails:</b> two lists of times; you compare them in your head to find overlaps.</p>
+          <p class="src"><a href="https://www.drikpanchang.com/panchang/day-panchang.html?geoname-id=593116">drikpanchang.com</a></p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/drik-chogh.webp" alt="Drik Choghadiya" loading="lazy" />
+          <h3>Drik · Choghadiya</h3>
+          <p><b class="ok">Works:</b> each part has a rating colour; notes like "Kaal Vela" sit under the time.</p>
+          <p><b class="no">Fails:</b> one system only; the overlap note is small and does not change the colour.</p>
+          <p class="src"><a href="https://www.drikpanchang.com/muhurat/choghadiya.html?geoname-id=593116">drikpanchang.com</a></p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/drik-hora.webp" alt="Drik Hora" loading="lazy" />
+          <h3>Drik · Hora</h3>
+          <p><b class="ok">Works:</b> same clear row pattern as Choghadiya.</p>
+          <p><b class="no">Fails:</b> 24 rows — a long scroll; a separate page from Choghadiya, though the times overlap.</p>
+          <p class="src"><a href="https://www.drikpanchang.com/muhurat/hora.html?geoname-id=593116">drikpanchang.com</a></p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/drik-gowri.webp" alt="Drik Gowri" loading="lazy" />
+          <h3>Drik · Gowri (Tamil)</h3>
+          <p><b class="ok">Works:</b> same pattern; ratings named in plain words (Good, Bad, Best).</p>
+          <p><b class="no">Fails:</b> a third separate page for one more system of the same day.</p>
+          <p class="src"><a href="https://www.drikpanchang.com/tamil/tamil-gowri-panchangam.html?geoname-id=593116">drikpanchang.com</a></p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/prokerala-chogh.webp" alt="Prokerala Choghadiya" loading="lazy" />
+          <h3>Prokerala · Choghadiya</h3>
+          <p>
+            <b class="ok">Works:</b> full-width colour bars read at once. The only combined verdict found in the field:
+            "Right now it is Labh choghadiya but overlapped by vaar vela, therefore inauspicious."
+          </p>
+          <p><b class="no">Fails:</b> that sentence covers only "now"; the overlapped row stays coloured as good.</p>
+          <p class="src"><a href="https://www.prokerala.com/astrology/choghadiya.php">prokerala.com</a> · Mumbai</p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/shubh-now.webp" alt="Shubh Panchang current cards" loading="lazy" />
+          <h3>Shubh Panchang · "current" cards</h3>
+          <p><b class="ok">Works:</b> answers "what is now" for each system.</p>
+          <p><b class="no">Fails:</b> four separate answers that disagree (Abhijit good, Choghadiya bad); the user must combine them.</p>
+          <p class="src"><a href="https://www.shubhpanchang.com/">shubhpanchang.com</a></p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/dekho-brief.webp" alt="DekhoPanchang daily briefing" loading="lazy" />
+          <h3>DekhoPanchang · daily briefing</h3>
+          <p><b class="ok">Works:</b> the answer first, in words; good and bad both listed; the best window and Rahu Kaal as chips.</p>
+          <p><b class="no">Fails:</b> no sources; generic text; only two windows; no picture of the day.</p>
+          <p class="src"><a href="https://www.dekhopanchang.com/">dekhopanchang.com</a></p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/drik-month.webp" alt="Drik month calendar" loading="lazy" />
+          <h3>Drik · month</h3>
+          <p><b class="ok">Works:</b> tithi, nakshatra, sunrise and sunset for every day in one place.</p>
+          <p><b class="no">Fails:</b> unreadable on a phone; no verdict for any day.</p>
+          <p class="src"><a href="https://www.drikpanchang.com/panchang/month-panchang.html?geoname-id=593116">drikpanchang.com</a></p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/prokerala-month.webp" alt="Prokerala month list" loading="lazy" />
+          <h3>Prokerala · month as a list</h3>
+          <p><b class="ok">Works:</b> one row per day — readable on a phone, room for text.</p>
+          <p><b class="no">Fails:</b> no verdict; the yellow highlight only means "festival".</p>
+          <p class="src"><a href="https://www.prokerala.com/general/calendar/hinducalendar.php">prokerala.com</a> · Ujjain</p>
+        </figure>
+      </div>
+
+      <h2>Outside the field</h2>
+      <div class="grid">
+        <figure class="card">
+          <img class="shot" src="shots/tad-strip.webp" alt="timeanddate sun strip" loading="lazy" />
+          <h3>timeanddate · one-day strip</h3>
+          <p><b class="ok">Works:</b> the whole 24 hours in one bar; night, twilight and day as shades; totals in the legend.</p>
+          <p><b class="no">Fails:</b> the bar has no labels; you match it to a legend below.</p>
+          <p class="src"><a href="https://www.timeanddate.com/sun/lithuania/vilnius">timeanddate.com</a></p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/yr-days.webp" alt="yr.no day rows" loading="lazy" />
+          <h3>yr.no · days in parts</h3>
+          <p><b class="ok">Works:</b> each day is a row with night, day and evening — a day summed up in three parts.</p>
+          <p><b class="no">Fails:</b> icons, not colours; cannot hold many short periods.</p>
+          <p class="src"><a href="https://www.yr.no/en/forecast/daily-table/2-593116/Lithuania/Vilnius/Vilnius">yr.no</a></p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/meteoblue.webp" alt="meteoblue week rows" loading="lazy" />
+          <h3>meteoblue · week rows</h3>
+          <p><b class="ok">Works:</b> compact rows, easy to scan down for the best day.</p>
+          <p><b class="no">Fails:</b> nothing about the parts of a day; an ad covers the list.</p>
+          <p class="src"><a href="https://www.meteoblue.com/en/weather/week/vilnius_lithuania_593116">meteoblue.com</a></p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/github-heat.webp" alt="GitHub contribution heatmap" loading="lazy" />
+          <h3>GitHub · calendar heatmap</h3>
+          <p><b class="ok">Works:</b> colour per day shows the pattern of a whole period at once.</p>
+          <p><b class="no">Fails:</b> on a phone the cells are tiny and clipped; colour says how much, never why.</p>
+          <p class="src"><a href="https://github.com/torvalds">github.com</a></p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/wiki-gantt.webp" alt="Gantt chart" loading="lazy" />
+          <h3>Gantt chart · lanes</h3>
+          <p><b class="ok">Works:</b> one row per item on a shared time axis, with a "today" line — like one lane per system.</p>
+          <p><b class="no">Fails:</b> needs width; on a phone the labels must be very short.</p>
+          <p class="src"><a href="https://en.wikipedia.org/wiki/Gantt_chart">Wikipedia</a> (CC BY-SA)</p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/wiki-hypnogram.webp" alt="Sleep hypnogram" loading="lazy" />
+          <h3>Sleep hypnogram · one level line</h3>
+          <p><b class="ok">Works:</b> one line steps between levels over time — like good / neutral / avoid through the day.</p>
+          <p><b class="no">Fails:</b> hides what caused each level.</p>
+          <p class="src"><a href="https://en.wikipedia.org/wiki/Hypnogram">Wikipedia</a> (CC BY-SA)</p>
+        </figure>
+      </div>
+
+      <h2>VedaCal now</h2>
+      <div class="grid">
+        <figure class="card">
+          <img class="shot" src="shots/vedacal.webp" alt="VedaCal day dial" loading="lazy" />
+          <h3>Day · dial and list</h3>
+          <p><b class="ok">Works:</b> the whole day on one circle; marks for periods; the sun shows "now".</p>
+          <p><b class="no">Fails:</b> Choghadiya is not on the dial; the list repeats the dial's times; no combined answer.</p>
+        </figure>
+        <figure class="card">
+          <img class="shot" src="shots/vedacal-month.webp" alt="VedaCal month" loading="lazy" />
+          <h3>Month · grid with dots</h3>
+          <p><b class="ok">Works:</b> clean and readable; moon phase on every day.</p>
+          <p><b class="no">Fails:</b> avoid days are hidden (now reopened); a dot does not say good or bad.</p>
+        </figure>
+        <section class="card">
+          <h3>Not captured</h3>
+          <ul class="plain">
+            <li>Apple Weather hour strip, sleep apps — app only, no web page.</li>
+            <li>Google Calendar day view — needs a login.</li>
+            <li>Windy — a map behind a consent screen, no day strip without clicks.</li>
+            <li>Tide sites — the page tried returned "not found".</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+    <script>
+      document.querySelectorAll('.shot').forEach((i) => i.addEventListener('click', () => i.classList.toggle('open')))
+    </script>
+  </body>
+</html>
