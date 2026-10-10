@@ -1,0 +1,1154 @@
+{
+  "source": {
+    "hora": "https://www.drikpanchang.com/muhurat/hora.html?geoname-id=1261481&date=04/10/2026",
+    "gowri": "https://www.drikpanchang.com/tamil/tamil-gowri-panchangam.html?geoname-id=1261481&date=04/10/2026",
+    "lagna": "https://www.drikpanchang.com/muhurat/lagna.html?geoname-id=1261481&date=04/10/2026",
+    "panchakaRahita": "https://www.drikpanchang.com/muhurat/panchaka-rahita-muhurat.html?geoname-id=1261481&date=04/10/2026",
+    "chandrabalam": "https://www.drikpanchang.com/panchang/chandrabalam/chandrabalam-timings.html?geoname-id=1261481&date=04/10/2026",
+    "tarabalam": "https://www.drikpanchang.com/panchang/tarabalam/tarabalam-timings.html?geoname-id=1261481&date=04/10/2026",
+    "doGhati": "https://www.drikpanchang.com/muhurat/daily/do-ghati-muhurat.html?geoname-id=1261481&date=04/10/2026"
+  },
+  "fetchedAt": "2026-10-10T09:12:58.249Z",
+  "city": "new-delhi",
+  "date": "2026-10-04",
+  "tz": "Asia/Kolkata",
+  "hora": {
+    "day": [
+      {
+        "name": "Sun",
+        "quality": "Vigorous",
+        "start": "2026-10-04T00:45:00.000Z",
+        "end": "2026-10-04T01:44:00.000Z"
+      },
+      {
+        "name": "Venus",
+        "quality": "Beneficial",
+        "start": "2026-10-04T01:44:00.000Z",
+        "end": "2026-10-04T02:44:00.000Z"
+      },
+      {
+        "name": "Mercury",
+        "quality": "Quick",
+        "start": "2026-10-04T02:44:00.000Z",
+        "end": "2026-10-04T03:43:00.000Z"
+      },
+      {
+        "name": "Moon",
+        "quality": "Gentle",
+        "start": "2026-10-04T03:43:00.000Z",
+        "end": "2026-10-04T04:42:00.000Z"
+      },
+      {
+        "name": "Saturn",
+        "quality": "Sluggish",
+        "start": "2026-10-04T04:42:00.000Z",
+        "end": "2026-10-04T05:41:00.000Z"
+      },
+      {
+        "name": "Jupiter",
+        "quality": "Fruitful",
+        "start": "2026-10-04T05:41:00.000Z",
+        "end": "2026-10-04T06:40:00.000Z"
+      },
+      {
+        "name": "Mars",
+        "quality": "Aggressive",
+        "start": "2026-10-04T06:40:00.000Z",
+        "end": "2026-10-04T07:39:00.000Z"
+      },
+      {
+        "name": "Sun",
+        "quality": "Vigorous",
+        "start": "2026-10-04T07:39:00.000Z",
+        "end": "2026-10-04T08:38:00.000Z"
+      },
+      {
+        "name": "Venus",
+        "quality": "Beneficial",
+        "start": "2026-10-04T08:38:00.000Z",
+        "end": "2026-10-04T09:37:00.000Z"
+      },
+      {
+        "name": "Mercury",
+        "quality": "Quick",
+        "start": "2026-10-04T09:37:00.000Z",
+        "end": "2026-10-04T10:36:00.000Z"
+      },
+      {
+        "name": "Moon",
+        "quality": "Gentle",
+        "start": "2026-10-04T10:36:00.000Z",
+        "end": "2026-10-04T11:35:00.000Z"
+      },
+      {
+        "name": "Saturn",
+        "quality": "Sluggish",
+        "start": "2026-10-04T11:35:00.000Z",
+        "end": "2026-10-04T12:34:00.000Z"
+      }
+    ],
+    "night": [
+      {
+        "name": "Jupiter",
+        "quality": "Fruitful",
+        "start": "2026-10-04T12:34:00.000Z",
+        "end": "2026-10-04T13:35:00.000Z"
+      },
+      {
+        "name": "Mars",
+        "quality": "Aggressive",
+        "start": "2026-10-04T13:35:00.000Z",
+        "end": "2026-10-04T14:36:00.000Z"
+      },
+      {
+        "name": "Sun",
+        "quality": "Vigorous",
+        "start": "2026-10-04T14:36:00.000Z",
+        "end": "2026-10-04T15:37:00.000Z"
+      },
+      {
+        "name": "Venus",
+        "quality": "Beneficial",
+        "start": "2026-10-04T15:37:00.000Z",
+        "end": "2026-10-04T16:38:00.000Z"
+      },
+      {
+        "name": "Mercury",
+        "quality": "Quick",
+        "start": "2026-10-04T16:38:00.000Z",
+        "end": "2026-10-04T17:39:00.000Z"
+      },
+      {
+        "name": "Moon",
+        "quality": "Gentle",
+        "start": "2026-10-04T17:39:00.000Z",
+        "end": "2026-10-04T18:40:00.000Z"
+      },
+      {
+        "name": "Saturn",
+        "quality": "Sluggish",
+        "start": "2026-10-04T18:40:00.000Z",
+        "end": "2026-10-04T19:41:00.000Z"
+      },
+      {
+        "name": "Jupiter",
+        "quality": "Fruitful",
+        "start": "2026-10-04T19:41:00.000Z",
+        "end": "2026-10-04T20:42:00.000Z"
+      },
+      {
+        "name": "Mars",
+        "quality": "Aggressive",
+        "start": "2026-10-04T20:42:00.000Z",
+        "end": "2026-10-04T21:43:00.000Z"
+      },
+      {
+        "name": "Sun",
+        "quality": "Vigorous",
+        "start": "2026-10-04T21:43:00.000Z",
+        "end": "2026-10-04T22:44:00.000Z"
+      },
+      {
+        "name": "Venus",
+        "quality": "Beneficial",
+        "start": "2026-10-04T22:44:00.000Z",
+        "end": "2026-10-04T23:45:00.000Z"
+      },
+      {
+        "name": "Mercury",
+        "quality": "Quick",
+        "start": "2026-10-04T23:45:00.000Z",
+        "end": "2026-10-05T00:46:00.000Z"
+      }
+    ]
+  },
+  "gowri": {
+    "day": [
+      {
+        "name": "Uthi",
+        "quality": "Good",
+        "start": "2026-10-04T00:45:00.000Z",
+        "end": "2026-10-04T02:14:00.000Z"
+      },
+      {
+        "name": "Amirdha",
+        "quality": "Best",
+        "start": "2026-10-04T02:14:00.000Z",
+        "end": "2026-10-04T03:43:00.000Z"
+      },
+      {
+        "name": "Rogam",
+        "quality": "Evil",
+        "start": "2026-10-04T03:43:00.000Z",
+        "end": "2026-10-04T05:11:00.000Z"
+      },
+      {
+        "name": "Laabam",
+        "quality": "Gain",
+        "start": "2026-10-04T05:11:00.000Z",
+        "end": "2026-10-04T06:40:00.000Z"
+      },
+      {
+        "name": "Dhanam",
+        "quality": "Wealth",
+        "start": "2026-10-04T06:40:00.000Z",
+        "end": "2026-10-04T08:08:00.000Z"
+      },
+      {
+        "name": "Sugam",
+        "quality": "Good",
+        "start": "2026-10-04T08:08:00.000Z",
+        "end": "2026-10-04T09:37:00.000Z"
+      },
+      {
+        "name": "Soram",
+        "quality": "Bad",
+        "start": "2026-10-04T09:37:00.000Z",
+        "end": "2026-10-04T11:05:00.000Z"
+      },
+      {
+        "name": "Visham",
+        "quality": "Bad",
+        "start": "2026-10-04T11:05:00.000Z",
+        "end": "2026-10-04T12:34:00.000Z"
+      }
+    ],
+    "night": [
+      {
+        "name": "Dhanam",
+        "quality": "Wealth",
+        "start": "2026-10-04T12:34:00.000Z",
+        "end": "2026-10-04T14:05:00.000Z"
+      },
+      {
+        "name": "Sugam",
+        "quality": "Good",
+        "start": "2026-10-04T14:05:00.000Z",
+        "end": "2026-10-04T15:37:00.000Z"
+      },
+      {
+        "name": "Soram",
+        "quality": "Bad",
+        "start": "2026-10-04T15:37:00.000Z",
+        "end": "2026-10-04T17:08:00.000Z"
+      },
+      {
+        "name": "Visham",
+        "quality": "Bad",
+        "start": "2026-10-04T17:08:00.000Z",
+        "end": "2026-10-04T18:40:00.000Z"
+      },
+      {
+        "name": "Uthi",
+        "quality": "Good",
+        "start": "2026-10-04T18:40:00.000Z",
+        "end": "2026-10-04T20:11:00.000Z"
+      },
+      {
+        "name": "Amirdha",
+        "quality": "Best",
+        "start": "2026-10-04T20:11:00.000Z",
+        "end": "2026-10-04T21:43:00.000Z"
+      },
+      {
+        "name": "Rogam",
+        "quality": "Evil",
+        "start": "2026-10-04T21:43:00.000Z",
+        "end": "2026-10-04T23:14:00.000Z"
+      },
+      {
+        "name": "Laabam",
+        "quality": "Gain",
+        "start": "2026-10-04T23:14:00.000Z",
+        "end": "2026-10-05T00:46:00.000Z"
+      }
+    ]
+  },
+  "lagna": [
+    {
+      "rashi": "Kanya",
+      "start": "2026-10-03T23:33:00.000Z",
+      "end": "2026-10-04T01:50:00.000Z",
+      "pushkaraNavamsha": [
+        "2026-10-04T00:37:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Tula",
+      "start": "2026-10-04T01:50:00.000Z",
+      "end": "2026-10-04T04:09:00.000Z",
+      "pushkaraNavamsha": [
+        "2026-10-04T03:41:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Vrishchika",
+      "start": "2026-10-04T04:09:00.000Z",
+      "end": "2026-10-04T06:28:00.000Z",
+      "pushkaraNavamsha": [
+        "2026-10-04T04:42:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Dhanu",
+      "start": "2026-10-04T06:28:00.000Z",
+      "end": "2026-10-04T08:32:00.000Z",
+      "pushkaraNavamsha": [
+        "2026-10-04T07:57:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Makara",
+      "start": "2026-10-04T08:32:00.000Z",
+      "end": "2026-10-04T10:14:00.000Z",
+      "pushkaraNavamsha": [
+        "2026-10-04T09:22:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Kumbha",
+      "start": "2026-10-04T10:14:00.000Z",
+      "end": "2026-10-04T11:41:00.000Z",
+      "pushkaraNavamsha": [
+        "2026-10-04T11:25:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Meena",
+      "start": "2026-10-04T11:41:00.000Z",
+      "end": "2026-10-04T13:06:00.000Z",
+      "pushkaraNavamsha": [
+        "2026-10-04T12:01:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Mesha",
+      "start": "2026-10-04T13:06:00.000Z",
+      "end": "2026-10-04T14:42:00.000Z",
+      "pushkaraNavamsha": [
+        "2026-10-04T14:11:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Vrishabha",
+      "start": "2026-10-04T14:42:00.000Z",
+      "end": "2026-10-04T16:37:00.000Z",
+      "pushkaraNavamsha": [
+        "2026-10-04T15:33:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Mithuna",
+      "start": "2026-10-04T16:37:00.000Z",
+      "end": "2026-10-04T18:52:00.000Z",
+      "pushkaraNavamsha": [
+        "2026-10-04T18:24:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Karka",
+      "start": "2026-10-04T18:52:00.000Z",
+      "end": "2026-10-04T21:12:00.000Z",
+      "pushkaraNavamsha": [
+        "2026-10-04T19:25:00.000Z"
+      ]
+    },
+    {
+      "rashi": "Simha",
+      "start": "2026-10-04T21:12:00.000Z",
+      "end": "2026-10-04T23:29:00.000Z",
+      "pushkaraNavamsha": [
+        "2026-10-04T22:49:00.000Z"
+      ]
+    }
+  ],
+  "panchakaRahita": [
+    {
+      "name": "Agni",
+      "quality": "Risk",
+      "start": "2026-10-04T00:45:00.000Z",
+      "end": "2026-10-04T01:50:00.000Z"
+    },
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "2026-10-04T01:50:00.000Z",
+      "end": "2026-10-04T04:09:00.000Z"
+    },
+    {
+      "name": "Raja",
+      "quality": "Bad",
+      "start": "2026-10-04T04:09:00.000Z",
+      "end": "2026-10-04T06:28:00.000Z"
+    },
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "2026-10-04T06:28:00.000Z",
+      "end": "2026-10-04T08:32:00.000Z"
+    },
+    {
+      "name": "Chora",
+      "quality": "Evil",
+      "start": "2026-10-04T08:32:00.000Z",
+      "end": "2026-10-04T10:14:00.000Z"
+    },
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "2026-10-04T10:14:00.000Z",
+      "end": "2026-10-04T11:41:00.000Z"
+    },
+    {
+      "name": "Roga",
+      "quality": "Disease",
+      "start": "2026-10-04T11:41:00.000Z",
+      "end": "2026-10-04T13:06:00.000Z"
+    },
+    {
+      "name": "Chora",
+      "quality": "Evil",
+      "start": "2026-10-04T13:06:00.000Z",
+      "end": "2026-10-04T14:42:00.000Z"
+    },
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "2026-10-04T14:42:00.000Z",
+      "end": "2026-10-04T16:37:00.000Z"
+    },
+    {
+      "name": "Roga",
+      "quality": "Disease",
+      "start": "2026-10-04T16:37:00.000Z",
+      "end": "2026-10-04T18:43:00.000Z"
+    },
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "2026-10-04T18:43:00.000Z",
+      "end": "2026-10-04T18:52:00.000Z"
+    },
+    {
+      "name": "Mrityu",
+      "quality": "Danger",
+      "start": "2026-10-04T18:52:00.000Z",
+      "end": "2026-10-04T21:12:00.000Z"
+    },
+    {
+      "name": "Agni",
+      "quality": "Risk",
+      "start": "2026-10-04T21:12:00.000Z",
+      "end": "2026-10-04T22:23:00.000Z"
+    },
+    {
+      "name": "Shubha",
+      "quality": "Good",
+      "start": "2026-10-04T22:23:00.000Z",
+      "end": "2026-10-04T23:29:00.000Z"
+    },
+    {
+      "name": "Raja",
+      "quality": "Bad",
+      "start": "2026-10-04T23:29:00.000Z",
+      "end": "2026-10-05T00:46:00.000Z"
+    }
+  ],
+  "chandrabalam": [
+    {
+      "name": "Mesha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Good"
+        },
+        {
+          "from": "2026-10-04T13:01:00.000Z",
+          "state": "Bad"
+        }
+      ]
+    },
+    {
+      "name": "Vrishabha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Puja Needed"
+        },
+        {
+          "from": "2026-10-04T13:01:00.000Z",
+          "state": "Good"
+        }
+      ]
+    },
+    {
+      "name": "Mithuna",
+      "spans": [
+        {
+          "from": null,
+          "state": "Good"
+        },
+        {
+          "from": "2026-10-04T13:01:00.000Z",
+          "state": "Puja Needed"
+        }
+      ]
+    },
+    {
+      "name": "Karka",
+      "spans": [
+        {
+          "from": null,
+          "state": "Bad"
+        },
+        {
+          "from": "2026-10-04T13:01:00.000Z",
+          "state": "Good"
+        }
+      ]
+    },
+    {
+      "name": "Simha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Good"
+        },
+        {
+          "from": "2026-10-04T13:01:00.000Z",
+          "state": "Bad"
+        }
+      ]
+    },
+    {
+      "name": "Kanya",
+      "spans": [
+        {
+          "from": null,
+          "state": "Good"
+        },
+        {
+          "from": "2026-10-04T13:01:00.000Z",
+          "state": "Good"
+        }
+      ]
+    },
+    {
+      "name": "Tula",
+      "spans": [
+        {
+          "from": null,
+          "state": "Puja Needed"
+        },
+        {
+          "from": "2026-10-04T13:01:00.000Z",
+          "state": "Good"
+        }
+      ]
+    },
+    {
+      "name": "Vrishchika",
+      "spans": [
+        {
+          "from": null,
+          "state": "Bad"
+        },
+        {
+          "from": "2026-10-04T13:01:00.000Z",
+          "state": "Puja Needed"
+        }
+      ]
+    },
+    {
+      "name": "Dhanu",
+      "spans": [
+        {
+          "from": null,
+          "state": "Good"
+        },
+        {
+          "from": "2026-10-04T13:01:00.000Z",
+          "state": "Bad"
+        }
+      ]
+    },
+    {
+      "name": "Makara",
+      "spans": [
+        {
+          "from": null,
+          "state": "Good"
+        },
+        {
+          "from": "2026-10-04T13:01:00.000Z",
+          "state": "Good"
+        }
+      ]
+    },
+    {
+      "name": "Kumbha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Puja Needed"
+        },
+        {
+          "from": "2026-10-04T13:01:00.000Z",
+          "state": "Good"
+        }
+      ]
+    },
+    {
+      "name": "Meena",
+      "spans": [
+        {
+          "from": null,
+          "state": "Bad"
+        },
+        {
+          "from": "2026-10-04T13:01:00.000Z",
+          "state": "Puja Needed"
+        }
+      ]
+    }
+  ],
+  "tarabalam": [
+    {
+      "name": "Ashwini",
+      "spans": [
+        {
+          "from": null,
+          "state": "Naidhana - Totally Bad"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Mitra - Good"
+        }
+      ]
+    },
+    {
+      "name": "Bharani",
+      "spans": [
+        {
+          "from": null,
+          "state": "Sadhaka - Very Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Naidhana - Totally Bad"
+        }
+      ]
+    },
+    {
+      "name": "Krittika",
+      "spans": [
+        {
+          "from": null,
+          "state": "Pratyari - Not Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Sadhaka - Very Good"
+        }
+      ]
+    },
+    {
+      "name": "Rohini",
+      "spans": [
+        {
+          "from": null,
+          "state": "Kshema - Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Pratyari - Not Good"
+        }
+      ]
+    },
+    {
+      "name": "Mrigashira",
+      "spans": [
+        {
+          "from": null,
+          "state": "Vipata - Bad"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Kshema - Good"
+        }
+      ]
+    },
+    {
+      "name": "Ardra",
+      "spans": [
+        {
+          "from": null,
+          "state": "Sampata - Very Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Vipata - Bad"
+        }
+      ]
+    },
+    {
+      "name": "Punarvasu",
+      "spans": [
+        {
+          "from": null,
+          "state": "Janma - Not Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Sampata - Very Good"
+        }
+      ]
+    },
+    {
+      "name": "Pushya",
+      "spans": [
+        {
+          "from": null,
+          "state": "Param Mitra - Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Janma - Not Good"
+        }
+      ]
+    },
+    {
+      "name": "Ashlesha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Mitra - Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Param Mitra - Good"
+        }
+      ]
+    },
+    {
+      "name": "Magha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Naidhana - Totally Bad"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Mitra - Good"
+        }
+      ]
+    },
+    {
+      "name": "Purva Phalguni",
+      "spans": [
+        {
+          "from": null,
+          "state": "Sadhaka - Very Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Naidhana - Totally Bad"
+        }
+      ]
+    },
+    {
+      "name": "Uttara Phalguni",
+      "spans": [
+        {
+          "from": null,
+          "state": "Pratyari - Not Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Sadhaka - Very Good"
+        }
+      ]
+    },
+    {
+      "name": "Hasta",
+      "spans": [
+        {
+          "from": null,
+          "state": "Kshema - Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Pratyari - Not Good"
+        }
+      ]
+    },
+    {
+      "name": "Chitra",
+      "spans": [
+        {
+          "from": null,
+          "state": "Vipata - Bad"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Kshema - Good"
+        }
+      ]
+    },
+    {
+      "name": "Swati",
+      "spans": [
+        {
+          "from": null,
+          "state": "Sampata - Very Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Vipata - Bad"
+        }
+      ]
+    },
+    {
+      "name": "Vishakha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Janma - Not Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Sampata - Very Good"
+        }
+      ]
+    },
+    {
+      "name": "Anuradha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Param Mitra - Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Janma - Not Good"
+        }
+      ]
+    },
+    {
+      "name": "Jyeshtha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Mitra - Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Param Mitra - Good"
+        }
+      ]
+    },
+    {
+      "name": "Mula",
+      "spans": [
+        {
+          "from": null,
+          "state": "Naidhana - Totally Bad"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Mitra - Good"
+        }
+      ]
+    },
+    {
+      "name": "Purva Ashadha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Sadhaka - Very Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Naidhana - Totally Bad"
+        }
+      ]
+    },
+    {
+      "name": "Uttara Ashadha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Pratyari - Not Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Sadhaka - Very Good"
+        }
+      ]
+    },
+    {
+      "name": "Shravana",
+      "spans": [
+        {
+          "from": null,
+          "state": "Kshema - Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Pratyari - Not Good"
+        }
+      ]
+    },
+    {
+      "name": "Dhanishtha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Vipata - Bad"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Kshema - Good"
+        }
+      ]
+    },
+    {
+      "name": "Shatabhisha",
+      "spans": [
+        {
+          "from": null,
+          "state": "Sampata - Very Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Vipata - Bad"
+        }
+      ]
+    },
+    {
+      "name": "Purva Bhadrapada",
+      "spans": [
+        {
+          "from": null,
+          "state": "Janma - Not Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Sampata - Very Good"
+        }
+      ]
+    },
+    {
+      "name": "Uttara Bhadrapada",
+      "spans": [
+        {
+          "from": null,
+          "state": "Param Mitra - Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Janma - Not Good"
+        }
+      ]
+    },
+    {
+      "name": "Revati",
+      "spans": [
+        {
+          "from": null,
+          "state": "Mitra - Good"
+        },
+        {
+          "from": "2026-10-04T18:43:00.000Z",
+          "state": "Param Mitra - Good"
+        }
+      ]
+    }
+  ],
+  "doGhati": {
+    "day": [
+      {
+        "part": "Pratah",
+        "label": null,
+        "start": "2026-10-04T00:45:00.000Z",
+        "end": "2026-10-04T01:33:00.000Z"
+      },
+      {
+        "part": "Pratah",
+        "label": null,
+        "start": "2026-10-04T01:33:00.000Z",
+        "end": "2026-10-04T02:20:00.000Z"
+      },
+      {
+        "part": "Pratah",
+        "label": null,
+        "start": "2026-10-04T02:20:00.000Z",
+        "end": "2026-10-04T03:07:00.000Z"
+      },
+      {
+        "part": "Sangava",
+        "label": null,
+        "start": "2026-10-04T03:07:00.000Z",
+        "end": "2026-10-04T03:54:00.000Z"
+      },
+      {
+        "part": "Sangava",
+        "label": null,
+        "start": "2026-10-04T03:54:00.000Z",
+        "end": "2026-10-04T04:42:00.000Z"
+      },
+      {
+        "part": "Sangava",
+        "label": null,
+        "start": "2026-10-04T04:42:00.000Z",
+        "end": "2026-10-04T05:29:00.000Z"
+      },
+      {
+        "part": "Madhyahna",
+        "label": null,
+        "start": "2026-10-04T05:29:00.000Z",
+        "end": "2026-10-04T06:16:00.000Z"
+      },
+      {
+        "part": "Madhyahna",
+        "label": "Abhijit Muhurat",
+        "start": "2026-10-04T06:16:00.000Z",
+        "end": "2026-10-04T07:03:00.000Z"
+      },
+      {
+        "part": "Madhyahna",
+        "label": null,
+        "start": "2026-10-04T07:03:00.000Z",
+        "end": "2026-10-04T07:50:00.000Z"
+      },
+      {
+        "part": "Aparahna",
+        "label": null,
+        "start": "2026-10-04T07:50:00.000Z",
+        "end": "2026-10-04T08:38:00.000Z"
+      },
+      {
+        "part": "Aparahna",
+        "label": "Vijay Muhurat",
+        "start": "2026-10-04T08:38:00.000Z",
+        "end": "2026-10-04T09:25:00.000Z"
+      },
+      {
+        "part": "Aparahna",
+        "label": null,
+        "start": "2026-10-04T09:25:00.000Z",
+        "end": "2026-10-04T10:12:00.000Z"
+      },
+      {
+        "part": "Sayahna",
+        "label": null,
+        "start": "2026-10-04T10:12:00.000Z",
+        "end": "2026-10-04T10:59:00.000Z"
+      },
+      {
+        "part": "Sayahna",
+        "label": null,
+        "start": "2026-10-04T10:59:00.000Z",
+        "end": "2026-10-04T11:47:00.000Z"
+      },
+      {
+        "part": "Sayahna",
+        "label": null,
+        "start": "2026-10-04T11:47:00.000Z",
+        "end": "2026-10-04T12:34:00.000Z"
+      }
+    ],
+    "night": [
+      {
+        "part": "Pradosha",
+        "label": "Sayan Sandhya",
+        "start": "2026-10-04T12:34:00.000Z",
+        "end": "2026-10-04T13:23:00.000Z"
+      },
+      {
+        "part": "Pradosha",
+        "label": "1/2 Sayan Sandhya",
+        "start": "2026-10-04T13:23:00.000Z",
+        "end": "2026-10-04T14:11:00.000Z"
+      },
+      {
+        "part": "Pradosha",
+        "label": null,
+        "start": "2026-10-04T14:11:00.000Z",
+        "end": "2026-10-04T15:00:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-10-04T15:00:00.000Z",
+        "end": "2026-10-04T15:49:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-10-04T15:49:00.000Z",
+        "end": "2026-10-04T16:38:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-10-04T16:38:00.000Z",
+        "end": "2026-10-04T17:27:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-10-04T17:27:00.000Z",
+        "end": "2026-10-04T18:15:00.000Z"
+      },
+      {
+        "part": "Nishita",
+        "label": "Mahanishita Muhurat",
+        "start": "2026-10-04T18:15:00.000Z",
+        "end": "2026-10-04T19:04:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-10-04T19:04:00.000Z",
+        "end": "2026-10-04T19:53:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-10-04T19:53:00.000Z",
+        "end": "2026-10-04T20:42:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-10-04T20:42:00.000Z",
+        "end": "2026-10-04T21:31:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-10-04T21:31:00.000Z",
+        "end": "2026-10-04T22:20:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-10-04T22:20:00.000Z",
+        "end": "2026-10-04T23:08:00.000Z"
+      },
+      {
+        "part": "Arunodaya",
+        "label": "1/2 Pratah Sandhya",
+        "start": "2026-10-04T23:08:00.000Z",
+        "end": "2026-10-04T23:57:00.000Z"
+      },
+      {
+        "part": "Arunodaya",
+        "label": "Pratah Sandhya",
+        "start": "2026-10-04T23:57:00.000Z",
+        "end": "2026-10-05T00:46:00.000Z"
+      }
+    ]
+  }
+}
