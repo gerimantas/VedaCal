@@ -55,6 +55,9 @@
         touch-action: none;
         user-select: none;
       }
+      #dial {
+        margin: 0 calc(-1 * var(--space-md));
+      }
       #big {
         text-align: center;
         margin: var(--space-2xs) 0;
@@ -327,7 +330,7 @@
         const host = document.getElementById('dial')
         host.innerHTML = ''
         updaters.length = 0
-        const S = Math.min(host.clientWidth, 420)
+        const S = Math.min(host.clientWidth - 4, 440)
         const svg = el('svg', { viewBox: `0 0 ${S} ${S}`, height: S, style: `max-width:${S}px` }, host)
         const c = S / 2
         const ang = (t) => ((t - 720) / 1440) * 2 * Math.PI // 0 = 12:00 at the top, clockwise
@@ -445,8 +448,8 @@
         const halo = { stroke: css('--color-card'), 'stroke-width': 5, 'paint-order': 'stroke', 'stroke-linejoin': 'round' }
         const textG = el('g', { display: handMode === 'outside' ? 'none' : '' }, svg)
         // Two lines: the time; then verdict and span as one line, one size, one colour.
-        const tTime = el('text', { x: c, y: c, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 500, fill: css('--color-ink'), 'font-variant-numeric': 'tabular-nums', ...halo }, textG)
-        const tLine = el('text', { x: c, y: c + 21, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 600, 'font-variant-numeric': 'tabular-nums', ...halo }, textG)
+        const tTime = el('text', { x: c, y: c, 'text-anchor': 'middle', 'font-size': 30, 'font-weight': 500, fill: css('--color-ink'), 'font-variant-numeric': 'tabular-nums', ...halo }, textG)
+        const tLine = el('text', { x: c, y: c + 24, 'text-anchor': 'middle', 'font-size': 16, 'font-weight': 600, 'font-variant-numeric': 'tabular-nums', ...halo }, textG)
         const big = document.getElementById('big')
         big.hidden = handMode !== 'outside'
 
@@ -460,17 +463,38 @@
           const [x2, y2] = pt(e, rVer + verW / 2 + 1.5)
           const R = rVer + verW / 2 + 1.5
           outline.setAttribute('d', `M${x1},${y1} A${R},${R} 0 ${e - g.s > 720 ? 1 : 0} 1 ${x2},${y2}`)
-          const word = VERDICT_LABEL[r.verdict].replace('Only if it cannot wait', 'If it cannot wait')
+          const word = { good: 'Good', neutral: 'Neutral', fb: 'If needed', avoid: 'Avoid' }[r.verdict]
           tTime.textContent = hhmm(cursor)
           tLine.textContent = `${word} ${hhmm(g.s)}–${hhmm(g.e)}`
           tLine.setAttribute('fill', colour(r.verdict))
           // Place the text block. dodge: below the centre while the hand points into the upper half,
-          // above it while the hand points down — a gap of GAP from the hub, so the hand never touches it.
-          const bb = textG.getBBox()
-          const GAP = 16
-          let ty = c - (bb.y + bb.height / 2)
-          if (handMode === 'dodge') ty = Math.cos(a) > 0 ? c + GAP - bb.y : c - GAP - (bb.y + bb.height)
-          textG.setAttribute('transform', `translate(${c - (bb.x + bb.width / 2)},${ty})`)
+          // above it while the hand points down, GAP from the hub. Shrink only if a line would reach
+          // the inner rings (measured per line, after placing).
+          const GAP = 12
+          const rFree = r0 - 3
+          const place = (k) => {
+            tTime.setAttribute('font-size', 30 * k)
+            tLine.setAttribute('font-size', 16 * k)
+            tLine.setAttribute('y', c + 24 * k)
+            textG.removeAttribute('transform')
+            const bb = textG.getBBox()
+            const dx = c - (bb.x + bb.width / 2)
+            let dy = c - (bb.y + bb.height / 2)
+            if (handMode === 'dodge') dy = Math.cos(a) > 0 ? c + GAP - bb.y : c - GAP - (bb.y + bb.height)
+            textG.setAttribute('transform', `translate(${dx},${dy})`)
+            let far = 0
+            for (const t of [tTime, tLine]) {
+              const b = t.getBBox()
+              for (const x of [b.x, b.x + b.width]) for (const y of [b.y + 3 * k, b.y + b.height - 3 * k]) far = Math.max(far, Math.hypot(x + dx - c, y + dy - c))
+            }
+            return far
+          }
+          let k = 1
+          for (let i = 0; i < 3; i++) {
+            const far = place(k)
+            if (far <= rFree) break
+            k *= rFree / far
+          }
           big.innerHTML = `<span class="t">${hhmm(cursor)}</span> <b style="color:${colour(r.verdict)}">${word}</b> <span class="s">${hhmm(g.s)}–${hhmm(g.e)}</span>`
         })
 
