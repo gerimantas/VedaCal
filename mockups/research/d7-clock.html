@@ -119,7 +119,7 @@
     <main>
       <h1>D7 · The day as a 24-hour clock</h1>
       <p class="sub">
-        Vilnius, Saturday 10 October 2026 · one turn of the hand = one day · noon at the top, midnight at the bottom · tap or
+        Vilnius, Saturday 10 October 2026 · one turn of the hand = one day · 12 at the top, 00 at the bottom · tap or
         drag anywhere on the dial
       </p>
       <div class="groups" role="group" aria-label="Activity">
@@ -133,6 +133,9 @@
         <span><i style="background: var(--fb)"></i>Only if it cannot wait</span>
         <span><i style="background: var(--color-avoid)"></i>Avoid</span>
       </div>
+      <p class="key">
+        <span>&uarr; Sunrise 07:38</span><span>&#9728; Solar noon 13:05</span><span>&darr; Sunset 18:33</span>
+      </p>
       <p class="key">Rings, outside in: hours · day and night · verdict · day base · Choghadiya · fixed windows</p>
       <div class="readout" id="readout" aria-live="polite"></div>
       <p class="note">
@@ -303,7 +306,7 @@
         const S = Math.min(host.clientWidth, 420)
         const svg = el('svg', { viewBox: `0 0 ${S} ${S}`, height: S, style: `max-width:${S}px` }, host)
         const c = S / 2
-        const ang = (t) => ((t - NOON) / 1440) * 2 * Math.PI // 0 = top, clockwise
+        const ang = (t) => ((t - 720) / 1440) * 2 * Math.PI // 0 = 12:00 at the top, clockwise
         const pt = (t, r) => [c + r * Math.sin(ang(t)), c - r * Math.cos(ang(t))]
         const arc = (t1, t2, r, w, stroke, attrs = {}) => {
           const [x1, y1] = pt(t1, r)
@@ -349,10 +352,24 @@
           tx.textContent = String(h).padStart(2, '0')
         }
 
-        // Sunrise / sunset marks on the chapter ring.
-        ;[SUNRISE, SUNSET].forEach((t) => {
+        // Sun marks on the chapter ring: sunrise (arrow up), solar noon (rays), sunset (arrow down).
+        ;[
+          [SUNRISE, '↑'],
+          [NOON, ''],
+          [SUNSET, '↓'],
+        ].forEach(([t, arrow]) => {
           const [sx, sy] = pt(t, rBand)
-          el('circle', { cx: sx, cy: sy, r: 4, fill: css('--sun'), stroke: css('--color-card'), 'stroke-width': 1.5 }, svg)
+          const g = el('g', {}, svg)
+          if (!arrow)
+            for (let i = 0; i < 8; i++) {
+              const a = (i * Math.PI) / 4
+              el('line', { x1: sx + 7 * Math.cos(a), y1: sy + 7 * Math.sin(a), x2: sx + 10 * Math.cos(a), y2: sy + 10 * Math.sin(a), stroke: css('--sun'), 'stroke-width': 1.8, 'stroke-linecap': 'round' }, g)
+            }
+          el('circle', { cx: sx, cy: sy, r: 6, fill: css('--sun'), stroke: css('--color-card'), 'stroke-width': 1.5 }, g)
+          if (arrow) {
+            const a = el('text', { x: sx, y: sy, 'text-anchor': 'middle', 'dominant-baseline': 'central', 'font-size': 9, 'font-weight': 700, fill: css('--color-card') }, g)
+            a.textContent = arrow
+          }
         })
 
         // Verdict ring, soft edges: one conic gradient painted on a canvas (slices show seams).
@@ -418,7 +435,7 @@
           const r = svg.getBoundingClientRect()
           const px = ((ev.clientX - r.left) / r.width) * S - c
           const py = ((ev.clientY - r.top) / r.height) * S - c
-          let t = NOON + (Math.atan2(px, -py) / (2 * Math.PI)) * 1440
+          let t = 720 + (Math.atan2(px, -py) / (2 * Math.PI)) * 1440
           while (t < T0) t += 1440
           while (t >= T1) t -= 1440
           cursor = t
