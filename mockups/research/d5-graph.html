@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>D5 day graph</title>
+    <link rel="stylesheet" href="../../src/styles/tokens.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: var(--space-md);
+        background: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-body);
+        line-height: 1.4;
+      }
+      main {
+        max-width: 40rem;
+        margin: 0 auto;
+      }
+      h1 {
+        font-family: var(--font-display);
+        font-weight: 450;
+        font-size: var(--text-xl);
+        margin: 0 0 var(--space-3xs);
+      }
+      .sub {
+        color: var(--color-muted);
+        font-size: var(--text-sm);
+        margin: 0 0 var(--space-sm);
+      }
+      .groups {
+        display: flex;
+        gap: var(--space-2xs);
+        margin-bottom: var(--space-xs);
+      }
+      .groups button {
+        font: inherit;
+        font-size: var(--text-sm);
+        padding: var(--space-3xs) var(--space-sm);
+        border-radius: var(--radius-pill);
+        border: var(--rule-hair) solid var(--color-rule);
+        background: transparent;
+        color: var(--color-ink);
+        cursor: pointer;
+      }
+      .groups button[aria-pressed='true'] {
+        background: var(--color-ink);
+        color: var(--color-paper);
+      }
+      h2 {
+        font-size: var(--text-sm);
+        font-weight: 600;
+        margin: var(--space-sm) 0 0;
+      }
+      svg {
+        display: block;
+        width: 100%;
+        touch-action: none;
+        user-select: none;
+      }
+      .readout {
+        position: sticky;
+        bottom: 0;
+        margin-top: var(--space-sm);
+        padding: var(--space-xs) var(--space-sm);
+        background: var(--color-card);
+        border: var(--rule-hair) solid var(--color-card-line);
+        border-radius: var(--radius-md);
+        font-size: var(--text-sm);
+      }
+      .readout b {
+        font-size: var(--text-base);
+      }
+      .readout ul {
+        margin: var(--space-3xs) 0 0;
+        padding-left: 1rem;
+      }
+      .note {
+        color: var(--color-muted);
+        font-size: var(--text-xs);
+        margin-top: var(--space-md);
+      }
+      .lv-good {
+        color: var(--color-good);
+      }
+      .lv-avoid {
+        color: var(--color-avoid);
+      }
+      /* "Only if it cannot wait" / poor: amber, readable in both themes. */
+      :root {
+        --fb: #b8690b;
+      }
+      :root[data-theme='dark'] {
+        --fb: #f0a43a;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --fb: #f0a43a;
+        }
+      }
+      .lv-fb {
+        color: var(--fb);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>D5 · The day as a graph</h1>
+      <p class="sub">Vilnius, Saturday 10 October 2026 · from Brahma Muhurta to the next sunrise · shaded = night (sunrise 07:38, sunset 18:33) · tap or drag on a chart</p>
+      <div class="groups" role="group" aria-label="Activity">
+        <button data-g="0" aria-pressed="true">New beginning</button>
+        <button data-g="7" aria-pressed="false">Spiritual rites</button>
+      </div>
+      <div id="charts"></div>
+      <div class="readout" id="readout" aria-live="polite"></div>
+      <p class="note">
+        Times are Drik Panchang's. Verdicts follow SPEC 13.4 and reproduce worked example 1
+        (.planning/research/examples.md). Gulika is disputed, so it is drawn dashed and never decides. Concept sketch for
+        Q3, not the app.
+      </p>
+    </main>
+    <script>
+      // ---- data: Vilnius 2026-10-10, minutes from local midnight; next-day times + 1440 ----
+      const m = (s, next = false) => {
+        const [h, mm] = s.split(':').map(Number)
+        return h * 60 + mm + (next ? 1440 : 0)
+      }
+      const X0 = m('05:54')
+      const X1 = m('07:40', true)
+      const SUNRISE = m('07:38')
+      const SUNSET = m('18:33')
+      const NOON = m('13:05')
+      const MIDNIGHT = m('01:06', true)
+
+      // Levels used by every chart, top to bottom.
+      const LEVELS = ['strong', 'plus', 'zero', 'poor', 'fb', 'veto']
+      const LEVEL_LABEL = { strong: 'strong +', plus: '+', zero: '0', poor: 'poor', fb: 'if must', veto: 'avoid' }
+      const VERDICTS = ['good', 'neutral', 'fb', 'avoid']
+      const VERDICT_LABEL = { good: 'Good', neutral: 'Neutral', fb: 'Only if it cannot wait', avoid: 'Avoid' }
+
+      const ALL = [0, 7]
+      // Each value: name, start, end, level, groups it applies to, lane.
+      const V = []
+      const add = (lane, name, s, e, level, groups = ALL, extra = {}) => V.push({ lane, name, s, e, level, groups, ...extra })
+
+      // Choghadiya (practice, R21). Before sunrise: Friday night's parts.
+      const CH = { Amrita: 'plus', Shubha: 'plus', Labha: 'plus', Chara: 'zero', Udvega: 'veto', Roga: 'veto', Kala: 'veto' }
+      ;[
+        ['Chara', '05:54', '06:00'],
+        ['Roga', '06:00', '07:38'],
+        ['Kala', '07:38', '09:00'],
+        ['Shubha', '09:00', '10:22'],
+        ['Roga', '10:22', '11:44'],
+        ['Udvega', '11:44', '13:05'],
+        ['Chara', '13:05', '14:27'],
+        ['Labha', '14:27', '15:49'],
+        ['Amrita', '15:49', '17:11'],
+        ['Kala', '17:11', '18:33'],
+        ['Labha', '18:33', '20:11'],
+        ['Udvega', '20:11', '21:50'],
+        ['Shubha', '21:50', '23:28'],
+        ['Amrita', '23:28', '01:06', true],
+        ['Chara', '01:06', '02:45', true],
+        ['Roga', '02:45', '04:23', true],
+        ['Kala', '04:23', '06:01', true],
+        ['Labha', '06:01', '07:40', true],
+      ].forEach(([n, s, e, nx]) => {
+        const sn = m(s, nx && s < '12:00' && n !== 'Amrita')
+        add('ch', n, sn, m(e, nx), CH[n])
+      })
+
+      // Fixed bad times (vetoes, all groups) and disputed Gulika.
+      add('bad', 'Dur Muhurtam', m('07:38'), m('09:05'), 'veto')
+      add('bad', 'Gulika (disputed)', m('07:38'), m('09:00'), 'veto', ALL, { disputed: true })
+      add('bad', 'Rahu Kaal', m('10:22'), m('11:44'), 'veto')
+      add('bad', 'Noon window', m('13:01'), m('13:09'), 'veto')
+      add('bad', 'Lagna junction', m('14:01'), m('14:13'), 'veto')
+      add('bad', 'Yamaganda', m('14:27'), m('15:49'), 'veto')
+      add('bad', 'Lagna junction', m('18:31'), m('18:43'), 'veto')
+      add('bad', 'Midnight window', m('01:02', true), m('01:10', true), 'veto')
+      add('bad', 'Lagna junction', m('02:22', true), m('02:34', true), 'veto')
+      add('bad', 'Varjyam', m('03:29', true), m('05:08', true), 'veto')
+
+      // Good times.
+      add('good', 'Brahma Muhurta', m('05:54'), m('06:46'), 'plus', [7])
+      add('good', 'Abhijit', m('12:44'), m('13:27'), 'strong')
+      add('good', 'Amrit Kalam', m('13:06'), m('14:44'), 'plus')
+
+      // Day base: tithi, weekday, nakshatra, yoga (SPEC 13.3).
+      add('base', 'Amavasya', X0, m('18:49'), 'veto', [0])
+      add('base', "Friday's weekday (before sunrise)", X0, SUNRISE, 'zero', [7])
+      add('base', 'Saturday', SUNRISE, X1, 'poor', [7])
+      add('base', 'Saturday; Pratipada', m('18:49'), m('19:32'), 'poor', [0])
+      add('base', 'Vaidhriti after midday', m('19:32'), X1, 'fb')
+
+      const LANES = [
+        { id: 'ch', title: 'Choghadiya', levels: ['plus', 'zero', 'veto'] },
+        { id: 'bad', title: 'Fixed bad times', levels: ['zero', 'veto'] },
+        { id: 'good', title: 'Good times', levels: ['strong', 'plus', 'zero'] },
+        { id: 'base', title: 'Day base — tithi, weekday, yoga', levels: ['zero', 'poor', 'fb', 'veto'] },
+      ]
+
+      // ---- SPEC 13.4 verdict for one moment ----
+      function at(t, g) {
+        const act = V.filter((v) => v.groups.includes(g) && v.s <= t && t < v.e)
+        const deciding = act.filter((v) => !v.disputed)
+        const vetoes = deciding.filter((v) => v.level === 'veto')
+        const fbs = deciding.filter((v) => v.level === 'fb')
+        const strong = deciding.filter((v) => v.level === 'strong')
+        const plus = deciding.filter((v) => v.level === 'plus' && v.lane !== 'base')
+        const base = deciding.find((v) => v.lane === 'base')
+        const b = base ? base.level : 'zero'
+        let verdict, by
+        if (vetoes.length) [verdict, by] = ['avoid', vetoes]
+        else if (fbs.length) [verdict, by] = ['fb', fbs]
+        else if (strong.length) [verdict, by] = ['good', strong]
+        else if (b === 'plus' || (b === 'zero' && plus.length)) [verdict, by] = ['good', plus.length ? plus : [base]]
+        else if (b === 'zero' || (b === 'poor' && plus.length)) [verdict, by] = ['neutral', [base, ...plus].filter(Boolean)]
+        else [verdict, by] = ['fb', [base]]
+        return { verdict, by, act }
+      }
+
+      // Every boundary cuts the day into segments.
+      const cuts = [...new Set([X0, X1, ...V.flatMap((v) => [v.s, v.e])])].filter((t) => t >= X0 && t <= X1).sort((a, b) => a - b)
+
+      // ---- drawing ----
+      const NS = 'http://www.w3.org/2000/svg'
+      const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim()
+      const colour = (lv) =>
+        ({ strong: css('--color-good'), plus: css('--color-good'), good: css('--color-good'), zero: css('--color-neutral'), neutral: css('--color-neutral'), poor: css('--fb'), fb: css('--fb'), veto: css('--color-avoid'), avoid: css('--color-avoid') })[lv]
+      const el = (tag, attrs, parent) => {
+        const e = document.createElementNS(NS, tag)
+        for (const k in attrs) e.setAttribute(k, attrs[k])
+        parent && parent.appendChild(e)
+        return e
+      }
+      const hhmm = (t) => {
+        const x = ((Math.round(t) % 1440) + 1440) % 1440
+        return String(Math.floor(x / 60)).padStart(2, '0') + ':' + String(x % 60).padStart(2, '0')
+      }
+
+      let group = 0
+      let cursor = m('13:15')
+      const charts = document.getElementById('charts')
+      const LABEL_W = 46
+      const PAD_R = 8
+
+      function frame(svg, W, H, levels, rowH) {
+        const x = (t) => LABEL_W + ((t - X0) / (X1 - X0)) * (W - LABEL_W - PAD_R)
+        const y = (lv) => 6 + levels.indexOf(lv) * rowH + rowH / 2
+        // night
+        el('rect', { x: x(X0), y: 0, width: x(SUNRISE) - x(X0), height: H, fill: css('--color-ink'), opacity: 0.06 }, svg)
+        el('rect', { x: x(SUNSET), y: 0, width: x(X1) - x(SUNSET), height: H, fill: css('--color-ink'), opacity: 0.06 }, svg)
+        // hour grid
+        for (let t = Math.ceil(X0 / 60) * 60; t <= X1; t += 60) {
+          const major = (t / 60) % 3 === 0
+          el('line', { x1: x(t), x2: x(t), y1: 0, y2: H, stroke: css('--color-rule'), 'stroke-width': major ? 1 : 0.5, opacity: major ? 0.9 : 0.5 }, svg)
+        }
+        // level grid and labels
+        levels.forEach((lv) => {
+          el('line', { x1: LABEL_W, x2: W - PAD_R, y1: y(lv), y2: y(lv), stroke: css('--color-rule'), 'stroke-dasharray': '2 3' }, svg)
+          const tx = el('text', { x: LABEL_W - 5, y: y(lv) + 3.5, 'text-anchor': 'end', 'font-size': 10, fill: css('--color-muted') }, svg)
+          tx.textContent = (LEVEL_LABEL[lv] || VERDICT_LABEL[lv]).replace('Only if it cannot wait', 'if must')
+        })
+        return { x, y }
+      }
+
+      function stepLine(svg, segs, x, y, opts = {}) {
+        // segs: [{s, e, lv}] — horizontal pieces coloured by level, thin grey risers.
+        segs.forEach((g, i) => {
+          el('line', { x1: x(g.s), x2: x(g.e), y1: y(g.lv), y2: y(g.lv), stroke: colour(g.lv), 'stroke-width': opts.w || 3, 'stroke-linecap': 'butt', 'stroke-dasharray': g.dash ? '4 3' : '' }, svg)
+          const n = segs[i + 1]
+          if (n && n.s === g.e && n.lv !== g.lv) el('line', { x1: x(g.e), x2: x(g.e), y1: y(g.lv), y2: y(n.lv), stroke: css('--color-muted'), 'stroke-width': 1 }, svg)
+        })
+      }
+
+      function draw() {
+        charts.innerHTML = ''
+        const W = charts.clientWidth
+
+        // Main chart: the verdict.
+        charts.insertAdjacentHTML('beforeend', '<h2>Verdict</h2>')
+        const rowV = 26
+        const HV = 6 + VERDICTS.length * rowV + 22
+        const sv = el('svg', { viewBox: `0 0 ${W} ${HV}`, height: HV }, charts)
+        const fv = frame(sv, W, HV - 22, VERDICTS, rowV)
+        const segs = []
+        for (let i = 0; i < cuts.length - 1; i++) {
+          const v = at((cuts[i] + cuts[i + 1]) / 2, group).verdict
+          const last = segs[segs.length - 1]
+          if (last && last.lv === v) last.e = cuts[i + 1]
+          else segs.push({ s: cuts[i], e: cuts[i + 1], lv: v })
+        }
+        stepLine(sv, segs, fv.x, fv.y, { w: 4 })
+        // hour labels + sun marks
+        for (let t = Math.ceil(X0 / 180) * 180; t <= X1; t += 180) {
+          const tx = el('text', { x: fv.x(t), y: HV - 6, 'text-anchor': 'middle', 'font-size': 10, fill: css('--color-muted') }, sv)
+          tx.textContent = hhmm(t).slice(0, 2)
+        }
+        hook(sv, fv.x, W)
+
+        // Input lanes.
+        LANES.forEach((lane) => {
+          charts.insertAdjacentHTML('beforeend', `<h2>${lane.title}</h2>`)
+          const rowH = 16
+          const H = 6 + lane.levels.length * rowH + 4
+          const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, height: H }, charts)
+          const f = frame(svg, W, H, lane.levels, rowH)
+          const items = V.filter((v) => v.lane === lane.id && v.groups.includes(group))
+          if (lane.id === 'ch' || lane.id === 'base') {
+            stepLine(svg, items.map((v) => ({ s: v.s, e: v.e, lv: v.level })), f.x, f.y)
+          } else {
+            // Spikes from the 0 line to the item's level.
+            items.forEach((v) => {
+              el('rect', { x: f.x(v.s), y: Math.min(f.y('zero'), f.y(v.level)), width: Math.max(2, f.x(v.e) - f.x(v.s)), height: Math.abs(f.y(v.level) - f.y('zero')) || 3, fill: colour(v.level), opacity: v.disputed ? 0.35 : 0.85, stroke: v.disputed ? colour(v.level) : 'none', 'stroke-dasharray': v.disputed ? '3 2' : '' }, svg)
+            })
+          }
+          hook(svg, f.x, W)
+        })
+        mark()
+      }
+
+      // Cursor: one vertical line through every chart.
+      const hooks = []
+      function hook(svg, x, W) {
+        const line = el('line', { y1: 0, y2: '100%', stroke: css('--color-ink'), 'stroke-width': 1.5 }, svg)
+        hooks.push({ line, x })
+        const pick = (ev) => {
+          const r = svg.getBoundingClientRect()
+          const px = ((ev.clientX - r.left) / r.width) * W
+          cursor = Math.min(X1 - 1, Math.max(X0, X0 + ((px - LABEL_W) / (W - LABEL_W - PAD_R)) * (X1 - X0)))
+          mark()
+        }
+        svg.addEventListener('pointerdown', (ev) => {
+          pick(ev)
+          svg.setPointerCapture(ev.pointerId)
+        })
+        svg.addEventListener('pointermove', (ev) => ev.buttons && pick(ev))
+      }
+
+      function mark() {
+        hooks.forEach(({ line, x }) => {
+          if (!line.isConnected) return
+          line.setAttribute('x1', x(cursor))
+          line.setAttribute('x2', x(cursor))
+        })
+        const r = at(cursor, group)
+        const seg = cuts.findIndex((c) => c > cursor)
+        const from = cuts[seg - 1]
+        const to = cuts[seg]
+        const cls = { good: 'lv-good', avoid: 'lv-avoid', fb: 'lv-fb', neutral: '' }[r.verdict]
+        const lines = r.act
+          .map((v) => `<li>${v.name} — ${v.disputed ? 'disputed, does not decide' : LEVEL_LABEL[v.level]}${r.by.includes(v) ? ' <b>← decides</b>' : ''}</li>`)
+          .join('')
+        document.getElementById('readout').innerHTML =
+          `<b class="${cls}">${hhmm(cursor)} · ${VERDICT_LABEL[r.verdict]}</b> <span style="color:var(--color-muted)">(${hhmm(from)}–${hhmm(to)})</span><ul>${lines}</ul>`
+      }
+
+      document.querySelectorAll('.groups button').forEach((b) =>
+        b.addEventListener('click', () => {
+          group = Number(b.dataset.g)
+          document.querySelectorAll('.groups button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)))
+          hooks.length = 0
+          draw()
+        }),
+      )
+      const theme = new URLSearchParams(location.search).get('theme')
+      if (theme) document.documentElement.dataset.theme = theme
+      addEventListener('resize', () => {
+        hooks.length = 0
+        draw()
+      })
+      draw()
+    </script>
+  </body>
+</html>
