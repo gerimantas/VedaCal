@@ -141,7 +141,9 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     if (on === addDays(day.date, -1)) return lead('atYesterday', { time: time(x, loc) })
     return `${new Intl.DateTimeFormat(LOCALE, { weekday: 'long', timeZone: loc.tz }).format(x)} ${time(x, loc)}`
   }
-  const weekday = cap(new Intl.DateTimeFormat(LOCALE, { weekday: 'long', timeZone: loc.tz }).format(noonish))
+  // As the language writes it mid-sentence ("šeštadienis", "Saturday"), and capitalised to lead one.
+  const weekdayName = new Intl.DateTimeFormat(LOCALE, { weekday: 'long', timeZone: loc.tz }).format(noonish)
+  const weekday = cap(weekdayName)
   /** Which half of which lunar day a half-day span (a karana) is. */
   const halfOf = (s: Span) => {
     const lunarDay = activeAt(day.tithi, new Date((s.start.getTime() + s.end.getTime()) / 2))
@@ -268,7 +270,7 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   const eighth = (term: 'rahuKaal' | 'yamaganda' | 'gulika', w: Interval | null) =>
     w && day.sunrise && day.sunset
       ? lead('part', {
-          range: range(w), sunrise: time(day.sunrise, loc), sunset: time(day.sunset, loc), minutes: minutes(daylight / 8), weekday, name: terms[term][1],
+          range: range(w), sunrise: time(day.sunrise, loc), sunset: time(day.sunset, loc), minutes: minutes(daylight / 8), weekday: weekdayName, name: terms[term][1],
           n: Math.round((w.start.getTime() - day.sunrise.getTime()) / (daylight / 8)) + 1,
         })
       : ''

@@ -9,11 +9,12 @@
   let term = $state<Term>('tithi')
   // A row can lead its sheet with what its own value means (the season now), before the term.
   let lead = $state<{ title: string; text: string } | null>(null)
-  // A brief sheet (data-sheet-brief) holds only what is about the row tapped; the general text
-  // folds out below it, in the same sheet — the day screen stays where it was (user, 2026-10-10:
-  // Choghadiya rows).
-  let brief = $state(false)
+  // A sheet with a lead holds only what is about the row tapped; the general text folds out
+  // below it, in the same sheet — the day screen stays where it was (user, 2026-10-10: first
+  // the Choghadiya rows, then every day sheet).
   const [name, sanskrit] = $derived(terms[term])
+  // "More about Tradicinis ritmas" would break Lithuanian grammar: the rhythm has its own label.
+  const more = $derived(term === 'rhythm' ? t('moreAboutRhythm') : t('moreAbout', { name: sanskrit || name }))
 
   $effect(() => {
     const onClick = (e: MouseEvent) => {
@@ -23,7 +24,6 @@
       if (!el || dialog.contains(el)) return
       term = el.dataset.sheet as Term
       lead = el.dataset.sheetLead ? { title: el.dataset.sheetLeadTitle ?? '', text: el.dataset.sheetLead } : null
-      brief = 'sheetBrief' in el.dataset
       dialog.showModal()
     }
     document.addEventListener('click', onClick)
@@ -40,11 +40,11 @@
     <h3>{name}{#if sanskrit}{' '}<span class="sk">{sanskrit}</span>{/if}</h3>
     <!-- {' '}: a bare space before {/if} is dropped, which glued "Kanya.The Moon". -->
     {#if lead}<p>{#if lead.title}<b>{lead.title}.</b>{' '}{/if}{lead.text}</p>{/if}
-    {#if brief}
+    {#if lead}
       <!-- Folded again on every opening: the dialog element is reused. -->
       {#key lead}
         <details class="more sheet-more">
-          <summary>{t('moreAbout', { name: sanskrit || name })}{@html icon.down}</summary>
+          <summary>{more}{@html icon.down}</summary>
           <p>{sheet(term)}</p>
         </details>
       {/key}
