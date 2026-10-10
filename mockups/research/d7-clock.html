@@ -75,6 +75,36 @@
       .groups {
         flex-wrap: wrap;
       }
+      .act {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        font-size: var(--text-sm);
+        margin-bottom: var(--space-xs);
+      }
+      .act select {
+        flex: 1;
+        min-width: 0;
+        font: inherit;
+        padding: var(--space-3xs) var(--space-xs);
+        border-radius: var(--radius-md);
+        border: var(--rule-hair) solid var(--color-rule);
+        background: var(--color-card);
+        color: var(--color-ink);
+      }
+      .settings {
+        margin-top: var(--space-md);
+        padding-top: var(--space-sm);
+        border-top: var(--rule-hair) solid var(--color-rule);
+      }
+      .settings h2 {
+        font-size: var(--text-base);
+        margin: 0;
+      }
+      .settings .key {
+        justify-content: flex-start;
+        text-align: left;
+      }
       .key {
         display: flex;
         flex-wrap: wrap;
@@ -174,18 +204,25 @@
         Vilnius, Saturday 10 October 2026 · one turn of the hand = one day · 12 at the top, 00 at the bottom · tap or
         drag anywhere on the dial
       </p>
-      <div class="groups" role="group" aria-label="Activity">
-        <button data-g="0" aria-pressed="false">New beginning</button>
-        <button data-g="7" aria-pressed="true">Spiritual rites</button>
-      </div>
+      <label class="act">
+        Activity
+        <select id="activity">
+          <option value="0" selected>General</option>
+          <option value="1" disabled>Travel — not worked out yet</option>
+          <option value="2" disabled>Marriage and family — not worked out yet</option>
+          <option value="3" disabled>Home and property — not worked out yet</option>
+          <option value="4" disabled>Business, money, trade — not worked out yet</option>
+          <option value="5" disabled>Learning and arts — not worked out yet</option>
+          <option value="6" disabled>Health and medicine — not worked out yet</option>
+          <option value="7">Spiritual rites</option>
+          <option value="8" disabled>Farming and garden — not worked out yet</option>
+          <option value="9" disabled>Official and public matters — not worked out yet</option>
+        </select>
+      </label>
       <div class="groups" role="group" aria-label="Hand style">
-        <button data-h="ring" aria-pressed="true">A · Hand on the rings</button>
-        <button data-h="dodge" aria-pressed="false">B · Text steps aside</button>
+        <button data-h="ring" aria-pressed="false">A · Hand on the rings</button>
+        <button data-h="dodge" aria-pressed="true">B · Text steps aside</button>
         <button data-h="outside" aria-pressed="false">C · Text above</button>
-      </div>
-      <div class="groups" role="group" aria-label="Colours">
-        <button data-p="classic" aria-pressed="true">Colours: current</button>
-        <button data-p="rainbow" aria-pressed="false">Rainbow</button>
       </div>
       <p id="big" hidden></p>
       <div id="dial"></div>
@@ -195,6 +232,14 @@
       </p>
       <p class="key">Rings, outside in: hours · day and night · verdict · day base · Choghadiya · fixed windows</p>
       <div class="readout" id="readout" aria-live="polite"></div>
+      <section class="settings">
+        <h2>Settings</h2>
+        <p class="key">In the app this lives on the Settings screen (user, 2026-10-10).</p>
+        <div class="groups" role="group" aria-label="Colours">
+          <button data-p="classic" aria-pressed="true">Colours: current (default)</button>
+          <button data-p="rainbow" aria-pressed="false">Rainbow</button>
+        </div>
+      </section>
       <p class="note">
         Times are Drik Panchang's. Verdicts follow SPEC 13.4 and reproduce worked example 1
         (.planning/research/examples.md). Gulika is disputed: drawn faint, never decides. Choghadiya is practice (R21): its ring is shown half-faded and never decides (user, 2026-10-10). The dial shows 05:54 to 05:54 next
@@ -217,7 +262,7 @@
       const LEVEL_LABEL = { strong: 'strong +', plus: '+', zero: '0', poor: 'poor', fb: 'if must', veto: 'avoid' }
       const VERDICTS = ['good', 'neutral', 'fb', 'avoid']
       const VERDICT_LABEL = { good: 'Good', neutral: 'Neutral', fb: 'Only if it cannot wait', avoid: 'Avoid' }
-      const GROUP_LABEL = { 0: 'New beginning', 7: 'Spiritual rites' }
+      const GROUP_LABEL = { 0: 'General', 7: 'Spiritual rites' }
 
       const ALL = [0, 7]
       const V = []
@@ -360,8 +405,8 @@
         return String(Math.floor(x / 60)).padStart(2, '0') + ':' + String(x % 60).padStart(2, '0')
       }
 
-      let group = 7
-      let handMode = 'ring'
+      let group = 0 // default activity: General (group 0, the base rules only)
+      let handMode = 'dodge'
       let cursor = NOW
       const updaters = []
 
@@ -600,13 +645,10 @@
           `${iconHTML(r.verdict)}<b style="color:${colour(r.verdict)}">${hhmm(cursor)} · ${label(r.verdict)}</b> <span style="color:var(--color-muted)">(${GROUP_LABEL[group]})</span><ul>${lines}</ul>`
       }
 
-      document.querySelectorAll('[data-g]').forEach((b) =>
-        b.addEventListener('click', () => {
-          group = Number(b.dataset.g)
-          document.querySelectorAll('[data-g]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)))
-          draw()
-        }),
-      )
+      document.getElementById('activity').addEventListener('change', (e) => {
+        group = Number(e.target.value)
+        draw()
+      })
       document.querySelectorAll('[data-h]').forEach((b) =>
         b.addEventListener('click', () => {
           handMode = b.dataset.h
