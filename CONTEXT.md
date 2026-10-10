@@ -8,16 +8,14 @@ S10: periods plan (`.planning/PLAN-periods.md`) audited and through Q0–Q2. Q1 
 AND bad at every level (day part, day, month — SPEC 4.11's hidden avoid days are reopened);
 every verdict per 10 activity groups; base systems Muhurta Chintamani + Drik, regional
 items later; decide from sources, not from what the app shows now. App code unchanged.
-At close a background Drik fetch (`scripts/fetch-drik-extra.ts`) was still writing
-`tests/fixtures/drik-extra/` — files after the S10 commit are its remainder.
+Drik extra-page fixtures complete: `tests/fixtures/drik-extra/` (49 days, 3 cities).
 S9 (local, not pushed: e7cbe9b): every day sheet brief, general text folds out.
 Workflow: the user reviews on localhost; show proposals before changing code; commit
 locally, push only on the user's command.
 
 ## Next Tasks
 - Periods plan Q3.1: design survey (how others show a day of periods and a month) → user
-  picks 2–3 directions. First: commit the rest of `tests/fixtures/drik-extra/` (rerun
-  `node scripts/fetch-drik-extra.ts <city>` if incomplete), fetch 2026-08-12 for example 4.
+  picks 2–3 directions. Also: fetch Drik day + extra pages for 2026-08-12 (example 4).
   plan: `.planning/PLAN-periods.md` Q3; model SPEC 13. Push e7cbe9b only on the user's word.
 - New moon shows 18:49 (tithi end, moon card) and 18:50 (key dates, tradition card): two
   methods ~40 s apart (SPEC 11). Use one instant for both. Code: `src/core/panchang.ts`.
@@ -111,7 +109,7 @@ locally, push only on the user's command.
 - **Decided / overturned:** User: good AND bad shown at every level (replaces SPEC 4.11's hidden avoid days); verdicts per 10 activity groups; base = Muhurta Chintamani + Drik, regional items later; ignore the current app when deciding. Rejected: "Abhijit cancels all doshas" (that is Ravi yoga), "Panchaka bad for everything" (5 acts only).
 - **Code:** `scripts/fetch-drik-extra.ts`, `tests/fixtures/drik-extra/*`; planning repo: `PLAN-periods.md`, `SPEC.md` 13, `research/{catalogue,rules,examples}.md`.
 - **Entry point:** `node scripts/fetch-drik-extra.ts <city> [dates]` (12 s spacing, cached).
-- **Not measured:** Drik fetch still running at close (New Delhi, Vilnius Do Ghati); example 4 (2026-08-12 eclipse) needs its Drik pages; combustion orbs, karana quality, Pitru Paksha unsourced.
+- **Not measured:** example 4 (2026-08-12 eclipse) needs its Drik pages; combustion orbs, karana quality, Pitru Paksha unsourced.
 
 ### Session 2026-10-10 (S9) — brief day sheets; plan for one view of the day's periods
 

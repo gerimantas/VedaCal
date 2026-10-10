@@ -5,9 +5,10 @@
     "lagna": "https://www.drikpanchang.com/muhurat/lagna.html?geoname-id=593116&date=10/05/2026",
     "panchakaRahita": "https://www.drikpanchang.com/muhurat/panchaka-rahita-muhurat.html?geoname-id=593116&date=10/05/2026",
     "chandrabalam": "https://www.drikpanchang.com/panchang/chandrabalam/chandrabalam-timings.html?geoname-id=593116&date=10/05/2026",
-    "tarabalam": "https://www.drikpanchang.com/panchang/tarabalam/tarabalam-timings.html?geoname-id=593116&date=10/05/2026"
+    "tarabalam": "https://www.drikpanchang.com/panchang/tarabalam/tarabalam-timings.html?geoname-id=593116&date=10/05/2026",
+    "doGhati": "https://www.drikpanchang.com/muhurat/daily/do-ghati-muhurat.html?geoname-id=593116&date=10/05/2026"
   },
-  "fetchedAt": "2026-10-10T07:24:33.886Z",
+  "fetchedAt": "2026-10-10T09:23:26.997Z",
   "city": "vilnius",
   "date": "2026-05-10",
   "tz": "Europe/Vilnius",
@@ -963,5 +964,191 @@
         }
       ]
     }
-  ]
+  ],
+  "doGhati": {
+    "day": [
+      {
+        "part": "Pratah",
+        "label": null,
+        "start": "2026-05-10T02:22:00.000Z",
+        "end": "2026-05-10T03:25:00.000Z"
+      },
+      {
+        "part": "Pratah",
+        "label": null,
+        "start": "2026-05-10T03:25:00.000Z",
+        "end": "2026-05-10T04:28:00.000Z"
+      },
+      {
+        "part": "Pratah",
+        "label": null,
+        "start": "2026-05-10T04:28:00.000Z",
+        "end": "2026-05-10T05:32:00.000Z"
+      },
+      {
+        "part": "Sangava",
+        "label": null,
+        "start": "2026-05-10T05:32:00.000Z",
+        "end": "2026-05-10T06:35:00.000Z"
+      },
+      {
+        "part": "Sangava",
+        "label": null,
+        "start": "2026-05-10T06:35:00.000Z",
+        "end": "2026-05-10T07:38:00.000Z"
+      },
+      {
+        "part": "Sangava",
+        "label": null,
+        "start": "2026-05-10T07:38:00.000Z",
+        "end": "2026-05-10T08:41:00.000Z"
+      },
+      {
+        "part": "Madhyahna",
+        "label": null,
+        "start": "2026-05-10T08:41:00.000Z",
+        "end": "2026-05-10T09:44:00.000Z"
+      },
+      {
+        "part": "Madhyahna",
+        "label": "Abhijit Muhurat",
+        "start": "2026-05-10T09:44:00.000Z",
+        "end": "2026-05-10T10:47:00.000Z"
+      },
+      {
+        "part": "Madhyahna",
+        "label": null,
+        "start": "2026-05-10T10:47:00.000Z",
+        "end": "2026-05-10T11:51:00.000Z"
+      },
+      {
+        "part": "Aparahna",
+        "label": null,
+        "start": "2026-05-10T11:51:00.000Z",
+        "end": "2026-05-10T12:54:00.000Z"
+      },
+      {
+        "part": "Aparahna",
+        "label": "Vijay Muhurat",
+        "start": "2026-05-10T12:54:00.000Z",
+        "end": "2026-05-10T13:57:00.000Z"
+      },
+      {
+        "part": "Aparahna",
+        "label": null,
+        "start": "2026-05-10T13:57:00.000Z",
+        "end": "2026-05-10T15:00:00.000Z"
+      },
+      {
+        "part": "Sayahna",
+        "label": null,
+        "start": "2026-05-10T15:00:00.000Z",
+        "end": "2026-05-10T16:03:00.000Z"
+      },
+      {
+        "part": "Sayahna",
+        "label": null,
+        "start": "2026-05-10T16:03:00.000Z",
+        "end": "2026-05-10T17:07:00.000Z"
+      },
+      {
+        "part": "Sayahna",
+        "label": null,
+        "start": "2026-05-10T17:07:00.000Z",
+        "end": "2026-05-10T18:10:00.000Z"
+      }
+    ],
+    "night": [
+      {
+        "part": "Pradosha",
+        "label": "Sayan Sandhya",
+        "start": "2026-05-10T18:10:00.000Z",
+        "end": "2026-05-10T18:42:00.000Z"
+      },
+      {
+        "part": "Pradosha",
+        "label": "1/2 Sayan Sandhya",
+        "start": "2026-05-10T18:42:00.000Z",
+        "end": "2026-05-10T19:15:00.000Z"
+      },
+      {
+        "part": "Pradosha",
+        "label": null,
+        "start": "2026-05-10T19:15:00.000Z",
+        "end": "2026-05-10T19:48:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-05-10T19:48:00.000Z",
+        "end": "2026-05-10T20:21:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-05-10T20:21:00.000Z",
+        "end": "2026-05-10T20:53:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-05-10T20:53:00.000Z",
+        "end": "2026-05-10T21:26:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-05-10T21:26:00.000Z",
+        "end": "2026-05-10T21:59:00.000Z"
+      },
+      {
+        "part": "Nishita",
+        "label": "Mahanishita Muhurat",
+        "start": "2026-05-10T21:59:00.000Z",
+        "end": "2026-05-10T22:31:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-05-10T22:31:00.000Z",
+        "end": "2026-05-10T23:04:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-05-10T23:04:00.000Z",
+        "end": "2026-05-10T23:37:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-05-10T23:37:00.000Z",
+        "end": "2026-05-11T00:09:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-05-11T00:09:00.000Z",
+        "end": "2026-05-11T00:42:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-05-11T00:42:00.000Z",
+        "end": "2026-05-11T01:15:00.000Z"
+      },
+      {
+        "part": "Arunodaya",
+        "label": "1/2 Pratah Sandhya",
+        "start": "2026-05-11T01:15:00.000Z",
+        "end": "2026-05-11T01:48:00.000Z"
+      },
+      {
+        "part": "Arunodaya",
+        "label": "Pratah Sandhya",
+        "start": "2026-05-11T01:48:00.000Z",
+        "end": "2026-05-11T02:20:00.000Z"
+      }
+    ]
+  }
 }

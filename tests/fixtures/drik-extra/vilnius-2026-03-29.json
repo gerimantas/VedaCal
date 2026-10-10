@@ -5,9 +5,10 @@
     "lagna": "https://www.drikpanchang.com/muhurat/lagna.html?geoname-id=593116&date=29/03/2026",
     "panchakaRahita": "https://www.drikpanchang.com/muhurat/panchaka-rahita-muhurat.html?geoname-id=593116&date=29/03/2026",
     "chandrabalam": "https://www.drikpanchang.com/panchang/chandrabalam/chandrabalam-timings.html?geoname-id=593116&date=29/03/2026",
-    "tarabalam": "https://www.drikpanchang.com/panchang/tarabalam/tarabalam-timings.html?geoname-id=593116&date=29/03/2026"
+    "tarabalam": "https://www.drikpanchang.com/panchang/tarabalam/tarabalam-timings.html?geoname-id=593116&date=29/03/2026",
+    "doGhati": "https://www.drikpanchang.com/muhurat/daily/do-ghati-muhurat.html?geoname-id=593116&date=29/03/2026"
   },
-  "fetchedAt": "2026-10-10T07:23:22.919Z",
+  "fetchedAt": "2026-10-10T09:23:21.732Z",
   "city": "vilnius",
   "date": "2026-03-29",
   "tz": "Europe/Vilnius",
@@ -963,5 +964,191 @@
         }
       ]
     }
-  ]
+  ],
+  "doGhati": {
+    "day": [
+      {
+        "part": "Pratah",
+        "label": null,
+        "start": "2026-03-29T03:59:00.000Z",
+        "end": "2026-03-29T04:50:00.000Z"
+      },
+      {
+        "part": "Pratah",
+        "label": null,
+        "start": "2026-03-29T04:50:00.000Z",
+        "end": "2026-03-29T05:42:00.000Z"
+      },
+      {
+        "part": "Pratah",
+        "label": null,
+        "start": "2026-03-29T05:42:00.000Z",
+        "end": "2026-03-29T06:33:00.000Z"
+      },
+      {
+        "part": "Sangava",
+        "label": null,
+        "start": "2026-03-29T06:33:00.000Z",
+        "end": "2026-03-29T07:24:00.000Z"
+      },
+      {
+        "part": "Sangava",
+        "label": null,
+        "start": "2026-03-29T07:24:00.000Z",
+        "end": "2026-03-29T08:16:00.000Z"
+      },
+      {
+        "part": "Sangava",
+        "label": null,
+        "start": "2026-03-29T08:16:00.000Z",
+        "end": "2026-03-29T09:07:00.000Z"
+      },
+      {
+        "part": "Madhyahna",
+        "label": null,
+        "start": "2026-03-29T09:07:00.000Z",
+        "end": "2026-03-29T09:59:00.000Z"
+      },
+      {
+        "part": "Madhyahna",
+        "label": "Abhijit Muhurat",
+        "start": "2026-03-29T09:59:00.000Z",
+        "end": "2026-03-29T10:50:00.000Z"
+      },
+      {
+        "part": "Madhyahna",
+        "label": null,
+        "start": "2026-03-29T10:50:00.000Z",
+        "end": "2026-03-29T11:41:00.000Z"
+      },
+      {
+        "part": "Aparahna",
+        "label": null,
+        "start": "2026-03-29T11:41:00.000Z",
+        "end": "2026-03-29T12:33:00.000Z"
+      },
+      {
+        "part": "Aparahna",
+        "label": "Vijay Muhurat",
+        "start": "2026-03-29T12:33:00.000Z",
+        "end": "2026-03-29T13:24:00.000Z"
+      },
+      {
+        "part": "Aparahna",
+        "label": null,
+        "start": "2026-03-29T13:24:00.000Z",
+        "end": "2026-03-29T14:15:00.000Z"
+      },
+      {
+        "part": "Sayahna",
+        "label": null,
+        "start": "2026-03-29T14:15:00.000Z",
+        "end": "2026-03-29T15:07:00.000Z"
+      },
+      {
+        "part": "Sayahna",
+        "label": null,
+        "start": "2026-03-29T15:07:00.000Z",
+        "end": "2026-03-29T15:58:00.000Z"
+      },
+      {
+        "part": "Sayahna",
+        "label": null,
+        "start": "2026-03-29T15:58:00.000Z",
+        "end": "2026-03-29T16:50:00.000Z"
+      }
+    ],
+    "night": [
+      {
+        "part": "Pradosha",
+        "label": "Sayan Sandhya",
+        "start": "2026-03-29T16:50:00.000Z",
+        "end": "2026-03-29T17:34:00.000Z"
+      },
+      {
+        "part": "Pradosha",
+        "label": "1/2 Sayan Sandhya",
+        "start": "2026-03-29T17:34:00.000Z",
+        "end": "2026-03-29T18:18:00.000Z"
+      },
+      {
+        "part": "Pradosha",
+        "label": null,
+        "start": "2026-03-29T18:18:00.000Z",
+        "end": "2026-03-29T19:03:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-03-29T19:03:00.000Z",
+        "end": "2026-03-29T19:47:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-03-29T19:47:00.000Z",
+        "end": "2026-03-29T20:32:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-03-29T20:32:00.000Z",
+        "end": "2026-03-29T21:16:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-03-29T21:16:00.000Z",
+        "end": "2026-03-29T22:01:00.000Z"
+      },
+      {
+        "part": "Nishita",
+        "label": "Mahanishita Muhurat",
+        "start": "2026-03-29T22:01:00.000Z",
+        "end": "2026-03-29T22:45:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-03-29T22:45:00.000Z",
+        "end": "2026-03-29T23:30:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-03-29T23:30:00.000Z",
+        "end": "2026-03-30T00:14:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-03-30T00:14:00.000Z",
+        "end": "2026-03-30T00:59:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-03-30T00:59:00.000Z",
+        "end": "2026-03-30T01:43:00.000Z"
+      },
+      {
+        "part": "Ratri",
+        "label": null,
+        "start": "2026-03-30T01:43:00.000Z",
+        "end": "2026-03-30T02:27:00.000Z"
+      },
+      {
+        "part": "Arunodaya",
+        "label": "1/2 Pratah Sandhya",
+        "start": "2026-03-30T02:27:00.000Z",
+        "end": "2026-03-30T03:12:00.000Z"
+      },
+      {
+        "part": "Arunodaya",
+        "label": "Pratah Sandhya",
+        "start": "2026-03-30T03:12:00.000Z",
+        "end": "2026-03-30T03:56:00.000Z"
+      }
+    ]
+  }
 }
