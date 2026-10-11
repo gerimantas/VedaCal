@@ -2,6 +2,22 @@
 
 Older session entries moved out of `CONTEXT.md`.
 
+## Session 2026-10-05 (S3) — P3 approved, P4 + P5 built, source audit, Lithuanian, deployed
+
+- **Done:** P3 approved at mockups v22; P4 (Svelte day screen, offline GeoNames search, GPS,
+  About) and P5 (lean month view, settings) with gates met; NotebookLM source audit → live
+  elements + "then …", lunar month, Moon/Sun signs (Vedic default), Ekadashi Parana; month
+  marks (eclipses, Sankranti, Guru/Ravi Pushya); Lithuanian UI; deployed (38d2853, CI green).
+- **Decided / overturned:** moonrise/moonset dropped; signs on the moon/sun cards; Vedic
+  default + Western setting; month marks option A only; no Sanskrit for "Rest day"; English
+  vs device-locale dates fixed (app language rules); Settings shows only the current city.
+- **Code:** `src/ui/{day,month,marks,cities,format,terms,icons}.ts`, `src/ui/*.svelte`,
+  `src/ui/state.svelte.ts`, `src/core/panchang.ts` (masa, signs, parana, monthMarks, lean
+  `computeMonth`), `src/content/lt.json`, `src/data/cities.json`, `scripts/{build-cities,
+  fetch-parana,drik-page}.ts`, `tests/{ui,calendar,month,marks}.test.ts`; rules SPEC 4.10, 4.11, 5.2, 5.3.
+- **Entry point:** `npm run dev` → `/VedaCal/`; `npm test` (918); live https://gerimantas.github.io/VedaCal/
+- **Not measured:** Drik pages for eclipses, Sankranti, Pushya, adhika day pages, NY/Delhi
+  2027 Parana (reCAPTCHA) — Next Tasks; month speed on a real phone (4× throttle: 169–232 ms).
 ## Session 2026-10-04 (S2) — P3 mockups v4 → v21 from the user's fixes
 
 - **Done:** real NASA moon photo (public domain) replaces the fake SVG moon; night side drawn

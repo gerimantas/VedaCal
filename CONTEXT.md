@@ -2,7 +2,7 @@
 
 ## Status
 Live: P0–P6 (https://gerimantas.github.io/VedaCal/, 950f429). Local, not pushed: S9's brief
-sheets and all of S12.
+sheets, all of S12 and S13.
 Periods work (`.planning/PLAN-periods.md`): Q0–Q2 done (registry `research/rules.md`, model
 SPEC 13, worked examples `research/examples.md`). S12: day view direction approved = the
 24 h clock (mockup `mockups/research/d7-clock.html`; every user decision in PLAN-periods Q3
@@ -10,20 +10,20 @@ SPEC 13, worked examples `research/examples.md`). S12: day view direction approv
 computeDay + SPEC 13.4 verdict; still-missing values listed in its `MISSING`). Step 2 built:
 the clock on the Day screen (`src/ui/DayClock.svelte`), under the moon hero; the old sun dial
 and time list stay below it until the user approves the clock. Choghadiya is shown only,
-never decides (R21). Known: with values missing, some times look better than they are (e.g.
-2026-10-06 shows Sarvartha good; the eclipse-star veto E1 is not computed yet) — the clock
-says so. Open SPEC questions: day start BM (13.1) vs sunrise (13.5); D3 paksha-randhra
+never decides (R21). S13: engine step 3 started — E1 eclipses built (days around an eclipse
+seen here + its star; rules.md E1 holds the commentary reading); 2026-10-06 now avoid until
+19:47. Still missing (Dur Muhurtam, Varjyam, Amrit Kalam, lagna junctions, Baana, month
+rules): some times look better than they are — the clock says so. Open: E1's eclipse-time
+veto for group 7 (spiritual rites). Open SPEC questions: day start BM (13.1) vs sunrise (13.5); D3 paksha-randhra
 remainder neutral or fallback.
 Workflow: the user reviews on localhost; show proposals before changing code; commit
 locally, push only on the user's command.
 
 ## Next Tasks
-- Engine step 3 (PLAN-periods Q4): compute the `MISSING` values in `src/core/periods.ts` one
-  at a time, test-first vs Drik fixtures (3 cities), each then shown by the clock. Order:
-  E1 eclipse star + 3-day windows (rules.md E1; example 2 and example 4 = 2026-08-12, pages
-  fetched), Dur Muhurtam (R10), Varjyam (R7), Amrit Kalam (R23), lagna junctions (D5, needs
-  ascendant — Q4.g), Baana (R19), month rules (M1–M6). Read first: PLAN-periods Q3 decisions
-  + Q4, SPEC 13, `tests/periods.test.ts`. Ask the user how the app clock looks before starting.
+- Engine step 3 (PLAN-periods Q4), next value: Dur Muhurtam (rules.md R10), test-first vs
+  Drik fixtures (3 cities); then Varjyam (R7), Amrit Kalam (R23), lagna junctions (D5, Q4.g),
+  Baana (R19), month rules (M1–M6). Read first: PLAN-periods Q4, SPEC 13, `tests/periods.test.ts`.
+  Ask the user first how the clock looks with E1 (Vilnius 2026-10-06, 2026-08-10).
 - User review of the app clock (Day screen); on approval remove the old sun dial, time list
   and folded Choghadiya (PLAN-periods Q7 gate). Button style: one decision for all pages.
 - Open SPEC questions for the user: day start BM vs sunrise (13.1 vs 13.5); D3 remainder.
@@ -41,16 +41,12 @@ locally, push only on the user's command.
 
 ## Done Log
 
+### 2026-10-11 (S13)
+- E1 eclipse rule: days around an eclipse seen here + its star (engine, tests 3 cities, clock labels)
+
 ### 2026-10-10 (S12)
 - D6 graph variants, D7 24 h clock mockup (approved direction); Choghadiya → shown only
 - `src/core/periods.ts` (engine step 1) + tests; day clock on the Day screen; activity and palette settings
-
-### 2026-10-10 (S11)
-- Drik extra fixtures complete (Delhi dates, Vilnius Do Ghati, 2026-08-12)
-- Q3.1 survey page `mockups/research/` + D5 graded day graph
-
-### 2026-10-10 (S10)
-- PLAN-periods audited (16 fixes); Q0 catalogue + `fetch-drik-extra.ts`; Q1 registry; Q2 model (SPEC 13) + examples
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
@@ -111,6 +107,15 @@ locally, push only on the user's command.
 ## Archive
 
 Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation, newest first). This section keeps the most recent 10 sessions.
+
+### Session 2026-10-11 (S13) — E1 eclipse rule built (engine step 3, first value)
+
+- **Done:** Read [MC] 1.32–33 with the Piyushadhara commentary (DLI scan): set eclipsed → 3 days before; rises eclipsed → 3 after; seen whole → 3 before, day, 3 after; total → also 7 after; eclipse star 6/3/1 lunar months by grasa. Recorded in rules.md E1.
+- **Done:** Engine: `DayPanchang.eclipses` (eclipses seen here, magnitude seen, rose/set, stars); periods `eclipse`, `eclipseDays`, `eclipseStar` (veto); removed from `MISSING`. 8 tests vs Drik eclipse pages, 3 cities; magnitude 0.836 vs Drik 0.84 (Vilnius), 0.186 vs 0.18 (NY). Clock labels EN+LT.
+- **Decided / overturned:** model choices — the eclipse itself is a veto for all groups (group 7 open: eclipse time is traditionally for prayer); penumbral-only lunar eclipses not counted; magnitude ≥ 1 / ≥ 0.5 / less = whole / half / quarter. SPEC 13.3 and example 4 updated.
+- **Code:** `src/core/{panchang,periods,types}.ts`, `src/ui/verdict.ts`, `src/content/{en,lt}.json`, `tests/periods.test.ts`; planning: rules.md E1, SPEC 13.3, examples.md example 4.
+- **Entry point:** `npx vitest run tests/periods.test.ts`; app `npm run dev`, Vilnius 2026-10-06 (avoid until 19:47) and 2026-08-10.
+- **Not measured:** user has not seen the clock with E1; cold computeDay 10 → 31 ms on desktop (throttled phone not measured).
 
 ### Session 2026-10-10 (S12) — day clock designed (D6, D7), engine step 1, clock in the app
 
@@ -233,20 +238,3 @@ Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation,
 - **Entry point:** `npm test`; `npm run accuracy`; `node scripts/fetch-marks.ts <city> 2026`
 - **Not measured:** remaining uniform ~57 s Moon offset vs Drik (tithi/nakshatra/yoga/karana,
   max 93 s, inside the gate) — cause unknown. Install prompt not tried on a real phone.
-
-### Session 2026-10-05 (S3) — P3 approved, P4 + P5 built, source audit, Lithuanian, deployed
-
-- **Done:** P3 approved at mockups v22; P4 (Svelte day screen, offline GeoNames search, GPS,
-  About) and P5 (lean month view, settings) with gates met; NotebookLM source audit → live
-  elements + "then …", lunar month, Moon/Sun signs (Vedic default), Ekadashi Parana; month
-  marks (eclipses, Sankranti, Guru/Ravi Pushya); Lithuanian UI; deployed (38d2853, CI green).
-- **Decided / overturned:** moonrise/moonset dropped; signs on the moon/sun cards; Vedic
-  default + Western setting; month marks option A only; no Sanskrit for "Rest day"; English
-  vs device-locale dates fixed (app language rules); Settings shows only the current city.
-- **Code:** `src/ui/{day,month,marks,cities,format,terms,icons}.ts`, `src/ui/*.svelte`,
-  `src/ui/state.svelte.ts`, `src/core/panchang.ts` (masa, signs, parana, monthMarks, lean
-  `computeMonth`), `src/content/lt.json`, `src/data/cities.json`, `scripts/{build-cities,
-  fetch-parana,drik-page}.ts`, `tests/{ui,calendar,month,marks}.test.ts`; rules SPEC 4.10, 4.11, 5.2, 5.3.
-- **Entry point:** `npm run dev` → `/VedaCal/`; `npm test` (918); live https://gerimantas.github.io/VedaCal/
-- **Not measured:** Drik pages for eclipses, Sankranti, Pushya, adhika day pages, NY/Delhi
-  2027 Parana (reCAPTCHA) — Next Tasks; month speed on a real phone (4× throttle: 169–232 ms).
