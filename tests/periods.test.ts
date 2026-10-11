@@ -190,6 +190,98 @@ describe('periods, Vilnius 2026-05-10 (example 5)', () => {
   })
 })
 
+// E1 ([MC] 1.32–33 with the Piyushadhara): an eclipse seen here spoils the 3 days before it if
+// the body sets eclipsed, the 3 days after if it rises eclipsed, and the 3 days before, the day
+// and the 3 after if it is seen whole; its nakshatra for 6, 3 or 1 months by the magnitude seen
+// (whole, at least half, less). Seen times and magnitudes: Drik's eclipse pages
+// (tests/fixtures/marks/*-2026.json).
+describe('eclipses seen here (E1)', () => {
+  const place = (k: keyof typeof CITIES): Location => {
+    const x = CITIES[k]
+    return { name: x.drikName, country: '', lat: x.lat, lon: x.lon, elevation: x.elevation, tz: x.tz }
+  }
+  const at = (k: keyof typeof CITIES, date: string, hhmm: string) => {
+    const [y, m, d] = date.split('-').map(Number)
+    const [h, mm] = hhmm.split(':').map(Number)
+    return zonedTimeToUtc(CITIES[k].tz, y, m, d, h, mm)
+  }
+  const day = (k: keyof typeof CITIES, date: string) => computeDay(date, place(k))
+  const periods = (k: keyof typeof CITIES, date: string) => dayPeriods(day(k, date), day(k, addDays(date, -1))).periods
+  /** Is the whole day window under the 3-day rule? */
+  const spoiled = (k: keyof typeof CITIES, date: string) => {
+    const d = day(k, date)
+    const { window, periods: ps } = dayPeriods(d, day(k, addDays(date, -1)))
+    const p = ps.filter((x) => x.kind === 'eclipseDays')
+    if (p.length) expect(p.some((x) => x.start.getTime() === window.start.getTime() && x.end.getTime() === window.end.getTime()), date).toBe(true)
+    return p.length > 0
+  }
+  const seenOn = (k: keyof typeof CITIES, date: string, body: 'sun' | 'moon') => {
+    const e = day(k, date).eclipses.filter((x) => x.body === body && x.day === date)
+    expect(e, `${k} ${date} ${body}`).toHaveLength(1)
+    return e[0]
+  }
+
+  it('Vilnius 2026-08-12: the Sun sets eclipsed at magnitude 0.84 in Ashlesha (example 4)', () => {
+    const e = seenOn('vilnius', '2026-08-12', 'sun')
+    near(e.seen.start, at('vilnius', '2026-08-12', '20:09'), 2)
+    near(e.seen.end, at('vilnius', '2026-08-12', '20:58'), 2)
+    expect(e).toMatchObject({ set: true, rose: false, stars: [9] })
+    expect(e.magnitude).toBeCloseTo(0.84, 1)
+  })
+  it('Vilnius 2026-08-12: the 3 days before are avoided, not the day itself or after; the eclipse itself is', () => {
+    expect(['2026-08-08', '2026-08-09', '2026-08-10', '2026-08-11', '2026-08-12', '2026-08-13'].map((d) => spoiled('vilnius', d))).toEqual([false, true, true, true, false, false])
+    const p = find(periods('vilnius', '2026-08-12'), 'eclipse', at('vilnius', '2026-08-12', '20:30'))
+    expect(p.level).toBe('veto')
+  })
+  it('Vilnius: Ashlesha is avoided for 3 months — 2026-10-06 until 19:47, overruling Sarvartha Siddhi (example 2)', () => {
+    const ps = periods('vilnius', '2026-10-06')
+    const s = find(ps, 'eclipseStar', L('2026-10-06', '12:00'))
+    near(s.end, L('2026-10-06', '19:47'), 2)
+    none(ps, 'eclipseStar', L('2026-10-06', '21:00'))
+    expect(verdictAt('2026-10-06', 0, L('2026-10-06', '12:00')).verdict).toBe('avoid')
+    // The Moon is back in Ashlesha on 2026-11-02 (inside 3 months) and on 2026-11-29 (outside).
+    expect(periods('vilnius', '2026-11-02').some((p) => p.kind === 'eclipseStar')).toBe(true)
+    expect(periods('vilnius', '2026-11-29').some((p) => p.kind === 'eclipseStar')).toBe(false)
+  })
+  it('Vilnius 2026-08-28: the Moon sets eclipsed at 06:16 — the 3 days before', () => {
+    const e = seenOn('vilnius', '2026-08-28', 'moon')
+    near(e.seen.start, at('vilnius', '2026-08-28', '05:34'), 2)
+    near(e.seen.end, at('vilnius', '2026-08-28', '06:16'), 2)
+    expect(e).toMatchObject({ set: true, rose: false })
+    expect(e.magnitude).toBeLessThan(0.92) // the greatest phase, 0.92 at 07:13, is below the horizon
+    expect(['2026-08-24', '2026-08-25', '2026-08-26', '2026-08-27', '2026-08-28', '2026-08-29'].map((d) => spoiled('vilnius', d))).toEqual([false, true, true, true, false, false])
+  })
+  it('New Delhi 2026-03-03: the Moon rises eclipsed at 18:26 — the 3 days after', () => {
+    const e = seenOn('new-delhi', '2026-03-03', 'moon')
+    near(e.seen.start, at('new-delhi', '2026-03-03', '18:26'), 2)
+    near(e.seen.end, at('new-delhi', '2026-03-03', '18:46'), 2)
+    expect(e).toMatchObject({ set: false, rose: true })
+    expect(['2026-03-02', '2026-03-03', '2026-03-04', '2026-03-05', '2026-03-06', '2026-03-07'].map((d) => spoiled('new-delhi', d))).toEqual([false, false, true, true, true, false])
+  })
+  it('New York 2026-08-12: seen whole, magnitude 0.18 — 3 days before, the day, 3 after; the star for 1 month', () => {
+    const e = seenOn('new-york', '2026-08-12', 'sun')
+    near(e.seen.start, at('new-york', '2026-08-12', '13:07'), 2)
+    near(e.seen.end, at('new-york', '2026-08-12', '14:38'), 2)
+    expect(e).toMatchObject({ set: false, rose: false })
+    expect(e.magnitude).toBeCloseTo(0.18, 1)
+    expect(['2026-08-08', '2026-08-09', '2026-08-12', '2026-08-15', '2026-08-16'].map((d) => spoiled('new-york', d))).toEqual([false, true, true, true, false])
+  })
+  it('New York 2026-03-03: the Moon sets in totality — 3 days before, 7 after (a total eclipse, [MC] 1.32)', () => {
+    const e = day('new-york', '2026-03-03').eclipses.find((x) => x.body === 'moon')!
+    near(e.seen.start, at('new-york', '2026-03-03', '04:51'), 2)
+    near(e.seen.end, at('new-york', '2026-03-03', '06:24'), 2)
+    expect(e).toMatchObject({ set: true, rose: false })
+    expect(e.magnitude).toBeGreaterThanOrEqual(1)
+    // 04:51 is inside that morning's Brahma Muhurta (from 04:45), so in the day of the 3rd (SPEC 13.1).
+    expect(e.day).toBe('2026-03-03')
+    expect(['2026-02-27', '2026-02-28', '2026-03-02', '2026-03-03', '2026-03-04', '2026-03-10', '2026-03-11'].map((d) => spoiled('new-york', d))).toEqual([false, true, true, false, true, true, false])
+  })
+  it('not seen here, not counted: New Delhi 2026-08-12', () => {
+    expect(day('new-delhi', '2026-08-10').eclipses.filter((x) => x.body === 'sun')).toHaveLength(0)
+    expect(spoiled('new-delhi', '2026-08-10')).toBe(false)
+  })
+})
+
 it('every moment of the day belongs to exactly one segment, for every group', () => {
   for (const date of ['2026-10-10', '2026-10-06', '2026-10-25', '2026-05-10']) {
     const day = computeDay(date, VILNIUS), prev = computeDay(addDays(date, -1), VILNIUS)

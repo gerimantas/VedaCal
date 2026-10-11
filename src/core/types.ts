@@ -47,6 +47,16 @@ export type DayMark =
   | { kind: 'pushya'; weekday: 0 | 4; start: Date; end: Date }
   | { kind: 'siddhi'; yoga: 'amrit' | 'sarvartha'; start: Date; end: Date }
 
+/**
+ * An eclipse seen here, for the windows it casts on the days around it (rule registry E1).
+ * Lunar eclipses count from the first to the last contact with the umbra; penumbral-only
+ * eclipses are not counted. `day` is the app's day (Brahma Muhurta to the next sunrise, SPEC
+ * 13.1) in which the seen part starts; `magnitude` is the deepest phase seen here, as a
+ * fraction of the body's diameter; `rose` / `set`: the body rose already eclipsed / set
+ * still eclipsed; `stars`: the Moon's nakshatras while it is seen.
+ */
+export type SeenEclipse = { body: 'sun' | 'moon'; day: string; seen: Interval; magnitude: number; rose: boolean; set: boolean; stars: number[] }
+
 export type Ayana = 'uttarayana' | 'dakshinayana'
 
 export type DayPanchang = {
@@ -82,6 +92,8 @@ export type DayPanchang = {
   /** Sign (1 Aries/Mesha … 12 Pisces) of the Moon and the Sun: Vedic (sidereal, Lahiri) and Western (tropical). */
   signs: { vedic: SignSpans; western: SignSpans }
   marks: DayMark[]
+  /** Eclipses seen here from about 6 lunar months before this day to 4 days after it (E1). */
+  eclipses: SeenEclipse[]
   newMoon: Date | null // instant inside this civil day
   fullMoon: Date | null
   rhythm: {

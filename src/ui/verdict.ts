@@ -2,7 +2,7 @@
 // draws and says, built from the engine's periods and segments (src/core/periods.ts).
 import { daySegments, dayPeriods, type Level, type Period, type Segment, type Verdict } from '../core/periods'
 import type { DayPanchang, Interval } from '../core/types'
-import { content, entry, t } from './format'
+import { content, entry, LOCALE, MONTH, t } from './format'
 import type { Palette } from './state.svelte'
 
 /** What the clock colours a moment: the verdict, with "good by a strong +" apart for the rainbow palette. */
@@ -49,6 +49,7 @@ export const levelWord = (p: Period) => LEVEL_WORD[p.level]()
 
 const tithiName = (i: number) => entry('tithi', i).name
 const yogaName = (i: number) => entry('yoga', i).name
+const dayName = (date: unknown) => new Intl.DateTimeFormat(LOCALE, { month: MONTH, day: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`))
 
 /** The name a period goes by in the readout. Sanskrit names stay as they are in both languages. */
 export function periodName(p: Period): string {
@@ -73,6 +74,9 @@ export function periodName(p: Period): string {
     case 'sarvartha': return 'Sarvartha Siddhi'
     case 'amritSiddhi': return 'Amrit Siddhi'
     case 'ravi': return 'Ravi yoga'
+    case 'eclipse': return t('periodEclipse')
+    case 'eclipseDays': return t('periodEclipseDays', { date: dayName(d.day) })
+    case 'eclipseStar': return t('periodEclipseStar', { star: entry('nakshatra', Number(d.star)).name, date: dayName(d.day) })
     case 'choghadiya': return `Choghadiya ${(content.choghadiya as Record<string, { name: string }>)[String(d.name)].name}`
     case 'base':
       return t('periodBase', { vara: entry('vara', Number(d.vara)).name, tithi: tithiName(Number(d.tithi)), star: entry('nakshatra', Number(d.star)).name })

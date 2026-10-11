@@ -32,7 +32,7 @@ import { calculateAbhijitMuhurta, calculateBrahmaMuhurta } from '@ishubhamx/panc
 import { calculateGulikaKalam, calculateRahuKalam, calculateYamagandaKalam } from '@ishubhamx/panchangam-js/dist/muhurta/rahu-kaal'
 import { getVara } from '@ishubhamx/panchangam-js/dist/calendar/vara'
 import { addDays, civilDate, tzOffsetMinutes, zonedTimeToUtc } from './time'
-import type { Ayana, Choghadiya, ChoghadiyaName, DayMark, DayPanchang, Interval, Location, MonthDay, Span } from './types'
+import type { Ayana, Choghadiya, ChoghadiyaName, DayMark, DayPanchang, Interval, Location, MonthDay, SeenEclipse, Span } from './types'
 
 const DAY_MS = 86_400_000
 
@@ -311,6 +311,88 @@ function monthMarks(loc: Location, first: string): Map<string, DayMark[]> {
 const marksByMonth = new Map<string, Map<string, DayMark[]>>()
 const marksOn = (loc: Location, date: string) => monthMarks(loc, `${date.slice(0, 7)}-01`).get(date) ?? []
 
+// ── Eclipses seen here, for the days around them (rule registry E1) ─────────────────
+
+const KM_PER_AU = 1.495978707e8
+const SUN_KM = 695_700, MOON_KM = 1737.4, EARTH_KM = 6378.14
+const SYNODIC_MS = 29.530589 * DAY_MS
+
+/** Angle between two vectors, radians. */
+const between = (a: { x: number; y: number; z: number }, b: { x: number; y: number; z: number }) =>
+  Math.acos(Math.max(-1, Math.min(1, (a.x * b.x + a.y * b.y + a.z * b.z) / Math.hypot(a.x, a.y, a.z) / Math.hypot(b.x, b.y, b.z))))
+
+/** Solar eclipse magnitude seen here at `t`: the part of the Sun's diameter the Moon covers. */
+function solarMagnitude(loc: Location, t: Date): number {
+  const s = Equator(Body.Sun, t, observerOf(loc), true, true)
+  const m = Equator(Body.Moon, t, observerOf(loc), true, true)
+  const rs = Math.asin(SUN_KM / (s.dist * KM_PER_AU)), rm = Math.asin(MOON_KM / (m.dist * KM_PER_AU))
+  return Math.max(0, (rs + rm - between(s.vec, m.vec)) / (2 * rs))
+}
+
+/** Umbral magnitude of a lunar eclipse at `t` (the same from anywhere the Moon is up); umbra enlarged 2 %, as is usual. */
+function lunarMagnitude(t: Date): number {
+  const s = GeoVector(Body.Sun, t, true), m = GeoVector(Body.Moon, t, true)
+  const ds = Math.hypot(s.x, s.y, s.z) * KM_PER_AU, dm = Math.hypot(m.x, m.y, m.z) * KM_PER_AU
+  const umbra = 1.02 * (0.99834 * Math.asin(EARTH_KM / dm) - Math.asin(SUN_KM / ds) + Math.asin(EARTH_KM / ds))
+  const rm = Math.asin(MOON_KM / dm)
+  return Math.max(0, (umbra + rm - (Math.PI - between(s, m))) / (2 * rm))
+}
+
+/** The app's day holding `t`: Brahma Muhurta to the next sunrise (SPEC 13.1). */
+function appDay(loc: Location, t: Date): string {
+  const d = civilDate(loc.tz, t)
+  const rise = sunriseOn(loc, d)
+  const brahma = rise ? interval(calculateBrahmaMuhurta(rise, sunsetOn(loc, addDays(d, -1)) ?? undefined)) : null
+  return brahma && t < brahma.start ? addDays(d, -1) : d
+}
+
+const monthFirst = (date: string, k: number) => {
+  const [y, m] = date.split('-').map(Number)
+  const i = y * 12 + m - 1 + k
+  return `${Math.floor(i / 12)}-${String((i % 12) + 1).padStart(2, '0')}-01`
+}
+
+/** Eclipses seen here with their peak in the month starting `first`. */
+function seenEclipsesIn(loc: Location, first: string): SeenEclipse[] {
+  return remember(eclipsesByMonth, key(loc, first), () => {
+    const start = midnight(loc, first), end = midnight(loc, monthFirst(first, 1))
+    const out: SeenEclipse[] = []
+    const star = (t: Date) => Math.floor(siderealMoon(getAyanamsa(t))(t) / NAKSHATRA) + 1
+    const push = (body: 'sun' | 'moon', from: Date, to: Date, magnitudeAt: (t: Date) => number) => {
+      const seen = upPart(loc, body === 'sun' ? Body.Sun : Body.Moon, from, to)
+      if (!seen) return
+      let magnitude = magnitudeAt(seen.end)
+      for (let t = seen.start.getTime(); t < seen.end.getTime(); t += MIN_MS) magnitude = Math.max(magnitude, magnitudeAt(new Date(t)))
+      out.push({
+        body, day: appDay(loc, seen.start), seen, magnitude,
+        rose: seen.start.getTime() - from.getTime() > 2 * MIN_MS,
+        set: to.getTime() - seen.end.getTime() > 2 * MIN_MS,
+        stars: [...new Set([star(seen.start), star(seen.end)])],
+      })
+    }
+    for (let e = SearchLunarEclipse(start); e.peak.date < end; e = NextLunarEclipse(e.peak)) {
+      if (e.peak.date < start || e.sd_partial <= 0) continue // penumbral only: no part of the Moon is dark
+      const p = e.peak.date.getTime()
+      push('moon', new Date(p - e.sd_partial * MIN_MS), new Date(p + e.sd_partial * MIN_MS), lunarMagnitude)
+    }
+    for (let e = SearchGlobalSolarEclipse(start); e.peak.date < end; e = NextGlobalSolarEclipse(e.peak)) {
+      if (e.peak.date < start) continue
+      const local = SearchLocalSolarEclipse(new Date(e.peak.date.getTime() - DAY_MS), observerOf(loc))
+      if (Math.abs(local.peak.time.date.getTime() - e.peak.date.getTime()) >= DAY_MS) continue
+      push('sun', local.partial_begin.time.date, local.partial_end.time.date, (t) => solarMagnitude(loc, t))
+    }
+    return out
+  })
+}
+const eclipsesByMonth = new Map<string, SeenEclipse[]>()
+
+/** Eclipses seen here that can reach [from, to): up to 6 lunar months before it, 4 days after (E1). */
+function eclipsesNear(loc: Location, date: string, from: Date, to: Date): SeenEclipse[] {
+  const out: SeenEclipse[] = []
+  for (let k = -7; k <= 1; k++) out.push(...seenEclipsesIn(loc, monthFirst(date, k)))
+  return out.filter((e) => e.seen.end.getTime() > from.getTime() - 6 * SYNODIC_MS && e.seen.start.getTime() < to.getTime() + 4 * DAY_MS)
+}
+
 // ── Traditional rhythm (SPEC 4.8) ───────────────────────────────────────────────
 
 const RITU_START = [330, 30, 90, 150, 210, 270] // tropical Sun longitude at which each ritu begins
@@ -547,6 +629,7 @@ export function computeDay(date: string, loc: Location): DayPanchang {
       fullMoon: moonPhaseIn(180, midnight(loc, date), midnight(loc, addDays(date, 1))),
       rhythm: rhythm(loc, date),
       marks: marksOn(loc, date),
+      eclipses: eclipsesNear(loc, date, from, to),
       ayanamsha: ayanamsa,
     }
   })

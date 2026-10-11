@@ -6,19 +6,21 @@
 // (sunrise, sunset, the five elements, the Moon's sign, the library's windows, the star-day
 // marks). Values that need new computation are listed in MISSING and do not decide yet.
 import { skyAt } from './panchang'
+import { addDays } from './time'
 import type { DayPanchang, Interval, Span } from './types'
 
 export const GROUPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
 const ALL: readonly number[] = GROUPS
 
 /** Values of SPEC 13.2 not computed yet — the screen says so while the list is not empty. */
-export const MISSING = ['durMuhurtam', 'varjyam', 'amritKalam', 'lagnaGandanta', 'baana', 'eclipseStar', 'monthRules'] as const
+export const MISSING = ['durMuhurtam', 'varjyam', 'amritKalam', 'lagnaGandanta', 'baana', 'monthRules'] as const
 
 export type PeriodKind =
   | 'rahuKaal' | 'yamaganda' | 'gulika' | 'noon' | 'midnight'
   | 'tithiGandanta' | 'nakshatraGandanta' | 'pakshaRandhra' | 'yogaPart' | 'vyatipata' | 'vaidhriti'
   | 'bhadraMouth' | 'bhadra' | 'bhadraTail'
   | 'abhijit' | 'brahma' | 'sarvartha' | 'amritSiddhi' | 'ravi'
+  | 'eclipse' | 'eclipseDays' | 'eclipseStar'
   | 'choghadiya' | 'base'
 
 /**
@@ -45,6 +47,7 @@ export type Segment = Interval & { verdict: Verdict; strong: boolean; by: Period
 const MIN = 60_000
 const GHATIKA = 24 * MIN // a ghatika (= danda) taken as 24 minutes (D3, D5, R12, R17)
 const PALA = GHATIKA / 60
+const SYNODIC = 29.530589 * 86_400_000 // a lunar month
 
 const clip = (a: Date, b: Date, w: Interval): Interval | null => {
   const start = a > w.start ? a : w.start
@@ -244,6 +247,25 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
       const count = ((moon.index - sun.index + 27) % 27) + 1
       if (RAVI_COUNTS.includes(count)) add(sun.start, sun.end, 'ravi', 'strong', 'R16', { detail: { moon: moon.index, sun: sun.index } })
     }
+  }
+
+  // Eclipses seen here (E1; [MC] 1.32–33 with the Piyushadhara commentary). The body sets
+  // eclipsed: the 3 days before are avoided; rises eclipsed: the 3 days after; seen whole:
+  // the 3 before, the day and the 3 after; a total eclipse: also the 7 days after (1.32). Its
+  // nakshatra: 6 lunar months after a total eclipse, 3 after at least half, 1 after less, by
+  // the deepest phase seen here. The eclipse itself is avoided too (model choice: SPEC 4.11).
+  // The day's stars, with the one before sunrise taken from the previous day (each searched on its own, so equal to a second, not a millisecond).
+  const stars = [...day.nakshatra, ...prev.nakshatra].filter((s, i, a) => a.findIndex((x) => x.index === s.index && Math.abs(x.start.getTime() - s.start.getTime()) < MIN) === i)
+  for (const e of day.eclipses) {
+    const before = e.set || !e.rose ? 3 : 0
+    const after = e.magnitude >= 1 ? 7 : e.rose || !e.set ? 3 : 0
+    const near = [1, 2, 3, 4, 5, 6, 7].some((k) => (k <= before && addDays(e.day, -k) === day.date) || (k <= after && addDays(e.day, k) === day.date))
+    if (near || (!e.rose && !e.set && e.day === day.date)) add(window.start, window.end, 'eclipseDays', 'veto', 'E1', { detail: { body: e.body, day: e.day } })
+    add(e.seen.start, e.seen.end, 'eclipse', 'veto', 'E1', { detail: { body: e.body } })
+    const months = e.magnitude >= 1 ? 6 : e.magnitude >= 0.5 ? 3 : 1
+    const until = plus(e.seen.end, months * SYNODIC)
+    for (const s of stars)
+      if (e.stars.includes(s.index)) add(s.start > e.seen.end ? s.start : e.seen.end, s.end < until ? s.end : until, 'eclipseStar', 'veto', 'E1', { detail: { star: s.index, months, body: e.body, day: e.day } })
   }
 
   // Day base per group (13.3): cut where the weekday, tithi, star or Tuesday's half changes.
