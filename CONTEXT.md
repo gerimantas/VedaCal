@@ -26,10 +26,6 @@ only on the user's command.
   no source says, cite the rest. Show the user a table (text · verdict · source) before
   changing; en + lt together. Method and done example: commit ecbc1e5 (`tradition` +
   `traditionSource`, test in `tests/content.test.ts`).
-- Sourced `tradition` texts for the values added 2026-10-14 (Hora, Anandadi, Tri / Dwi
-  Pushkara, Sankranti, Panchaka, Disha Shool, dawn, Godhuli, Nishita): draft from
-  `.planning/research/rules.md` only, show the user a table, then add (en + lt). The list
-  shows only their names until then.
 - Personal layer (PLAN-periods Q4.f, Q7.1 birth data): Tarabala, Chandrabala; test vs Drik's
   Chandrabalam / Tarabalam lists. `MISSING` is empty since 2026-10-14.
 - Ask the user whether to push S9–S14 live (P7 pilot needs it). Button style: one decision for all pages.
