@@ -174,7 +174,8 @@ describe('day sheets lead with the day (Vilnius 2026)', () => {
 
   it('an eclipse names what is seen here (Aug 28: from 05:33 to moonset; the peak after it)', () => {
     const f = view('2026-08-28').facts.find((x) => x.lead?.text.includes('Seen here'))!
-    expect(f.lead!.text).toMatch(/Seen here 05:3\d–06:1\d/)
+    // The device picks 12 or 24 h (CI: "5:33 AM"), so either form passes.
+    expect(f.lead!.text).toMatch(/Seen here 0?5:3\d( AM)?–0?6:1\d/)
     expect(f.lead!.text).toContain('is not seen here')
   })
 
