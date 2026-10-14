@@ -13,7 +13,7 @@ export const GROUPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
 const ALL: readonly number[] = GROUPS
 
 /** Values of SPEC 13.2 not computed yet — the screen says so while the list is not empty. */
-export const MISSING = ['baana', 'monthRules'] as const
+export const MISSING = ['monthRules'] as const
 
 export type PeriodKind =
   | 'rahuKaal' | 'yamaganda' | 'gulika' | 'durMuhurtam' | 'noon' | 'midnight'
@@ -22,6 +22,7 @@ export type PeriodKind =
   | 'varjyam' | 'amritKalam'
   | 'abhijit' | 'brahma' | 'sarvartha' | 'amritSiddhi' | 'ravi'
   | 'eclipse' | 'eclipseDays' | 'eclipseStar'
+  | 'baana'
   | 'choghadiya' | 'base'
 
 /**
@@ -145,6 +146,35 @@ const CH_LEVEL = { good: 'plus', neutral: 'neutral', avoid: 'veto' } as const
 const CH_RATING = { amrit: 'good', shubh: 'good', labh: 'good', chal: 'neutral', udveg: 'avoid', rog: 'avoid', kaal: 'avoid' } as const
 
 const sunStar = (t: Date) => Math.floor(skyAt(t).sun / (360 / 27)) + 1
+
+export type Baana = 'mrityu' | 'agni' | 'raja' | 'chora' | 'roga'
+/** Baana by the Sun's completed degrees in its sign, remainder by 9 ([MC] 6.73; Drik's changes). */
+const BAANA: Record<number, Baana> = { 1: 'mrityu', 2: 'agni', 4: 'raja', 6: 'chora', 8: 'roga' }
+/** The act each Baana spoils ([MC] 6.74, SPEC 13.2): travel, marriage, house, official work, rites. */
+const BAANA_GROUP: Record<Baana, number> = { chora: 1, mrityu: 2, agni: 3, raja: 9, roga: 7 }
+
+/** The Baana over [a, b), cut where the Sun completes a degree (about once a day); null where there is none. */
+export function baanaSpans(a: Date, b: Date): { name: Baana | null; start: Date; end: Date }[] {
+  const degree = (t: Date) => Math.floor(skyAt(t).sun)
+  const out: { name: Baana | null; start: Date; end: Date }[] = []
+  let start = a
+  while (start < b) {
+    const d = degree(start)
+    let end = b
+    if (degree(b) !== d) {
+      let lo = start.getTime(), hi = b.getTime()
+      while (hi - lo > 1000) {
+        const m = (lo + hi) / 2
+        if (degree(new Date(m)) === d) lo = m
+        else hi = m
+      }
+      end = new Date(hi)
+    }
+    out.push({ name: BAANA[(d % 30) % 9] ?? null, start, end })
+    start = end
+  }
+  return out
+}
 
 /** Spans of the Sun's nakshatra over [a, b): it moves one star in ~13 days, at most once here. */
 function sunStars(a: Date, b: Date): Span[] {
@@ -304,6 +334,27 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
     for (const s of stars)
       if (e.stars.includes(s.index)) add(s.start > e.seen.end ? s.start : e.seen.end, s.end < until ? s.end : until, 'eclipseStar', 'veto', 'E1', { detail: { star: s.index, months, body: e.body, day: e.day } })
   }
+
+  // Baana (R19, SPEC 13.2): a veto for its own act only, at its own time — Chora and Roga at
+  // night, Raja by day, Agni always, Mrityu at the sandhyas. A sandhya is the tenth of the night
+  // next to sunrise or sunset (3 of its 30 ghatikas; Drik's Pratah and Sayahna Sandhya).
+  const night = (nextSunrise.getTime() - sunset.getTime()) / 10
+  const sandhyas: Interval[] = [
+    ...(prev.sunset ? [{ start: plus(sunrise, -(sunrise.getTime() - prev.sunset.getTime()) / 10), end: sunrise }] : []),
+    { start: sunset, end: plus(sunset, night) },
+    { start: plus(nextSunrise, -night), end: nextSunrise },
+  ]
+  const when: Record<Baana, Interval[]> = {
+    chora: [{ start: window.start, end: sunrise }, { start: sunset, end: nextSunrise }],
+    roga: [{ start: window.start, end: sunrise }, { start: sunset, end: nextSunrise }],
+    raja: [{ start: sunrise, end: sunset }],
+    agni: [window],
+    mrityu: sandhyas,
+  }
+  for (const s of baanaSpans(window.start, window.end))
+    if (s.name)
+      for (const w of when[s.name])
+        add(s.start > w.start ? s.start : w.start, s.end < w.end ? s.end : w.end, 'baana', 'veto', 'R19', { groups: [BAANA_GROUP[s.name]], detail: { name: s.name } })
 
   // Day base per group (13.3): cut where the weekday, tithi, star or Tuesday's half changes.
   const cuts = [window.start, window.end, sunrise, noon, ...day.tithi.map((s) => s.start), ...day.nakshatra.map((s) => s.start)]

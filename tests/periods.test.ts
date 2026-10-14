@@ -1,16 +1,15 @@
 // Day periods and the segment verdict (SPEC 13.2–13.4, PLAN-periods Q4–Q5 step 1).
 // Expected times come from the Drik fixtures and the worked examples in
 // .planning/research/examples.md (Vilnius); verdicts are checked only at moments where no
-// value from the `missing` list (Baana,
-// eclipse star, month rules) is active.
+// value from the `missing` list (month rules) is active.
 import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { computeDay } from '../src/core/panchang'
-import { dayPeriods, daySegments, verdictOf, type Period } from '../src/core/periods'
+import { baanaSpans, dayPeriods, daySegments, verdictOf, type Period } from '../src/core/periods'
 import { addDays, zonedTimeToUtc } from '../src/core/time'
 import type { Location } from '../src/core/types'
 import { CITIES } from '../scripts/cities'
-import { range } from '../scripts/fetch-drik'
+import { instant, range } from '../scripts/fetch-drik'
 
 const c = CITIES.vilnius
 const VILNIUS: Location = { name: c.drikName, country: '', lat: c.lat, lon: c.lon, elevation: c.elevation, tz: c.tz }
@@ -386,6 +385,49 @@ describe('rising signs and their junctions (D5)', () => {
       const s = expected.find((x) => Math.abs(x.start.getTime() - (p.start.getTime() + 12 * MIN)) < MIN || Math.abs(x.start.getTime() - (p.end.getTime() - 12 * MIN)) < MIN)
       expect(s, p.start.toISOString()).toBeDefined()
     }
+  })
+})
+
+// Baana (R19, [MC] 6.73–74): the Sun's completed degrees in its sign, remainder by 9 — 1
+// Mrityu, 2 Agni, 4 Raja, 6 Chora, 8 Roga. Changes measured against Drik's "Baana" field;
+// what it vetoes, when and for whom, from SPEC 13.2. Within 3 min, not 2: the Sun takes a day
+// per degree, so one arcsecond is 24 s — ours come 17–126 s after Drik's (mean 92 s, 2026-10-14).
+describe('Baana (R19)', () => {
+  for (const file of readdirSync('tests/fixtures/drik')) {
+    const f = JSON.parse(readFileSync(`tests/fixtures/drik/${file}`, 'utf8'))
+    if (!f.nextSunrise) continue
+    it(`${f.city} ${f.date}: the same Baanas as Drik, changing within 3 min`, () => {
+      const ours = baanaSpans(new Date(f.sunrise), new Date(f.nextSunrise)).filter((b) => b.name)
+      const drik = (f.raw['Inauspicious Timings']?.Baana ?? []) as string[]
+      expect(ours.map((b) => b.name)).toEqual(drik.map((v) => v.split(' ')[0].toLowerCase()))
+      drik.forEach((v, i) => {
+        const m = v.match(/^\w+ (?:upto (.+)|from (.+?) to (.+))$/)!
+        // Drik writes an end past the next sunrise in full; ours stop there.
+        const end = (s: string) => new Date(Math.min(Date.parse(instant(f.tz, f.date, s)), Date.parse(f.nextSunrise)))
+        if (m[1]) near(ours[i].end, end(m[1]), 3)
+        if (m[2]) near(ours[i].start, new Date(instant(f.tz, f.date, m[2])), 3)
+        if (m[3] && !/Full Night/.test(m[3])) near(ours[i].end, end(m[3]), 3)
+      })
+    })
+  }
+  const baanas = (date: string) => periodsOf(date).periods.filter((p) => p.kind === 'baana')
+  it('Vilnius 2026-10-10: Raja by day only, for group 9 only — sunrise to 15:50 (example 1)', () => {
+    const ps = baanas('2026-10-10')
+    expect(ps).toHaveLength(1)
+    expect(ps[0]).toMatchObject({ level: 'veto', groups: [9], detail: { name: 'raja' } })
+    near(ps[0].start, L('2026-10-10', '07:38'), 1)
+    near(ps[0].end, L('2026-10-10', '15:50'), 2)
+  })
+  it('Vilnius 2026-10-06: Mrityu at the sandhyas only, for group 2 — 18:43–20:00 and before the next sunrise', () => {
+    const ps = baanas('2026-10-06')
+    expect(ps.every((p) => p.groups.length === 1 && p.groups[0] === 2)).toBe(true)
+    expect(ps).toHaveLength(2)
+    near(ps[0].start, L('2026-10-06', '18:43'), 2)
+    near(ps[0].end, L('2026-10-06', '20:00'), 2)
+    near(ps[1].end, L('2026-10-06', '07:32', true), 2)
+  })
+  it('Vilnius 2026-10-14: Roga at night only, for group 7 — none, as it ends at 16:50', () => {
+    expect(baanas('2026-10-14').filter((p) => p.detail?.name === 'roga').every((p) => p.end <= L('2026-10-14', '07:46'))).toBe(true)
   })
 })
 
