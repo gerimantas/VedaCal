@@ -100,6 +100,15 @@ describe('example 3, Vilnius 2026-10-25, with the sample birth (Moon in Kanya, H
     expect(at(L('2026-10-25', '10:00'), own).verdict).toBe('avoid')
     expect(at(L('2026-10-25', '13:30'), own).by.some((p) => p.kind === 'tara' && p.level === 'fb')).toBe(true)
   })
+  it('Pratyari, like the birth star, is avoided until midday and a fallback after (C1)', () => {
+    // 2026-10-14: the Moon in Anuradha all day, the 5th star from Hasta (user's report).
+    const d = computeDay('2026-10-14', VILNIUS), p = computeDay('2026-10-13', VILNIUS)
+    const seg = (t: Date) => daySegments(d, p, 0, null, birth).find((s) => s.start <= t && t < s.end)!
+    const tara = (t: Date) => seg(t).active.find((x) => x.kind === 'tara')!
+    expect(tara(L('2026-10-14', '11:00'))).toMatchObject({ level: 'veto', detail: { tara: 5 } })
+    expect(tara(L('2026-10-14', '17:15'))).toMatchObject({ level: 'fb', detail: { tara: 5 } })
+    expect(seg(L('2026-10-14', '17:15')).verdict).toBe('fb')
+  })
   it('the birth lunar day is avoided (R17); the birth month is shown, not counted (user, 2026-10-14)', () => {
     const tithi = day.tithi.find((s) => s.start <= L('2026-10-25', '12:00') && L('2026-10-25', '12:00') < s.end)!.index
     expect(at(L('2026-10-25', '20:00'), { star: 0, sign: 0, tithi, month: 0 }).by.map((p) => p.kind)).toContain('janma')

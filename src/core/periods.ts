@@ -585,13 +585,14 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang, birth: Birth | n
   if (birth) {
     const merged = (a: Span[], b: Span[]) => [...b, ...a].filter((s, i, x) => x.findIndex((y) => y.index === s.index && Math.abs(y.start.getTime() - s.start.getTime()) < MIN) === i)
       .sort((p, q) => p.start.getTime() - q.start.getTime())
-    // Tarabala (P2): Vipat, Pratyari and Vadha vetoed; the birth star itself until midday, a
-    // fallback after (C1); the good taras shown only.
+    // Tarabala (P2): Vipat and Vadha vetoed; the birth star and Pratyari until midday, a
+    // fallback after ([MC] 1.42 commentary: "pratyaraṃ janmanakṣatraṃ madhyāhnāt parataḥ
+    // śubham", C1); the good taras shown only.
     if (birth.star) for (const s of stars) {
       const tara = taraOf(birth.star, s.index)
       const extra = { detail: { tara, star: s.index } }
-      if (tara === 1) untilMidday(s.start, s.end, 'tara', 'C1', extra)
-      else if ([3, 5, 7].includes(tara)) add(s.start, s.end, 'tara', 'veto', 'P2', extra)
+      if (tara === 1 || tara === 5) untilMidday(s.start, s.end, 'tara', 'C1', extra)
+      else if (tara === 3 || tara === 7) add(s.start, s.end, 'tara', 'veto', 'P2', extra)
       else add(s.start, s.end, 'tara', 'plus', 'P2', { ...extra, decides: false })
     }
     // Chandrabala (P2): the 4th and 12th sign vetoed, the 8th too (Chandrashtama, P1); 2, 5, 9
