@@ -166,6 +166,27 @@
     return { k, y0, timeText, lineY: y0 + box.lineY, iconX: left, iconY: y0 + box.lineY - FL * k * 0.36 - box.iz / 2, iz: box.iz, textX: left + box.iz + box.gap, ft: FT * k, fl: FL * k }
   })
 
+  // ── The whole day as a list (user, 2026-10-14): neighbouring parts of one colour as one row,
+  // with everything that decided them; a tap moves the hand there and brings the dial into view. ──
+  type Row = { start: Date; end: Date; shade: Shade; why: string[] }
+  const rows = $derived.by(() => {
+    const out: Row[] = []
+    for (const s of model?.segments ?? []) {
+      const names = s.by.filter((p) => p.kind !== 'base').map(periodName)
+      const why = names.length ? names : s.by.length ? [t('segmentBase')] : []
+      const last = out[out.length - 1]
+      if (last && last.shade === shadeOf(s)) {
+        last.end = s.end
+        for (const w of why) if (!last.why.includes(w)) last.why.push(w)
+      } else out.push({ start: s.start, end: s.end, shade: shadeOf(s), why: [...new Set(why)] })
+    }
+    return out
+  })
+  function jump(r: Row) {
+    picked = r.start
+    svg?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+
   const handLen = outer - 2
   const handDeg = $derived((ang(cursor) * 180) / Math.PI)
   const outlineD = $derived(seg ? (({ a, b }) => (a < b ? arc(a, b, rVer + verW / 2 + 1.5) : ''))(clip(seg.start, seg.end)) : '')
@@ -285,6 +306,19 @@
         {/each}
       </ul>
     </div>
+
+    <h3 class="daylist-head">{t('clockDayList')}</h3>
+    <ol class="daylist">
+      {#each rows as r (r.start.getTime())}
+        <li class:current={r.start <= cursor && cursor < r.end}>
+          <button onclick={() => jump(r)}>
+            <span class="num when">{time(r.start, loc)}–{time(r.end, loc)}</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">{@render verdictIcon(r.shade)}</svg>
+            <span><b style:color="var({colourVar(r.shade, palette)})">{shadeWord(r.shade, palette)}</b>{#if r.why.length}<span class="why">{' · '}{r.why.join(', ')}</span>{/if}</span>
+          </button>
+        </li>
+      {/each}
+    </ol>
     <p class="quiet missing">{t('clockMissing')}</p>
   </section>
 {/if}
@@ -468,6 +502,53 @@
   .readout ul {
     margin: var(--space-3xs) 0 0;
     padding-left: 1rem;
+  }
+  .daylist-head {
+    margin: var(--space-sm) 0 var(--space-3xs);
+    font-size: var(--text-sm);
+    font-weight: 650;
+  }
+  /* One grid for all rows (subgrid), so the times line up down the list. */
+  .daylist {
+    display: grid;
+    grid-template-columns: auto 1rem 1fr;
+    column-gap: var(--space-2xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-sm);
+  }
+  .daylist li {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+  }
+  .daylist button {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: start;
+    width: 100%;
+    padding: var(--space-3xs) var(--space-2xs);
+    border: 0;
+    border-radius: var(--radius-sm, 6px);
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .daylist button:hover,
+  .daylist .current button {
+    background: var(--color-paper-3);
+  }
+  .daylist svg {
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.1rem;
+  }
+  .daylist .why {
+    color: var(--color-muted);
   }
   .quiet {
     color: var(--color-muted);

@@ -5,14 +5,13 @@
   import { computeDay } from '../core/panchang'
   import { addDays, civilDate } from '../core/time'
   import DayClock from './DayClock.svelte'
-  import { clockOn, dayView, momentFor, nowHtml, type Fact, type SignLine } from './day'
+  import { clockOn, dayView, momentFor, type Fact, type SignLine } from './day'
   import { t } from './format'
   import { icon } from './icons'
   import { realisticMoon } from './moon'
-  import { terms } from './terms'
   import { app } from './state.svelte'
 
-  // The clock moves the sun on the dial and the lunar-day bar; it ticks twice a minute and
+  // The clock moves the day clock's hand and the lunar-day bar; it ticks twice a minute and
   // whenever the app comes back to the foreground.
   let clock = $state(new Date())
   $effect(() => {
@@ -37,13 +36,6 @@
     void app.settings.hour12 // times are formatted inside dayView; re-run when the format changes
     return dayView(day, loc, momentFor(day, loc, clock), app.settings.zodiac, clockOn(day, loc, clock))
   })
-
-  // Choghadiya list sections: what is left of last night (before sunrise only), day, night.
-  const chogParts = [
-    ['before', t('untilSunrise')],
-    ['day', `${t('sunrise')} → ${t('sunset')}`],
-    ['night', `${t('sunset')} → ${t('sunrise')}`],
-  ] as const
 
   // Where the clock's hand was moved to (null = now); the top bar's Now brings back today and now.
   let picked = $state<Date | null>(null)
@@ -119,78 +111,8 @@
 
   <DayClock {day} {prev} {loc} now={clock} bind:picked />
 
-  <section class="card arcbox" aria-labelledby="s-sun">
-    <h2 id="s-sun">{t('sectionRhythm')}</h2>
-    {#if v.polar}
-      <p class="footnote">{t('notice.polar')}</p>
-    {:else}
-      <div class="arcwrap">
-        <div class="dial-wrap">
-          {@html v.dial}
-          <div class="dial-center">
-            {@html nowHtml(v.nowWindows)}
-            {#if v.next}<small>{v.next.label}</small><b class="num">{v.next.in}</b>{/if}
-          </div>
-        </div>
-      </div>
-    {/if}
-    {@render sign(v.sunSign)}
-    <ul class="wins">
-      {#each v.windows as w (w.term)}
-        <li class="win {w.kind}" class:none={!w.start} data-sheet={w.term} data-sheet-lead={w.lead.text}>
-          <i aria-hidden="true"></i>
-          <div><b>{w.name}</b><span class="sk">{w.sanskrit}</span></div>
-          <!-- "12:44–13:29" breaks only at the dash, never inside a time (12-hour clocks). -->
-          <span class="when num">
-            {#if w.start}<span class="nw">{w.start}–</span><span class="nw">{w.end}</span>{:else}{w.none}{/if}
-          </span>
-          {#if w.track}
-            <!-- One day track per row, the same scale on every row: overlaps line up down the list,
-                 and a time to avoid inside this window shows as red stripes on it. -->
-            <span class="track" aria-hidden="true">
-              <span class="daylight" style:left="{v.track.dawn * 100}%" style:width="{(v.track.dusk - v.track.dawn) * 100}%"></span>
-              <span class="seg" style:left="{w.track.from * 100}%" style:width="{(w.track.to - w.track.from) * 100}%"></span>
-              {#each w.track.clashes as c, i (i)}
-                <span class="clash" style:left="{c.from * 100}%" style:width="{(c.to - c.from) * 100}%"></span>
-              {/each}
-              {#if v.track.now !== null}<span class="now" style:left="{v.track.now * 100}%"></span>{/if}
-            </span>
-          {/if}
-        </li>
-      {/each}
-    </ul>
-    {#if v.choghadiya.length}
-      <!-- Choghadiya, folded like "More details": its part now in the summary, all 16 inside. -->
-      <details class="more chog">
-        <summary>
-          <span>
-            <span class="chog-title">{terms.choghadiya[0]} · <span class="sk">Choghadiya</span></span>
-            {#if v.choghadiyaNow}
-              <span class="chog-now {v.choghadiyaNow.rating}">{t('now')}: <b>{v.choghadiyaNow.name}</b> · <span class="sk">{v.choghadiyaNow.sanskrit}</span></span>
-            {/if}
-          </span>
-          {@html icon.down}
-        </summary>
-        {#each chogParts as [part, head] (part)}
-          {@const rows = v.choghadiya.filter((c) => c.part === part)}
-          {#if rows.length}
-            <p class="chog-head">{head}</p>
-            <ul class="chog-list">
-              {#each rows as c (c.start)}
-                <li class="chog-row {c.rating}" class:current={c.current} data-sheet="choghadiya" data-sheet-lead-title={c.lead.title} data-sheet-lead={c.lead.text}>
-                  <i aria-hidden="true"></i>
-                  <div><b>{c.name}</b><span class="sk">{c.sanskrit}</span></div>
-                  <span class="when num"><span class="nw">{c.start}–</span><span class="nw">{c.end}</span></span>
-                </li>
-              {/each}
-            </ul>
-          {/if}
-        {/each}
-      </details>
-    {/if}
-  </section>
-
   <div class="card facts">
+    {@render sign(v.sunSign)}
     <ul>
       {#each v.facts as f (f.term)}{@render fact(f)}{/each}
     </ul>

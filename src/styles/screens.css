@@ -147,6 +147,26 @@ h3 {
   background: none;
 }
 
+.appbar .datechip {
+  flex-shrink: 0;
+}
+
+/* On a narrow phone the city gives way ("Vilni…"), never the date or its arrows. */
+.appbar .chip {
+  min-width: 0;
+}
+
+.appbar .chip span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 359px) {
+  .appbar .datechip button {
+    width: 2rem;
+  }
+}
+
 .appbar .chip:hover {
   border-color: transparent;
   background: var(--color-paper-3);

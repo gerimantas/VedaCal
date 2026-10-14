@@ -816,6 +816,8 @@
     "ringChoghadiya": "Thin ring 3, faded — Choghadiya: popular practice without a classical source. Shown only, does not decide.",
     "clockMissing": "Not counted yet: Hora, Anandadi yogas, Tri / Dwi Pushkara, the travel rules (Panchaka, Disha Shool, Godhuli) and the Sankranti window. Until they are, some times look better than they are.",
     "clockNow": "Now",
+    "clockDayList": "The whole day",
+    "segmentBase": "the day itself",
     "decides": "decides",
     "shownOnly": "shown only, does not decide",
     "disputedNote": "disputed, does not decide",
