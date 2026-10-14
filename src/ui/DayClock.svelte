@@ -7,7 +7,8 @@
   import { tzOffsetMinutes } from '../core/time'
   import { t, time } from './format'
   import { app, setSetting } from './state.svelte'
-  import { clockModel, colourVar, GROUP_LABELS, legendShades, levelWord, periodName, periodNote, ringOf, shadeOf, shadeWord, type Shade } from './verdict'
+  import type { Period } from '../core/periods'
+  import { clockModel, colourVar, GROUP_LABELS, legendShades, levelWord, periodName, periodNote, periodWhy, ringOf, shadeOf, shadeWord, type Shade } from './verdict'
 
   // `picked`: the moment the hand was moved to, null = now; bound, so the top bar's Now resets it.
   let { day, prev, loc, now, picked = $bindable(null) }: { day: DayPanchang; prev: DayPanchang; loc: Location; now: Date; picked?: Date | null } = $props()
@@ -168,23 +169,39 @@
 
   // ── The whole day as a list (user, 2026-10-14): neighbouring parts of one colour as one row,
   // with everything that decided them; a tap moves the hand there and brings the dial into view. ──
-  type Row = { start: Date; end: Date; shade: Shade; why: string[] }
+  // A tap also opens the row: each period that decided it, with what tradition does then (user,
+  // 2026-10-14, variant A). The row holding the real time is framed in its colour and marked.
+  type Row = { start: Date; end: Date; shade: Shade; why: Period[] }
   const rows = $derived.by(() => {
     const out: Row[] = []
     for (const s of model?.segments ?? []) {
-      const names = s.by.filter((p) => p.kind !== 'base').map(periodName)
-      const why = names.length ? names : s.by.length ? [t('segmentBase')] : []
+      const named = s.by.filter((p) => p.kind !== 'base')
+      const why = named.length ? named : s.by
       const last = out[out.length - 1]
+      const add = (r: Row) => {
+        for (const p of why) if (!r.why.some((q) => periodName(q) === periodName(p))) r.why.push(p)
+      }
       if (last && last.shade === shadeOf(s)) {
         last.end = s.end
-        for (const w of why) if (!last.why.includes(w)) last.why.push(w)
-      } else out.push({ start: s.start, end: s.end, shade: shadeOf(s), why: [...new Set(why)] })
+        add(last)
+      } else {
+        const r: Row = { start: s.start, end: s.end, shade: shadeOf(s), why: [] }
+        add(r)
+        out.push(r)
+      }
     }
     return out
   })
+  /** The short label in the row: the base goes by "day base" there, its full name in the opened row. */
+  const rowNames = (r: Row) => [...new Set(r.why.map((p) => (p.kind === 'base' ? t('segmentBase') : periodName(p))))]
+  let open = $state<number | null>(null)
+  $effect(() => {
+    void day.date
+    open = null
+  })
   function jump(r: Row) {
     picked = r.start
-    svg?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    open = open === r.start.getTime() ? null : r.start.getTime()
   }
 
   const handLen = outer - 2
@@ -310,12 +327,28 @@
     <h3 class="daylist-head">{t('clockDayList')}</h3>
     <ol class="daylist">
       {#each rows as r (r.start.getTime())}
-        <li class:current={r.start <= cursor && cursor < r.end}>
-          <button onclick={() => jump(r)}>
+        {@const isNow = !!nowOnDial && r.start <= now && now < r.end}
+        {@const isOpen = open === r.start.getTime()}
+        <li class:current={r.start <= cursor && cursor < r.end} class:now={isNow} style:--row="var({colourVar(r.shade, palette)})">
+          <button onclick={() => jump(r)} aria-expanded={isOpen}>
             <span class="num when">{time(r.start, loc)}–{time(r.end, loc)}</span>
             <svg viewBox="0 0 24 24" aria-hidden="true">{@render verdictIcon(r.shade)}</svg>
-            <span><b style:color="var({colourVar(r.shade, palette)})">{shadeWord(r.shade, palette)}</b>{#if r.why.length}<span class="why">{' · '}{r.why.join(', ')}</span>{/if}</span>
+            <span
+              >{#if isNow}<span class="nowtag">{t('now')}</span>{/if}<b style:color="var(--row)">{shadeWord(r.shade, palette)}</b>{#if r.why.length}<span class="why"
+                  >{' · '}{rowNames(r).join(', ')}</span
+                >{/if}</span
+            >
           </button>
+          {#if isOpen && r.why.length}
+            <ul class="detail">
+              {#each r.why as p (p)}
+                <li>
+                  <b>{periodName(p)}</b><span class="quiet"> · {levelWord(p)}</span>
+                  {#if periodWhy(p)}<p>{periodWhy(p)}</p>{/if}
+                </li>
+              {/each}
+            </ul>
+          {/if}
         </li>
       {/each}
     </ol>
@@ -518,7 +551,7 @@
     list-style: none;
     font-size: var(--text-sm);
   }
-  .daylist li {
+  .daylist > li {
     display: grid;
     grid-column: 1 / -1;
     grid-template-columns: subgrid;
@@ -548,6 +581,35 @@
     margin-top: 0.1rem;
   }
   .daylist .why {
+    color: var(--color-muted);
+  }
+  /* The real time's row: framed in its own colour, over the hand's grey. */
+  .daylist .now button {
+    box-shadow: inset 0 0 0 2px var(--row);
+  }
+  .nowtag {
+    display: inline-block;
+    margin-right: var(--space-2xs);
+    padding: 0 0.4em;
+    border-radius: 999px;
+    background: var(--row);
+    color: var(--color-paper);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    line-height: 1.5;
+    vertical-align: 0.1em;
+  }
+  .detail {
+    grid-column: 3 / -1;
+    margin: var(--space-3xs) 0 var(--space-xs);
+    padding: 0;
+    list-style: none;
+  }
+  .detail li + li {
+    margin-top: var(--space-2xs);
+  }
+  .detail p {
+    margin: 0.1rem 0 0;
     color: var(--color-muted);
   }
   .quiet {
