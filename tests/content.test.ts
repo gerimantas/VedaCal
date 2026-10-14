@@ -78,6 +78,13 @@ describe('lt.json', () => {
   })
 })
 
+// Every meaning names its source too (S16 source audit).
+it('every meaning has a source', () => {
+  for (const c of [en, lt])
+    for (const g of [...Object.keys(groups), 'masa', 'rashi'] as const)
+      for (const [k, e] of Object.entries(c[g as keyof typeof en] as Record<string, { source?: string }>)) expect(e.source?.trim(), `${g} ${k}`).toBeTruthy()
+})
+
 // Every tradition text names its source (user, 2026-10-14: no claim without a source).
 it('every tradition text has a source, and every source a text', () => {
   for (const c of [en, lt]) {

@@ -3,7 +3,7 @@
 // clock's (src/ui/verdict.ts, DayClock.svelte).
 import { addDays, civilDate } from '../core/time'
 import { type DayPanchang, type Interval, type Location, type Span } from '../core/types'
-import { LOCALE, barDate, content, entry, lead, percent, progress, t, time, tradition as traditionOf, traditionSource, until, type Lead } from './format'
+import { LOCALE, barDate, content, entry, lead, percent, progress, sourced, t, time, tradition as traditionOf, traditionSource, until, type Lead } from './format'
 import { icon } from './icons'
 import { markText } from './marks'
 import type { Term } from './terms'
@@ -80,12 +80,12 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
   }
   const joined = (...parts: string[]) => parts.filter(Boolean).join(' ')
   /** "Autumn · Sharad" and its meaning: what a row's sheet opens on before the term itself. */
-  const leadOf = (e: { title: string; name: string; meaning: string }) => ({ title: `${e.title} · ${e.name}`, text: e.meaning })
+  const leadOf = (e: { title: string; name: string; meaning: string; source: string }) => ({ title: `${e.title} · ${e.name}`, text: sourced(e) })
   /**
    * A row for a changing element: the span in force now, its end, and what follows it; its
    * sheet opens on what this one means (user, 2026-10-10: the meanings were never shown).
    */
-  const element = (term: Term, svg: string, label: string, spans: Span[], name: (i: number) => { title: string; name: string; meaning: string }) => {
+  const element = (term: Term, svg: string, label: string, spans: Span[], name: (i: number) => { title: string; name: string; meaning: string; source: string }) => {
     const s = activeAt(spans, now)
     const n = following(spans, s, day)
     return { ...fact(term, svg, label, name(s.index).title, name(s.index).name, ends(s.end), n ? t('then', { name: name(n.index).title }) : ''), lead: leadOf(name(s.index)) }
@@ -118,7 +118,7 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
           // "until Oct 17" ends in a dot in Lithuanian ("spalio 17 d."): the sentence adds its own.
           lead(body === 'moon' ? 'moonSign' : 'sunSign', { sign: e.title, until: ends(s.end).replace(/\.$/, '') }),
           other !== s.index ? lead('otherZodiac', { zodiac: lead(zodiac === 'vedic' ? 'western' : 'vedic'), sign: rashi(other).title }) : '',
-          e.meaning,
+          sourced(e),
         ),
       },
     }
@@ -146,7 +146,7 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
       const sheetLead =
         mk.kind === 'eclipse'
           ? eclipseLead(mk)
-          : { title: '', text: joined(lead('sankranti', { time: stamp(mk.at), sign: rashi(mk.sign).title }), rashi(mk.sign).meaning) }
+          : { title: '', text: joined(lead('sankranti', { time: stamp(mk.at), sign: rashi(mk.sign).title }), sourced(rashi(mk.sign))) }
       return { term: x.term, icon: x.svg, label: x.label, value: x.title, sanskrit: x.sanskrit, right: x.when, next: x.note, lead: sheetLead }
     })
   const facts = [
@@ -155,7 +155,7 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     { ...fact('vara', icon.vara, t('labelWeekday'), vara.title, vara.name), lead: leadOf(vara) },
     {
       ...fact('masa', icon.month, t('labelMonth'), m.adhika ? t('extraMonth') : month.title, m.adhika ? t('adhika', { name: month.name }) : month.name),
-      lead: { title: `${month.name} · ${month.title}`, text: month.meaning },
+      lead: { title: `${month.name} · ${month.title}`, text: sourced(month) },
     },
     element('nakshatra', icon.nakshatra, t('labelStar'), day.nakshatra, (i) => entry('nakshatra', i)),
     // Its sheet opens on this season, then the six (user, 2026-10-10: it opened the whole rhythm).
@@ -175,12 +175,12 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
 
   // ── Tradition card: only on special days — the season row covers ordinary ones ──
   // Its sheet opens on why today is special: "New moon today at 18:49".
-  let card: { title: string; meaning: string } | null = null
+  let card: { title: string; meaning: string; source: string } | null = null
   let why = ''
   const ritu1 = r.events.find((e) => e.kind === 'ritu')
   const ayana1 = r.events.find((e) => e.kind === 'ayana')
   if (ritu1) {
-    card = { title: t('season', { title: ritu.title, name: ritu.name }), meaning: ritu.meaning }
+    card = { title: t('season', { title: ritu.title, name: ritu.name }), meaning: ritu.meaning, source: ritu.source }
     why = lead('rituBegins', { season: ritu.title, time: time(ritu1.at, loc) })
   }
   if (ayana1) {
@@ -196,7 +196,7 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
     card = content.rhythm.ekadashi
     why = lead('ekadashi')
   }
-  const tradition: DayView['tradition'] = card ? { title: card.title, meaning: card.meaning, lead: { title: card.title, text: joined(why, card.meaning) } } : null
+  const tradition: DayView['tradition'] = card ? { title: card.title, meaning: card.meaning, lead: { title: card.title, text: joined(why, sourced(card)) } } : null
   const tithiEnds =
     // "Ends at 1:24 AM tomorrow": the "until" wording minus its own "until".
     t('lunarDayEnds', { when: until(tithi.end, day, loc).replace(t('until', { time: '' }), '') }) +
@@ -216,7 +216,7 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
       meaning: te.meaning,
       lead: {
         title: `${te.title} · ${te.name}`,
-        text: joined(lead('tithi', { n: tithi.index, half: lead(tithi.index <= 15 ? 'waxingHalf' : 'waningHalf'), ends: tithiEnds }), te.meaning),
+        text: joined(lead('tithi', { n: tithi.index, half: lead(tithi.index <= 15 ? 'waxingHalf' : 'waningHalf'), ends: tithiEnds }), sourced(te)),
       },
     },
     moonSign: signLine('moon'),

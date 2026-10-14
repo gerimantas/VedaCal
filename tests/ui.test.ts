@@ -9,7 +9,7 @@ import { computeDay } from '../src/core/panchang'
 import { civilDate } from '../src/core/time'
 import { buildIndex, nearest, search, type CityData } from '../src/ui/cities'
 import { activeAt, dayView } from '../src/ui/day'
-import { content, entry, time, until } from '../src/ui/format'
+import { content, entry, sourced, time, until } from '../src/ui/format'
 import { skyView } from '../src/ui/sky'
 import { termGroups, terms } from '../src/ui/terms'
 
@@ -71,8 +71,8 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
     const facts = Object.fromEntries([...v.facts, ...v.moreFacts].map((f) => [f.term, f]))
     expect(facts.vara.value).toBe(entry('vara', day.vara).title)
     // Each row's sheet opens on what this day's value means (user, 2026-10-10: the sheets said
-    // the meaning was on the day screen, and it was not).
-    const lead = (e: { title: string; name: string; meaning: string }) => ({ title: `${e.title} · ${e.name}`, text: e.meaning })
+    // the meaning was on the day screen, and it was not), then its source (S16).
+    const lead = (e: { title: string; name: string; meaning: string; source: string }) => ({ title: `${e.title} · ${e.name}`, text: sourced(e) })
     for (const el of ['nakshatra', 'yoga'] as const) {
       const s = activeAt(day[el], now)
       expect(facts[el], el).toMatchObject({ value: entry(el, s.index).title, right: until(s.end, day, loc), lead: lead(entry(el, s.index)) })
@@ -81,7 +81,7 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
     const k = entry('karana', activeAt(day.karana, now).index)
     expect(facts.karana.lead!.title).toBe(lead(k).title)
     expect(facts.karana.lead!.text).toMatch(/^The (first|second) half of lunar day \d+ /)
-    expect(facts.karana.lead!.text.endsWith(k.meaning)).toBe(true)
+    expect(facts.karana.lead!.text.endsWith(sourced(k))).toBe(true)
     expect(facts.vara.lead).toEqual(lead(entry('vara', day.vara)))
     const moon = activeAt(day.signs.vedic.moon, now)
     const rashi = (i: number) => content.rashi[String(i) as '1']
@@ -93,7 +93,7 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
     // The season row opens its own sheet, led by this season (user, 2026-10-10: it opened the
     // whole traditional rhythm).
     const ritu = content.rhythm[`ritu${day.rhythm.ritu}` as 'ritu1']
-    expect(facts.ritu).toMatchObject({ value: ritu.title, sanskrit: ritu.name, lead: { title: `${ritu.title} · ${ritu.name}`, text: ritu.meaning } })
+    expect(facts.ritu).toMatchObject({ value: ritu.title, sanskrit: ritu.name, lead: { title: `${ritu.title} · ${ritu.name}`, text: sourced(ritu) } })
     expect(facts.rhythm, 'the rhythm sheet belongs to the tradition card').toBeUndefined()
   })
 })
@@ -166,8 +166,8 @@ describe('day sheets lead with the day (Vilnius 2026)', () => {
   it("the month, the signs and the tradition card say what today's value means", () => {
     const v = view('2026-10-10')
     const facts = Object.fromEntries(v.facts.map((f) => [f.term, f]))
-    expect(facts.masa.lead).toEqual({ title: 'Ashwina · September–October', text: content.masa['7'].meaning })
-    expect(v.moonSign.lead.text).toContain(content.rashi['6'].meaning) // the Moon in Virgo
+    expect(facts.masa.lead).toEqual({ title: 'Ashwina · September–October', text: sourced(content.masa['7']) })
+    expect(v.moonSign.lead.text).toContain(sourced(content.rashi['6'])) // the Moon in Virgo
     expect(v.moonSign.lead.text).toContain('By the Western zodiac it is in Libra')
     expect(v.tradition!.lead.text).toMatch(/^New moon today at /)
   })

@@ -27,11 +27,14 @@ function detectLang(): Lang {
 export const LANG = detectLang()
 // lt.json has en.json's exact shape (tests/content.test.ts checks every key).
 export const content: typeof en = LANG === 'lt' ? (lt as unknown as typeof en) : en
-type Entry = { name: string; title: string; meaning: string }
+type Entry = { name: string; title: string; meaning: string; source: string }
 export type Group = 'tithi' | 'nakshatra' | 'yoga' | 'karana' | 'vara'
 
 export const entry = (group: Group, index: number): Entry =>
   (content[group] as Record<string, Entry>)[String(index)]
+
+/** A value's meaning and, after it, where it comes from (user, 2026-10-14: no claim without a source). */
+export const sourced = (e: { meaning: string; source: string }): string => `${e.meaning} ${t('source')}: ${e.source}.`
 
 /** UI label with {placeholders}. */
 export function t(key: keyof typeof en.ui, vars: Record<string, string | number> = {}): string {

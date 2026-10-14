@@ -449,10 +449,11 @@ function rhythm(loc: Location, date: string): DayPanchang['rhythm'] {
     if (t) events.push({ kind: 'ayana', at: t })
   }
 
-  const fullMoon = moonPhaseIn(180, midnight(loc, addDays(date, -1)), midnight(loc, addDays(date, 2)))
-  const newMoon = moonPhaseIn(0, dayStart, dayEnd)
+  // Days of restraint (rules.md H1): the full-moon day; the new-moon day and the day before it.
+  const fullMoon = moonPhaseIn(180, dayStart, dayEnd)
+  const newMoon = moonPhaseIn(0, dayStart, midnight(loc, addDays(date, 2)))
   return {
-    restDay: fullMoon ? 'fullMoon' : newMoon ? 'newMoon' : null,
+    restDay: newMoon ? 'newMoon' : fullMoon ? 'fullMoon' : null,
     ayana,
     ritu,
     rituDay: days(firstDay, date) + 1,

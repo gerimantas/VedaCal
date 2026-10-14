@@ -3,603 +3,716 @@
     "1": {
       "name": "Shukla Pratipada",
       "title": "1-oji priešpilnio diena",
-      "meaning": "Pirmoji šviesa po jaunaties. Tradicija ją sieja su Agniu, šventąja ugnimi, ir priskiria džiugioms (Nanda) dienoms."
+      "meaning": "Dievybė – Agnis. Nanda („džiaugsmas“) diena, priešpilnyje – iš silpniausių.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "2": {
       "name": "Shukla Dwitiya",
       "title": "2-oji priešpilnio diena",
-      "meaning": "Grįžta plonas pjautuvas. Siejama su kūrėju Brahma; tradicija mato pastovią (Bhadra) dieną pamatams kloti."
+      "meaning": "Dievybė – Brahma. Bhadra („palaiminta“) diena, priešpilnyje – iš silpniausių.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "3": {
       "name": "Shukla Tritiya",
       "title": "3-oji priešpilnio diena",
-      "meaning": "Siejama su deive Gauri. Viena pergalingų (Jaya) dienų, tradiciškai tinkama drąsiai ką nors pradėti."
+      "meaning": "Dievybė – Gauri. Jaya („pergalė“) diena, priešpilnyje – iš silpniausių.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "4": {
       "name": "Shukla Chaturthi",
       "title": "4-oji priešpilnio diena",
-      "meaning": "Siejama su Ganeša, kliūčių šalintoju. Tuščia (Rikta) diena, tradiciškai skirta tvarkyti ir užbaigti, o ne pradėti."
+      "meaning": "Dievybė – Ganeša. Rikta („tuščia“) diena, priešpilnyje – iš silpniausių; daugumai darbų ir kelionei pradėti jos vengiama; jei darbas negali laukti, vengiama tik pirmų maždaug 3 valandų (8 ghatikų).",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Kalaprakasika, psl. 99, 150"
     },
     "5": {
       "name": "Shukla Panchami",
       "title": "5-oji priešpilnio diena",
-      "meaning": "Siejama su gyvačių dievybėmis ir mokslu. Pilna (Purna) diena, tradiciškai palanki mokymuisi ir kūrybai."
+      "meaning": "Dievybė – Gyvatė (Sarpa). Purna („pilna“) diena, priešpilnyje – iš silpniausių.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "6": {
       "name": "Shukla Shashthi",
       "title": "6-oji priešpilnio diena",
-      "meaning": "Siejama su Skanda, jaunuoju karžygiu dievu. Džiugi diena, tradiciškai tinkama drąsai ir nuosekliam darbui."
+      "meaning": "Dievybė – Skanda (Kartikėja). Nanda („džiaugsmas“) diena, priešpilnyje – vidutinė; jei darbas negali laukti, vengiama tik pirmų maždaug 3,5 valandos (9 ghatikų).",
+      "source": "Muhurta Chintamani 1.3–4, 1.36"
     },
     "7": {
       "name": "Shukla Saptami",
       "title": "7-oji priešpilnio diena",
-      "meaning": "Siejama su Surja, Saule. Pastovi diena, tradiciškai tinkama kelionėms ir šviesai bei šilumai pagerbti."
+      "meaning": "Dievybė – Surja, Saulė. Bhadra („palaiminta“) diena, priešpilnyje – vidutinė.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "8": {
       "name": "Shukla Ashtami",
       "title": "8-oji priešpilnio diena",
-      "meaning": "Priešpilnio pusmėnulis, siejamas su deive Durga. Pergalinga diena, dažnai skiriama pamaldumui ir vidinei stiprybei."
+      "meaning": "Dievybė – Šiva. Jaya („pergalė“) diena, priešpilnyje – vidutinė; jei darbas negali laukti, vengiama tik pirmų maždaug 5,5 valandos (14 ghatikų).",
+      "source": "Muhurta Chintamani 1.3–4, 1.36"
     },
     "9": {
       "name": "Shukla Navami",
       "title": "9-oji priešpilnio diena",
-      "meaning": "Taip pat siejama su Durga. Tuščia diena, tradiciškai skirta užbaigti ir paleisti, o ne pradėti."
+      "meaning": "Dievybė – Durga. Rikta („tuščia“) diena, priešpilnyje – vidutinė; daugumai darbų ir kelionei pradėti jos vengiama; jei darbas negali laukti, vengiama tik pirmų maždaug 10 valandų (25 ghatikų).",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Kalaprakasika, psl. 99, 150"
     },
     "10": {
       "name": "Shukla Dashami",
       "title": "10-oji priešpilnio diena",
-      "meaning": "Siejama su Dharma, teisinga dalykų tvarka. Pilna diena, tradiciškai tinkama sprendimams ir krypčiai nustatyti."
+      "meaning": "Dievybė – Jama. Purna („pilna“) diena, priešpilnyje – vidutinė.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "11": {
       "name": "Shukla Ekadashi",
       "title": "11-oji priešpilnio diena",
-      "meaning": "Siejama su Višnu. Tradiciškai pasninko arba lengvo valgymo diena, kai randama laiko tylai ir maldai."
+      "meaning": "Dievybės – Višvedevos, visi dievai. Nanda („džiaugsmas“) diena, priešpilnyje – iš geriausių; Drik šią dieną nurodo Ekadashi pasninką, skirtą Višnu.",
+      "source": "Muhurta Chintamani 1.3–4; Drik Panchang"
     },
     "12": {
       "name": "Shukla Dwadashi",
       "title": "12-oji priešpilnio diena",
-      "meaning": "Siejama su Višnu. Tradiciškai diena švelniai užbaigti Ekadashi pasninką ir duoti kitiems."
+      "meaning": "Dievybė – Haris (Višnu). Bhadra („palaiminta“) diena, priešpilnyje – iš geriausių; jei darbas negali laukti, vengiama tik pirmų maždaug 4 valandų (10 ghatikų); šią dieną baigiamas Ekadashi pasninkas.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Drik Panchang"
     },
     "13": {
       "name": "Shukla Trayodashi",
       "title": "13-oji priešpilnio diena",
-      "meaning": "Siejama su meilės dievu Kama ir su Šiva sutemose (Pradosha). Pergalinga diena šilumai ir artumui."
+      "meaning": "Dievybė – Kama. Jaya („pergalė“) diena, priešpilnyje – iš geriausių.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "14": {
       "name": "Shukla Chaturdashi",
       "title": "14-oji priešpilnio diena",
-      "meaning": "Siejama su Šiva. Diena prieš pilnatį, tuščia diena, tradiciškai skirta pasiruošimui."
+      "meaning": "Dievybė – Šiva. Rikta („tuščia“) diena, priešpilnyje – iš geriausių; daugumai darbų ir kelionei pradėti jos vengiama; jei darbas negali laukti, vengiama tik pirmų maždaug 2 valandų (5 ghatikų).",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Kalaprakasika, psl. 99, 150"
     },
     "15": {
       "name": "Purnima",
       "title": "Pilnatis",
-      "meaning": "Mėnulis pilnas, mėnuo pasiekia viršūnę. Tradiciškai šventės, dėkingumo ir poilsio diena."
+      "meaning": "Dievybė – Čandra, Mėnulis. Purna („pilna“) diena, priešpilnyje – iš geriausių.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "16": {
       "name": "Krishna Pratipada",
       "title": "1-oji delčios diena",
-      "meaning": "Po pilnaties šviesa ima trauktis. Tradiciškai diena sulėtinti tempą ir apžvelgti, kas nuveikta."
+      "meaning": "Dievybė – Agnis. Nanda („džiaugsmas“) diena, delčioje – iš geriausių.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "17": {
       "name": "Krishna Dwitiya",
       "title": "2-oji delčios diena",
-      "meaning": "Pastovi diena dylant Mėnuliui. Tradicija teikia pirmenybę praktiškiems, neskubiems darbams."
+      "meaning": "Dievybė – Brahma. Bhadra („palaiminta“) diena, delčioje – iš geriausių.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "18": {
       "name": "Krishna Tritiya",
       "title": "3-oji delčios diena",
-      "meaning": "Pergalinga delčios diena, tradiciškai tinkama užbaigti tai, kas pradėta."
+      "meaning": "Dievybė – Gauri. Jaya („pergalė“) diena, delčioje – iš geriausių.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "19": {
       "name": "Krishna Chaturthi",
       "title": "4-oji delčios diena",
-      "meaning": "Siejama su Ganeša (Sankashti Chaturthi); daugelis laikosi įžado iki Mėnulio patekėjimo. Tuščia diena kliūtims šalinti."
+      "meaning": "Dievybė – Ganeša. Rikta („tuščia“) diena, delčioje – iš geriausių; daugumai darbų ir kelionei pradėti jos vengiama; jei darbas negali laukti, vengiama tik pirmų maždaug 3 valandų (8 ghatikų).",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Kalaprakasika, psl. 99, 150"
     },
     "20": {
       "name": "Krishna Panchami",
       "title": "5-oji delčios diena",
-      "meaning": "Pilna delčios diena. Tradiciškai tinkama mokytis, skaityti ir laikytis pastovios dienotvarkės."
+      "meaning": "Dievybė – Gyvatė (Sarpa). Purna („pilna“) diena, delčioje – iš geriausių.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "21": {
       "name": "Krishna Shashthi",
       "title": "6-oji delčios diena",
-      "meaning": "Džiugi diena dylant Mėnuliui, tradiciškai skirta kukliam, kantriam darbui."
+      "meaning": "Dievybė – Skanda (Kartikėja). Nanda („džiaugsmas“) diena, delčioje – vidutinė; jei darbas negali laukti, vengiama tik pirmų maždaug 3,5 valandos (9 ghatikų).",
+      "source": "Muhurta Chintamani 1.3–4, 1.36"
     },
     "22": {
       "name": "Krishna Saptami",
       "title": "7-oji delčios diena",
-      "meaning": "Siejama su Saule. Pastovi diena, tradiciškai tinkama tvarkai ir rutinai."
+      "meaning": "Dievybė – Surja, Saulė. Bhadra („palaiminta“) diena, delčioje – vidutinė.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "23": {
       "name": "Krishna Ashtami",
       "title": "8-oji delčios diena",
-      "meaning": "Delčios pusmėnulis, siejamas su Durga ir Kali. Tradiciškai pamaldumo ir vidinės stiprybės diena."
+      "meaning": "Dievybė – Šiva. Jaya („pergalė“) diena, delčioje – vidutinė; jei darbas negali laukti, vengiama tik pirmų maždaug 5,5 valandos (14 ghatikų).",
+      "source": "Muhurta Chintamani 1.3–4, 1.36"
     },
     "24": {
       "name": "Krishna Navami",
       "title": "9-oji delčios diena",
-      "meaning": "Tuščia diena, tradiciškai skirta paleisti ir užbaigti senus darbus."
+      "meaning": "Dievybė – Durga. Rikta („tuščia“) diena, delčioje – vidutinė; daugumai darbų ir kelionei pradėti jos vengiama; jei darbas negali laukti, vengiama tik pirmų maždaug 10 valandų (25 ghatikų).",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Kalaprakasika, psl. 99, 150"
     },
     "25": {
       "name": "Krishna Dashami",
       "title": "10-oji delčios diena",
-      "meaning": "Pilna diena, tradiciškai tinkama paprastiems sprendimams ir pasiruošti Ekadashi."
+      "meaning": "Dievybė – Jama. Purna („pilna“) diena, delčioje – vidutinė.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "26": {
       "name": "Krishna Ekadashi",
       "title": "11-oji delčios diena",
-      "meaning": "Antroji mėnesio Ekadashi, siejama su Višnu. Tradiciškai laikomasi pasninko arba valgoma lengvai, skiriama laiko ramiam apmąstymui."
+      "meaning": "Dievybės – Višvedevos, visi dievai. Nanda („džiaugsmas“) diena, delčioje – iš silpniausių; Drik šią dieną nurodo Ekadashi pasninką, skirtą Višnu.",
+      "source": "Muhurta Chintamani 1.3–4; Drik Panchang"
     },
     "27": {
       "name": "Krishna Dwadashi",
       "title": "12-oji delčios diena",
-      "meaning": "Tradiciškai diena užbaigti Ekadashi pasninką ir pasidalyti maistu su kitais."
+      "meaning": "Dievybė – Haris (Višnu). Bhadra („palaiminta“) diena, delčioje – iš silpniausių; jei darbas negali laukti, vengiama tik pirmų maždaug 4 valandų (10 ghatikų); šią dieną baigiamas Ekadashi pasninkas.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Drik Panchang"
     },
     "28": {
       "name": "Krishna Trayodashi",
       "title": "13-oji delčios diena",
-      "meaning": "Siejama su Šiva sutemose (Pradosha). Tradiciškai ramus vakaras maldai ar apmąstymui."
+      "meaning": "Dievybė – Kama. Jaya („pergalė“) diena, delčioje – iš silpniausių.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "29": {
       "name": "Krishna Chaturdashi",
       "title": "14-oji delčios diena",
-      "meaning": "Siejama su Šiva; jos naktis yra Masik Shivaratri, mėnesinis budėjimas. Tuščia diena prieš jaunatį."
+      "meaning": "Dievybė – Šiva. Rikta („tuščia“) diena, delčioje – iš silpniausių; daugumai darbų ir kelionei pradėti jos vengiama; jei darbas negali laukti, vengiama tik pirmų maždaug 2 valandų (5 ghatikų).",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Kalaprakasika, psl. 99, 150"
     },
     "30": {
       "name": "Amavasya",
       "title": "Jaunatis",
-      "meaning": "Mėnulis tamsus, mėnuo baigiasi. Tradiciškai diena prisiminti protėvius, ilsėtis ir atsigręžti į vidų."
+      "meaning": "Dievybės – Pitrai, protėviai. Purna („pilna“) diena, delčioje – iš silpniausių; visuose palankiuose darbuose jos vengiama.",
+      "source": "Muhurta Chintamani 1.3–4, 1.34–35"
     }
   },
   "nakshatra": {
     "1": {
       "name": "Ashwini",
-      "title": "Greitos pradžios",
-      "meaning": "Dvynių raitelių, dievų gydytojų, žvaigždė. Tradicija mato greitą, lengvą energiją, tinkamą pradėti ir keliauti."
+      "title": "Ašvinų žvaigždė",
+      "meaning": "Dievybės – Ašvinai, dievų gydytojai. Greitoji žvaigždė: prekybai, mokslui, papuošalams, dailiesiems menams, amatams ir kelionėms.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "2": {
       "name": "Bharani",
-      "title": "Našta ir susivaldymas",
-      "meaning": "Valdo Jama, ribų saugotojas. Tradicija mato dieną atsakomybei nešti ir disciplinai, o ne lengvumui."
+      "title": "Jamos žvaigždė",
+      "meaning": "Dievybė – Jama, mirties dievas. Nuožmioji žvaigždė: tekstas jai skiria tik žalingus darbus, tokius kaip priešų žlugdymas, apgaulė ir padegimas.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "3": {
       "name": "Krittika",
-      "title": "Kertanti liepsna",
-      "meaning": "Valdo Agnis, ugnis. Tradicija mato aštrią, apvalančią energiją, tinkamą sprendimams ir nereikalingo atsikratymui."
+      "title": "Agnio žvaigždė",
+      "meaning": "Dievybė – Agnis, ugnis. Mišrioji (švelni ir aštri) žvaigždė mišriais rezultatais; Muhurta Chintamani jai skiria ugnies apeigas ir kasdienius darbus.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "4": {
       "name": "Rohini",
-      "title": "Augimas ir grožis",
-      "meaning": "Valdo Brahma, ją myli Mėnulis. Pastovi, derlinga žvaigždė, tradiciškai tinkama sodinti, statyti ir ilgalaikiams darbams."
+      "title": "Brahmos žvaigždė",
+      "meaning": "Dievybė – Brahma, kūrėjas. Pastovioji žvaigždė: karūnavimui, medžiams sodinti, miestams įkurti, sėjai ir kitiems ilgalaikiams dalykams.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "5": {
       "name": "Mrigashira",
-      "title": "Ieškantis elnias",
-      "meaning": "Valdo Soma, Mėnulis. Švelni, smalsi energija, tradiciškai tinkama tyrinėti, mokytis ir kalbėtis."
+      "title": "Somos žvaigždė",
+      "meaning": "Dievybė – Soma, Mėnulis. Švelnioji žvaigždė: draugystei, sąjungai, naujiems drabužiams ir papuošalams, palankioms apeigoms ir dainavimui.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "6": {
       "name": "Ardra",
-      "title": "Audra ir atsinaujinimas",
-      "meaning": "Valdo Rudra, audra. Tradicija mato intensyvumą, kuris išvalo orą — tai diena sąžiningam darbui, ne naujiems sumanymams."
+      "title": "Rudros žvaigždė",
+      "meaning": "Dievybė – Rudra. Aštrioji žvaigždė: tekstas jai skiria tik atšiaurius darbus, tokius kaip puolimas, įkalinimas ir draugų supriešinimas.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "7": {
       "name": "Punarvasu",
-      "title": "Šviesos sugrįžimas",
-      "meaning": "Valdo Aditi, dievų motina. Judri, viltinga žvaigždė, tradiciškai tinkama grįžti namo, taisyti ir pradėti iš naujo."
+      "title": "Aditi žvaigždė",
+      "meaning": "Dievybė – Aditi. Judrioji žvaigždė, tinkama praeinantiems dalykams; Muhurta Chintamani jai skiria jojimą, sodus ir keliones.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "8": {
       "name": "Pushya",
-      "title": "Maitinimas",
-      "meaning": "Valdo Brihaspatis, dievų mokytojas. Viena palankiausių tradicijos žvaigždžių, tinkama mokymuisi ir rūpesčiui."
+      "title": "Brihaspačio žvaigždė",
+      "meaning": "Dievybė – Brihaspatis (Jupiteris). Greitoji žvaigždė: prekybai, mokslui, papuošalams, dailiesiems menams, amatams ir kelionėms; Ramanas ją vadina palankiausia žvaigžde, visiems tikslams, išskyrus vestuves.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8; Raman, Muhurtha, psl. 26–27"
     },
     "9": {
       "name": "Ashlesha",
-      "title": "Susirangiusi gyvatė",
-      "meaning": "Valdo gyvačių dievybės. Aštri, skvarbi energija, tradiciškai siejama su įžvalga ir vengimu įsipainioti."
+      "title": "Gyvatės žvaigždė",
+      "meaning": "Dievybė – Gyvatė. Aštrioji žvaigždė: tekstas jai skiria tik atšiaurius darbus, tokius kaip puolimas, įkalinimas ir draugų supriešinimas.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "10": {
       "name": "Magha",
-      "title": "Protėvių sostas",
-      "meaning": "Valdo protėviai (Pitris). Tradicija mato dieną giminei ir pirmtakams pagerbti."
+      "title": "Protėvių žvaigždė",
+      "meaning": "Dievybės – Pitrai, protėviai. Nuožmioji žvaigždė: tekstas jai skiria tik žalingus darbus, tokius kaip priešų žlugdymas, apgaulė ir padegimas.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "11": {
       "name": "Purva Phalguni",
-      "title": "Poilsis ir malonumas",
-      "meaning": "Valdo Bhaga, džiaugsmo dievas. Tradicija mato atpalaiduojančią energiją, tinkamą laisvalaikiui, draugystei ir kūrybai."
+      "title": "Bhagos žvaigždė",
+      "meaning": "Dievybė – Bhaga. Nuožmioji žvaigždė: tekstas jai skiria tik žalingus darbus, tokius kaip priešų žlugdymas, apgaulė ir padegimas.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "12": {
       "name": "Uttara Phalguni",
-      "title": "Partnerystė ir įsipareigojimas",
-      "meaning": "Valdo Arjamanas, susitarimų dievas. Pastovi žvaigždė, tradiciškai tinkama ilgalaikiams susitarimams ir santykiams stiprinti."
+      "title": "Arjamano žvaigždė",
+      "meaning": "Dievybė – Arjamanas. Pastovioji žvaigždė: karūnavimui, medžiams sodinti, miestams įkurti, sėjai ir kitiems ilgalaikiams dalykams.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "13": {
       "name": "Hasta",
-      "title": "Įgudusi ranka",
-      "meaning": "Valdo Savitaras, kūrybinė Saulės galia. Lengva, greita energija, tradiciškai tinkama amatams ir praktiniams darbams."
+      "title": "Savitaro žvaigždė",
+      "meaning": "Dievybė – Savitaras. Greitoji žvaigždė: prekybai, mokslui, papuošalams, dailiesiems menams, amatams ir kelionėms.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "14": {
       "name": "Chitra",
-      "title": "Spindintis brangakmenis",
-      "meaning": "Valdo Tvaštaras, dangiškasis meistras. Švelni žvaigždė, tradiciškai tinkama dizainui, menui ir grožiui kurti."
+      "title": "Tvaštaro žvaigždė",
+      "meaning": "Dievybė – Tvaštaras. Švelnioji žvaigždė: draugystei, sąjungai, naujiems drabužiams ir papuošalams, palankioms apeigoms ir dainavimui.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "15": {
       "name": "Swati",
-      "title": "Savarankiškas vėjelis",
-      "meaning": "Valdo Vajus, vėjas. Judri žvaigždė, tradiciškai tinkama prekybai, kelionėms ir savarankiškiems veiksmams."
+      "title": "Vėjo žvaigždė",
+      "meaning": "Dievybė – Vajus, vėjas. Judrioji žvaigždė, tinkama praeinantiems dalykams; Muhurta Chintamani jai skiria jojimą, sodus ir keliones.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "16": {
       "name": "Vishakha",
-      "title": "Kryptingas tikslas",
-      "meaning": "Valdo Indra ir Agnis kartu. Tradicija mato ryžtą ir matomą tikslą, kuriam pasiekti reikia kantrybės."
+      "title": "Indros ir Agnio žvaigždė",
+      "meaning": "Dievybės – Indra ir Agnis. Mišrioji (švelni ir aštri) žvaigždė mišriais rezultatais; Muhurta Chintamani jai skiria ugnies apeigas ir kasdienius darbus.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "17": {
       "name": "Anuradha",
-      "title": "Draugystė ir atsidavimas",
-      "meaning": "Valdo Mitra, draugystės dievas. Švelni žvaigždė, tradiciškai tinkama bendradarbiavimui, grupėms ir ištikimybei."
+      "title": "Mitros žvaigždė",
+      "meaning": "Dievybė – Mitra. Švelnioji žvaigždė: draugystei, sąjungai, naujiems drabužiams ir papuošalams, palankioms apeigoms ir dainavimui.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "18": {
       "name": "Jyeshtha",
-      "title": "Vyriausioji",
-      "meaning": "Valdo Indra, dievų karalius. Tradicija mato atsakomybę ir vyresnumą — dieną atsargiai vadovauti."
+      "title": "Indros žvaigždė",
+      "meaning": "Dievybė – Indra. Aštrioji žvaigždė: tekstas jai skiria tik atšiaurius darbus, tokius kaip puolimas, įkalinimas ir draugų supriešinimas.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "19": {
       "name": "Mula",
-      "title": "Šaknis",
-      "meaning": "Valdo Nirriti, irimo deivė. Tradicija mato dieną pasiekti dalykų šaknis ir paleisti."
+      "title": "Nirriti žvaigždė",
+      "meaning": "Dievybė – Nirriti. Aštrioji žvaigždė: tekstas jai skiria tik atšiaurius darbus, tokius kaip puolimas, įkalinimas ir draugų supriešinimas.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "20": {
       "name": "Purva Ashadha",
-      "title": "Ankstyva pergalė",
-      "meaning": "Valdo Vandenys (Apas). Tradicija mato įsitikinimą ir naują energiją, tinkamą įtikinti ir atsinaujinti."
+      "title": "Vandenų žvaigždė",
+      "meaning": "Dievybės – Vandenys (Apah). Nuožmioji žvaigždė: tekstas jai skiria tik žalingus darbus, tokius kaip priešų žlugdymas, apgaulė ir padegimas.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "21": {
       "name": "Uttara Ashadha",
-      "title": "Ilgalaikė pergalė",
-      "meaning": "Valdo visuotiniai dievai (Vishvadevas). Pastovi žvaigždė, tradiciškai tinkama nuosekliems, principingiems pasiekimams."
+      "title": "Višvedevų žvaigždė",
+      "meaning": "Dievybės – Višvedevos. Pastovioji žvaigždė: karūnavimui, medžiams sodinti, miestams įkurti, sėjai ir kitiems ilgalaikiams dalykams.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "22": {
       "name": "Shravana",
-      "title": "Klausymasis",
-      "meaning": "Valdo Višnu. Judri žvaigždė, tradiciškai tinkama mokytis, klausytis ir keliauti."
+      "title": "Višnaus žvaigždė",
+      "meaning": "Dievybė – Višnu. Judrioji žvaigždė, tinkama praeinantiems dalykams; Muhurta Chintamani jai skiria jojimą, sodus ir keliones.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "23": {
       "name": "Dhanishtha",
-      "title": "Ritmas ir gausa",
-      "meaning": "Valdo aštuoni Vasu. Tradicija mato muziką, dosnumą ir gerą laiko pajautimą."
+      "title": "Vasu žvaigždė",
+      "meaning": "Dievybės – Vasu. Judrioji žvaigždė, tinkama praeinantiems dalykams; Muhurta Chintamani jai skiria jojimą, sodus ir keliones.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "24": {
       "name": "Shatabhisha",
-      "title": "Šimtas gydytojų",
-      "meaning": "Valdo Varuna, kosminių vandenų valdovas. Tradicija mato tylią, į vidų atgręžtą žvaigždę, siejamą su paslaptimis ir vienuma."
+      "title": "Varunos žvaigždė",
+      "meaning": "Dievybė – Varuna. Judrioji žvaigždė, tinkama praeinantiems dalykams; Muhurta Chintamani jai skiria jojimą, sodus ir keliones.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "25": {
       "name": "Purva Bhadrapada",
-      "title": "Nuožmi ugnis",
-      "meaning": "Valdo Aja Ekapada, vienakojis ožys. Tradicija mato intensyvumą ir virsmą — dieną rimtoms pastangoms."
+      "title": "Aja Ekapados žvaigždė",
+      "meaning": "Dievybė – Aja Ekapada. Nuožmioji žvaigždė: tekstas jai skiria tik žalingus darbus, tokius kaip priešų žlugdymas, apgaulė ir padegimas.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "26": {
       "name": "Uttara Bhadrapada",
-      "title": "Ramios gelmės",
-      "meaning": "Valdo Ahir Budhnya, gelmių gyvatė. Pastovi žvaigždė, tradiciškai siejama su išmintimi, kantrybe ir tvirtumu."
+      "title": "Ahirbudhnjos žvaigždė",
+      "meaning": "Dievybė – Ahirbudhnja. Pastovioji žvaigždė: karūnavimui, medžiams sodinti, miestams įkurti, sėjai ir kitiems ilgalaikiams dalykams.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "27": {
       "name": "Revati",
-      "title": "Saugios kelionės",
-      "meaning": "Valdo Pušanas, keliautojų globėjas. Paskutinė žvaigždė, švelni ir rami, tradiciškai tinkama kelionėms ir užbaigimams."
+      "title": "Pušano žvaigždė",
+      "meaning": "Dievybė – Pušanas. Švelnioji žvaigždė: draugystei, sąjungai, naujiems drabužiams ir papuošalams, palankioms apeigoms ir dainavimui.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     }
   },
   "yoga": {
     "1": {
       "name": "Vishkambha",
-      "title": "Atraminis stulpas",
-      "meaning": "Tradicija laiko ją kliūčių joga; naujos pradžios paprastai atidedamos."
+      "title": "Atrama",
+      "meaning": "Pavadinimas reiškia „atrama, paspirtis“. Visuose palankiuose darbuose vengiama pirmų jos 3 ghatikų (apie 72 minutes).",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 998"
     },
     "2": {
       "name": "Priti",
-      "title": "Prielankumas",
-      "meaning": "Palanki joga, tradiciškai tinkama draugystei, susitaikymui ir maloniems susitikimams."
+      "title": "Džiaugsmas",
+      "meaning": "Pavadinimas reiškia „džiaugsmas, prielankumas“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 711"
     },
     "3": {
       "name": "Ayushman",
-      "title": "Ilgas gyvenimas",
-      "meaning": "Palanki joga, tradiciškai tinkama darbams, kurie turi išlikti."
+      "title": "Ilgaamžis",
+      "meaning": "Pavadinimas reiškia „ilgaamžis“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 149"
     },
     "4": {
       "name": "Saubhagya",
-      "title": "Sėkmė",
-      "meaning": "Palanki joga, tradiciškai tinkama šventėms ir šeimos reikalams."
+      "title": "Laimė",
+      "meaning": "Pavadinimas reiškia „laimė, sėkmė“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1253"
     },
     "5": {
       "name": "Shobhana",
-      "title": "Puikumas",
-      "meaning": "Palanki joga, tradiciškai tinkama grožiui, kelionėms ir džiugiems įvykiams."
+      "title": "Spindintis",
+      "meaning": "Pavadinimas reiškia „spindintis, gražus“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1092"
     },
     "6": {
       "name": "Atiganda",
-      "title": "Didelis sunkumas",
-      "meaning": "Tradiciškai nepalanki joga; svarbių pradžių paprastai vengiama."
+      "title": "Didžiaskruostis",
+      "meaning": "Pavadinimas reiškia „didžiaskruostis“. Visuose palankiuose darbuose vengiama pirmų jos 6 ghatikų (apie 2,5 valandos).",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 12"
     },
     "7": {
       "name": "Sukarma",
-      "title": "Geri darbai",
-      "meaning": "Palanki joga, tradiciškai tinkama sąžiningam darbui ir pagalbai kitiems."
+      "title": "Geras darbas",
+      "meaning": "Pavadinimas reiškia „geras darbas“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1220"
     },
     "8": {
       "name": "Dhriti",
       "title": "Tvirtumas",
-      "meaning": "Palanki joga, tradiciškai tinkama kantriam, ilgalaikiam darbui."
+      "meaning": "Pavadinimas reiškia „tvirtumas, pastovumas“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 519"
     },
     "9": {
       "name": "Shula",
       "title": "Ietis",
-      "meaning": "Tradiciškai nepalanki joga, siejama su trintimi; geriausia skirti kasdieniams darbams."
+      "meaning": "Pavadinimas reiškia „ietis, smaigas“. Visuose palankiuose darbuose vengiama pirmų jos 5 ghatikų (2 valandas).",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1086"
     },
     "10": {
       "name": "Ganda",
-      "title": "Mazgas",
-      "meaning": "Tradiciškai nepalanki joga; tradicija pataria būti atsargiems ir vengti naujų sumanymų."
+      "title": "Skruostas",
+      "meaning": "Pavadinimas reiškia „skruostas“. Visuose palankiuose darbuose vengiama pirmų jos 6 ghatikų (apie 2,5 valandos).",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 344"
     },
     "11": {
       "name": "Vriddhi",
       "title": "Augimas",
-      "meaning": "Palanki joga, tradiciškai tinkama viskam, ką norite auginti: santaupoms, žinioms, sodams."
+      "meaning": "Pavadinimas reiškia „augimas, didėjimas“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1011"
     },
     "12": {
       "name": "Dhruva",
-      "title": "Pastovumas",
-      "meaning": "Pastovi, palanki joga, tradiciškai tinkama ilgalaikiams pamatams."
+      "title": "Pastovus",
+      "meaning": "Pavadinimas reiškia „pastovus, nekintamas“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 521"
     },
     "13": {
       "name": "Vyaghata",
       "title": "Smūgis",
-      "meaning": "Tradiciškai nepalanki joga, siejama su konfliktu; diena veikti švelniai."
+      "meaning": "Pavadinimas reiškia „smūgis, kliūtis“. Visuose palankiuose darbuose vengiama pirmų jos 9 ghatikų (apie 3,5 valandos).",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1036"
     },
     "14": {
       "name": "Harshana",
-      "title": "Džiugesys",
-      "meaning": "Palanki joga, tradiciškai tinkama šventėms ir geroms žinioms."
+      "title": "Džiuginantis",
+      "meaning": "Pavadinimas reiškia „džiuginantis, malonus“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1292"
     },
     "15": {
       "name": "Vajra",
       "title": "Žaibas",
-      "meaning": "Galinga joga, kurią tradicija vertina atsargiai, ypač keliaujant."
+      "meaning": "Pavadinimas reiškia „žaibas, perkūno ginklas“. Visuose palankiuose darbuose vengiama pirmų jos 3 ghatikų (apie 72 minutes).",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 913"
     },
     "16": {
       "name": "Siddhi",
-      "title": "Pasiekimas",
-      "meaning": "Palanki joga, tradiciškai tinkama užbaigti ir pasisekti."
+      "title": "Sėkmė",
+      "meaning": "Pavadinimas reiškia „sėkmė, pasiekimas“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1216"
     },
     "17": {
       "name": "Vyatipata",
       "title": "Nelaimė",
-      "meaning": "Viena labiausiai vengiamų jogų tradicijoje; svarbios pradžios atidedamos."
+      "meaning": "Pavadinimas reiškia „didelė nelaimė“. Visuose palankiuose darbuose vengiama visos; jei darbas negali laukti, po vidurdienio tinka.",
+      "source": "Muhurta Chintamani 1.34–35, 1.42; Monier-Williams, Sanskrit-English Dictionary, psl. 1030"
     },
     "18": {
       "name": "Variyana",
-      "title": "Patogumas",
-      "meaning": "Palanki joga, tradiciškai tinkama ramybei, patogumui ir dosnumui."
+      "title": "Puikiausias",
+      "meaning": "Pavadinimas reiškia „geresnis, puikiausias“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 923"
     },
     "19": {
       "name": "Parigha",
-      "title": "Geležinė užkarda",
-      "meaning": "Tradiciškai trukdanti joga; geriausia nuosekliam darbui, o ne naujoms pradžioms."
+      "title": "Geležinis skląstis",
+      "meaning": "Pavadinimas reiškia „geležinis skląstis, kliūtis“. Visuose palankiuose darbuose vengiama pirmos jos pusės.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 593"
     },
     "20": {
       "name": "Shiva",
-      "title": "Geranoriškumas",
-      "meaning": "Palanki joga, pavadinta Šivos vardu, tradiciškai tinkama maldai, studijoms ir mokymuisi."
+      "title": "Maloningas",
+      "meaning": "Pavadinimas reiškia „palankus, maloningas“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1074"
     },
     "21": {
       "name": "Siddha",
-      "title": "Pasirengimas",
-      "meaning": "Palanki joga, tradiciškai tinkama drąsiai ką nors pradėti."
+      "title": "Pasiektas",
+      "meaning": "Pavadinimas reiškia „pasiektas, sėkmingas“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1215"
     },
     "22": {
       "name": "Sadhya",
-      "title": "Pasiekiama",
-      "meaning": "Palanki joga, tradiciškai tinkama praktikai ir nuosekliai pažangai."
+      "title": "Pasiekiamas",
+      "meaning": "Pavadinimas reiškia „pasiekiamas“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1202"
     },
     "23": {
       "name": "Shubha",
-      "title": "Palankumas",
-      "meaning": "Palanki joga, tradiciškai tinkama apeigoms ir geroms pradžioms."
+      "title": "Geras",
+      "meaning": "Pavadinimas reiškia „geras, palankus“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1083"
     },
     "24": {
       "name": "Shukla",
-      "title": "Šviesumas",
-      "meaning": "Palanki joga, tradiciškai siejama su aiškumu ir sąžiningais reikalais."
+      "title": "Šviesus",
+      "meaning": "Pavadinimas reiškia „šviesus, baltas“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 1080"
     },
     "25": {
       "name": "Brahma",
-      "title": "Plati išmintis",
-      "meaning": "Palanki joga, tradiciškai tinkama mokytis, mokyti ir studijuoti."
+      "title": "Šventasis žodis",
+      "meaning": "Pavadinimas reiškia „šventasis žodis, Veda“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 737"
     },
     "26": {
       "name": "Indra",
-      "title": "Vadovavimas",
-      "meaning": "Palanki joga, tradiciškai tinkama valdžiai, viešiems reikalams ir pripažinimui."
+      "title": "Vyriausiasis",
+      "meaning": "Pavadinimas reiškia „vyriausias, geriausias (ir dievas Indra)“. Šaltiniai jai jokios taisyklės nenurodo, todėl dienos įvertinimo ji nekeičia.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, psl. 166"
     },
     "27": {
       "name": "Vaidhriti",
       "title": "Atskyrimas",
-      "meaning": "Kaip ir Vyatipata, viena labiausiai vengiamų jogų tradicijoje; diena kasdieniams darbams."
+      "meaning": "Pavadinimas reiškia „atskyrimas (iš vi-dhṛti)“. Visuose palankiuose darbuose vengiama visos; jei darbas negali laukti, po vidurdienio tinka.",
+      "source": "Muhurta Chintamani 1.34–35, 1.42; Monier-Williams, Sanskrit-English Dictionary, psl. 969"
     }
   },
   "karana": {
     "1": {
       "name": "Bava",
-      "title": "Jėga pradžioms",
-      "meaning": "Judri karana, tradiciškai tinkama pradėti ir nuosekliai dirbti."
+      "title": "Geri darbai",
+      "meaning": "Dievybė – Indra. Palankiems dalykams, ir trumpalaikiams, ir ilgalaikiams.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "2": {
       "name": "Balava",
-      "title": "Mokslas ir apeigos",
-      "meaning": "Judri karana, tradiciškai tinkama studijoms, maldai ir religiniams darbams."
+      "title": "Apeigos ir nuopelnai",
+      "meaning": "Dievybė – Brahma. Religiniams ir dorybingiems darbams.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "3": {
       "name": "Kaulava",
-      "title": "Draugystė",
-      "meaning": "Judri karana, tradiciškai tinkama draugams, šeimai ir partnerystei."
+      "title": "Meilė ir draugai",
+      "meaning": "Dievybė – Mitra. Meile grįstiems dalykams ir draugams rinktis.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "4": {
       "name": "Taitila",
-      "title": "Namai ir jaukumas",
-      "meaning": "Judri karana, tradiciškai tinkama namų ir šeimos reikalams."
+      "title": "Namai ir prieglobstis",
+      "meaning": "Dievybė – Arjamanas. Namų reikalams ir prieglobsčiui rasti.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "5": {
       "name": "Garaja",
-      "title": "Laukai ir statyba",
-      "meaning": "Judri karana, tradiciškai tinkama praktiniams darbams, žemei ir statybai."
+      "title": "Laukai ir sėklos",
+      "meaning": "Dievybė – Žemė. Žemei dirbti, sėkloms, namams ir pastogei.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "6": {
       "name": "Vanija",
       "title": "Prekyba",
-      "meaning": "Judri karana, tradiciškai tinkama pirkti, parduoti ir verslui."
+      "meaning": "Dievybė – Šri. Prekybai, bendrijoms ir ilgalaikiams reikalams.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "7": {
       "name": "Vishti",
-      "title": "Bhadra — pauzė",
-      "meaning": "Vienintelė judri karana, kurios tradicija vengia: svarbios pradžios laukia, kol ji baigsis."
+      "title": "Bhadra, vengiama",
+      "meaning": "Dievybė – Jama. Niekas, kas joje daroma, nesiseka, išskyrus puolimą ir atšiaurius darbus; visuose palankiuose darbuose jos vengiama.",
+      "source": "Brihat Samhita 100.1–5; Muhurta Chintamani 1.34"
     },
     "8": {
       "name": "Shakuni",
-      "title": "Paukštis",
-      "meaning": "Viena iš keturių pastovių karanų, kurios būna tik apie jaunatį. Tradicija svarbias pradžias palieka vėlesniam laikui."
+      "title": "Žolės ir užkalbėjimai",
+      "meaning": "Dievybė – Kali. Joje vaisių duoda žolės, šaknys ir užkalbėjimai.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "9": {
       "name": "Chatushpada",
-      "title": "Keturkojis",
-      "meaning": "Pastovi jaunaties karana, tradiciškai siejama su gyvūnais ir aukomis protėviams."
+      "title": "Karvės ir protėviai",
+      "meaning": "Dievybė – Jautis (Vriša). Karvių, brahmanų, protėvių ir valstybės reikalams.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "10": {
       "name": "Naga",
-      "title": "Gyvatė",
-      "meaning": "Pastovi jaunaties karana, tradiciškai skirta sunkiems, ilgalaikiams darbams, o ne naujoms pradžioms."
+      "title": "Atšiaurūs darbai",
+      "meaning": "Dievybė – Gyvatė. Ilgalaikiams darbams, atšiauriems veiksmams ir paėmimui jėga.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "11": {
       "name": "Kimstughna",
-      "title": "Pirmoji skiautelė",
-      "meaning": "Pirmoji karana po jaunaties ir paskutinė iš keturių pastoviųjų. Tradicija jai priskiria ramų, pastovų būdą."
+      "title": "Nuopelnai ir apeigos",
+      "meaning": "Dievybė – Vėjas (Maruta). Dorybingiems darbams, aukojimams ir palankioms apeigoms.",
+      "source": "Brihat Samhita 100.1–5"
     }
   },
   "vara": {
     "0": {
       "name": "Ravivara",
       "title": "Sekmadienis — Saulės diena",
-      "meaning": "Valdo Saulė. Tradiciškai diena pasitikėjimui, vadovavimui ir šviesai pagerbti."
+      "meaning": "Valdo Saulė. Susieta su pastoviosiomis žvaigždėmis, todėl ir darbai tie patys: pamatai, karūnavimas, sėja, ilgalaikiai dalykai.",
+      "source": "Muhurta Chintamani 2.2–8"
     },
     "1": {
       "name": "Somavara",
       "title": "Pirmadienis — Mėnulio diena",
-      "meaning": "Valdo Mėnulis. Tradiciškai švelni diena namams, rūpesčiui ir jausmams."
+      "meaning": "Valdo Mėnulis. Susieta su judriosiomis žvaigždėmis: jojimas, sodai ir kelionės.",
+      "source": "Muhurta Chintamani 2.2–8"
     },
     "2": {
       "name": "Mangalavara",
       "title": "Antradienis — Marso diena",
-      "meaning": "Valdo Marsas. Tradiciškai energijos ir drąsos diena, kai verta saugotis konfliktų."
+      "meaning": "Valdo Marsas. Susieta su nuožmiosiomis žvaigždėmis, kurių darbai žalingi; po vidurdienio ji nelaikoma bloga.",
+      "source": "Muhurta Chintamani 2.2–8, 1.42; Kalaprakasika, psl. 193"
     },
     "3": {
       "name": "Budhavara",
       "title": "Trečiadienis — Merkurijaus diena",
-      "meaning": "Valdo Merkurijus. Tradiciškai diena mokytis, rašyti, prekiauti ir bendrauti."
+      "meaning": "Valdo Merkurijus. Susieta su mišriosiomis žvaigždėmis: ugnies apeigos ir kasdieniai darbai.",
+      "source": "Muhurta Chintamani 2.2–8"
     },
     "4": {
       "name": "Guruvara",
       "title": "Ketvirtadienis — Jupiterio diena",
-      "meaning": "Valdo Jupiteris, dievų mokytojas. Tradiciškai išminties, mokytojų ir dosnumo diena."
+      "meaning": "Valdo Jupiteris. Susieta su greitosiomis žvaigždėmis: prekyba, sąjungos, mokslas, papuošalai, tapyba ir muzika.",
+      "source": "Muhurta Chintamani 2.2–8"
     },
     "5": {
       "name": "Shukravara",
       "title": "Penktadienis — Veneros diena",
-      "meaning": "Valdo Venera. Tradiciškai grožio, meno, santykių ir malonumų diena."
+      "meaning": "Valdo Venera. Susieta su švelniosiomis žvaigždėmis: dainavimas, drabužiai, žaidimai, draugystė ir papuošalai.",
+      "source": "Muhurta Chintamani 2.2–8"
     },
     "6": {
       "name": "Shanivara",
       "title": "Šeštadienis — Saturno diena",
-      "meaning": "Valdo Saturnas. Tradiciškai disciplinos, kantrybės ir darbų užbaigimo diena."
+      "meaning": "Valdo Saturnas. Susieta su aštriosiomis žvaigždėmis: atšiaurūs darbai, skyrimas, gyvūnų dresavimas.",
+      "source": "Muhurta Chintamani 2.2–8"
     }
   },
   "rhythm": {
     "restFullMoon": {
-      "name": "Purnima rest",
-      "title": "Pilnaties poilsio diena",
-      "meaning": "Tradicija laikė tris poilsio dienas aplink kiekvieną pilnatį: dieną prieš, pačią pilnatį ir dieną po. Daugelis jas skiria lėtesniam tempui ir šventei."
+      "name": "Purnima parvan",
+      "title": "Pilnaties susilaikymo diena",
+      "meaning": "Pilnaties dieną namų šeimininkas su žmona pasninkauja, valgydami kartą, o Vedos nestudijuojamos.",
+      "source": "Apastamba Dharmasutra 2.1.1.4; Manu 4.113–114"
     },
     "restNewMoon": {
-      "name": "Amavasya rest",
-      "title": "Jaunaties poilsio diena",
-      "meaning": "Tradicija ilsėdavosi per jaunatį; šaltinis mini dvi dienas, bet nenurodo, kuri antra, todėl VedaCal žymi jaunaties dieną. Natūralus metas sulėtinti tempą ir atsigręžti į vidų."
+      "name": "Amavasya parvan",
+      "title": "Jaunaties susilaikymo dienos",
+      "meaning": "Per jaunatį Vedų studijos nutraukiamos dviem dienoms: jaunaties dienai ir dienai prieš ją. Jaunaties dieną namų šeimininkas su žmona pasninkauja, valgydami kartą.",
+      "source": "Apastamba Dharmasutra 1.3.9.28 (Haradatta), 2.1.1.4; Gautama Dharmasutra 16.35–36; Manu 4.113–114"
     },
     "ekadashi": {
       "name": "Ekadashi",
-      "title": "Ekadashi — lengvesnė diena",
-      "meaning": "Vienuoliktoji kiekvienos Mėnulio mėnesio pusės diena, skirta Višnu. Tradiciškai laikomasi pasninko arba valgoma lengvai; daugelis ją tiesiog leidžia ramiau ir paprasčiau."
+      "title": "Ekadashi — pasninko diena",
+      "meaning": "Kiekvienos Mėnulio mėnesio pusės 11-oji diena. Drik ją nurodo kaip pasninko dieną, skirtą Višnu.",
+      "source": "Drik Panchang"
     },
     "uttarayana": {
       "name": "Uttarayana",
       "title": "Saulės šiaurinis pusmetis",
-      "meaning": "Nuo gruodžio saulėgrįžos Saulė juda į šiaurę. Tradicija šį pusmetį laiko augimo, mokymosi ir veiklos metu."
+      "meaning": "Nuo gruodžio saulėgrįžos Saulės kelias kasdien kyla į šiaurę, iki birželio saulėgrįžos.",
+      "source": "Drik Panchang (Drik Ayana)"
     },
     "dakshinayana": {
       "name": "Dakshinayana",
       "title": "Saulės pietinis pusmetis",
-      "meaning": "Nuo birželio saulėgrįžos Saulė juda į pietus. Tradicija šį pusmetį laiko apmąstymų ir atsigręžimo į vidų metu."
+      "meaning": "Nuo birželio saulėgrįžos Saulės kelias kasdien leidžiasi į pietus, iki gruodžio saulėgrįžos.",
+      "source": "Drik Panchang (Drik Ayana)"
     },
     "ritu1": {
       "name": "Vasanta",
       "title": "Pavasaris",
-      "meaning": "Atsinaujinimo metas, maždaug nuo vasario vidurio iki balandžio vidurio. Tradicija jį vadina metų laikų karaliumi, švenčių ir naujų pradžių metu."
+      "meaning": "Saulė Vakarų zodiako Žuvyse ir Avine, maždaug nuo vasario vidurio iki balandžio vidurio.",
+      "source": "Drik Panchang (Drik Ritu)"
     },
     "ritu2": {
       "name": "Grishma",
       "title": "Vasara",
-      "meaning": "Ilgos, karštos dienos, maždaug nuo balandžio vidurio iki birželio vidurio. Tradicija teikia pirmenybę lėtesnėms popietėms ir paprastai dienotvarkei."
+      "meaning": "Saulė Vakarų zodiako Jautyje ir Dvyniuose, maždaug nuo balandžio vidurio iki birželio vidurio.",
+      "source": "Drik Panchang (Drik Ritu)"
     },
     "ritu3": {
       "name": "Varsha",
       "title": "Liūčių metas",
-      "meaning": "Musonų metas Indijoje, maždaug nuo birželio vidurio iki rugpjūčio vidurio. Tradicija mato laiką būti arčiau namų, mokytis ir atsitraukti."
+      "meaning": "Saulė Vakarų zodiako Vėžyje ir Liūte, maždaug nuo birželio vidurio iki rugpjūčio vidurio.",
+      "source": "Drik Panchang (Drik Ritu)"
     },
     "ritu4": {
       "name": "Sharad",
       "title": "Ruduo",
-      "meaning": "Giedras dangus ir ryškūs mėnuliai, maždaug nuo rugpjūčio vidurio iki spalio vidurio. Tradicija švenčia derlių ir dideles Navaratri šventes."
+      "meaning": "Saulė Vakarų zodiako Mergelėje ir Svarstyklėse, maždaug nuo rugpjūčio vidurio iki spalio vidurio.",
+      "source": "Drik Panchang (Drik Ritu)"
     },
     "ritu5": {
       "name": "Hemanta",
       "title": "Ankstyva žiema",
-      "meaning": "Vėsus ir ramus metas, maždaug nuo spalio vidurio iki gruodžio vidurio. Tradicija mato stabilumo, kaupimo ir namų šilumos metą."
+      "meaning": "Saulė Vakarų zodiako Skorpione ir Šaulyje, maždaug nuo spalio vidurio iki gruodžio vidurio.",
+      "source": "Drik Panchang (Drik Ritu)"
     },
     "ritu6": {
       "name": "Shishira",
       "title": "Vėlyva žiema",
-      "meaning": "Šalčiausias metas, maždaug nuo gruodžio vidurio iki vasario vidurio. Tradicija mato poilsio ir pavasario laukimo metą."
+      "meaning": "Saulė Vakarų zodiako Ožiaragyje ir Vandenyje, maždaug nuo gruodžio vidurio iki vasario vidurio.",
+      "source": "Drik Panchang (Drik Ritu)"
     }
   },
   "sheets": {
     "tithi": "Tithi yra Mėnulio diena: laikas, per kurį Mėnulis dar šiek tiek nutolsta nuo Saulės (12°, trisdešimtoji viso rato dalis). Mėnulio greitis kinta, todėl Mėnulio diena trunka maždaug nuo 19 iki 26 valandų ir gali prasidėti bet kurią valandą. Mėnulio mėnuo turi 30 tithi: penkiolika, kol Mėnulis pilnėja (Shukla), ir penkiolika, kol dyla (Krishna).",
     "nakshatra": "Dangaus juosta, kuria keliauja Mėnulis, padalyta į 27 lygias dalis, kurių kiekviena pavadinta joje esančios žvaigždės ar žvaigždžių grupės vardu. Mėnulis per dieną pereina maždaug vieną dalį. Kiekviena dalis turi globėją dievybę ir savo prasmę.",
-    "yoga": "Sudėjus, kiek Saulė ir Mėnulis yra nukeliavę dangumi, suma patenka į vieną iš 27 lygių dalių: ta dalis ir yra joga. Ji keičiasi maždaug kartą per dieną. Kiekviena joga turi savo pavadinimą ir prasmę. Keturių jogų (Atiganda, Ganda, Vyatipata, Vaidhriti) tradicija vengia pradedant svarbius darbus.",
+    "yoga": "Sudėjus, kiek Saulė ir Mėnulis yra nukeliavę dangumi, suma patenka į vieną iš 27 lygių dalių: ta dalis ir yra joga. Ji keičiasi maždaug kartą per dieną. Kiekviena joga turi savo pavadinimą. Muhurta Chintamani (1.34–35) palankiuose darbuose vengia devynių jogų: Vyatipata ir Vaidhriti – visos, Parigha – pirmos pusės, dar šešių – pirmų valandų.",
     "karana": "Karana yra pusė Mėnulio dienos, todėl kiekviena Mėnulio diena turi dvi. Yra vienuolika rūšių: septynios paeiliui kartojasi visą mėnesį, o keturios būna tik apie jaunatį.",
     "vara": "Savaitės diena. Tradiciniame kalendoriuje ji trunka nuo saulėtekio iki saulėtekio, o ne nuo vidurnakčio. Kiekviena diena priklauso vienam iš septynių plika akimi matomų šviesulių: Saulei, Mėnuliui, Marsui, Merkurijui, Jupiteriui, Venerai ar Saturnui. Šis šviesulys lemia, nuo kurio vardo prasideda dienos Choghadiya (valanda po valandos).",
-    "brahma": "Brahma Muhurta, „kūrėjo valanda“, yra priešpaskutinė iš penkiolikos lygių nakties dalių (muhurtų), todėl ji baigiasi viena dalimi prieš saulėtekį. Jos trukmė priklauso nuo nakties ilgio.",
+    "brahma": "Brahma Muhurta yra priešpaskutinė iš penkiolikos lygių nakties dalių (muhurtų), todėl ji baigiasi viena dalimi prieš saulėtekį. Jos trukmė priklauso nuo nakties ilgio.",
     "abhijit": "Abhijit Muhurta, „pergalės valanda“, yra vidurinė iš penkiolikos lygių dienos dalių, apie vietos vidurdienį, kai Saulė pakilusi aukščiausiai. Jos trukmė priklauso nuo dienos ilgio. Trečiadieniais ji nenaudojama, todėl tada VedaCal jos nerodo.",
-    "rahuKaal": "Šviesusis paros metas, nuo saulėtekio iki saulėlydžio, dalijamas į aštuonias lygias dalis; Rahu Kaal yra viena iš jų, kas savaitės dieną vis kita, todėl jo trukmė priklauso nuo dienos ilgio. Rahu yra šešėlis, kuris, pasak mito, per užtemimą praryja Saulę.",
-    "yamaganda": "Yamaganda yra viena iš aštuonių lygių šviesiojo paros meto dalių, kas savaitės dieną vis kita. Ji pavadinta Jamos, mirties ir teisingumo dievo, vardu.",
+    "rahuKaal": "Šviesusis paros metas, nuo saulėtekio iki saulėlydžio, dalijamas į aštuonias lygias dalis; Rahu Kaal yra viena iš jų, kas savaitės dieną vis kita, todėl jo trukmė priklauso nuo dienos ilgio.",
+    "yamaganda": "Yamaganda yra viena iš aštuonių lygių šviesiojo paros meto dalių, kas savaitės dieną vis kita. Ji pavadinta Jamos, mirties dievo, vardu.",
     "gulika": "Gulika (Gulikai) yra viena iš aštuonių lygių šviesiojo paros meto dalių, kas savaitės dieną vis kita, ir siejama su Saturnu. Drik Panchang ir Shubh Panchang ją priskiria nepalankiems laikams kartu su Rahu Kaal ir Yamaganda.",
-    "choghadiya": "Choghadiya padalija dieną (nuo saulėtekio iki saulėlydžio) ir naktį (iki kito saulėtekio) į aštuonias lygias dalis, todėl jų trukmė priklauso nuo dienos ir nakties ilgio, ir kiekvienai duoda vieną iš septynių vardų. Trys yra palankios (Amrit, Shubh, Labh), viena neutrali (Chal), o trijų geriau vengti (Udveg, Rog, Kaal); jų tvarka priklauso nuo savaitės dienos. Šiaurės ir Vakarų Indijoje ja renkamasi laiką kelionei ar naujai pradžiai, o palanki dalis, patekusi į Rahu Kaal, vis tiek vengiama.",
+    "choghadiya": "Choghadiya padalija dieną (nuo saulėtekio iki saulėlydžio) ir naktį (iki kito saulėtekio) į aštuonias lygias dalis, todėl jų trukmė priklauso nuo dienos ir nakties ilgio, ir kiekvienai duoda vieną iš septynių vardų. Jų tvarka priklauso nuo savaitės dienos. Drik keturias laiko tinkamomis pradėti palankius darbus (Amrit, Shubh, Labh, Chal), o tris – blogomis (Udveg, Rog, Kaal); Shubh Panchang Chal laiko neutralia, VedaCal – taip pat. Drik sako, kad ji pirmiausia buvo naudojama kelionėms ir kad palanki dalis, patekusi į Rahu Kaal, vis tiek vengiama. Tai populiari praktika be klasikinio šaltinio, todėl VedaCal ją rodo, bet neįskaičiuoja.",
     "ritu": "Indijos metai turi šešis metų laikus (Ritu), kiekvienas apie du mėnesius, pagal Saulės padėtį: Vasanta, pavasaris (nuo vasario vidurio iki balandžio vidurio); Grishma, vasara (iki birželio vidurio); Varsha, liūčių metas (iki rugpjūčio vidurio); Sharad, ruduo (iki spalio vidurio); Hemanta, ankstyva žiema (iki gruodžio vidurio); Shishira, vėlyva žiema (iki vasario vidurio).",
-    "rhythm": "Tradicinis ritmas seka Mėnulį ir Saulę: poilsio dienos apie pilnatį ir jaunatį, Ekadashi pasninkas du kartus per mėnesį, šeši metų laikai vietoj keturių ir du pusmečiai, kai Saulės kelias po gruodžio saulėgrįžos kyla į šiaurę, o po birželio – leidžiasi į pietus.",
+    "rhythm": "Tradicinis ritmas seka Mėnulį ir Saulę: susilaikymo dienos per jaunatį ir pilnatį, Ekadashi pasninkas du kartus per mėnesį, šeši metų laikai vietoj keturių ir du pusmečiai, kai Saulės kelias po gruodžio saulėgrįžos kyla į šiaurę, o po birželio – leidžiasi į pietus.",
     "times": "Visi laikai pateikti vietovei {city} ir apskaičiuoti jūsų įrenginyje. Saulėtekis yra tada, kai pasirodo viršutinis Saulės kraštas, kaip ir Drik Panchang, plačiausiai naudojamame internetiniame induistų kalendoriuje. VedaCal laikai nuo jo skiriasi mažiau nei 2 minutėmis.",
     "about": "VedaCal paprastais žodžiais rodo tradicinį induistų Mėnulio kalendorių (Panchang). Viskas apskaičiuojama jūsų įrenginyje ir niekur nesiunčiama. Patarimai aprašo tradiciją ir nėra medicininis ar profesionalus patarimas. Miestų duomenys © GeoNames, CC BY 4.0.",
     "masa": "Mėnulio mėnuo trunka vieną Mėnulio ciklą, apie 29,5 dienos, todėl kasmet prasideda vis kitą įprasto kalendoriaus dieną. Mėnuo gauna vardą pagal tai, į kurį ženklą Saulė pereina jo metu (pvz., kai Saulė pereina į Aviną, tai Chaitra). Patys vardai senovėje duoti pagal žvaigždę, prie kurios tą mėnesį būna pilnatis (Chaitra – nuo Chitra, Kartika – nuo Krittika); šiandien šis atitikimas tik apytikslis. VedaCal skaičiuoja mėnesius nuo pilnaties iki pilnaties, kaip Šiaurės Indijoje; Pietų ir Vakarų Indijoje jie skaičiuojami nuo jaunaties iki jaunaties, todėl pusę kiekvieno mėnesio ten jis vadinamas ankstesniu vardu. Maždaug kas trejus metus pridedamas papildomas mėnuo (Adhika), kad kalendorius neatsiliktų nuo metų laikų.",
     "rashi": "Saulė ir Mėnulis keliauja per dvylika zodiako ženklų. Vedų astrologija ženklus sieja su žvaigždėmis, vakarietiška – su metų laikais, ir per šimtmečius jie nutolo vienas nuo kito apie 24°, beveik visu ženklu. Todėl Mėnulis, kuris pagal vedinį skaičiavimą yra Dvyniuose, vakarietiškai dažnai būna Vėžyje. Kurį zodiaką rodyti, pasirinkite nustatymuose.",
     "parana": "Ekadashi yra pasninkas, laikomas du kartus per mėnesį, o baigiamas kitą dieną. VedaCal rodo, kada jį baigti: ne per anksti, nes pirmasis dvyliktosios Mėnulio dienos ketvirtis (Hari Vasara) dar laikomas pasninko dalimi, ir ne per vėlai, kol dvyliktoji Mėnulio diena (Dwadashi) dar nesibaigė. Paprastai tai pirmosios kelios valandos po saulėtekio (pirmasis šviesiojo paros meto penktadalis). Jei Hari Vasara užsitęsia, laikas persikelia į popietę (ketvirtąjį penktadalį), nes vidurdienio tradicija vengia.",
-    "eclipse": "Užtemimas (Grahan) yra nepalankus metas. VedaCal rodo tą dalį, kurią galima matyti iš jūsų vietos: Mėnulio užtemimo – nuo pirmo iki paskutinio Mėnulio sąlyčio su Žemės šešėliu, kol Mėnulis virš horizonto; Saulės – nuo pirmo iki paskutinio sąlyčio, kol Saulė virš horizonto.",
-    "sankranti": "Sankranti yra momentas, kai Saulė pereina į kitą vedinio zodiako ženklą, dvylika kartų per metus. Kiekvienas pradeda Saulės mėnesį; Makara Sankranti sausio viduryje, derliaus šventė, švenčiama visoje Indijoje.",
-    "pushya": "Pushya, „maitinimas“, yra viena iš 27 Mėnulio žvaigždžių dalių ir laikoma palankiausia iš jų. Guru Pushya yra Mėnulis Pushya ketvirtadienį, Ravi Pushya – sekmadienį; rodomas laikas, kai abu sutampa.",
+    "eclipse": "VedaCal rodo tą dalį, kurią galima matyti iš jūsų vietos: Mėnulio užtemimo – nuo pirmo iki paskutinio Mėnulio sąlyčio su Žemės šešėliu, kol Mėnulis virš horizonto; Saulės – nuo pirmo iki paskutinio sąlyčio, kol Saulė virš horizonto.",
+    "sankranti": "Sankranti yra momentas, kai Saulė pereina į kitą vedinio zodiako ženklą, dvylika kartų per metus. Kiekvienas pradeda Saulės mėnesį.",
+    "pushya": "Pushya, „maitinimas“, yra viena iš 27 Mėnulio žvaigždžių dalių; Ramanas ją vadina palankiausia iš jų, visiems tikslams, išskyrus vestuves (Muhurtha, psl. 26–27). Guru Pushya yra Mėnulis Pushya ketvirtadienį, Ravi Pushya – sekmadienį; rodomas laikas, kai abu sutampa.",
     "amritSiddhi": "Amrit Siddhi, „sėkmės nektaras“, susidaro, kai savaitės diena sutampa su savo Mėnulio žvaigžde: sekmadienis su Hasta, pirmadienis su Mrigashira, antradienis su Ashwini, trečiadienis su Anuradha, ketvirtadienis su Pushya, penktadienis su Revati, šeštadienis su Rohini. Tai būna vieną–tris kartus per mėnesį; rodomas laikas, kai abu sutampa.",
-    "sarvarthaSiddhi": "Sarvartha Siddhi, „sėkmė visuose siekiuose“, susidaro, kai savaitės diena ir Mėnulio žvaigždė sudaro vieną iš maždaug trisdešimties tradiciškai palankių porų. Ji dažna, apie dešimt dienų per mėnesį, todėl VedaCal mėnesyje jos nežymi. Rodomas laikas, kai abu sutampa.",
+    "sarvarthaSiddhi": "Sarvartha Siddhi, „sėkmė visuose siekiuose“, susidaro, kai savaitės diena ir Mėnulio žvaigždė sudaro vieną iš 34 porų, kurias išvardija Muhurta Chintamani (1.28–29). Ji dažna, apie dešimt dienų per mėnesį, todėl VedaCal mėnesyje jos nežymi. Rodomas laikas, kai abu sutampa.",
     "bhadra": "Bhadra yra Mėnulio dienos pusė, vadinama Vishti; ji būna apie aštuonis kartus per mėnesį ir trunka apie dvylika valandų.",
     "vyatipata": "Vyatipata yra viena iš 27 jogų (Saulės ir Mėnulio padėčių sumos) ir būna maždaug kartą per mėnesį, apie parą.",
     "vaidhriti": "Vaidhriti yra paskutinė iš 27 jogų ir, kaip Vyatipata, būna maždaug kartą per mėnesį, apie parą."
@@ -622,7 +735,7 @@
     "legendCalmTime": "Ramus metas",
     "legendGoodTime": "Palankus metas",
     "legendAvoidTime": "Nepalankus metas",
-    "labelYamaganda": "Nesėkmių metas",
+    "labelYamaganda": "Jamos metas",
     "labelGulika": "Saturno metas",
     "labelChoghadiya": "Valanda po valandos",
     "moonrise": "Mėnulio patekėjimas",
@@ -688,7 +801,7 @@
     "close": "Uždaryti",
     "stateWaxing": "Priešpilnis",
     "stateWaning": "Delčia",
-    "restDay": "Poilsio diena",
+    "restDay": "Susilaikymo diena",
     "season": "{title} · {name}",
     "seasonDay": "{day} diena iš {length}",
     "back": "Atgal",
@@ -697,7 +810,7 @@
     "nextDay": "Kita diena",
     "previousMonth": "Ankstesnis mėnuo",
     "nextMonth": "Kitas mėnuo",
-    "legendRest": "Poilsio diena",
+    "legendRest": "Susilaikymo diena",
     "legendEkadashi": "Pasninko diena",
     "legendSeason": "Metų laikas",
     "legendFasting": "Pasninkas",
@@ -724,7 +837,7 @@
     "hours12": "12 val.",
     "hours24": "24 val.",
     "labelEclipse": "Užtemimas",
-    "windowBhadra": "Pauzė",
+    "windowBhadra": "Bhadra (Vishti)",
     "windowVyatipata": "Nelaimė",
     "windowVaidhriti": "Atskyrimas",
     "labelSankranti": "Saulė keičia ženklą",
@@ -744,7 +857,7 @@
     "sunEntersVedic": "Naujas Saulės ženklas: {sign} (vedinis)",
     "legendFavoured": "Palanki diena",
     "legendEclipse": "Užtemimas",
-    "legendRestNote": "Per jaunatį ir pilnatį",
+    "legendRestNote": "Jaunatis (2 dienos) ir pilnatis",
     "legendEkadashiNote": "11-a Mėnulio diena, du kartus per mėnesį",
     "legendFavouredNote": "Tradiciškai palanku ką nors pradėti",
     "legendEclipseNote": "Pagal tradiciją nieko naujo nepradedama",
@@ -767,7 +880,7 @@
     "guideUseHead": "Kaip naudotis",
     "guideUseDay": "Diena – šiandienos Mėnulis, palankūs ir vengtini dienos laikai bei dienos faktai. Rodyklės ‹ › keičia dieną, „Šiandien“ grąžina į šiandieną.",
     "guideUseTap": "Paspauskite bet kurį pavadinimą – Mėnulį, laiką, faktą – ir perskaitysite, ką jis reiškia.",
-    "guideUseMonth": "Mėnuo – Mėnulio forma kiekvieną dieną, poilsio, pasninko ir ypatingos dienos. Paspauskite dieną, kad ją atidarytumėte.",
+    "guideUseMonth": "Mėnuo – Mėnulio forma kiekvieną dieną, susilaikymo, pasninko ir ypatingos dienos. Paspauskite dieną, kad ją atidarytumėte.",
     "guideUseSky": "Dangus – kur yra Saulė, Mėnulis ir žvaigždžių sektoriai, žiūrint iš viršaus. Paspauskite paleidimo mygtuką ir stebėkite, kaip jie juda.",
     "guideUseSettings": "Nustatymai – miestas arba jūsų vieta, kalba, vediniai ar vakarietiški ženklai, 12 ar 24 valandų laikrodis ir tema.",
     "guideOfflineHead": "Be interneto, atnaujinimai ir pašalinimas",
@@ -861,161 +974,192 @@
     "1": {
       "name": "Chaitra",
       "title": "Kovas–balandis",
-      "meaning": "Pavadintas pagal žvaigždę Chitra, prie kurios būna jo pilnatis. Šventės: naujieji metai (Ugadi, Gudi Padwa), Chaitra Navaratri, Rama Navami, Hanuman Jayanti."
+      "meaning": "Pavadintas pagal žvaigždę Chitra, prie kurios būna jo pilnatis. Šventės: naujieji metai (Ugadi, Gudi Padwa), Chaitra Navaratri, Rama Navami, Hanuman Jayanti.",
+      "source": "The Calendars of India (arXiv:1007.0062); šventės: Drik Panchang"
     },
     "2": {
       "name": "Vaishakha",
       "title": "Balandis–gegužė",
-      "meaning": "Pavadintas pagal žvaigždę Vishakha, prie kurios būna jo pilnatis. Šventės: Akshaya Tritiya, Buddha Purnima."
+      "meaning": "Pavadintas pagal žvaigždę Vishakha, prie kurios būna jo pilnatis. Šventės: Akshaya Tritiya, Buddha Purnima.",
+      "source": "The Calendars of India (arXiv:1007.0062); šventės: Drik Panchang"
     },
     "3": {
       "name": "Jyeshtha",
       "title": "Gegužė–birželis",
-      "meaning": "Pavadintas pagal žvaigždę Jyeshtha, prie kurios būna jo pilnatis. Šventės: Ganga Dussehra, Nirjala Ekadashi."
+      "meaning": "Pavadintas pagal žvaigždę Jyeshtha, prie kurios būna jo pilnatis. Šventės: Ganga Dussehra, Nirjala Ekadashi.",
+      "source": "The Calendars of India (arXiv:1007.0062); šventės: Drik Panchang"
     },
     "4": {
       "name": "Ashadha",
       "title": "Birželis–liepa",
-      "meaning": "Pavadintas pagal žvaigždę Purva Ashadha, prie kurios būna jo pilnatis. Šventės: Ratha Yatra, Devshayani Ekadashi, Guru Purnima."
+      "meaning": "Pavadintas pagal žvaigždę Purva Ashadha, prie kurios būna jo pilnatis. Šventės: Ratha Yatra, Devshayani Ekadashi, Guru Purnima.",
+      "source": "The Calendars of India (arXiv:1007.0062); šventės: Drik Panchang"
     },
     "5": {
       "name": "Shravana",
       "title": "Liepa–rugpjūtis",
-      "meaning": "Pavadintas pagal žvaigždę Shravana, prie kurios būna jo pilnatis. Šventės: Nag Panchami, Raksha Bandhan."
+      "meaning": "Pavadintas pagal žvaigždę Shravana, prie kurios būna jo pilnatis. Šventės: Nag Panchami, Raksha Bandhan.",
+      "source": "The Calendars of India (arXiv:1007.0062); šventės: Drik Panchang"
     },
     "6": {
       "name": "Bhadrapada",
       "title": "Rugpjūtis–rugsėjis",
-      "meaning": "Pavadintas pagal žvaigždę Purva Bhadrapada, prie kurios būna jo pilnatis. Šventės: Krishna Janmashtami, Ganesh Chaturthi."
+      "meaning": "Pavadintas pagal žvaigždę Purva Bhadrapada, prie kurios būna jo pilnatis. Šventės: Krishna Janmashtami, Ganesh Chaturthi.",
+      "source": "The Calendars of India (arXiv:1007.0062); šventės: Drik Panchang"
     },
     "7": {
       "name": "Ashwina",
       "title": "Rugsėjis–spalis",
-      "meaning": "Pavadintas pagal žvaigždę Ashwini, prie kurios būna jo pilnatis. Šventės: Pitru Paksha, Navaratri, Dussehra, Sharad Purnima."
+      "meaning": "Pavadintas pagal žvaigždę Ashwini, prie kurios būna jo pilnatis. Šventės: Pitru Paksha, Navaratri, Dussehra, Sharad Purnima.",
+      "source": "The Calendars of India (arXiv:1007.0062); šventės: Drik Panchang"
     },
     "8": {
       "name": "Kartika",
       "title": "Spalis–lapkritis",
-      "meaning": "Pavadintas pagal žvaigždę Krittika, prie kurios būna jo pilnatis. Šventės: Diwali, Govardhan Puja, Bhai Dooj, Kartika Purnima."
+      "meaning": "Pavadintas pagal žvaigždę Krittika, prie kurios būna jo pilnatis. Šventės: Diwali, Govardhan Puja, Bhai Dooj, Kartika Purnima.",
+      "source": "The Calendars of India (arXiv:1007.0062); šventės: Drik Panchang"
     },
     "9": {
       "name": "Margashirsha",
       "title": "Lapkritis–gruodis",
-      "meaning": "Pavadintas pagal žvaigždę Mrigashira, prie kurios būna jo pilnatis. Šventės: Gita Jayanti, Dattatreya Jayanti."
+      "meaning": "Pavadintas pagal žvaigždę Mrigashira, prie kurios būna jo pilnatis. Šventės: Gita Jayanti, Dattatreya Jayanti.",
+      "source": "The Calendars of India (arXiv:1007.0062); šventės: Drik Panchang"
     },
     "10": {
       "name": "Pausha",
       "title": "Gruodis–sausis",
-      "meaning": "Pavadintas pagal žvaigždę Pushya, prie kurios būna jo pilnatis. Ramus mėnuo; per jo pilnatį Prajagradže prasideda Magh Mela."
+      "meaning": "Pavadintas pagal žvaigždę Pushya, prie kurios būna jo pilnatis.",
+      "source": "The Calendars of India (arXiv:1007.0062); šventės: Drik Panchang"
     },
     "11": {
       "name": "Magha",
       "title": "Sausis–vasaris",
-      "meaning": "Pavadintas pagal žvaigždę Magha, prie kurios būna jo pilnatis. Šventės: Vasant Panchami, Magha Purnima."
+      "meaning": "Pavadintas pagal žvaigždę Magha, prie kurios būna jo pilnatis. Šventės: Vasant Panchami, Magha Purnima.",
+      "source": "The Calendars of India (arXiv:1007.0062); šventės: Drik Panchang"
     },
     "12": {
       "name": "Phalguna",
       "title": "Vasaris–kovas",
-      "meaning": "Pavadintas pagal žvaigždę Purva Phalguni, prie kurios būna jo pilnatis. Šventės: Maha Shivaratri, Holi."
+      "meaning": "Pavadintas pagal žvaigždę Purva Phalguni, prie kurios būna jo pilnatis. Šventės: Maha Shivaratri, Holi.",
+      "source": "The Calendars of India (arXiv:1007.0062); šventės: Drik Panchang"
     }
   },
   "rashi": {
     "1": {
       "name": "Mesha",
       "title": "Avinas",
-      "meaning": "Valdo Marsas; ugnies ženklas, judrusis. Tradicija jį sieja su iniciatyva, energija ir savimi."
+      "meaning": "Valdo Marsas; ugnies ženklas, judrusis.",
+      "source": "Kalaprakasika, psl. 180 (vertėjo pastaba); Raman, Muhurtha, psl. 199–200"
     },
     "2": {
       "name": "Vrishabha",
       "title": "Jautis",
-      "meaning": "Valdo Venera; žemės ženklas, pastovusis. Tradicija jį sieja su turtu, grožiu ir pastovumu."
+      "meaning": "Valdo Venera; žemės ženklas, pastovusis.",
+      "source": "Kalaprakasika, psl. 180 (vertėjo pastaba); Raman, Muhurtha, psl. 199–200"
     },
     "3": {
       "name": "Mithuna",
       "title": "Dvyniai",
-      "meaning": "Valdo Merkurijus; oro ženklas, dvilypis. Tradicija jį sieja su bendravimu, dvilypumu ir protu."
+      "meaning": "Valdo Merkurijus; oro ženklas, dvilypis.",
+      "source": "Kalaprakasika, psl. 180 (vertėjo pastaba); Raman, Muhurtha, psl. 199–200"
     },
     "4": {
       "name": "Karka",
       "title": "Vėžys",
-      "meaning": "Valdo Mėnulis; vandens ženklas, judrusis. Tradicija jį sieja su rūpesčiu, namais ir jausmais."
+      "meaning": "Valdo Mėnulis; vandens ženklas, judrusis.",
+      "source": "Kalaprakasika, psl. 180 (vertėjo pastaba); Raman, Muhurtha, psl. 199–200"
     },
     "5": {
       "name": "Simha",
       "title": "Liūtas",
-      "meaning": "Valdo Saulė; ugnies ženklas, pastovusis. Tradicija jį sieja su valdžia, kūryba ir orumu."
+      "meaning": "Valdo Saulė; ugnies ženklas, pastovusis.",
+      "source": "Kalaprakasika, psl. 180 (vertėjo pastaba); Raman, Muhurtha, psl. 199–200"
     },
     "6": {
       "name": "Kanya",
       "title": "Mergelė",
-      "meaning": "Valdo Merkurijus; žemės ženklas, dvilypis. Tradicija jį sieja su analize, tarnyste ir tobulumu."
+      "meaning": "Valdo Merkurijus; žemės ženklas, dvilypis.",
+      "source": "Kalaprakasika, psl. 180 (vertėjo pastaba); Raman, Muhurtha, psl. 199–200"
     },
     "7": {
       "name": "Tula",
       "title": "Svarstyklės",
-      "meaning": "Valdo Venera; oro ženklas, judrusis. Tradicija jį sieja su pusiausvyra, partneryste ir teisingumu."
+      "meaning": "Valdo Venera; oro ženklas, judrusis.",
+      "source": "Kalaprakasika, psl. 180 (vertėjo pastaba); Raman, Muhurtha, psl. 199–200"
     },
     "8": {
       "name": "Vrishchika",
       "title": "Skorpionas",
-      "meaning": "Valdo Marsas; vandens ženklas, pastovusis. Tradicija jį sieja su virsmu, gelme ir paslaptimis."
+      "meaning": "Valdo Marsas; vandens ženklas, pastovusis.",
+      "source": "Kalaprakasika, psl. 180 (vertėjo pastaba); Raman, Muhurtha, psl. 199–200"
     },
     "9": {
       "name": "Dhanu",
       "title": "Šaulys",
-      "meaning": "Valdo Jupiteris; ugnies ženklas, dvilypis. Tradicija jį sieja su dharma, išmintimi ir augimu."
+      "meaning": "Valdo Jupiteris; ugnies ženklas, dvilypis.",
+      "source": "Kalaprakasika, psl. 180 (vertėjo pastaba); Raman, Muhurtha, psl. 199–200"
     },
     "10": {
       "name": "Makara",
       "title": "Ožiaragis",
-      "meaning": "Valdo Saturnas; žemės ženklas, judrusis. Tradicija jį sieja su karjera, drausme ir valdžia."
+      "meaning": "Valdo Saturnas; žemės ženklas, judrusis.",
+      "source": "Kalaprakasika, psl. 180 (vertėjo pastaba); Raman, Muhurtha, psl. 199–200"
     },
     "11": {
       "name": "Kumbha",
       "title": "Vandenis",
-      "meaning": "Valdo Saturnas; oro ženklas, pastovusis. Tradicija jį sieja su bendruomene, idealais ir naujomis idėjomis."
+      "meaning": "Valdo Saturnas; oro ženklas, pastovusis.",
+      "source": "Kalaprakasika, psl. 180 (vertėjo pastaba); Raman, Muhurtha, psl. 199–200"
     },
     "12": {
       "name": "Meena",
       "title": "Žuvys",
-      "meaning": "Valdo Jupiteris; vandens ženklas, dvilypis. Tradicija jį sieja su išsilaisvinimu, vaizduote ir atsidavimu."
+      "meaning": "Valdo Jupiteris; vandens ženklas, dvilypis.",
+      "source": "Kalaprakasika, psl. 180 (vertėjo pastaba); Raman, Muhurtha, psl. 199–200"
     }
   },
   "choghadiya": {
     "amrit": {
       "name": "Amrit",
       "title": "Nektaras",
-      "meaning": "„Nektaras“, valdo Mėnulis; geriausia iš septynių dalių. Tradicija ją laiko tinkama bet kokiam darbui."
+      "meaning": "Valdo Mėnulis. Palanki dalis: Drik ir Shubh Panchang ją priskiria dalims, kuriomis pradedami palankūs darbai.",
+      "source": "Drik Panchang; Shubh Panchang – populiari praktika, klasikinio šaltinio nėra; pavadinimas: Monier-Williams, psl. 82"
     },
     "shubh": {
       "name": "Shubh",
       "title": "Palanki",
-      "meaning": "„Palanki“, valdo Jupiteris; palanki dalis. Tradiciškai tinka apeigoms, ypač vestuvėms."
+      "meaning": "Valdo Jupiteris. Palanki dalis; Shubh Panchang jai nurodo vestuvių reikalus ir verslą.",
+      "source": "Drik Panchang; Shubh Panchang – populiari praktika, klasikinio šaltinio nėra; pavadinimas: Monier-Williams, psl. 1083"
     },
     "labh": {
       "name": "Labh",
       "title": "Nauda",
-      "meaning": "„Nauda“, valdo Merkurijus; palanki dalis. Tradiciškai tinkamiausia pradėti mokslus ir mokytis naujų įgūdžių."
+      "meaning": "Valdo Merkurijus. Palanki dalis; Shubh Panchang jai nurodo pinigus, prekybą ir naujus sumanymus.",
+      "source": "Drik Panchang; Shubh Panchang – populiari praktika, klasikinio šaltinio nėra; pavadinimas: Monier-Williams, psl. 897"
     },
     "chal": {
       "name": "Chal",
       "title": "Judėjimas",
-      "meaning": "„Judėjimas“ (dar vadinama Chanchal), valdo Venera; neutrali dalis. Tradiciškai tinkamiausia kelionėms."
+      "meaning": "Valdo Venera. Drik ją laiko palankia, Shubh Panchang – neutralia ir skirta kelionėms; VedaCal ją rodo kaip neutralią.",
+      "source": "Drik Panchang; Shubh Panchang – populiari praktika, klasikinio šaltinio nėra; pavadinimas: Monier-Williams, psl. 391"
     },
     "udveg": {
       "name": "Udveg",
       "title": "Nerimas",
-      "meaning": "„Nerimas“, valdo Saulė; vengtina dalis. Tradiciškai jos metu nepradedama nieko svarbaus, išskyrus reikalus su valdžios įstaigomis."
+      "meaning": "Valdo Saulė. Vengtina dalis.",
+      "source": "Drik Panchang; Shubh Panchang – populiari praktika, klasikinio šaltinio nėra; pavadinimas: Monier-Williams, psl. 192"
     },
     "rog": {
       "name": "Rog",
-      "title": "Trintis",
-      "meaning": "„Trintis“, valdo Marsas; vengtina dalis. Tradiciškai jos metu nedaromas joks palankus darbas; ji skiriama tik kovai ir priešininko įveikimui."
+      "title": "Negalavimas",
+      "meaning": "Valdo Marsas. Vengtina dalis.",
+      "source": "Drik Panchang; Shubh Panchang – populiari praktika, klasikinio šaltinio nėra; pavadinimas: Monier-Williams, psl. 888"
     },
     "kaal": {
       "name": "Kaal",
-      "title": "Netektis",
-      "meaning": "„Netektis“, valdo Saturnas; vengtina dalis. Tradiciškai jos metu nedaromas joks palankus darbas, išskyrus turto kaupimą."
+      "title": "Laikas, mirtis",
+      "meaning": "Valdo Saturnas. Vengtina dalis.",
+      "source": "Drik Panchang; Shubh Panchang – populiari praktika, klasikinio šaltinio nėra; pavadinimas: Monier-Williams, psl. 278"
     }
   },
   "tradition": {

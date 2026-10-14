@@ -104,7 +104,7 @@ export type DayPanchang = {
   newMoon: Date | null // instant inside this civil day
   fullMoon: Date | null
   rhythm: {
-    restDay: 'fullMoon' | 'newMoon' | null // full moon: day before, day of, day after; new moon: day of only
+    restDay: 'fullMoon' | 'newMoon' | null // full moon: its civil day; new moon: its civil day and the day before
     ayana: Ayana
     ritu: number // 1 Vasanta … 6 Shishira
     rituDay: number // 1-based civil day within the current ritu

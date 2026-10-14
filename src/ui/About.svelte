@@ -24,7 +24,7 @@
 
   const steps = ['guideUseDay', 'guideUseTap', 'guideUseMonth', 'guideUseSky', 'guideUseSettings'] as const
 
-  type Value = { title: string; name: string; meaning?: string }
+  type Value = { title: string; name: string; meaning?: string; source?: string }
   // Every value a term can take, in calendar order; terms without a list (the day's windows,
   // the special days) return none.
   const lists: Partial<Record<Term, Record<string, Value>>> = {
@@ -97,6 +97,7 @@
                   {#each values(key) as v, i (i)}
                     <dt><b>{v.title}</b><span class="sk">{v.name}</span></dt>
                     {#if v.meaning}<dd>{v.meaning}</dd>{/if}
+                    {#if v.source}<dd class="src">{t('source')}: {v.source}</dd>{/if}
                   {/each}
                 </dl>
               {/if}

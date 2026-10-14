@@ -93,7 +93,8 @@ describe('key dates double as the legend (user, 2026-10-09: the two repeated eac
   const marked = (swatch: string) => view.events.filter((e) => e.swatch === swatch)
 
   it('each grid mark has rows with the same swatch: rest runs, Ekadashi, favoured days', () => {
-    expect(marked('rest').map((e) => [e.date, e.last])).toEqual([['2026-10-10', ''], ['2026-10-25', '2026-10-27']])
+    // Days of restraint (rules.md H1): the new moon and the day before; the full-moon day.
+    expect(marked('rest').map((e) => [e.date, e.last])).toEqual([['2026-10-09', '2026-10-10'], ['2026-10-26', '']])
     expect(marked('ekadashi').map((e) => e.date)).toEqual(['2026-10-06', '2026-10-22'])
     expect(marked('favoured').map((e) => e.sub)).toEqual(['Ravi Pushya', 'Amrit Siddhi'])
     expect(marked('eclipse')).toEqual([])
@@ -104,8 +105,8 @@ describe('key dates double as the legend (user, 2026-10-09: the two repeated eac
   })
 
   it('shows a run of rest days as one date range', () => {
-    expect(keyDateWhen(marked('rest')[1], loc)).toMatch(/25.*27/)
-    expect(keyDateWhen(marked('rest')[0], loc)).not.toMatch(/–/)
+    expect(keyDateWhen(marked('rest')[0], loc)).toMatch(/9.*10/)
+    expect(keyDateWhen(marked('rest')[1], loc)).not.toMatch(/–/)
   })
 
   it('an eclipse month marks the eclipse row (August 2026)', () => {

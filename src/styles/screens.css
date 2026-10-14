@@ -973,6 +973,12 @@ h3 {
   color: var(--color-muted);
 }
 
+.terms .kinds dd.src {
+  margin-top: calc(-1 * var(--space-2xs));
+  font-size: var(--text-xs);
+  font-style: italic;
+}
+
 /* Lists without meanings (months, signs): a little air between the names. */
 .terms .kinds dt + dt {
   margin-top: var(--space-3xs);

@@ -3,603 +3,716 @@
     "1": {
       "name": "Shukla Pratipada",
       "title": "Day 1 of the waxing moon",
-      "meaning": "The first light after the new moon. Tradition links it to Agni, the sacred fire, and counts it among the joyful (Nanda) days."
+      "meaning": "Its lord is Agni. A Nanda (“delight”) day, one of the weakest of the waxing half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "2": {
       "name": "Shukla Dwitiya",
       "title": "Day 2 of the waxing moon",
-      "meaning": "A thin crescent returns. Linked to Brahma the creator; tradition sees a steady (Bhadra) day for laying foundations."
+      "meaning": "Its lord is Brahma. A Bhadra (“blessed”) day, one of the weakest of the waxing half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "3": {
       "name": "Shukla Tritiya",
       "title": "Day 3 of the waxing moon",
-      "meaning": "Linked to the goddess Gauri. One of the victorious (Jaya) days, traditionally good for beginning things with confidence."
+      "meaning": "Its lord is Gauri. A Jaya (“victory”) day, one of the weakest of the waxing half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "4": {
       "name": "Shukla Chaturthi",
       "title": "Day 4 of the waxing moon",
-      "meaning": "Linked to Ganesha, remover of obstacles. An empty (Rikta) day, traditionally used for clearing and finishing rather than starting."
+      "meaning": "Its lord is Ganesha. A Rikta (“empty”) day, one of the weakest of the waxing half; avoided for most work and for setting out on a journey; if the act cannot wait, only its first 3 hours (8 ghatikas) are avoided.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Kalaprakasika, p. 99, 150"
     },
     "5": {
       "name": "Shukla Panchami",
       "title": "Day 5 of the waxing moon",
-      "meaning": "Linked to the serpent deities and to learning. A full (Purna) day, traditionally favourable for study and creative work."
+      "meaning": "Its lord is the Serpent (Sarpa). A Purna (“full”) day, one of the weakest of the waxing half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "6": {
       "name": "Shukla Shashthi",
       "title": "Day 6 of the waxing moon",
-      "meaning": "Linked to Skanda, the young warrior god. A joyful day, traditionally good for courage and steady effort."
+      "meaning": "Its lord is Skanda (Kartikeya). A Nanda (“delight”) day, middling of the waxing half; if the act cannot wait, only its first 3½ hours (9 ghatikas) are avoided.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36"
     },
     "7": {
       "name": "Shukla Saptami",
       "title": "Day 7 of the waxing moon",
-      "meaning": "Linked to Surya, the Sun. A steady day, traditionally good for travel and for honouring light and warmth."
+      "meaning": "Its lord is Surya, the Sun. A Bhadra (“blessed”) day, middling of the waxing half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "8": {
       "name": "Shukla Ashtami",
       "title": "Day 8 of the waxing moon",
-      "meaning": "The waxing half-moon, linked to the goddess Durga. A victorious day, often kept for devotion and inner strength."
+      "meaning": "Its lord is Shiva. A Jaya (“victory”) day, middling of the waxing half; if the act cannot wait, only its first 5½ hours (14 ghatikas) are avoided.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36"
     },
     "9": {
       "name": "Shukla Navami",
       "title": "Day 9 of the waxing moon",
-      "meaning": "Also linked to Durga. An empty day, traditionally used to finish and release rather than to begin."
+      "meaning": "Its lord is Durga. A Rikta (“empty”) day, middling of the waxing half; avoided for most work and for setting out on a journey; if the act cannot wait, only its first 10 hours (25 ghatikas) are avoided.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Kalaprakasika, p. 99, 150"
     },
     "10": {
       "name": "Shukla Dashami",
       "title": "Day 10 of the waxing moon",
-      "meaning": "Linked to Dharma, the right order of things. A full day, traditionally good for decisions and setting direction."
+      "meaning": "Its lord is Yama. A Purna (“full”) day, middling of the waxing half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "11": {
       "name": "Shukla Ekadashi",
       "title": "Day 11 of the waxing moon",
-      "meaning": "Linked to Vishnu. Traditionally a day of fasting or eating lightly, with time set aside for quiet and prayer."
+      "meaning": "Its lords are the Vishvedevas, all the gods. A Nanda (“delight”) day, one of the best of the waxing half; Drik lists the Ekadashi fast on it, dedicated to Vishnu.",
+      "source": "Muhurta Chintamani 1.3–4; Drik Panchang"
     },
     "12": {
       "name": "Shukla Dwadashi",
       "title": "Day 12 of the waxing moon",
-      "meaning": "Linked to Vishnu. Traditionally the day to gently break the Ekadashi fast and to give to others."
+      "meaning": "Its lord is Hari (Vishnu). A Bhadra (“blessed”) day, one of the best of the waxing half; if the act cannot wait, only its first 4 hours (10 ghatikas) are avoided; the Ekadashi fast is broken on it.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Drik Panchang"
     },
     "13": {
       "name": "Shukla Trayodashi",
       "title": "Day 13 of the waxing moon",
-      "meaning": "Linked to Kama, god of love, and to Shiva at dusk (Pradosha). A victorious day for warmth and connection."
+      "meaning": "Its lord is Kama. A Jaya (“victory”) day, one of the best of the waxing half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "14": {
       "name": "Shukla Chaturdashi",
       "title": "Day 14 of the waxing moon",
-      "meaning": "Linked to Shiva. The day before the full moon, an empty day traditionally used for preparation."
+      "meaning": "Its lord is Shiva. A Rikta (“empty”) day, one of the best of the waxing half; avoided for most work and for setting out on a journey; if the act cannot wait, only its first 2 hours (5 ghatikas) are avoided.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Kalaprakasika, p. 99, 150"
     },
     "15": {
       "name": "Purnima",
       "title": "Full moon",
-      "meaning": "The Moon is full and the month peaks. Traditionally a day of celebration, gratitude and rest."
+      "meaning": "Its lord is Chandra, the Moon. A Purna (“full”) day, one of the best of the waxing half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "16": {
       "name": "Krishna Pratipada",
       "title": "Day 1 of the waning moon",
-      "meaning": "The light begins to recede after the full moon. Traditionally a day to slow down and take stock."
+      "meaning": "Its lord is Agni. A Nanda (“delight”) day, one of the best of the waning half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "17": {
       "name": "Krishna Dwitiya",
       "title": "Day 2 of the waning moon",
-      "meaning": "A steady day as the moon wanes. Tradition favours practical, unhurried work."
+      "meaning": "Its lord is Brahma. A Bhadra (“blessed”) day, one of the best of the waning half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "18": {
       "name": "Krishna Tritiya",
       "title": "Day 3 of the waning moon",
-      "meaning": "A victorious day in the waning half, traditionally good for completing what has been started."
+      "meaning": "Its lord is Gauri. A Jaya (“victory”) day, one of the best of the waning half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "19": {
       "name": "Krishna Chaturthi",
       "title": "Day 4 of the waning moon",
-      "meaning": "Linked to Ganesha (Sankashti Chaturthi); many keep a vow until moonrise. An empty day for clearing obstacles."
+      "meaning": "Its lord is Ganesha. A Rikta (“empty”) day, one of the best of the waning half; avoided for most work and for setting out on a journey; if the act cannot wait, only its first 3 hours (8 ghatikas) are avoided.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Kalaprakasika, p. 99, 150"
     },
     "20": {
       "name": "Krishna Panchami",
       "title": "Day 5 of the waning moon",
-      "meaning": "A full day in the waning half. Traditionally good for study, reading and steady routines."
+      "meaning": "Its lord is the Serpent (Sarpa). A Purna (“full”) day, one of the best of the waning half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "21": {
       "name": "Krishna Shashthi",
       "title": "Day 6 of the waning moon",
-      "meaning": "A joyful day as the moon wanes, traditionally used for modest, patient effort."
+      "meaning": "Its lord is Skanda (Kartikeya). A Nanda (“delight”) day, middling of the waning half; if the act cannot wait, only its first 3½ hours (9 ghatikas) are avoided.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36"
     },
     "22": {
       "name": "Krishna Saptami",
       "title": "Day 7 of the waning moon",
-      "meaning": "Linked to the Sun. A steady day, traditionally good for order and routine."
+      "meaning": "Its lord is Surya, the Sun. A Bhadra (“blessed”) day, middling of the waning half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "23": {
       "name": "Krishna Ashtami",
       "title": "Day 8 of the waning moon",
-      "meaning": "The waning half-moon, linked to Durga and Kali. Traditionally a day for devotion and inner strength."
+      "meaning": "Its lord is Shiva. A Jaya (“victory”) day, middling of the waning half; if the act cannot wait, only its first 5½ hours (14 ghatikas) are avoided.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36"
     },
     "24": {
       "name": "Krishna Navami",
       "title": "Day 9 of the waning moon",
-      "meaning": "An empty day, traditionally used for letting go and finishing old tasks."
+      "meaning": "Its lord is Durga. A Rikta (“empty”) day, middling of the waning half; avoided for most work and for setting out on a journey; if the act cannot wait, only its first 10 hours (25 ghatikas) are avoided.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Kalaprakasika, p. 99, 150"
     },
     "25": {
       "name": "Krishna Dashami",
       "title": "Day 10 of the waning moon",
-      "meaning": "A full day, traditionally good for simple decisions and for preparing for Ekadashi."
+      "meaning": "Its lord is Yama. A Purna (“full”) day, middling of the waning half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "26": {
       "name": "Krishna Ekadashi",
       "title": "Day 11 of the waning moon",
-      "meaning": "The month's second Ekadashi, linked to Vishnu. Traditionally kept by fasting or eating lightly, and by quiet reflection."
+      "meaning": "Its lords are the Vishvedevas, all the gods. A Nanda (“delight”) day, one of the weakest of the waning half; Drik lists the Ekadashi fast on it, dedicated to Vishnu.",
+      "source": "Muhurta Chintamani 1.3–4; Drik Panchang"
     },
     "27": {
       "name": "Krishna Dwadashi",
       "title": "Day 12 of the waning moon",
-      "meaning": "Traditionally the day to break the Ekadashi fast and to share food with others."
+      "meaning": "Its lord is Hari (Vishnu). A Bhadra (“blessed”) day, one of the weakest of the waning half; if the act cannot wait, only its first 4 hours (10 ghatikas) are avoided; the Ekadashi fast is broken on it.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Drik Panchang"
     },
     "28": {
       "name": "Krishna Trayodashi",
       "title": "Day 13 of the waning moon",
-      "meaning": "Linked to Shiva at dusk (Pradosha). Traditionally a quiet evening for prayer or reflection."
+      "meaning": "Its lord is Kama. A Jaya (“victory”) day, one of the weakest of the waning half.",
+      "source": "Muhurta Chintamani 1.3–4"
     },
     "29": {
       "name": "Krishna Chaturdashi",
       "title": "Day 14 of the waning moon",
-      "meaning": "Linked to Shiva; its night is Masik Shivaratri, a monthly vigil. An empty day before the new moon."
+      "meaning": "Its lord is Shiva. A Rikta (“empty”) day, one of the weakest of the waning half; avoided for most work and for setting out on a journey; if the act cannot wait, only its first 2 hours (5 ghatikas) are avoided.",
+      "source": "Muhurta Chintamani 1.3–4, 1.36; Kalaprakasika, p. 99, 150"
     },
     "30": {
       "name": "Amavasya",
       "title": "New moon",
-      "meaning": "The Moon is dark and the month closes. Traditionally a day to remember ancestors, rest and turn inward."
+      "meaning": "Its lords are the Pitris, the ancestors. A Purna (“full”) day, one of the weakest of the waning half; avoided in all auspicious work.",
+      "source": "Muhurta Chintamani 1.3–4, 1.34–35"
     }
   },
   "nakshatra": {
     "1": {
       "name": "Ashwini",
-      "title": "Swift beginnings",
-      "meaning": "The star of the twin horsemen, physicians of the gods. Tradition sees quick, light energy — good for starting and travelling."
+      "title": "Star of the Ashvins",
+      "meaning": "Its deities are the Ashvins, physicians of the gods. A swift star: for trade, learning, ornaments, fine arts, skilled work and journeys.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "2": {
       "name": "Bharani",
-      "title": "Bearing and restraint",
-      "meaning": "Ruled by Yama, keeper of limits. Tradition sees a day for carrying responsibilities and for discipline rather than ease."
+      "title": "Star of Yama",
+      "meaning": "Its deity is Yama, the god of death. A fierce star: the text gives it only harmful acts, such as ruining enemies, deceit and setting fire.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "3": {
       "name": "Krittika",
-      "title": "The cutting flame",
-      "meaning": "Ruled by Agni, the fire. Tradition sees a sharp, purifying energy, good for decisions and cutting away the unnecessary."
+      "title": "Star of Agni",
+      "meaning": "Its deity is Agni, the fire. A mixed (tender-sharp) star with mixed results; Muhurta Chintamani gives it fire rites and ordinary work.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "4": {
       "name": "Rohini",
-      "title": "Growth and beauty",
-      "meaning": "Ruled by Brahma and loved by the Moon. A fixed, fertile star, traditionally good for planting, building and lasting work."
+      "title": "Star of Brahma",
+      "meaning": "Its deity is Brahma, the creator. A fixed star: for coronations, planting trees, founding towns, sowing and other things meant to last.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "5": {
       "name": "Mrigashira",
-      "title": "The searching deer",
-      "meaning": "Ruled by Soma, the Moon. A gentle, curious energy, traditionally good for exploring, learning and conversation."
+      "title": "Star of Soma",
+      "meaning": "Its deity is Soma, the Moon. A tender star: for making friends, union, new clothes and ornaments, auspicious ceremonies and singing.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "6": {
       "name": "Ardra",
-      "title": "Storm and renewal",
-      "meaning": "Ruled by Rudra, the storm. Tradition sees intensity that clears the air — a day for honest effort, not new ventures."
+      "title": "Star of Rudra",
+      "meaning": "Its deity is Rudra. A sharp star: the text gives it only harsh acts, such as attacks, imprisonment and separating friends.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "7": {
       "name": "Punarvasu",
-      "title": "The return of light",
-      "meaning": "Ruled by Aditi, mother of the gods. A moving, hopeful star, traditionally good for coming home, repairing and starting over."
+      "title": "Star of Aditi",
+      "meaning": "Its deity is Aditi. A movable star, good for passing things; Muhurta Chintamani gives it riding, gardens and travel.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "8": {
       "name": "Pushya",
-      "title": "Nourishment",
-      "meaning": "Ruled by Brihaspati, teacher of the gods. One of the most favourable stars in tradition, good for learning and care."
+      "title": "Star of Brihaspati",
+      "meaning": "Its deity is Brihaspati (Jupiter). A swift star: for trade, learning, ornaments, fine arts, skilled work and journeys; Raman calls it the most favourable star, for every purpose but marriage.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8; Raman, Muhurtha, p. 26–27"
     },
     "9": {
       "name": "Ashlesha",
-      "title": "The coiled serpent",
-      "meaning": "Ruled by the serpent deities. A sharp, penetrating energy, traditionally linked with insight and with avoiding entanglements."
+      "title": "Star of the Serpent",
+      "meaning": "Its deity is the Serpent. A sharp star: the text gives it only harsh acts, such as attacks, imprisonment and separating friends.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "10": {
       "name": "Magha",
-      "title": "The throne of ancestors",
-      "meaning": "Ruled by the ancestors (Pitris). Tradition sees a day for honouring lineage and the people who came before."
+      "title": "Star of the ancestors",
+      "meaning": "Its deities are the Pitris, the ancestors. A fierce star: the text gives it only harmful acts, such as ruining enemies, deceit and setting fire.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "11": {
       "name": "Purva Phalguni",
-      "title": "Rest and enjoyment",
-      "meaning": "Ruled by Bhaga, god of delight. Tradition sees a relaxed energy, good for leisure, friendship and creativity."
+      "title": "Star of Bhaga",
+      "meaning": "Its deity is Bhaga. A fierce star: the text gives it only harmful acts, such as ruining enemies, deceit and setting fire.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "12": {
       "name": "Uttara Phalguni",
-      "title": "Partnership and commitment",
-      "meaning": "Ruled by Aryaman, god of agreements. A fixed star, traditionally good for lasting agreements and strengthening relationships."
+      "title": "Star of Aryaman",
+      "meaning": "Its deity is Aryaman. A fixed star: for coronations, planting trees, founding towns, sowing and other things meant to last.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "13": {
       "name": "Hasta",
-      "title": "The skilled hand",
-      "meaning": "Ruled by Savitar, the Sun's creative power. A light, quick energy, traditionally good for crafts and practical work."
+      "title": "Star of Savitar",
+      "meaning": "Its deity is Savitar. A swift star: for trade, learning, ornaments, fine arts, skilled work and journeys.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "14": {
       "name": "Chitra",
-      "title": "The bright jewel",
-      "meaning": "Ruled by Tvashtar, the celestial craftsman. A soft star, traditionally good for design, art and making things beautiful."
+      "title": "Star of Tvashtar",
+      "meaning": "Its deity is Tvashtar. A tender star: for making friends, union, new clothes and ornaments, auspicious ceremonies and singing.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "15": {
       "name": "Swati",
-      "title": "The independent breeze",
-      "meaning": "Ruled by Vayu, the wind. A moving star, traditionally good for trade, travel and independent action."
+      "title": "Star of the Wind",
+      "meaning": "Its deity is Vayu, the wind. A movable star, good for passing things; Muhurta Chintamani gives it riding, gardens and travel.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "16": {
       "name": "Vishakha",
-      "title": "Focused purpose",
-      "meaning": "Ruled by Indra and Agni together. Tradition sees determination and a goal in sight, with patience needed to reach it."
+      "title": "Star of Indra and Agni",
+      "meaning": "Its deities are Indra and Agni. A mixed (tender-sharp) star with mixed results; Muhurta Chintamani gives it fire rites and ordinary work.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "17": {
       "name": "Anuradha",
-      "title": "Friendship and devotion",
-      "meaning": "Ruled by Mitra, god of friendship. A soft star, traditionally good for cooperation, groups and loyalty."
+      "title": "Star of Mitra",
+      "meaning": "Its deity is Mitra. A tender star: for making friends, union, new clothes and ornaments, auspicious ceremonies and singing.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "18": {
       "name": "Jyeshtha",
-      "title": "The eldest",
-      "meaning": "Ruled by Indra, king of the gods. Tradition sees responsibility and seniority — a day for leading carefully."
+      "title": "Star of Indra",
+      "meaning": "Its deity is Indra. A sharp star: the text gives it only harsh acts, such as attacks, imprisonment and separating friends.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "19": {
       "name": "Mula",
-      "title": "The root",
-      "meaning": "Ruled by Nirriti, goddess of dissolution. Tradition sees a day for getting to the root of things and letting go."
+      "title": "Star of Nirriti",
+      "meaning": "Its deity is Nirriti. A sharp star: the text gives it only harsh acts, such as attacks, imprisonment and separating friends.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "20": {
       "name": "Purva Ashadha",
-      "title": "Early victory",
-      "meaning": "Ruled by the Waters (Apas). Tradition sees conviction and fresh energy, good for persuading and renewing."
+      "title": "Star of the Waters",
+      "meaning": "Its deities are the Waters (Apah). A fierce star: the text gives it only harmful acts, such as ruining enemies, deceit and setting fire.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "21": {
       "name": "Uttara Ashadha",
-      "title": "Lasting victory",
-      "meaning": "Ruled by the universal gods (Vishvadevas). A fixed star, traditionally good for steady, principled achievement."
+      "title": "Star of the Vishvedevas",
+      "meaning": "Its deities are the Vishvedevas. A fixed star: for coronations, planting trees, founding towns, sowing and other things meant to last.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "22": {
       "name": "Shravana",
-      "title": "Listening",
-      "meaning": "Ruled by Vishnu. A moving star, traditionally good for learning, listening and travel."
+      "title": "Star of Vishnu",
+      "meaning": "Its deity is Vishnu. A movable star, good for passing things; Muhurta Chintamani gives it riding, gardens and travel.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "23": {
       "name": "Dhanishtha",
-      "title": "Rhythm and abundance",
-      "meaning": "Ruled by the eight Vasus. Tradition sees music, generosity and good timing."
+      "title": "Star of the Vasus",
+      "meaning": "Its deities are the Vasus. A movable star, good for passing things; Muhurta Chintamani gives it riding, gardens and travel.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "24": {
       "name": "Shatabhisha",
-      "title": "The hundred physicians",
-      "meaning": "Ruled by Varuna, lord of the cosmic waters. Tradition sees a quiet, inward star linked with secrets and solitude."
+      "title": "Star of Varuna",
+      "meaning": "Its deity is Varuna. A movable star, good for passing things; Muhurta Chintamani gives it riding, gardens and travel.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "25": {
       "name": "Purva Bhadrapada",
-      "title": "The fierce fire",
-      "meaning": "Ruled by Aja Ekapada, the one-footed goat. Tradition sees intensity and transformation — a day for serious effort."
+      "title": "Star of Aja Ekapada",
+      "meaning": "Its deity is Aja Ekapada. A fierce star: the text gives it only harmful acts, such as ruining enemies, deceit and setting fire.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "26": {
       "name": "Uttara Bhadrapada",
-      "title": "The calm depths",
-      "meaning": "Ruled by Ahir Budhnya, serpent of the deep. A fixed star, traditionally linked with wisdom, patience and steadiness."
+      "title": "Star of Ahirbudhnya",
+      "meaning": "Its deity is Ahirbudhnya. A fixed star: for coronations, planting trees, founding towns, sowing and other things meant to last.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     },
     "27": {
       "name": "Revati",
-      "title": "Safe journeys",
-      "meaning": "Ruled by Pushan, protector of travellers. The last star, soft and gentle, traditionally good for journeys and completions."
+      "title": "Star of Pushan",
+      "meaning": "Its deity is Pushan. A tender star: for making friends, union, new clothes and ornaments, auspicious ceremonies and singing.",
+      "source": "Brihat Samhita 98.4–11; Muhurta Chintamani 2.2–8"
     }
   },
   "yoga": {
     "1": {
       "name": "Vishkambha",
-      "title": "The supporting pillar",
-      "meaning": "Tradition treats it as a yoga of obstacles; new beginnings are usually postponed."
+      "title": "Prop",
+      "meaning": "The name means “a prop, a support”. In all auspicious work its first 3 ghatikas (about 72 minutes) are avoided.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 998"
     },
     "2": {
       "name": "Priti",
-      "title": "Affection",
-      "meaning": "A favourable yoga, traditionally good for friendship, reconciliation and pleasant meetings."
+      "title": "Joy",
+      "meaning": "The name means “joy, affection”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 711"
     },
     "3": {
       "name": "Ayushman",
-      "title": "Long life",
-      "meaning": "A favourable yoga, traditionally good for undertakings meant to last."
+      "title": "Long-lived",
+      "meaning": "The name means “long-lived”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 149"
     },
     "4": {
       "name": "Saubhagya",
       "title": "Good fortune",
-      "meaning": "A favourable yoga, traditionally good for celebrations and family matters."
+      "meaning": "The name means “good fortune”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1253"
     },
     "5": {
       "name": "Shobhana",
-      "title": "Splendour",
-      "meaning": "A favourable yoga, traditionally good for beauty, travel and joyful events."
+      "title": "Splendid",
+      "meaning": "The name means “splendid, beautiful”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1092"
     },
     "6": {
       "name": "Atiganda",
-      "title": "Great difficulty",
-      "meaning": "Traditionally an unfavourable yoga; important beginnings are usually avoided."
+      "title": "Large-cheeked",
+      "meaning": "The name means “having large cheeks”. In all auspicious work its first 6 ghatikas (about 2½ hours) are avoided.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 12"
     },
     "7": {
       "name": "Sukarma",
-      "title": "Good deeds",
-      "meaning": "A favourable yoga, traditionally good for honest work and helping others."
+      "title": "Good work",
+      "meaning": "The name means “a good work”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1220"
     },
     "8": {
       "name": "Dhriti",
-      "title": "Steadiness",
-      "meaning": "A favourable yoga, traditionally good for patient, lasting work."
+      "title": "Firmness",
+      "meaning": "The name means “firmness, constancy”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 519"
     },
     "9": {
       "name": "Shula",
-      "title": "The spear",
-      "meaning": "Traditionally an unfavourable yoga, linked with friction; best kept for routine tasks."
+      "title": "Spear",
+      "meaning": "The name means “a spear, a spike”. In all auspicious work its first 5 ghatikas (2 hours) are avoided.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1086"
     },
     "10": {
       "name": "Ganda",
-      "title": "The knot",
-      "meaning": "Traditionally an unfavourable yoga; tradition advises caution and avoiding new ventures."
+      "title": "Cheek",
+      "meaning": "The name means “the cheek”. In all auspicious work its first 6 ghatikas (about 2½ hours) are avoided.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 344"
     },
     "11": {
       "name": "Vriddhi",
       "title": "Growth",
-      "meaning": "A favourable yoga, traditionally good for anything you want to grow: savings, learning, gardens."
+      "meaning": "The name means “growth, increase”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1011"
     },
     "12": {
       "name": "Dhruva",
-      "title": "The constant",
-      "meaning": "A fixed, favourable yoga, traditionally good for lasting foundations."
+      "title": "Constant",
+      "meaning": "The name means “fixed, constant”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 521"
     },
     "13": {
       "name": "Vyaghata",
-      "title": "The blow",
-      "meaning": "Traditionally an unfavourable yoga, linked with conflict; a day to act gently."
+      "title": "Blow",
+      "meaning": "The name means “a blow, an obstacle”. In all auspicious work its first 9 ghatikas (about 3½ hours) are avoided.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1036"
     },
     "14": {
       "name": "Harshana",
-      "title": "Delight",
-      "meaning": "A favourable yoga, traditionally good for celebration and good news."
+      "title": "Gladdening",
+      "meaning": "The name means “gladdening, delightful”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1292"
     },
     "15": {
       "name": "Vajra",
-      "title": "The thunderbolt",
-      "meaning": "A forceful yoga that tradition treats with caution, especially for travel."
+      "title": "Thunderbolt",
+      "meaning": "The name means “a thunderbolt”. In all auspicious work its first 3 ghatikas (about 72 minutes) are avoided.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 913"
     },
     "16": {
       "name": "Siddhi",
-      "title": "Accomplishment",
-      "meaning": "A favourable yoga, traditionally good for completing and succeeding."
+      "title": "Success",
+      "meaning": "The name means “success, accomplishment”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1216"
     },
     "17": {
       "name": "Vyatipata",
       "title": "Calamity",
-      "meaning": "One of the most avoided yogas in tradition; important beginnings are postponed."
+      "meaning": "The name means “a great calamity”. Avoided whole in all auspicious work; if the act cannot wait, after midday is acceptable.",
+      "source": "Muhurta Chintamani 1.34–35, 1.42; Monier-Williams, Sanskrit-English Dictionary, p. 1030"
     },
     "18": {
       "name": "Variyana",
-      "title": "Comfort",
-      "meaning": "A favourable yoga, traditionally good for ease, comfort and generosity."
+      "title": "Most excellent",
+      "meaning": "The name means “better, most excellent”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 923"
     },
     "19": {
       "name": "Parigha",
-      "title": "The iron bar",
-      "meaning": "Traditionally an obstructive yoga; best for steady work rather than new starts."
+      "title": "Iron bar",
+      "meaning": "The name means “an iron bar, an obstacle”. In all auspicious work its first half is avoided.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 593"
     },
     "20": {
       "name": "Shiva",
-      "title": "Benevolent",
-      "meaning": "A favourable yoga named after Shiva, traditionally good for prayer, study and learning."
+      "title": "Gracious",
+      "meaning": "The name means “auspicious, gracious”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1074"
     },
     "21": {
       "name": "Siddha",
-      "title": "Ready",
-      "meaning": "A favourable yoga, traditionally good for beginning things with confidence."
+      "title": "Accomplished",
+      "meaning": "The name means “accomplished, successful”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1215"
     },
     "22": {
       "name": "Sadhya",
-      "title": "Achievable",
-      "meaning": "A favourable yoga, traditionally good for practice and steady progress."
+      "title": "Attainable",
+      "meaning": "The name means “attainable”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1202"
     },
     "23": {
       "name": "Shubha",
-      "title": "Auspicious",
-      "meaning": "A favourable yoga, traditionally good for ceremonies and good beginnings."
+      "title": "Good",
+      "meaning": "The name means “good, auspicious”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1083"
     },
     "24": {
       "name": "Shukla",
-      "title": "Brightness",
-      "meaning": "A favourable yoga, traditionally linked with clarity and honest dealings."
+      "title": "Bright",
+      "meaning": "The name means “bright, white”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 1080"
     },
     "25": {
       "name": "Brahma",
-      "title": "Expansive wisdom",
-      "meaning": "A favourable yoga, traditionally good for learning, teaching and study."
+      "title": "Sacred word",
+      "meaning": "The name means “the sacred word, the Veda”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 737"
     },
     "26": {
       "name": "Indra",
-      "title": "Leadership",
-      "meaning": "A favourable yoga, traditionally good for authority, public matters and recognition."
+      "title": "The chief",
+      "meaning": "The name means “the chief, the best (and the god Indra)”. The texts give no rule for it, so it does not change the day’s verdict.",
+      "source": "Muhurta Chintamani 1.34–35; Monier-Williams, Sanskrit-English Dictionary, p. 166"
     },
     "27": {
       "name": "Vaidhriti",
       "title": "Division",
-      "meaning": "Like Vyatipata, one of the most avoided yogas in tradition; a day for routine."
+      "meaning": "The name means “division (from vi-dhṛti)”. Avoided whole in all auspicious work; if the act cannot wait, after midday is acceptable.",
+      "source": "Muhurta Chintamani 1.34–35, 1.42; Monier-Williams, Sanskrit-English Dictionary, p. 969"
     }
   },
   "karana": {
     "1": {
       "name": "Bava",
-      "title": "Strength for beginnings",
-      "meaning": "A moving karana, traditionally good for starting things and for steady work."
+      "title": "Good works",
+      "meaning": "Its lord is Indra. For auspicious things, both passing and lasting.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "2": {
       "name": "Balava",
-      "title": "Learning and ritual",
-      "meaning": "A moving karana, traditionally good for study, prayer and religious work."
+      "title": "Rites and merit",
+      "meaning": "Its lord is Brahma. For religious and meritorious acts.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "3": {
       "name": "Kaulava",
-      "title": "Friendship",
-      "meaning": "A moving karana, traditionally good for friends, family and partnerships."
+      "title": "Love and friends",
+      "meaning": "Its lord is Mitra. For things based on love, and for choosing friends.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "4": {
       "name": "Taitila",
-      "title": "Home and comfort",
-      "meaning": "A moving karana, traditionally good for the home and family matters."
+      "title": "House and shelter",
+      "meaning": "Its lord is Aryaman. For house matters and finding shelter.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "5": {
       "name": "Garaja",
-      "title": "Fields and building",
-      "meaning": "A moving karana, traditionally good for practical work, land and building."
+      "title": "Fields and seeds",
+      "meaning": "Its lord is the Earth. For tilling land, seeds, house and shelter.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "6": {
       "name": "Vanija",
       "title": "Trade",
-      "meaning": "A moving karana, traditionally good for buying, selling and business."
+      "meaning": "Its lord is Sri. For trade, partnerships and long-standing affairs.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "7": {
       "name": "Vishti",
-      "title": "Bhadra — a pause",
-      "meaning": "The one moving karana tradition avoids: important beginnings wait until it ends."
+      "title": "Bhadra, avoided",
+      "meaning": "Its lord is Yama. Nothing done in it turns out well except attacks and harsh acts; it is avoided in all auspicious work.",
+      "source": "Brihat Samhita 100.1–5; Muhurta Chintamani 1.34"
     },
     "8": {
       "name": "Shakuni",
-      "title": "The bird",
-      "meaning": "One of four fixed karanas that come only around the new moon. Tradition keeps important beginnings for later."
+      "title": "Herbs and spells",
+      "meaning": "Its lord is Kali. Herbs, roots and spells bear fruit in it.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "9": {
       "name": "Chatushpada",
-      "title": "The four-footed",
-      "meaning": "A fixed karana at the new moon, traditionally linked with animals and with offerings to ancestors."
+      "title": "Cows and ancestors",
+      "meaning": "Its lord is the Bull (Vrisha). For matters of cows, Brahmins, ancestors and the state.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "10": {
       "name": "Naga",
-      "title": "The serpent",
-      "meaning": "A fixed karana at the new moon, traditionally kept for hard, lasting tasks rather than new starts."
+      "title": "Harsh deeds",
+      "meaning": "Its lord is the Serpent. For long-standing works, harsh deeds and taking by force.",
+      "source": "Brihat Samhita 100.1–5"
     },
     "11": {
       "name": "Kimstughna",
-      "title": "The first sliver",
-      "meaning": "The first karana after the new moon and the last of the four fixed ones. Tradition gives it a quiet, steady character."
+      "title": "Merit and ceremonies",
+      "meaning": "Its lord is the Wind (Maruta). For meritorious deeds, sacrifices and auspicious ceremonies.",
+      "source": "Brihat Samhita 100.1–5"
     }
   },
   "vara": {
     "0": {
       "name": "Ravivara",
       "title": "Sunday — the Sun's day",
-      "meaning": "Ruled by the Sun. Traditionally a day for confidence, leadership and honouring light."
+      "meaning": "Ruled by the Sun. Paired with the fixed stars, so its acts are theirs: foundations, coronations, sowing, things meant to last.",
+      "source": "Muhurta Chintamani 2.2–8"
     },
     "1": {
       "name": "Somavara",
       "title": "Monday — the Moon's day",
-      "meaning": "Ruled by the Moon. Traditionally a gentle day for home, care and feelings."
+      "meaning": "Ruled by the Moon. Paired with the movable stars: riding, gardens and travel.",
+      "source": "Muhurta Chintamani 2.2–8"
     },
     "2": {
       "name": "Mangalavara",
       "title": "Tuesday — Mars's day",
-      "meaning": "Ruled by Mars. Traditionally a day of energy and courage, and of care around conflict."
+      "meaning": "Ruled by Mars. Paired with the fierce stars, whose acts are harmful ones; after midday it is not counted as evil.",
+      "source": "Muhurta Chintamani 2.2–8, 1.42; Kalaprakasika, p. 193"
     },
     "3": {
       "name": "Budhavara",
       "title": "Wednesday — Mercury's day",
-      "meaning": "Ruled by Mercury. Traditionally a day for learning, writing, trade and communication."
+      "meaning": "Ruled by Mercury. Paired with the mixed stars: fire rites and ordinary work.",
+      "source": "Muhurta Chintamani 2.2–8"
     },
     "4": {
       "name": "Guruvara",
       "title": "Thursday — Jupiter's day",
-      "meaning": "Ruled by Jupiter, teacher of the gods. Traditionally a day for wisdom, teachers and generosity."
+      "meaning": "Ruled by Jupiter. Paired with the swift stars: trade, union, learning, ornaments, painting and music.",
+      "source": "Muhurta Chintamani 2.2–8"
     },
     "5": {
       "name": "Shukravara",
       "title": "Friday — Venus's day",
-      "meaning": "Ruled by Venus. Traditionally a day for beauty, art, relationships and pleasure."
+      "meaning": "Ruled by Venus. Paired with the tender stars: singing, clothes, play, friendship and ornaments.",
+      "source": "Muhurta Chintamani 2.2–8"
     },
     "6": {
       "name": "Shanivara",
       "title": "Saturday — Saturn's day",
-      "meaning": "Ruled by Saturn. Traditionally a day for discipline, patience and finishing work."
+      "meaning": "Ruled by Saturn. Paired with the sharp stars: harsh acts, division, training animals.",
+      "source": "Muhurta Chintamani 2.2–8"
     }
   },
   "rhythm": {
     "restFullMoon": {
-      "name": "Purnima rest",
-      "title": "A full-moon rest day",
-      "meaning": "Tradition kept three days of rest around each full moon: the day before, the day itself and the day after. Many use them as slower days and for celebration."
+      "name": "Purnima parvan",
+      "title": "Full-moon day of restraint",
+      "meaning": "On the full-moon day the householder and his wife fast, eating once, and the Veda is not studied.",
+      "source": "Apastamba Dharmasutra 2.1.1.4; Manu 4.113–114"
     },
     "restNewMoon": {
-      "name": "Amavasya rest",
-      "title": "A new-moon rest day",
-      "meaning": "Tradition rested at the new moon; the source speaks of two days but does not say which is the second, so VedaCal marks the new-moon day. A natural time to slow down and turn inward."
+      "name": "Amavasya parvan",
+      "title": "New-moon days of restraint",
+      "meaning": "Veda study stops for two days at the new moon: the new-moon day and the day before. On the new-moon day the householder and his wife fast, eating once.",
+      "source": "Apastamba Dharmasutra 1.3.9.28 (Haradatta), 2.1.1.4; Gautama Dharmasutra 16.35–36; Manu 4.113–114"
     },
     "ekadashi": {
       "name": "Ekadashi",
-      "title": "Ekadashi — a lighter day",
-      "meaning": "The 11th day of each half of the lunar month, sacred to Vishnu. Traditionally kept by fasting or eating lightly; many simply keep it as a quieter, simpler day."
+      "title": "Ekadashi — fast day",
+      "meaning": "The 11th lunar day of each half of the month. Drik lists it as a fast day dedicated to Vishnu.",
+      "source": "Drik Panchang"
     },
     "uttarayana": {
       "name": "Uttarayana",
       "title": "The Sun's northward half-year",
-      "meaning": "From the December solstice the Sun moves north. Tradition sees this half-year as a time of growth, learning and outward effort."
+      "meaning": "From the December solstice the Sun’s path climbs north each day, until the June solstice.",
+      "source": "Drik Panchang (Drik Ayana)"
     },
     "dakshinayana": {
       "name": "Dakshinayana",
       "title": "The Sun's southward half-year",
-      "meaning": "From the June solstice the Sun moves south. Tradition sees this half-year as a time of reflection and turning inward."
+      "meaning": "From the June solstice the Sun’s path sinks south each day, until the December solstice.",
+      "source": "Drik Panchang (Drik Ayana)"
     },
     "ritu1": {
       "name": "Vasanta",
       "title": "Spring",
-      "meaning": "The season of renewal, roughly mid-February to mid-April. Tradition calls it the king of seasons, a time of festivals and fresh starts."
+      "meaning": "The Sun in Pisces and Aries of the Western zodiac, roughly mid-February to mid-April.",
+      "source": "Drik Panchang (Drik Ritu)"
     },
     "ritu2": {
       "name": "Grishma",
       "title": "Summer",
-      "meaning": "Long, hot days, roughly mid-April to mid-June. Tradition favours slower afternoons and simple routines."
+      "meaning": "The Sun in Taurus and Gemini of the Western zodiac, roughly mid-April to mid-June.",
+      "source": "Drik Panchang (Drik Ritu)"
     },
     "ritu3": {
       "name": "Varsha",
       "title": "The rains",
-      "meaning": "The monsoon season in India, roughly mid-June to mid-August. Tradition sees a time for staying close to home, study and retreat."
+      "meaning": "The Sun in Cancer and Leo of the Western zodiac, roughly mid-June to mid-August.",
+      "source": "Drik Panchang (Drik Ritu)"
     },
     "ritu4": {
       "name": "Sharad",
       "title": "Autumn",
-      "meaning": "Clear skies and bright moons, roughly mid-August to mid-October. Tradition celebrates harvests and the great Navaratri festivals."
+      "meaning": "The Sun in Virgo and Libra of the Western zodiac, roughly mid-August to mid-October.",
+      "source": "Drik Panchang (Drik Ritu)"
     },
     "ritu5": {
       "name": "Hemanta",
       "title": "Early winter",
-      "meaning": "Cool and settled, roughly mid-October to mid-December. Tradition sees a season of stability, gathering and warmth at home."
+      "meaning": "The Sun in Scorpio and Sagittarius of the Western zodiac, roughly mid-October to mid-December.",
+      "source": "Drik Panchang (Drik Ritu)"
     },
     "ritu6": {
       "name": "Shishira",
       "title": "Late winter",
-      "meaning": "The coldest season, roughly mid-December to mid-February. Tradition sees a time of rest and of waiting for spring."
+      "meaning": "The Sun in Capricorn and Aquarius of the Western zodiac, roughly mid-December to mid-February.",
+      "source": "Drik Panchang (Drik Ritu)"
     }
   },
   "sheets": {
     "tithi": "A tithi is a lunar day: the time the Moon takes to pull a little further ahead of the Sun (12°, one thirtieth of a full circle). Because the Moon's pace varies, a lunar day lasts about 19 to 26 hours and can begin at any hour. A lunar month has 30: fifteen while the Moon grows (Shukla) and fifteen while it shrinks (Krishna).",
     "nakshatra": "The band of sky the Moon travels along is divided into 27 equal sections, each named after a star or star group in it. The Moon passes through about one section a day. Each section has a guardian deity and its own meaning.",
-    "yoga": "Add up how far the Sun and the Moon have each travelled around the sky, and the total falls into one of 27 equal sections: that section is the yoga. It changes about once a day. Each yoga has its own name and meaning. Tradition avoids four of them (Atiganda, Ganda, Vyatipata, Vaidhriti) for important beginnings.",
+    "yoga": "Add up how far the Sun and the Moon have each travelled around the sky, and the total falls into one of 27 equal sections: that section is the yoga. It changes about once a day. Each yoga has its own name. Muhurta Chintamani (1.34–35) avoids nine of them in auspicious work: Vyatipata and Vaidhriti whole, Parigha for its first half, and six others for their first hours.",
     "karana": "A karana is half a lunar day, so each lunar day has two. There are eleven kinds: seven repeat in turn through the month, and four come only around the new moon.",
     "vara": "The weekday. In the traditional calendar it runs from sunrise to sunrise, not from midnight. Each day belongs to one of the seven heavenly lights seen by eye: Sun, Moon, Mars, Mercury, Jupiter, Venus or Saturn, the same ones behind the names Sunday, Monday and Saturday. That light decides which name the day's Choghadiya (hour by hour) starts with.",
-    "brahma": "Brahma Muhurta, \"the creator's hour\", is the second-last of the night's fifteen equal parts (muhurtas), so it ends one part before sunrise. Its length follows the length of the night.",
+    "brahma": "Brahma Muhurta is the second-last of the night's fifteen equal parts (muhurtas), so it ends one part before sunrise. Its length follows the length of the night.",
     "abhijit": "Abhijit Muhurta, \"the victorious hour\", is the middle of the day's fifteen equal parts, around local noon, when the Sun stands highest. Its length follows the length of the day. It is not used on Wednesdays, so VedaCal shows none then.",
-    "rahuKaal": "Daylight, sunrise to sunset, splits into eight equal parts; Rahu Kaal is one of them, a different one each weekday, so its length follows the length of the day. Rahu is the shadow that, in myth, swallows the Sun at an eclipse.",
-    "yamaganda": "Yamaganda is one of the eight equal parts of daylight, a different one each weekday. It is named after Yama, god of death and justice.",
+    "rahuKaal": "Daylight, sunrise to sunset, splits into eight equal parts; Rahu Kaal is one of them, a different one each weekday, so its length follows the length of the day.",
+    "yamaganda": "Yamaganda is one of the eight equal parts of daylight, a different one each weekday. It is named after Yama, god of death.",
     "gulika": "Gulika (Gulikai) is one of the eight equal parts of daylight, a different one each weekday, and is linked to Saturn. Drik Panchang and Shubh Panchang list it among the times to avoid, with Rahu Kaal and Yamaganda.",
-    "choghadiya": "Choghadiya splits the day (sunrise to sunset) and the night (sunset to the next sunrise) into eight equal parts each, so their length follows the length of the day and of the night, and gives each part one of seven names. Three are good (Amrit, Shubh, Labh), one is neutral (Chal) and three are best avoided (Udveg, Rog, Kaal); their order depends on the weekday. It is popular in North and West India for choosing a time to travel or start something, and a good part that falls in Rahu Kaal is still avoided.",
+    "choghadiya": "Choghadiya splits the day (sunrise to sunset) and the night (sunset to the next sunrise) into eight equal parts each, so their length follows the length of the day and of the night, and gives each part one of seven names. Their order depends on the weekday. Drik counts four as good for starting auspicious work (Amrit, Shubh, Labh, Chal) and three as bad (Udveg, Rog, Kaal); Shubh Panchang calls Chal neutral, and so does VedaCal. Drik says it was used for travel above all, and that a good part falling in Rahu Kaal is still avoided. It is a popular practice with no classical source, so VedaCal shows it but does not count it.",
     "ritu": "The Indian year has six seasons (Ritu) of about two months each, set by the Sun: Vasanta, spring (mid-February to mid-April); Grishma, summer (to mid-June); Varsha, the rains (to mid-August); Sharad, autumn (to mid-October); Hemanta, early winter (to mid-December); Shishira, late winter (to mid-February).",
-    "rhythm": "The traditional rhythm follows the Moon and the Sun: rest days around the full and new moon, the Ekadashi fast twice a month, six seasons instead of four, and two half-years, as the Sun's path moves north after the December solstice and south after the June one.",
+    "rhythm": "The traditional rhythm follows the Moon and the Sun: days of restraint at the new and the full moon, the Ekadashi fast twice a month, six seasons instead of four, and two half-years, as the Sun's path moves north after the December solstice and south after the June one.",
     "times": "All times are for {city} and calculated on your device. Sunrise is when the top edge of the Sun appears, the same rule as Drik Panchang, the most widely used online Hindu calendar. VedaCal's times differ from it by less than 2 minutes.",
     "about": "VedaCal shows the traditional Hindu lunar calendar (Panchang) in plain words. Everything is calculated on your device and nothing is sent anywhere. The guidance describes tradition and is not medical or professional advice. City data © GeoNames, CC BY 4.0.",
     "masa": "A lunar month lasts one cycle of the Moon, about 29.5 days, so it begins on a different Western date each year. A month takes its name from the sign the Sun moves into during it (when the Sun enters Aries, it is Chaitra). The names themselves were given long ago after the star near which the month's full moon falls (Chaitra from Chitra, Kartika from Krittika); today the match is only approximate. VedaCal counts months from full moon to full moon, as in North India; South and West India count from new moon to new moon, so for half of each month the name there is one behind. About every three years an extra month (Adhika) is added so that the calendar keeps pace with the seasons.",
     "rashi": "The Sun and the Moon move through the twelve signs of the zodiac. Vedic astrology ties the signs to the stars, Western astrology to the seasons, and over the centuries the two have drifted about 24°, almost a whole sign, apart. So a Moon in Gemini by the Vedic count is often in Cancer by the Western one. Choose which one VedaCal shows in Settings.",
     "parana": "Ekadashi is a fast kept twice a month and ended the next day. VedaCal shows when to end it: not too early, because the first quarter of the twelfth lunar day (Hari Vasara) still counts as part of the fast, and not too late, while the twelfth lunar day (Dwadashi) is still running. Usually that is the first few hours after sunrise (the first fifth of the daylight). When Hari Vasara runs long, the time moves to the afternoon (the fourth fifth), because tradition avoids midday.",
-    "eclipse": "An eclipse (Grahan) is a time to avoid. VedaCal shows the part that can be seen from your location: for the Moon, from its first to its last contact with the Earth's shadow, while the Moon is up; for the Sun, from first to last contact, while the Sun is up.",
-    "sankranti": "Sankranti is the moment the Sun moves into the next sign of the Vedic zodiac, twelve times a year. Each one opens a solar month; Makara Sankranti in mid-January, a harvest festival, is celebrated across India.",
-    "pushya": "Pushya, \"nourishment\", is one of the Moon's 27 star sections and is held the most favourable of them. Guru Pushya is the Moon in Pushya on a Thursday, Ravi Pushya on a Sunday; the times shown are when the two overlap.",
+    "eclipse": "VedaCal shows the part that can be seen from your location: for the Moon, from its first to its last contact with the Earth's shadow, while the Moon is up; for the Sun, from first to last contact, while the Sun is up.",
+    "sankranti": "Sankranti is the moment the Sun moves into the next sign of the Vedic zodiac, twelve times a year. Each one opens a solar month.",
+    "pushya": "Pushya, \"nourishment\", is one of the Moon's 27 star sections; Raman calls it the most favourable of them, for every purpose but marriage (Muhurtha, p. 26–27). Guru Pushya is the Moon in Pushya on a Thursday, Ravi Pushya on a Sunday; the times shown are when the two overlap.",
     "amritSiddhi": "Amrit Siddhi, \"nectar of success\", forms when a weekday meets its own Moon star: Sunday with Hasta, Monday with Mrigashira, Tuesday with Ashwini, Wednesday with Anuradha, Thursday with Pushya, Friday with Revati, Saturday with Rohini. It comes one to three times a month; the times shown are when the two overlap.",
-    "sarvarthaSiddhi": "Sarvartha Siddhi, \"success in every aim\", forms when the weekday and the Moon's star are one of about thirty traditionally helpful pairs. It is common, about ten days a month, so VedaCal does not mark it on the month. The times shown are when the two overlap.",
+    "sarvarthaSiddhi": "Sarvartha Siddhi, \"success in every aim\", forms when the weekday and the Moon's star are one of the 34 pairs listed in Muhurta Chintamani (1.28–29). It is common, about ten days a month, so VedaCal does not mark it on the month. The times shown are when the two overlap.",
     "bhadra": "Bhadra is the half lunar day called Vishti, which comes about eight times a month and lasts some twelve hours.",
     "vyatipata": "Vyatipata is one of the 27 yogas, the sum of the Sun's and the Moon's positions, and comes about once a month for about a day.",
     "vaidhriti": "Vaidhriti is the last of the 27 yogas and, like Vyatipata, comes about once a month for about a day."
@@ -622,7 +735,7 @@
     "legendCalmTime": "Calm time",
     "legendGoodTime": "Good time",
     "legendAvoidTime": "Time to avoid",
-    "labelYamaganda": "Time of setbacks",
+    "labelYamaganda": "Yama's time",
     "labelGulika": "Saturn's time",
     "labelChoghadiya": "Hour by hour",
     "moonrise": "Moonrise",
@@ -688,7 +801,7 @@
     "close": "Close",
     "stateWaxing": "Waxing",
     "stateWaning": "Waning",
-    "restDay": "Rest day",
+    "restDay": "Day of restraint",
     "season": "{title} · {name}",
     "seasonDay": "Day {day} of {length}",
     "back": "Back",
@@ -697,7 +810,7 @@
     "nextDay": "Next day",
     "previousMonth": "Previous month",
     "nextMonth": "Next month",
-    "legendRest": "Rest day",
+    "legendRest": "Day of restraint",
     "legendEkadashi": "Fasting day",
     "legendSeason": "Season",
     "legendFasting": "Fasting",
@@ -724,7 +837,7 @@
     "hours12": "12 h",
     "hours24": "24 h",
     "labelEclipse": "Eclipse",
-    "windowBhadra": "Pause",
+    "windowBhadra": "Bhadra (Vishti)",
     "windowVyatipata": "Calamity",
     "windowVaidhriti": "Division",
     "labelSankranti": "Sun changes sign",
@@ -744,7 +857,7 @@
     "sunEntersVedic": "Sun enters {sign} (Vedic)",
     "legendFavoured": "Favoured day",
     "legendEclipse": "Eclipse",
-    "legendRestNote": "Around the new and the full moon",
+    "legendRestNote": "The new moon (2 days) and the full moon",
     "legendEkadashiNote": "The 11th lunar day, twice a month",
     "legendFavouredNote": "Traditionally good for beginnings",
     "legendEclipseNote": "By tradition, nothing new is started",
@@ -767,7 +880,7 @@
     "guideUseHead": "How to use it",
     "guideUseDay": "Day — the Moon today, the day’s good times and times to avoid, and its facts. The ‹ › arrows change the day; “Today” brings you back.",
     "guideUseTap": "Tap any name — the Moon, a time, a fact — to read what it means.",
-    "guideUseMonth": "Month — the Moon’s shape on every day, rest days, fast days and special days. Tap a day to open it.",
+    "guideUseMonth": "Month — the Moon’s shape on every day, days of restraint, fast days and special days. Tap a day to open it.",
     "guideUseSky": "Sky — where the Sun, the Moon and the star sectors stand, seen from above. Press play to watch them move.",
     "guideUseSettings": "Settings — your city or your location, language, Vedic or Western signs, 12- or 24-hour clock, and theme.",
     "guideOfflineHead": "Offline, updates and removal",
@@ -861,161 +974,192 @@
     "1": {
       "name": "Chaitra",
       "title": "March–April",
-      "meaning": "Named after the star Chitra, near which its full moon falls. Festivals: the new year (Ugadi, Gudi Padwa), Chaitra Navaratri, Rama Navami, Hanuman Jayanti."
+      "meaning": "Named after the star Chitra, near which its full moon falls. Festivals: the new year (Ugadi, Gudi Padwa), Chaitra Navaratri, Rama Navami, Hanuman Jayanti.",
+      "source": "The Calendars of India (arXiv:1007.0062); festivals: Drik Panchang"
     },
     "2": {
       "name": "Vaishakha",
       "title": "April–May",
-      "meaning": "Named after the star Vishakha, near which its full moon falls. Festivals: Akshaya Tritiya, Buddha Purnima."
+      "meaning": "Named after the star Vishakha, near which its full moon falls. Festivals: Akshaya Tritiya, Buddha Purnima.",
+      "source": "The Calendars of India (arXiv:1007.0062); festivals: Drik Panchang"
     },
     "3": {
       "name": "Jyeshtha",
       "title": "May–June",
-      "meaning": "Named after the star Jyeshtha, near which its full moon falls. Festivals: Ganga Dussehra, Nirjala Ekadashi."
+      "meaning": "Named after the star Jyeshtha, near which its full moon falls. Festivals: Ganga Dussehra, Nirjala Ekadashi.",
+      "source": "The Calendars of India (arXiv:1007.0062); festivals: Drik Panchang"
     },
     "4": {
       "name": "Ashadha",
       "title": "June–July",
-      "meaning": "Named after the star Purva Ashadha, near which its full moon falls. Festivals: Ratha Yatra, Devshayani Ekadashi, Guru Purnima."
+      "meaning": "Named after the star Purva Ashadha, near which its full moon falls. Festivals: Ratha Yatra, Devshayani Ekadashi, Guru Purnima.",
+      "source": "The Calendars of India (arXiv:1007.0062); festivals: Drik Panchang"
     },
     "5": {
       "name": "Shravana",
       "title": "July–August",
-      "meaning": "Named after the star Shravana, near which its full moon falls. Festivals: Nag Panchami, Raksha Bandhan."
+      "meaning": "Named after the star Shravana, near which its full moon falls. Festivals: Nag Panchami, Raksha Bandhan.",
+      "source": "The Calendars of India (arXiv:1007.0062); festivals: Drik Panchang"
     },
     "6": {
       "name": "Bhadrapada",
       "title": "August–September",
-      "meaning": "Named after the star Purva Bhadrapada, near which its full moon falls. Festivals: Krishna Janmashtami, Ganesh Chaturthi."
+      "meaning": "Named after the star Purva Bhadrapada, near which its full moon falls. Festivals: Krishna Janmashtami, Ganesh Chaturthi.",
+      "source": "The Calendars of India (arXiv:1007.0062); festivals: Drik Panchang"
     },
     "7": {
       "name": "Ashwina",
       "title": "September–October",
-      "meaning": "Named after the star Ashwini, near which its full moon falls. Festivals: Pitru Paksha, Navaratri, Dussehra, Sharad Purnima."
+      "meaning": "Named after the star Ashwini, near which its full moon falls. Festivals: Pitru Paksha, Navaratri, Dussehra, Sharad Purnima.",
+      "source": "The Calendars of India (arXiv:1007.0062); festivals: Drik Panchang"
     },
     "8": {
       "name": "Kartika",
       "title": "October–November",
-      "meaning": "Named after the star Krittika, near which its full moon falls. Festivals: Diwali, Govardhan Puja, Bhai Dooj, Kartika Purnima."
+      "meaning": "Named after the star Krittika, near which its full moon falls. Festivals: Diwali, Govardhan Puja, Bhai Dooj, Kartika Purnima.",
+      "source": "The Calendars of India (arXiv:1007.0062); festivals: Drik Panchang"
     },
     "9": {
       "name": "Margashirsha",
       "title": "November–December",
-      "meaning": "Named after the star Mrigashira, near which its full moon falls. Festivals: Gita Jayanti, Dattatreya Jayanti."
+      "meaning": "Named after the star Mrigashira, near which its full moon falls. Festivals: Gita Jayanti, Dattatreya Jayanti.",
+      "source": "The Calendars of India (arXiv:1007.0062); festivals: Drik Panchang"
     },
     "10": {
       "name": "Pausha",
       "title": "December–January",
-      "meaning": "Named after the star Pushya, near which its full moon falls. A quiet month; at its full moon the Magh Mela begins at Prayagraj."
+      "meaning": "Named after the star Pushya, near which its full moon falls.",
+      "source": "The Calendars of India (arXiv:1007.0062); festivals: Drik Panchang"
     },
     "11": {
       "name": "Magha",
       "title": "January–February",
-      "meaning": "Named after the star Magha, near which its full moon falls. Festivals: Vasant Panchami, Magha Purnima."
+      "meaning": "Named after the star Magha, near which its full moon falls. Festivals: Vasant Panchami, Magha Purnima.",
+      "source": "The Calendars of India (arXiv:1007.0062); festivals: Drik Panchang"
     },
     "12": {
       "name": "Phalguna",
       "title": "February–March",
-      "meaning": "Named after the star Purva Phalguni, near which its full moon falls. Festivals: Maha Shivaratri, Holi."
+      "meaning": "Named after the star Purva Phalguni, near which its full moon falls. Festivals: Maha Shivaratri, Holi.",
+      "source": "The Calendars of India (arXiv:1007.0062); festivals: Drik Panchang"
     }
   },
   "rashi": {
     "1": {
       "name": "Mesha",
       "title": "Aries",
-      "meaning": "Ruled by Mars; a fire sign of the movable kind. Tradition links it with initiative, energy and the self."
+      "meaning": "Ruled by Mars; a fire sign of the movable kind.",
+      "source": "Kalaprakasika, p. 180 (translator’s note); Raman, Muhurtha, p. 199–200"
     },
     "2": {
       "name": "Vrishabha",
       "title": "Taurus",
-      "meaning": "Ruled by Venus; an earth sign of the fixed kind. Tradition links it with wealth, beauty and stability."
+      "meaning": "Ruled by Venus; an earth sign of the fixed kind.",
+      "source": "Kalaprakasika, p. 180 (translator’s note); Raman, Muhurtha, p. 199–200"
     },
     "3": {
       "name": "Mithuna",
       "title": "Gemini",
-      "meaning": "Ruled by Mercury; an air sign of the dual kind. Tradition links it with communication, duality and intellect."
+      "meaning": "Ruled by Mercury; an air sign of the common kind.",
+      "source": "Kalaprakasika, p. 180 (translator’s note); Raman, Muhurtha, p. 199–200"
     },
     "4": {
       "name": "Karka",
       "title": "Cancer",
-      "meaning": "Ruled by the Moon; a water sign of the movable kind. Tradition links it with care, home and feelings."
+      "meaning": "Ruled by the Moon; a water sign of the movable kind.",
+      "source": "Kalaprakasika, p. 180 (translator’s note); Raman, Muhurtha, p. 199–200"
     },
     "5": {
       "name": "Simha",
       "title": "Leo",
-      "meaning": "Ruled by the Sun; a fire sign of the fixed kind. Tradition links it with authority, creativity and pride."
+      "meaning": "Ruled by the Sun; a fire sign of the fixed kind.",
+      "source": "Kalaprakasika, p. 180 (translator’s note); Raman, Muhurtha, p. 199–200"
     },
     "6": {
       "name": "Kanya",
       "title": "Virgo",
-      "meaning": "Ruled by Mercury; an earth sign of the dual kind. Tradition links it with analysis, service and perfection."
+      "meaning": "Ruled by Mercury; an earth sign of the common kind.",
+      "source": "Kalaprakasika, p. 180 (translator’s note); Raman, Muhurtha, p. 199–200"
     },
     "7": {
       "name": "Tula",
       "title": "Libra",
-      "meaning": "Ruled by Venus; an air sign of the movable kind. Tradition links it with balance, partnership and justice."
+      "meaning": "Ruled by Venus; an air sign of the movable kind.",
+      "source": "Kalaprakasika, p. 180 (translator’s note); Raman, Muhurtha, p. 199–200"
     },
     "8": {
       "name": "Vrishchika",
       "title": "Scorpio",
-      "meaning": "Ruled by Mars; a water sign of the fixed kind. Tradition links it with transformation, depth and secrets."
+      "meaning": "Ruled by Mars; a water sign of the fixed kind.",
+      "source": "Kalaprakasika, p. 180 (translator’s note); Raman, Muhurtha, p. 199–200"
     },
     "9": {
       "name": "Dhanu",
       "title": "Sagittarius",
-      "meaning": "Ruled by Jupiter; a fire sign of the dual kind. Tradition links it with dharma, wisdom and growth."
+      "meaning": "Ruled by Jupiter; a fire sign of the common kind.",
+      "source": "Kalaprakasika, p. 180 (translator’s note); Raman, Muhurtha, p. 199–200"
     },
     "10": {
       "name": "Makara",
       "title": "Capricorn",
-      "meaning": "Ruled by Saturn; an earth sign of the movable kind. Tradition links it with career, discipline and authority."
+      "meaning": "Ruled by Saturn; an earth sign of the movable kind.",
+      "source": "Kalaprakasika, p. 180 (translator’s note); Raman, Muhurtha, p. 199–200"
     },
     "11": {
       "name": "Kumbha",
       "title": "Aquarius",
-      "meaning": "Ruled by Saturn; an air sign of the fixed kind. Tradition links it with community, ideals and new ideas."
+      "meaning": "Ruled by Saturn; an air sign of the fixed kind.",
+      "source": "Kalaprakasika, p. 180 (translator’s note); Raman, Muhurtha, p. 199–200"
     },
     "12": {
       "name": "Meena",
       "title": "Pisces",
-      "meaning": "Ruled by Jupiter; a water sign of the dual kind. Tradition links it with liberation, imagination and surrender."
+      "meaning": "Ruled by Jupiter; a water sign of the common kind.",
+      "source": "Kalaprakasika, p. 180 (translator’s note); Raman, Muhurtha, p. 199–200"
     }
   },
   "choghadiya": {
     "amrit": {
       "name": "Amrit",
       "title": "Nectar",
-      "meaning": "\"Nectar\", ruled by the Moon; the best of the seven parts. Tradition holds it good for any work."
+      "meaning": "Ruled by the Moon. A good part: Drik and Shubh Panchang both count it among the parts to begin auspicious work.",
+      "source": "Drik Panchang; Shubh Panchang – popular practice, no classical source; name: Monier-Williams, p. 82"
     },
     "shubh": {
       "name": "Shubh",
       "title": "Auspicious",
-      "meaning": "\"Auspicious\", ruled by Jupiter; a good part. Traditionally good for ceremonies, above all weddings."
+      "meaning": "Ruled by Jupiter. A good part; Shubh Panchang names marriage matters and business for it.",
+      "source": "Drik Panchang; Shubh Panchang – popular practice, no classical source; name: Monier-Williams, p. 1083"
     },
     "labh": {
       "name": "Labh",
       "title": "Gain",
-      "meaning": "\"Gain\", ruled by Mercury; a good part. Traditionally the best time to begin studies and learn new skills."
+      "meaning": "Ruled by Mercury. A good part; Shubh Panchang names money, trade and new ventures for it.",
+      "source": "Drik Panchang; Shubh Panchang – popular practice, no classical source; name: Monier-Williams, p. 897"
     },
     "chal": {
       "name": "Chal",
       "title": "Moving",
-      "meaning": "\"Moving\" (also called Chanchal), ruled by Venus; a neutral part. Traditionally the best time for travel."
+      "meaning": "Ruled by Venus. Drik counts it good, Shubh Panchang neutral and for travel; VedaCal shows it as neutral.",
+      "source": "Drik Panchang; Shubh Panchang – popular practice, no classical source; name: Monier-Williams, p. 391"
     },
     "udveg": {
       "name": "Udveg",
-      "title": "Unease",
-      "meaning": "\"Unease\", ruled by the Sun; a part to avoid. Traditionally nothing important is begun, except dealings with government offices."
+      "title": "Agitation",
+      "meaning": "Ruled by the Sun. A part to avoid.",
+      "source": "Drik Panchang; Shubh Panchang – popular practice, no classical source; name: Monier-Williams, p. 192"
     },
     "rog": {
       "name": "Rog",
-      "title": "Friction",
-      "meaning": "\"Friction\", ruled by Mars; a part to avoid. Traditionally no auspicious work is done; it is kept only for contests and overcoming an opponent."
+      "title": "Sickness",
+      "meaning": "Ruled by Mars. A part to avoid.",
+      "source": "Drik Panchang; Shubh Panchang – popular practice, no classical source; name: Monier-Williams, p. 888"
     },
     "kaal": {
       "name": "Kaal",
-      "title": "Loss",
-      "meaning": "\"Loss\", ruled by Saturn; a part to avoid. Traditionally no auspicious work is done, except building up savings."
+      "title": "Time, death",
+      "meaning": "Ruled by Saturn. A part to avoid.",
+      "source": "Drik Panchang; Shubh Panchang – popular practice, no classical source; name: Monier-Williams, p. 278"
     }
   },
   "tradition": {
