@@ -59,6 +59,8 @@ export function periodName(p: Period): string {
     case 'yamaganda': return 'Yamaganda'
     case 'gulika': return 'Gulika'
     case 'durMuhurtam': return 'Dur Muhurtam'
+    case 'varjyam': return 'Varjyam'
+    case 'amritKalam': return 'Amrit Kalam'
     case 'abhijit': return 'Abhijit Muhurta'
     case 'brahma': return 'Brahma Muhurta'
     case 'noon': return t('periodNoon')

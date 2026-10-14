@@ -1,7 +1,7 @@
 // Day periods and the segment verdict (SPEC 13.2–13.4, PLAN-periods Q4–Q5 step 1).
 // Expected times come from the Drik fixtures and the worked examples in
 // .planning/research/examples.md (Vilnius); verdicts are checked only at moments where no
-// value from the `missing` list (Varjyam, Amrit Kalam, lagna junctions, Baana,
+// value from the `missing` list (lagna junctions, Baana,
 // eclipse star, month rules) is active.
 import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
@@ -313,6 +313,43 @@ describe('Dur Muhurtam (R10) against Drik', () => {
   it("Wednesday: the 8th muhurta is Dur Muhurtam, so Abhijit's time is avoided", () => {
     const t = L('2026-10-07', '12:50')
     expect(verdictAt('2026-10-07', 0, t).by.map((p) => p.kind)).toContain('durMuhurtam')
+  })
+})
+
+// Varjyam (R7) and Amrit Kalam (R23): 4 ghatikas of the star's real span, from a per-star
+// ghatika table read off these Drik pages (all 27 stars; Mula has two Varjyams).
+describe('Varjyam (R7) and Amrit Kalam (R23) against Drik', () => {
+  const stars = { varjyam: new Set<number>(), amritKalam: new Set<number>() }
+  for (const file of readdirSync('tests/fixtures/drik')) {
+    const f = JSON.parse(readFileSync(`tests/fixtures/drik/${file}`, 'utf8'))
+    if (!f.nextSunrise) continue
+    const x = CITIES[f.city as keyof typeof CITIES]
+    const place: Location = { name: x.drikName, country: '', lat: x.lat, lon: x.lon, elevation: x.elevation, tz: x.tz }
+    for (const [kind, card, key] of [['varjyam', 'Inauspicious Timings', 'Varjyam'], ['amritKalam', 'Auspicious Timings', 'Amrit Kalam']] as const) {
+      const drik = (f.raw[card]?.[key] ?? []).map((v: string) => range(f.tz, f.date, v)).filter(Boolean) as { start: string; end: string }[]
+      it(`${kind}: ${f.city} ${f.date}`, () => {
+        const { window, periods } = dayPeriods(computeDay(f.date, place), computeDay(addDays(f.date, -1), place))
+        const ours = periods.filter((p) => p.kind === kind)
+        expect(ours.map((p) => p.level)).toEqual(ours.map(() => (kind === 'varjyam' ? 'veto' : 'plus')))
+        // Drik lists the windows that start between this sunrise and the next, in full; ours
+        // stop at the next sunrise. Within 2 min of either sunrise a window may sit on either page.
+        const sr = Date.parse(f.sunrise), ns = Date.parse(f.nextSunrise)
+        for (const r of drik) {
+          const a = Date.parse(r.start), b = Date.parse(r.end)
+          const p = ours.find((x) => Math.abs(x.start.getTime() - a) <= 2 * MIN)
+          if (!p && Math.abs(a - ns) <= 2 * MIN) continue
+          expect(p, `${kind} from ${r.start}`).toBeDefined()
+          near(p!.end, new Date(Math.min(b, window.end.getTime())), 2)
+          stars[kind].add(Number(p!.detail?.star))
+        }
+        for (const p of ours.filter((x) => x.start.getTime() > sr + 2 * MIN && x.start.getTime() < ns - 2 * MIN))
+          expect(drik.some((r) => Math.abs(Date.parse(r.start) - p.start.getTime()) <= 2 * MIN), `${kind} from ${p.start.toISOString()} not on Drik`).toBe(true)
+      })
+    }
+  }
+  it('the fixtures cover every star for both', () => {
+    expect(stars.varjyam.size).toBe(27)
+    expect(stars.amritKalam.size).toBe(27)
   })
 })
 

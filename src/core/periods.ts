@@ -13,12 +13,13 @@ export const GROUPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
 const ALL: readonly number[] = GROUPS
 
 /** Values of SPEC 13.2 not computed yet — the screen says so while the list is not empty. */
-export const MISSING = ['varjyam', 'amritKalam', 'lagnaGandanta', 'baana', 'monthRules'] as const
+export const MISSING = ['lagnaGandanta', 'baana', 'monthRules'] as const
 
 export type PeriodKind =
   | 'rahuKaal' | 'yamaganda' | 'gulika' | 'durMuhurtam' | 'noon' | 'midnight'
   | 'tithiGandanta' | 'nakshatraGandanta' | 'pakshaRandhra' | 'yogaPart' | 'vyatipata' | 'vaidhriti'
   | 'bhadraMouth' | 'bhadra' | 'bhadraTail'
+  | 'varjyam' | 'amritKalam'
   | 'abhijit' | 'brahma' | 'sarvartha' | 'amritSiddhi' | 'ravi'
   | 'eclipse' | 'eclipseDays' | 'eclipseStar'
   | 'choghadiya' | 'base'
@@ -133,6 +134,13 @@ const RAVI_COUNTS = [4, 6, 9, 10, 13, 20]
  */
 const DUR_DAY = [[14], [9, 12], [4], [8], [6, 12], [4, 9], [1, 2]]
 const DUR_NIGHT = [[], [], [7], [], [], [], []]
+/**
+ * Varjyam (R7) and Amrit Kalam (R23), nakshatra 1–27 → the ghatika (of 60 in the star's real
+ * span) each 4-ghatika window starts at. Drik's tables, read off its day pages; Varjyam is
+ * [KP]'s table except P.Bhadrapada (Drik 16, [KP] 6), and Mula has both of its values.
+ */
+const VARJYAM = [[50], [24], [30], [40], [14], [21], [30], [20], [32], [30], [20], [18], [21], [20], [14], [14], [10], [14], [20, 56], [24], [20], [10], [10], [18], [16], [24], [30]]
+const AMRIT_KALAM = [42, 48, 54, 52, 38, 35, 54, 44, 56, 54, 44, 42, 45, 44, 38, 38, 34, 38, 44, 48, 44, 34, 34, 42, 40, 48, 54]
 const CH_LEVEL = { good: 'plus', neutral: 'neutral', avoid: 'veto' } as const
 const CH_RATING = { amrit: 'good', shubh: 'good', labh: 'good', chal: 'neutral', udveg: 'avoid', rog: 'avoid', kaal: 'avoid' } as const
 
@@ -190,6 +198,18 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
   muhurtas(sunrise, sunset, DUR_DAY[day.vara], 'day')
   muhurtas(sunset, nextSunrise, DUR_NIGHT[day.vara], 'night')
   add(plus(midnight, -10 * PALA), plus(midnight, 10 * PALA), 'midnight', 'veto', 'R18')
+
+  // The day's stars, with the one before sunrise taken from the previous day (each searched on its own, so equal to a second, not a millisecond).
+  const stars = [...day.nakshatra, ...prev.nakshatra].filter((s, i, a) => a.findIndex((x) => x.index === s.index && Math.abs(x.start.getTime() - s.start.getTime()) < MIN) === i)
+    .sort((a, b) => a.start.getTime() - b.start.getTime())
+
+  // Varjyam (R7) veto and Amrit Kalam (R23) +: 4 ghatikas of the star's span from its table value.
+  for (const s of stars) {
+    const gh = (s.end.getTime() - s.start.getTime()) / 60
+    const from = (n: number, kind: PeriodKind, level: Level, rule: string) => add(plus(s.start, n * gh), plus(s.start, (n + 4) * gh), kind, level, rule, { detail: { star: s.index } })
+    for (const n of VARJYAM[s.index - 1]) from(n, 'varjyam', 'veto', 'R7')
+    from(AMRIT_KALAM[s.index - 1], 'amritKalam', 'plus', 'R23')
+  }
 
   // Choghadiya: shown, never decides (R21).
   for (const p of [...day.choghadiyaBefore, ...day.choghadiya])
@@ -268,8 +288,6 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
   // the 3 before, the day and the 3 after; a total eclipse: also the 7 days after (1.32). Its
   // nakshatra: 6 lunar months after a total eclipse, 3 after at least half, 1 after less, by
   // the deepest phase seen here. The eclipse itself is avoided too (model choice: SPEC 4.11).
-  // The day's stars, with the one before sunrise taken from the previous day (each searched on its own, so equal to a second, not a millisecond).
-  const stars = [...day.nakshatra, ...prev.nakshatra].filter((s, i, a) => a.findIndex((x) => x.index === s.index && Math.abs(x.start.getTime() - s.start.getTime()) < MIN) === i)
   for (const e of day.eclipses) {
     const before = e.set || !e.rose ? 3 : 0
     const after = e.magnitude >= 1 ? 7 : e.rose || !e.set ? 3 : 0
