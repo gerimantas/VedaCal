@@ -14,8 +14,8 @@
   .version-tag {
     position: absolute;
     bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 50%);
+    left: var(--space-2xs);
+    transform: translateY(50%);
     padding: 0 var(--space-3xs);
     border: 1px solid color-mix(in oklch, var(--color-accent) 75%, transparent);
     border-radius: var(--radius-pill);

@@ -45,6 +45,10 @@
     ['night', `${t('sunset')} → ${t('sunrise')}`],
   ] as const
 
+  // Where the clock's hand was moved to (null = now); the top bar's Now brings back today and now.
+  let picked = $state<Date | null>(null)
+  const atNow = $derived(date === today && !picked)
+
   const go = (days: number) => {
     const d = addDays(date, days)
     app.date = d === today ? null : d
@@ -76,7 +80,7 @@
       <button aria-label={t('previousDay')} onclick={() => go(-1)}>{@html icon.left}</button>
       <!-- Tap the date for the system calendar: any day in one step (user, 2026-10-14). -->
       <label class="datepick">
-        <span class="num">{v.shortDate}</span>
+        <span class="num"><small>{date.slice(0, 4)}</small>{v.shortDate}</span>
         <input
           type="date"
           value={date}
@@ -96,11 +100,12 @@
       </label>
       <button aria-label={t('nextDay')} onclick={() => go(1)}>{@html icon.right}</button>
     </div>
+    <!-- Today and now in one button, on the bar so it stays in reach while the page scrolls (user, 2026-10-14). -->
+    {#if !atNow}
+      <button class="chip nowchip" onclick={() => ((app.date = null), (picked = null))}>↺ {t('clockNow')}</button>
+    {/if}
     <VersionTag />
   </header>
-  {#if date !== today}
-    <a class="today-link" href="#/day" onclick={() => (app.date = null)}>{t('today')} →</a>
-  {/if}
 
   <section class="hero" aria-label={v.tithi.name} data-sheet="tithi" data-sheet-lead-title={v.tithi.lead.title} data-sheet-lead={v.tithi.lead.text}>
     {@html realisticMoon(v.moon.illumination, v.moon.waxing, 150, v.moon.label)}
@@ -112,7 +117,7 @@
     <p class="meaning">{v.tithi.meaning}</p>
   </section>
 
-  <DayClock {day} {prev} {loc} now={clock} />
+  <DayClock {day} {prev} {loc} now={clock} bind:picked />
 
   <section class="card arcbox" aria-labelledby="s-sun">
     <h2 id="s-sun">{t('sectionRhythm')}</h2>

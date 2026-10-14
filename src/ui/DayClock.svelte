@@ -9,7 +9,8 @@
   import { app, setSetting } from './state.svelte'
   import { clockModel, colourVar, GROUP_LABELS, legendShades, levelWord, periodName, periodNote, ringOf, shadeOf, shadeWord, type Shade } from './verdict'
 
-  let { day, prev, loc, now }: { day: DayPanchang; prev: DayPanchang; loc: Location; now: Date } = $props()
+  // `picked`: the moment the hand was moved to, null = now; bound, so the top bar's Now resets it.
+  let { day, prev, loc, now, picked = $bindable(null) }: { day: DayPanchang; prev: DayPanchang; loc: Location; now: Date; picked?: Date | null } = $props()
 
   const S = 400
   const c = S / 2
@@ -65,7 +66,6 @@
   })
 
   // ── Cursor: the hand. Today it starts at now; other days at the same clock time. ──
-  let picked = $state<Date | null>(null)
   $effect(() => {
     void day.date
     picked = null
@@ -201,60 +201,56 @@
       </select>
     </label>
 
-    <div class="dialwrap">
-      <svg
-        bind:this={svg}
-        viewBox="0 0 {S} {S}"
-        class="dial"
-        role="img"
-        aria-label={t('clockAria')}
-        onpointerdown={(e) => {
-          pick(e)
-          svg?.setPointerCapture(e.pointerId)
-        }}
-        onpointermove={(e) => e.buttons && pick(e)}
-      >
-        <circle cx={c} cy={c} r={c - 1} class="face" />
-        <!-- Chapter ring: night dark, day gold; 10-minute ticks on it. -->
-        <circle cx={c} cy={c} r={rBand} class="night" stroke-width={bandW} />
-        <path d={arc(model.sunrise, model.sunset, rBand)} class="daylight" stroke-width={bandW} />
-        {#each ticks as k, i (i)}<line x1={k.x1} y1={k.y1} x2={k.x2} y2={k.y2} stroke-width={k.w} opacity={k.o} class="tick" />{/each}
-        {#each numerals as n (n.h)}<text x={n.x} y={n.y} class="numeral" class:big={n.big}>{n.h}</text>{/each}
+    <svg
+      bind:this={svg}
+      viewBox="0 0 {S} {S}"
+      class="dial"
+      role="img"
+      aria-label={t('clockAria')}
+      onpointerdown={(e) => {
+        pick(e)
+        svg?.setPointerCapture(e.pointerId)
+      }}
+      onpointermove={(e) => e.buttons && pick(e)}
+    >
+      <circle cx={c} cy={c} r={c - 1} class="face" />
+      <!-- Chapter ring: night dark, day gold; 10-minute ticks on it. -->
+      <circle cx={c} cy={c} r={rBand} class="night" stroke-width={bandW} />
+      <path d={arc(model.sunrise, model.sunset, rBand)} class="daylight" stroke-width={bandW} />
+      {#each ticks as k, i (i)}<line x1={k.x1} y1={k.y1} x2={k.x2} y2={k.y2} stroke-width={k.w} opacity={k.o} class="tick" />{/each}
+      {#each numerals as n (n.h)}<text x={n.x} y={n.y} class="numeral" class:big={n.big}>{n.h}</text>{/each}
 
-        {#if ring}<image href={ring} x="0" y="0" width={S} height={S} />{/if}
-        {#each inner as r, i (i)}<path d={r.d} fill="none" style:stroke={r.colour} stroke-width={inW} opacity={r.opacity} />{/each}
+      {#if ring}<image href={ring} x="0" y="0" width={S} height={S} />{/if}
+      {#each inner as r, i (i)}<path d={r.d} fill="none" style:stroke={r.colour} stroke-width={inW} opacity={r.opacity} />{/each}
 
-        <!-- Sun marks: sunrise (arrow up), solar noon (rays), sunset (arrow down). -->
-        {#each [[model.sunrise, '↑'], [model.noon, ''], [model.sunset, '↓']] as const as [d, arrow] (arrow)}
-          {@const [x, y] = pt(d, rBand)}
-          {#if !arrow}
-            {#each Array.from({ length: 8 }, (_, i) => (i * Math.PI) / 4) as a (a)}
-              <line x1={x + 7.5 * Math.cos(a)} y1={y + 7.5 * Math.sin(a)} x2={x + 10.5 * Math.cos(a)} y2={y + 10.5 * Math.sin(a)} class="ray" />
-            {/each}
-          {/if}
-          <circle cx={x} cy={y} r="6.5" class="sun" />
-          {#if arrow}<text {x} {y} class="sun-arrow">{arrow}</text>{/if}
-        {/each}
-
-        {#if outlineD}<path d={outlineD} class="outline" />{/if}
-        {#if nowOnDial}
-          {@const [nx, ny] = pt(nowOnDial, outer + 3)}
-          <circle cx={nx} cy={ny} r="3" class="now" />
+      <!-- Sun marks: sunrise (arrow up), solar noon (rays), sunset (arrow down). -->
+      {#each [[model.sunrise, '↑'], [model.noon, ''], [model.sunset, '↓']] as const as [d, arrow] (arrow)}
+        {@const [x, y] = pt(d, rBand)}
+        {#if !arrow}
+          {#each Array.from({ length: 8 }, (_, i) => (i * Math.PI) / 4) as a (a)}
+            <line x1={x + 7.5 * Math.cos(a)} y1={y + 7.5 * Math.sin(a)} x2={x + 10.5 * Math.cos(a)} y2={y + 10.5 * Math.sin(a)} class="ray" />
+          {/each}
         {/if}
+        <circle cx={x} cy={y} r="6.5" class="sun" />
+        {#if arrow}<text {x} {y} class="sun-arrow">{arrow}</text>{/if}
+      {/each}
 
-        <g transform="rotate({handDeg} {c} {c})">
-          <path d="M{c - 3.4},{c} L{c - 1.1},{c - handLen} L{c + 1.1},{c - handLen} L{c + 3.4},{c} Z" class="hand" />
-        </g>
-        <circle cx={c} cy={c} r="6.5" class="hub" />
-        <circle cx={c} cy={c} r="2.4" class="face" />
+      {#if outlineD}<path d={outlineD} class="outline" />{/if}
+      {#if nowOnDial}
+        {@const [nx, ny] = pt(nowOnDial, outer + 3)}
+        <circle cx={nx} cy={ny} r="3" class="now" />
+      {/if}
 
-        <text x={c} y={label.y0} class="c-time" font-size={label.ft}>{label.timeText}</text>
-        <svg x={label.iconX} y={label.iconY} width={label.iz} height={label.iz} viewBox="0 0 24 24" overflow="visible">{@render verdictIcon(shade)}</svg>
-        <text x={label.textX} y={label.lineY} class="c-span" font-size={label.fl} style:fill="var({colourVar(shade, palette)})">{span}</text>
-      </svg>
-      <!-- Back to the present time once the hand was moved; in the dial's empty corner (user, 2026-10-14). -->
-      {#if picked}<button class="chip nowbtn" onclick={() => (picked = null)}>↺ {t('clockNow')}</button>{/if}
-    </div>
+      <g transform="rotate({handDeg} {c} {c})">
+        <path d="M{c - 3.4},{c} L{c - 1.1},{c - handLen} L{c + 1.1},{c - handLen} L{c + 3.4},{c} Z" class="hand" />
+      </g>
+      <circle cx={c} cy={c} r="6.5" class="hub" />
+      <circle cx={c} cy={c} r="2.4" class="face" />
+
+      <text x={c} y={label.y0} class="c-time" font-size={label.ft}>{label.timeText}</text>
+      <svg x={label.iconX} y={label.iconY} width={label.iz} height={label.iz} viewBox="0 0 24 24" overflow="visible">{@render verdictIcon(shade)}</svg>
+      <text x={label.textX} y={label.lineY} class="c-span" font-size={label.fl} style:fill="var({colourVar(shade, palette)})">{span}</text>
+    </svg>
 
     <ul class="legend">
       {#each legendShades(palette) as s (s)}
@@ -321,21 +317,11 @@
     border-radius: 3px;
     background: var(--color-card);
   }
-  .dialwrap {
-    position: relative;
-    max-width: 440px;
-    margin: var(--space-xs) auto 0;
-  }
-  .nowbtn {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    min-height: 2rem;
-    font-size: var(--text-xs);
-  }
   .dial {
     display: block;
     width: 100%;
+    max-width: 440px;
+    margin: var(--space-xs) auto 0;
     touch-action: none;
     user-select: none;
   }
