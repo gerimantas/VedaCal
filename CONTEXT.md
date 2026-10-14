@@ -19,6 +19,13 @@ the top bar shows the commit); show proposals before changing code; commit local
 only on the user's command.
 
 ## Next Tasks
+- **Source audit of all other product text** (user, 2026-10-14, next session): every claim
+  needs a source (Key Facts rule). Check `content` `sheets` (e.g. Rahu Kaal's "shadow that
+  swallows the Sun"), the tithi / nakshatra / yoga / karana / vara / choghadiya / rhythm
+  meanings (~120) and `ui` texts against `.planning/research/rules.md`; drop or rewrite what
+  no source says, cite the rest. Show the user a table (text · verdict · source) before
+  changing; en + lt together. Method and done example: commit ecbc1e5 (`tradition` +
+  `traditionSource`, test in `tests/content.test.ts`).
 - Engine, the values left in `MISSING` (PLAN-periods Q4 b, d, e; SPEC 13.2): Hora (R6, R22),
   Anandadi (R15), Tri/Dwi Pushkara note (R24), travel rules (R9, G3, R25), Sankranti (R26);
   then the personal layer (Q4.f, Q7.1 birth data). Test-first vs Drik, 3 cities. Ask the user
