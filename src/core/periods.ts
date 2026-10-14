@@ -13,7 +13,7 @@ export const GROUPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
 const ALL: readonly number[] = GROUPS
 
 /** Values of SPEC 13.2 not computed yet — the screen says so while the list is not empty. */
-export const MISSING = ['anandadi', 'pushkara', 'travel', 'sankranti'] as const
+export const MISSING = ['anandadi', 'travel', 'sankranti'] as const
 
 export type PeriodKind =
   | 'rahuKaal' | 'yamaganda' | 'gulika' | 'durMuhurtam' | 'noon' | 'midnight'
@@ -22,7 +22,7 @@ export type PeriodKind =
   | 'varjyam' | 'amritKalam'
   | 'abhijit' | 'brahma' | 'sarvartha' | 'amritSiddhi' | 'ravi'
   | 'eclipse' | 'eclipseDays' | 'eclipseStar'
-  | 'baana' | 'month' | 'hora'
+  | 'baana' | 'month' | 'hora' | 'pushkara'
   | 'choghadiya' | 'base'
 
 /**
@@ -153,6 +153,10 @@ const WEEKDAY_LORD = [3, 6, 2, 5, 1, 4, 0]
 const PLANET_WEEKDAY: Record<(typeof HORA_ORDER)[number], number> = { sun: 0, moon: 1, mars: 2, mercury: 3, jupiter: 4, venus: 5, saturn: 6 }
 const horaGroups = (planet: (typeof HORA_ORDER)[number]) => GROUPS.filter((g) => classGrade(WEEKDAY_CLASS[PLANET_WEEKDAY[planet]], g) === 'good')
 
+/** Tri / Dwi Pushkara (R24, [MC] 2.50): its weekdays (Sun, Tue, Sat) and stars for ×3 and ×2. */
+const PUSHKARA_DAYS = [0, 2, 6]
+const PUSHKARA_STARS: Record<number, 3 | 2> = { 16: 3, 12: 3, 25: 3, 7: 3, 3: 3, 21: 3, 23: 2, 14: 2, 5: 2 }
+
 const sunStar = (t: Date) => Math.floor(skyAt(t).sun / (360 / 27)) + 1
 
 export type Baana = 'mrityu' | 'agni' | 'raja' | 'chora' | 'roga'
@@ -274,6 +278,18 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
   if (prev.sunset) horas(prev.sunset, sunrise, WEEKDAY_LORD[prev.vara] + 12)
   horas(sunrise, sunset, WEEKDAY_LORD[day.vara])
   horas(sunset, nextSunrise, WEEKDAY_LORD[day.vara] + 12)
+
+  // Tri / Dwi Pushkara (R24): a note where a Bhadra-class tithi (2, 7, 12 of either half), its
+  // weekday (sunrise to sunrise; before sunrise the previous one) and its star overlap.
+  const tithis = [...prev.tithi, ...day.tithi].filter((s, i, a) => a.findIndex((x) => x.index === s.index && Math.abs(x.start.getTime() - s.start.getTime()) < MIN) === i)
+  const weekdays = [{ vara: (day.vara + 6) % 7, start: window.start, end: sunrise }, { vara: day.vara, start: sunrise, end: nextSunrise }]
+  for (const w of weekdays.filter((x) => PUSHKARA_DAYS.includes(x.vara)))
+    for (const t of tithis.filter((x) => [2, 7, 12].includes(((x.index - 1) % 15) + 1)))
+      for (const s of stars.filter((x) => PUSHKARA_STARS[x.index])) {
+        const a = [w.start, t.start, s.start].reduce((m, d) => (d > m ? d : m))
+        const b = [w.end, t.end, s.end].reduce((m, d) => (d < m ? d : m))
+        if (a < b) add(a, b, 'pushkara', 'neutral', 'R24', { decides: false, detail: { times: PUSHKARA_STARS[s.index], star: s.index } })
+      }
 
   // Junctions (D5): the end of Panchami, Dashami, Purnima and the start of the next tithi,
   // 1 ghatika each side; Ashlesha, Jyeshtha, Revati and the next star, 2 each side.

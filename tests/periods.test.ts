@@ -475,6 +475,35 @@ describe('Hora (R6, R22)', () => {
   })
 })
 
+// Tri / Dwi Pushkara (R24, [MC] 2.50): a Bhadra-class tithi (2, 7, 12) on Sunday, Tuesday or
+// Saturday with Vishakha, U.Phalguni, P.Bhadrapada, Punarvasu, Krittika or U.Ashadha (×3), or
+// with Dhanishtha, Chitra or Mrigashira (×2). A note: shown, never decides (SPEC 13.2).
+describe('Tri / Dwi Pushkara (R24) against Drik', () => {
+  let seen = 0
+  for (const file of readdirSync('tests/fixtures/drik')) {
+    const f = JSON.parse(readFileSync(`tests/fixtures/drik/${file}`, 'utf8'))
+    if (!f.nextSunrise) continue
+    it(`${f.city} ${f.date}`, () => {
+      const x = CITIES[f.city as keyof typeof CITIES]
+      const place: Location = { name: x.drikName, country: '', lat: x.lat, lon: x.lon, elevation: x.elevation, tz: x.tz }
+      const { window, periods } = dayPeriods(computeDay(f.date, place), computeDay(addDays(f.date, -1), place))
+      const sr = Date.parse(f.sunrise)
+      const ours = periods.filter((p) => p.kind === 'pushkara' && p.start.getTime() >= sr - 2 * MIN)
+      expect(ours.every((p) => !p.decides)).toBe(true)
+      const drik = [3, 2].flatMap((times) =>
+        ((f.raw['Auspicious Timings']?.[`${times === 3 ? 'Tri' : 'Dwi'} Pushkara Yoga`] ?? []) as string[]).map((v) => ({ times, ...range(f.tz, f.date, v)! })),
+      )
+      expect(ours.map((p) => p.detail?.times)).toEqual(drik.map((d) => d.times))
+      drik.forEach((d, i) => {
+        near(ours[i].start, new Date(d.start), 2)
+        near(ours[i].end, new Date(Math.min(Date.parse(d.end), window.end.getTime())), 2)
+        seen++
+      })
+    })
+  }
+  it('the fixtures hold both kinds', () => expect(seen).toBeGreaterThanOrEqual(10))
+})
+
 // Month rules (SPEC 13.3): vetoes for the groups the record names, for as long as they last.
 // M1's Adhika month and M2 for travel, marriage, home, rites and official work; M5 (outside the
 // marriage months) and M6 (Chaturmas) for marriage. M1's combustion: not yet.
