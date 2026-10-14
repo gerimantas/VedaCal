@@ -101,20 +101,13 @@ describe('periods, Vilnius 2026-10-10 (example 1)', () => {
     expect(verdictAt('2026-10-10', 0, L('2026-10-10', '18:40')).verdict).toBe('avoid')
     expect(verdictAt('2026-10-10', 0, L('2026-10-10', '19:10')).verdict).toBe('fb')
   })
-  it('group 7: Amavasya no veto, Brahma Muhurta lifts the poor base to neutral, Abhijit good — inside the day', () => {
-    // The day's own values, without the month rules (Chaturmas covers this day for group 7).
-    const at = (hhmm: string) => {
-      const t = L('2026-10-10', hhmm)
-      return verdictOf(periods.filter((p) => p.kind !== 'month' && p.start <= t && t < p.end), 7)
-    }
+  it('group 7: Amavasya no veto, Brahma Muhurta lifts the poor base to neutral, Abhijit good', () => {
     // Amavasya is the last of the dark half's five low tithis (D4): base poor; BM + → neutral.
-    expect(at('06:10').verdict).toBe('neutral')
-    expect(at('06:55').verdict).toBe('fb') // BM over, base poor
-    expect(at('13:20')).toMatchObject({ verdict: 'good', strong: true })
-    expect(at('13:05').verdict).toBe('avoid') // noon window inside Abhijit
-  })
-  it('group 7: with the month rules, Chaturmas avoids the whole day (M6)', () => {
-    expect(verdictAt('2026-10-10', 7, L('2026-10-10', '13:20')).by.map((p) => p.rule)).toContain('M6')
+    expect(verdictAt('2026-10-10', 7, L('2026-10-10', '06:10')).verdict).toBe('neutral')
+    expect(verdictAt('2026-10-10', 7, L('2026-10-10', '06:55')).verdict).toBe('fb') // BM over, base poor
+    const a = verdictAt('2026-10-10', 7, L('2026-10-10', '13:20'))
+    expect(a).toMatchObject({ verdict: 'good', strong: true })
+    expect(verdictAt('2026-10-10', 7, L('2026-10-10', '13:05')).verdict).toBe('avoid') // noon window inside Abhijit
   })
 })
 
@@ -440,7 +433,7 @@ describe('Baana (R19)', () => {
 
 // Month rules (SPEC 13.3): vetoes for the groups the record names, for as long as they last.
 // M1's Adhika month and M2 for travel, marriage, home, rites and official work; M5 (outside the
-// marriage months) for marriage; M6 (Chaturmas) for marriage and rites. M1's combustion: not yet.
+// marriage months) and M6 (Chaturmas) for marriage. M1's combustion: not yet.
 describe('month rules (M1 Adhika, M2, M5, M6)', () => {
   const RITES = [1, 2, 3, 7, 9]
   /** Groups for which `rule` covers the whole day window. */
@@ -467,7 +460,7 @@ describe('month rules (M1 Adhika, M2, M5, M6)', () => {
     expect(wholeDay('2026-11-24', 'M5')).toEqual([])
   })
   it('Chaturmas, Ashadha Shukla 11 to Kartika Shukla 11: 2026-10-10 in, 2026-11-24 out (M6)', () => {
-    expect(wholeDay('2026-10-10', 'M6')).toEqual([2, 7])
+    expect(wholeDay('2026-10-10', 'M6')).toEqual([2])
     expect(wholeDay('2026-11-24', 'M6')).toEqual([])
   })
 })

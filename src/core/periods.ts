@@ -367,7 +367,8 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
   // Month rules (SPEC 13.3), each a veto for the groups its record names: M1's Adhika month and
   // M2 Jupiter in Magha – P.Phalguni 1 for RITES; M5 outside the marriage months for marriage —
   // the Sun in Mithuna counts only in Ashadha's first ten tithis; M6 Chaturmas (Ashadha Shukla
-  // 11 to Kartika Shukla 11, amanta) for marriage and rites. Cut where the tithi, the Sun's sign
+  // 11 to Kartika Shukla 11, amanta) for marriage only — the record names ear-piercing, and
+  // Chaturmas is itself a time of devotion, so rites (group 7) stay open (user, 2026-10-14). Cut where the tithi, the Sun's sign
   // or Jupiter's place changes; pieces in a row with the same rule are one period.
   const blamed = (t: Date) => jupiterAt(t) >= JUPITER_BLAMED[0] && jupiterAt(t) < JUPITER_BLAMED[1]
   let jupiterCut: Date[] = []
@@ -402,7 +403,7 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
     if (adhika) month(a, b, 'M1', 'adhika', RITES)
     if (blamed(m)) month(a, b, 'M2', 'jupiter', RITES)
     if (!MARRIAGE_SIGNS.includes(sun) && !(sun === MITHUNA && amanta === ASHADHA && !adhika && tithi <= 10)) month(a, b, 'M5', 'marriage', [2])
-    if ((amanta === ASHADHA && !adhika && tithi >= 11) || (amanta > ASHADHA && amanta < KARTIKA) || (amanta === KARTIKA && tithi <= 11)) month(a, b, 'M6', 'chaturmas', [2, 7])
+    if ((amanta === ASHADHA && !adhika && tithi >= 11) || (amanta > ASHADHA && amanta < KARTIKA) || (amanta === KARTIKA && tithi <= 11)) month(a, b, 'M6', 'chaturmas', [2])
   }
 
   // Day base per group (13.3): cut where the weekday, tithi, star or Tuesday's half changes.
