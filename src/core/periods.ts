@@ -22,7 +22,7 @@ export type PeriodKind =
   | 'varjyam' | 'amritKalam'
   | 'abhijit' | 'brahma' | 'sarvartha' | 'amritSiddhi' | 'ravi'
   | 'eclipse' | 'eclipseDays' | 'eclipseStar'
-  | 'baana' | 'month' | 'hora' | 'pushkara' | 'sankranti' | 'anandadi'
+  | 'baana' | 'month' | 'hora' | 'pushkara' | 'sankranti' | 'anandadi' | 'panchaka'
   | 'choghadiya' | 'base'
 
 /**
@@ -371,6 +371,11 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
   // ([MC] 1.31, C9) and do not decide. Padma's first 4 dandas are bad ([MC] 1.26): no + there.
   for (const y of anandadiSpans(day, prev, window.start, window.end))
     if (ANANDADI_GOOD.has(y.name)) add(y.name === 'Padma' ? plus(y.start, 4 * GHATIKA) : y.start, y.end, 'anandadi', 'plus', 'R15', { detail: { name: y.name } })
+
+  // Panchaka (G3, [MC] 2.48): the Moon in Kumbha or Meena — no roofing or bed-making, a veto
+  // for home and property (3). Its travel-south part waits for a travel direction.
+  const moonSigns = [...prev.signs.vedic.moon, ...day.signs.vedic.moon].filter((s, i, a) => a.findIndex((x) => x.index === s.index && Math.abs(x.start.getTime() - s.start.getTime()) < MIN) === i)
+  for (const s of moonSigns.filter((x) => x.index === 11 || x.index === 12)) add(s.start, s.end, 'panchaka', 'veto', 'G3', { groups: [3] })
 
   // Junctions (D5): the end of Panchami, Dashami, Purnima and the start of the next tithi,
   // 1 ghatika each side; Ashlesha, Jyeshtha, Revati and the next star, 2 each side.

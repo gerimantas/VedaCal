@@ -83,6 +83,7 @@ export function periodName(p: Period): string {
     case 'eclipseStar': return t('periodEclipseStar', { star: entry('nakshatra', Number(d.star)).name, date: dayName(d.day) })
     case 'month': return t(`periodMonth_${String(d.name)}` as 'periodMonth_adhika')
     case 'baana': return `${String(d.name)[0].toUpperCase()}${String(d.name).slice(1)} Baana`
+    case 'panchaka': return 'Panchaka'
     case 'anandadi': return t('periodAnandadi', { name: String(d.name) })
     case 'sankranti': return t('periodSankranti', { sign: (content.rashi as Record<string, { name: string }>)[String(d.sign)].name })
     case 'pushkara': return d.times === 3 ? 'Tri Pushkara' : 'Dwi Pushkara'

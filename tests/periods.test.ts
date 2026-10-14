@@ -565,6 +565,25 @@ describe('Anandadi yogas (R15) against Drik', () => {
   })
 })
 
+// Panchaka (G3, [MC] 2.48): the Moon in Kumbha or Meena — no roofing, no bed-making: a veto
+// for home and property (3). Travel south is the other act it names (needs a direction).
+describe('Panchaka (G3)', () => {
+  it('Vilnius 2026-10-25: the Moon in Meena until it leaves — group 3 only', () => {
+    const day = computeDay('2026-10-25', VILNIUS)
+    const { window, periods } = periodsOf('2026-10-25')
+    const ps = periods.filter((p) => p.kind === 'panchaka')
+    const moon = [...computeDay('2026-10-24', VILNIUS).signs.vedic.moon, ...day.signs.vedic.moon].filter((s) => (s.index === 11 || s.index === 12) && s.end > window.start && s.start < window.end)
+    expect(moon.length).toBeGreaterThan(0)
+    expect(ps.length).toBeGreaterThan(0)
+    for (const p of ps) expect(p).toMatchObject({ level: 'veto', groups: [3], decides: true })
+    near(ps[0].start, moon[0].start > window.start ? moon[0].start : window.start, 1)
+    near(ps[ps.length - 1].end, moon[moon.length - 1].end < window.end ? moon[moon.length - 1].end : window.end, 1)
+  })
+  it('Vilnius 2026-10-10: the Moon in Simha or Kanya — none', () => {
+    expect(periodsOf('2026-10-10').periods.filter((p) => p.kind === 'panchaka')).toHaveLength(0)
+  })
+})
+
 // Month rules (SPEC 13.3): vetoes for the groups the record names, for as long as they last.
 // M1's Adhika month and M2 for travel, marriage, home, rites and official work; M5 (outside the
 // marriage months) and M6 (Chaturmas) for marriage. M1's combustion: not yet.
