@@ -1,8 +1,9 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { VitePWA } from 'vite-plugin-pwa'
 import { execSync } from 'node:child_process'
-import { readFileSync } from 'node:fs'
+import { readFileSync, unwatchFile, watchFile } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import type { Plugin } from 'vite'
 import { defineConfig } from 'vitest/config'
 
 // astronomy-engine ships separate CJS and ESM builds. panchangam-js require()s the CJS one;
@@ -22,6 +23,22 @@ const commit = (() => {
   }
 })()
 
+// Dev server: restart on every commit (.git/logs/HEAD grows), so the version line shows the
+// commit the code is at. Polled, because fs.watch misses changes inside .git on Windows; the
+// previous server's poll is dropped on each restart (the config module is loaded anew).
+const liveVersion = (): Plugin => ({
+  name: 'live-version',
+  apply: 'serve',
+  configureServer(server) {
+    const log = fileURLToPath(new URL('./.git/logs/HEAD', import.meta.url))
+    const g = globalThis as { __vedacalVersionPoll?: () => void }
+    g.__vedacalVersionPoll?.()
+    const onChange = () => void server.restart()
+    watchFile(log, { interval: 1000 }, onChange)
+    g.__vedacalVersionPoll = () => unwatchFile(log, onChange)
+  },
+})
+
 // Served from https://gerimantas.github.io/VedaCal/
 export default defineConfig({
   base: '/VedaCal/',
@@ -39,6 +56,7 @@ export default defineConfig({
     alias: { 'astronomy-engine': astronomyEngine },
   },
   plugins: [
+    liveVersion(),
     svelte(),
     VitePWA({
       // 'prompt': a new version waits until the person taps "Update" (src/ui/update.svelte.ts
