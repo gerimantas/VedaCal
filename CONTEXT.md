@@ -26,10 +26,12 @@ only on the user's command.
   no source says, cite the rest. Show the user a table (text · verdict · source) before
   changing; en + lt together. Method and done example: commit ecbc1e5 (`tradition` +
   `traditionSource`, test in `tests/content.test.ts`).
-- Engine, the values left in `MISSING` (PLAN-periods Q4 b, d, e; SPEC 13.2): Hora (R6, R22),
-  Anandadi (R15), Tri/Dwi Pushkara note (R24), travel rules (R9, G3, R25), Sankranti (R26);
-  then the personal layer (Q4.f, Q7.1 birth data). Test-first vs Drik, 3 cities. Ask the user
-  which first. Read: PLAN-periods Q4, SPEC 13.2, `.planning/research/rules.md`.
+- Sourced `tradition` texts for the values added 2026-10-14 (Hora, Anandadi, Tri / Dwi
+  Pushkara, Sankranti, Panchaka, Disha Shool, dawn, Godhuli, Nishita): draft from
+  `.planning/research/rules.md` only, show the user a table, then add (en + lt). The list
+  shows only their names until then.
+- Personal layer (PLAN-periods Q4.f, Q7.1 birth data): Tarabala, Chandrabala; test vs Drik's
+  Chandrabalam / Tarabalam lists. `MISSING` is empty since 2026-10-14.
 - Ask the user whether to push S9–S14 live (P7 pilot needs it). Button style: one decision for all pages.
 - Open SPEC questions for the user: day start BM vs sunrise (13.1 vs 13.5); D3 remainder;
   E1 eclipse-time veto for group 7.
