@@ -792,12 +792,12 @@ h3 {
 }
 
 /* My data (Q7.1): label and input in a row; city matches as plain buttons under the search. */
+/* The label above its field, so the field gets the phone's whole width (user, 2026-10-14). */
 .birth .field {
   display: grid;
-  grid-template-columns: 7rem minmax(0, 1fr);
-  align-items: center;
-  gap: var(--space-xs);
-  margin-top: var(--space-2xs);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3xs);
+  margin-top: var(--space-xs);
 }
 
 .birth .field input {
@@ -812,13 +812,22 @@ h3 {
   color-scheme: light dark;
 }
 
+.birth .ymd {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr) 4.5rem;
+  gap: var(--space-3xs);
+  min-width: 0;
+}
+
 .birth .hm {
   display: flex;
   align-items: center;
   gap: var(--space-3xs);
 }
 
+.birth .ymd select,
 .birth .hm select {
+  min-width: 0;
   min-height: 2.75rem;
   padding: 0 var(--space-xs);
   border: var(--rule-hair) solid var(--color-card-line);
@@ -847,7 +856,7 @@ h3 {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  margin: var(--space-2xs) 0 0 calc(7rem + var(--space-xs));
+  margin: var(--space-2xs) 0 0;
 }
 
 .birth .check input {

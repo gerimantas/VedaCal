@@ -996,7 +996,10 @@
     "birthSaved": "Saved ✓",
     "birthBefore": "Before {time}",
     "birthAfter": "After {time}",
-    "cancelledByRavi": "cancelled by Ravi yoga"
+    "cancelledByRavi": "cancelled by Ravi yoga",
+    "birthYear": "Year",
+    "birthMonth": "Month",
+    "birthDay": "Day"
   },
   "masa": {
     "1": {

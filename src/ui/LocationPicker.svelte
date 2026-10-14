@@ -4,7 +4,7 @@
   import VersionTag from './VersionTag.svelte'
   import { loadCities, nearest, search, type CityIndex, type Place } from './cities'
   import { resolveBirth, type BirthInput } from './birth'
-  import { LANG, content, countryName, deviceHour12, entry, t, time } from './format'
+  import { LANG, LOCALE, content, countryName, deviceHour12, entry, t, time } from './format'
   import { icon } from './icons'
   import { install, promptInstall } from './install.svelte'
   import { app, setBirth, setLocation, setSetting } from './state.svelte'
@@ -55,6 +55,22 @@
   let saved = $state(false)
   const HOURS = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'))
   const MINUTES = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'))
+  // The date as three lists too: a phone's calendar picker opens on today and makes a birth
+  // year decades back a long scroll (user, 2026-10-14).
+  const savedDate = app.birth?.date ?? ''
+  let year = $state(savedDate.slice(0, 4))
+  let month = $state(savedDate.slice(5, 7))
+  let dayOfMonth = $state(savedDate.slice(8, 10))
+  const YEARS = Array.from({ length: new Date().getFullYear() - 1899 }, (_, i) => String(new Date().getFullYear() - i))
+  const MONTHS = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'))
+  const monthName = (m: string) => new Intl.DateTimeFormat(LOCALE, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, Number(m) - 1, 1)))
+  const daysIn = $derived(year && month ? new Date(Date.UTC(Number(year), Number(month), 0)).getUTCDate() : 31)
+  const DAYS = $derived(Array.from({ length: daysIn }, (_, i) => String(i + 1).padStart(2, '0')))
+  function dateChanged() {
+    if (dayOfMonth && Number(dayOfMonth) > daysIn) dayOfMonth = ''
+    draft.date = year && month && dayOfMonth ? `${year}-${month}-${dayOfMonth}` : ''
+    changed()
+  }
   let birthQuery = $state('')
   $effect(() => {
     if (birthQuery.trim() && !index) loadCities().then((i) => (index = i))
@@ -89,7 +105,7 @@
   function deleteBirth() {
     setBirth(null)
     draft = blank()
-    hour = minute = ''
+    hour = minute = year = month = dayOfMonth = ''
     timeUnknown = saved = false
   }
 
@@ -139,10 +155,23 @@
   <h2 class="about-head">{t('myData')}</h2>
   <section class="card about-intro birth">
     <p class="quiet">{t('birthPrivacy')}</p>
-    <label class="field">
+    <div class="field">
       <span>{t('birthDate')}</span>
-      <input type="date" bind:value={draft.date} onchange={changed} />
-    </label>
+      <span class="ymd">
+        <select aria-label={t('birthYear')} bind:value={year} onchange={dateChanged}>
+          <option value="">{t('birthYear')}</option>
+          {#each YEARS as y (y)}<option value={y}>{y}</option>{/each}
+        </select>
+        <select aria-label={t('birthMonth')} bind:value={month} onchange={dateChanged}>
+          <option value="">{t('birthMonth')}</option>
+          {#each MONTHS as m (m)}<option value={m}>{monthName(m)}</option>{/each}
+        </select>
+        <select aria-label={t('birthDay')} bind:value={dayOfMonth} onchange={dateChanged}>
+          <option value="">{t('birthDay')}</option>
+          {#each DAYS as d (d)}<option value={d}>{Number(d)}</option>{/each}
+        </select>
+      </span>
+    </div>
     <div class="field">
       <span>{t('birthTime')}</span>
       <div class="hm">

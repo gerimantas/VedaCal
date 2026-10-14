@@ -996,7 +996,10 @@
     "birthSaved": "Išsaugota ✓",
     "birthBefore": "Iki {time}",
     "birthAfter": "Po {time}",
-    "cancelledByRavi": "panaikina Ravi yoga"
+    "cancelledByRavi": "panaikina Ravi yoga",
+    "birthYear": "Metai",
+    "birthMonth": "Mėnuo",
+    "birthDay": "Diena"
   },
   "masa": {
     "1": {
