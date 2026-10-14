@@ -5,7 +5,7 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { computeDay } from '../src/core/panchang'
-import { baanaSpans, dayPeriods, daySegments, verdictOf, type Period } from '../src/core/periods'
+import { anandadiSpans, baanaSpans, dayPeriods, daySegments, verdictOf, type Period } from '../src/core/periods'
 import { addDays, zonedTimeToUtc } from '../src/core/time'
 import type { Location } from '../src/core/types'
 import { CITIES } from '../scripts/cities'
@@ -109,7 +109,8 @@ describe('periods, Vilnius 2026-10-10 (example 1)', () => {
     }
     // Amavasya is the last of the dark half's five low tithis (D4): base poor; BM + → neutral.
     expect(at('06:10').verdict).toBe('neutral')
-    expect(at('06:55').verdict).toBe('fb') // BM over, base poor
+    expect(at('06:55').verdict).toBe('neutral') // BM over; Amrita (Anandadi, R15) + until sunrise
+    expect(at('09:30').verdict).toBe('fb') // Saturday: Mrityu, a bad Anandadi; base poor
     expect(at('13:20')).toMatchObject({ verdict: 'good', strong: true })
     expect(at('13:05').verdict).toBe('avoid') // noon window inside Abhijit
   })
@@ -191,9 +192,9 @@ describe('periods, Vilnius 2026-05-10 (example 5)', () => {
     near(d.start, L('2026-05-10', '12:36'), 2)
     near(d.end, L('2026-05-10', '22:36'), 2)
   })
-  it('group 0: Sun hora good, neutral morning, avoid in Navami, fb at night but neutral in a Sun hora', () => {
+  it('group 0: good morning (Sun hora, Matanga), avoid in Navami, fb at night but neutral in a Sun hora', () => {
     expect(verdictAt('2026-05-10', 0, L('2026-05-10', '06:00')).verdict).toBe('good')
-    expect(verdictAt('2026-05-10', 0, L('2026-05-10', '08:00')).verdict).toBe('neutral')
+    expect(verdictAt('2026-05-10', 0, L('2026-05-10', '08:00')).verdict).toBe('good')
     expect(verdictAt('2026-05-10', 0, L('2026-05-10', '16:00')).verdict).toBe('avoid')
     expect(verdictAt('2026-05-10', 0, L('2026-05-10', '23:00')).verdict).toBe('neutral')
     expect(verdictAt('2026-05-10', 0, L('2026-05-10', '23:30')).verdict).toBe('fb')
@@ -533,6 +534,35 @@ describe('Sankranti window (R26)', () => {
     })
   }
   it('the year has all 12', () => expect(signs.size).toBe(12))
+})
+
+// Anandadi yogas (R15, [MC] 1.23–25): count from the weekday's starting star to the Moon's,
+// Abhijit included (28). Which are good: Drik's mark on its day pages (16 good, 12 bad). The
+// good ones are + for all (SPEC 13.2); the bad ones are regional ([MC] 1.31, C9) and do not
+// decide; Padma's first 4 dandas are bad ([MC] 1.26), so its + starts after them.
+describe('Anandadi yogas (R15) against Drik', () => {
+  for (const file of readdirSync('tests/fixtures/drik')) {
+    const f = JSON.parse(readFileSync(`tests/fixtures/drik/${file}`, 'utf8'))
+    const drik = f.raw['Anandadi and Tamil Yoga']?.['Anandadi Yoga'] as string[] | undefined
+    if (!f.nextSunrise || !drik?.length) continue
+    it(`${f.city} ${f.date}: ${drik.join(', ')}`, () => {
+      const x = CITIES[f.city as keyof typeof CITIES]
+      const place: Location = { name: x.drikName, country: '', lat: x.lat, lon: x.lon, elevation: x.elevation, tz: x.tz }
+      const day = computeDay(f.date, place)
+      const ns = day.nextSunrise!
+      const ours = anandadiSpans(day, computeDay(addDays(f.date, -1), place), day.sunrise!, ns)
+      expect(ours.map((s) => s.name)).toEqual(drik.map((v) => v.split(/[ /]/)[0]))
+      drik.forEach((v, i) => {
+        const m = v.match(/upto (.+)$/)
+        if (m) near(ours[i].end, new Date(Math.min(Date.parse(instant(f.tz, f.date, m[1])), ns.getTime())), 2)
+      })
+    })
+  }
+  it('Vilnius 2026-10-10: good ones are + for every group, bad ones never decide', () => {
+    const ps = periodsOf('2026-10-10').periods.filter((p) => p.kind === 'anandadi')
+    expect(ps.length).toBeGreaterThan(0)
+    for (const p of ps) expect(p.decides ? p.level === 'plus' && p.groups.length === 10 : p.level === 'neutral').toBe(true)
+  })
 })
 
 // Month rules (SPEC 13.3): vetoes for the groups the record names, for as long as they last.

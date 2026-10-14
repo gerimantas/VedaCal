@@ -13,7 +13,7 @@ export const GROUPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
 const ALL: readonly number[] = GROUPS
 
 /** Values of SPEC 13.2 not computed yet — the screen says so while the list is not empty. */
-export const MISSING = ['anandadi', 'travel'] as const
+export const MISSING = ['travel'] as const
 
 export type PeriodKind =
   | 'rahuKaal' | 'yamaganda' | 'gulika' | 'durMuhurtam' | 'noon' | 'midnight'
@@ -22,7 +22,7 @@ export type PeriodKind =
   | 'varjyam' | 'amritKalam'
   | 'abhijit' | 'brahma' | 'sarvartha' | 'amritSiddhi' | 'ravi'
   | 'eclipse' | 'eclipseDays' | 'eclipseStar'
-  | 'baana' | 'month' | 'hora' | 'pushkara' | 'sankranti'
+  | 'baana' | 'month' | 'hora' | 'pushkara' | 'sankranti' | 'anandadi'
   | 'choghadiya' | 'base'
 
 /**
@@ -159,6 +159,68 @@ const PUSHKARA_STARS: Record<number, 3 | 2> = { 16: 3, 12: 3, 25: 3, 7: 3, 3: 3,
 
 /** Sankranti (R26, [MC] 3.8): ghatikas before and after the Sun enters each sign (1 Mesha … 12 Meena). */
 const SANKRANTI: Record<number, [number, number]> = { 1: [8, 8], 2: [16, 0], 3: [0, 16], 4: [16, 0], 5: [16, 0], 6: [0, 16], 7: [8, 8], 8: [16, 0], 9: [0, 16], 10: [0, 16], 11: [16, 0], 12: [0, 16] }
+
+/** The 28 Anandadi yogas in order ([MC] 1.23–25), Drik's spellings. */
+export const ANANDADI = [
+  'Ananda', 'Kaladanda', 'Dhumra', 'Dhata', 'Saumya', 'Dhwanksha', 'Ketu', 'Shrivatsa', 'Vajra', 'Mudgara', 'Chhatra', 'Mitra', 'Manasa', 'Padma',
+  'Lumbaka', 'Utpata', 'Mrityu', 'Kana', 'Siddhi', 'Shubha', 'Amrita', 'Mushala', 'Gada', 'Matanga', 'Rakshasa', 'Chara', 'Sthira', 'Vardhamana',
+] as const
+/** Good by Drik's mark on its day pages (all 83 cached pages agree); the other 12 are bad. */
+const ANANDADI_GOOD = new Set(['Ananda', 'Dhata', 'Saumya', 'Ketu', 'Shrivatsa', 'Chhatra', 'Mitra', 'Manasa', 'Padma', 'Siddhi', 'Shubha', 'Amrita', 'Matanga', 'Chara', 'Sthira', 'Vardhamana'])
+/** Weekday 0–6 → the star its count starts from, as a place among the 28 (Abhijit is 22nd). */
+const ANANDADI_START = [1, 5, 9, 13, 17, 21, 25]
+/** Abhijit: the Moon from 276°40′ to 280°53′20″ — U.Ashadha's last pada and Shravana's first 1/15. */
+const ABHIJIT = [276 + 2 / 3, 280 + 8 / 9]
+
+/** When the Moon reaches sidereal longitude `lon` inside [a, b), or null. */
+function moonAt(lon: number, a: Date, b: Date): Date | null {
+  const f = (t: number) => ((skyAt(new Date(t)).moon - lon + 540) % 360) - 180
+  let lo = a.getTime(), hi = b.getTime()
+  if (!(f(lo) < 0 && f(hi) >= 0)) return null
+  while (hi - lo > 1000) {
+    const m = (lo + hi) / 2
+    if (f(m) < 0) lo = m
+    else hi = m
+  }
+  return new Date(hi)
+}
+
+/**
+ * Anandadi yogas over [a, b) (R15): the count from the weekday's starting star to the Moon's,
+ * Abhijit included; the weekday runs sunrise to sunrise. `prev` gives the stars before sunrise.
+ */
+export function anandadiSpans(day: DayPanchang, prev: DayPanchang, a: Date, b: Date): { name: (typeof ANANDADI)[number]; start: Date; end: Date }[] {
+  const stars = [...prev.nakshatra, ...day.nakshatra].filter((s, i, x) => x.findIndex((y) => y.index === s.index && Math.abs(y.start.getTime() - s.start.getTime()) < MIN) === i)
+  const abhijit: Date[] = []
+  for (const s of stars) {
+    if (s.end <= a || s.start >= b) continue
+    const t = s.index === 21 ? moonAt(ABHIJIT[0], s.start, s.end) : s.index === 22 ? moonAt(ABHIJIT[1], s.start, s.end) : null
+    if (t) abhijit.push(t)
+  }
+  const inAbhijit = (t: Date) => {
+    const m = skyAt(t).moon
+    return m >= ABHIJIT[0] && m < ABHIJIT[1]
+  }
+  const sunrise = day.sunrise ?? a
+  const cuts = [a, b, sunrise, ...stars.map((s) => s.start), ...abhijit]
+    .filter((t) => t >= a && t <= b)
+    .sort((x, y) => x.getTime() - y.getTime())
+  const out: { name: (typeof ANANDADI)[number]; start: Date; end: Date }[] = []
+  for (let i = 0; i + 1 < cuts.length; i++) {
+    const [x, y] = [cuts[i], cuts[i + 1]]
+    if (x.getTime() === y.getTime()) continue
+    const m = mid(x, y)
+    const star = spanAt(stars, m)?.index
+    if (!star) continue
+    const place = inAbhijit(m) ? 22 : star <= 21 ? star : star + 1
+    const vara = m < sunrise ? (day.vara + 6) % 7 : day.vara
+    const name = ANANDADI[(place - ANANDADI_START[vara] + 28) % 28]
+    const last = out[out.length - 1]
+    if (last && last.name === name && last.end.getTime() === x.getTime()) last.end = y
+    else out.push({ name, start: x, end: y })
+  }
+  return out
+}
 
 const sunStar = (t: Date) => Math.floor(skyAt(t).sun / (360 / 27)) + 1
 
@@ -304,6 +366,11 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
       const [before, after] = SANKRANTI[sign]
       add(plus(at, -before * GHATIKA), plus(at, after * GHATIKA), 'sankranti', 'plus', 'R26', { groups: [7], detail: { sign } })
     }
+
+  // Anandadi yogas (R15): the good ones (Drik's mark) are + for all; the bad ones are regional
+  // ([MC] 1.31, C9) and do not decide. Padma's first 4 dandas are bad ([MC] 1.26): no + there.
+  for (const y of anandadiSpans(day, prev, window.start, window.end))
+    if (ANANDADI_GOOD.has(y.name)) add(y.name === 'Padma' ? plus(y.start, 4 * GHATIKA) : y.start, y.end, 'anandadi', 'plus', 'R15', { detail: { name: y.name } })
 
   // Junctions (D5): the end of Panchami, Dashami, Purnima and the start of the next tithi,
   // 1 ghatika each side; Ashlesha, Jyeshtha, Revati and the next star, 2 each side.
