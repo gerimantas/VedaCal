@@ -2,16 +2,15 @@
 
 ## Status
 Live: P0–P6 (https://gerimantas.github.io/VedaCal/, 950f429). Local, not pushed: S9's brief
-sheets and all of S12–S14.
-Periods work (`.planning/PLAN-periods.md`): the day clock (`src/ui/DayClock.svelte`, approved
-design `mockups/research/d7-clock.html`) is the Day screen's time view; the user approved it
-in S14, and the old sun dial, time list and Choghadiya list are gone. Under the clock, a
-"Visa diena" list (same-colour parts merged, tap → hand). Engine (`src/core/periods.ts`)
-now has every SPEC 13.2 veto value and the month rules: E1, Dur Muhurtam, Varjyam, Amrit
-Kalam, lagna junctions, Baana, M1 (Adhika, Jupiter/Venus combust by Drik's visibility
-model), M2, M5, M6 (marriage only). `MISSING` (shown under the clock): Hora, Anandadi,
-Tri/Dwi Pushkara, travel rules (Godhuli, Nishita, Panchaka, Disha Shool, Abhijit south),
-Sankranti window. Choghadiya is shown only, never decides (R21).
+sheets and all of S12–S15.
+Periods work (`.planning/PLAN-periods.md`): the day clock (`src/ui/DayClock.svelte`) is the
+Day screen's time view. Under it, "Visa diena": the hand's row framed and tagged; a tap opens
+why each period counts, with a sourced text. Engine (`src/core/periods.ts`) has every SPEC
+13.2 value (S15 added Hora, Anandadi, Pushkara note, Sankranti, Panchaka, travel rules by a
+chosen direction); `MISSING` is empty; only the personal layer is left. Choghadiya is shown
+only, never decides (R21).
+Rule (S15, user): every product claim needs a source — `tradition` + `traditionSource` in
+`src/content/*.json`, tested; other content texts are not audited yet.
 Open: E1's eclipse-time veto for group 7; SPEC day start BM (13.1) vs sunrise (13.5); D3
 paksha-randhra remainder neutral or fallback.
 Workflow: the user reviews on localhost (the dev server restarts itself on every commit;
@@ -28,7 +27,7 @@ only on the user's command.
   `traditionSource`, test in `tests/content.test.ts`).
 - Personal layer (PLAN-periods Q4.f, Q7.1 birth data): Tarabala, Chandrabala; test vs Drik's
   Chandrabalam / Tarabalam lists. `MISSING` is empty since 2026-10-14.
-- Ask the user whether to push S9–S14 live (P7 pilot needs it). Button style: one decision for all pages.
+- Ask the user whether to push S9–S15 live (P7 pilot needs it). Button style: one decision for all pages.
 - Open SPEC questions for the user: day start BM vs sunrise (13.1 vs 13.5); D3 remainder;
   E1 eclipse-time veto for group 7.
 - New moon shows 18:49 (tithi end, moon card) and 18:50 (key dates, tradition card): two
@@ -41,13 +40,14 @@ only on the user's command.
 
 ## Done Log
 
+### 2026-10-14 (S15)
+- Engine: Hora, Anandadi, Tri/Dwi Pushkara, Sankranti, Panchaka, travel by direction — `MISSING` empty
+- "Visa diena": hand's row framed; tap opens sourced reasons; all `tradition` texts sourced
+
 ### 2026-10-14 (S14)
 - Engine step 3: Dur Muhurtam, Varjyam, Amrit Kalam, lagna junctions, Baana, M1 (Adhika, combust), M2, M5, M6
 - Clock approved: "Visa diena" list, "↺ Dabar" on the top bar, date picker, `2026-10-14, tr`, dev version tag
 - Old sun dial, time list, Choghadiya list, P3 mockups, 3D prototype, `three` removed
-
-### 2026-10-11 (S13)
-- E1 eclipse rule: days around an eclipse seen here + its star (engine, tests 3 cities, clock labels)
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
@@ -111,6 +111,16 @@ only on the user's command.
 ## Archive
 
 Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation, newest first). This section keeps the most recent 10 sessions.
+
+### Session 2026-10-14 (S15) — every SPEC 13.2 value built; every tradition text cites a source
+
+- **Done:** Hora (R6/R22), Anandadi (R15, Abhijit incl.), Tri/Dwi Pushkara (R24, note), Sankranti window (R26), Panchaka (G3), travel by direction (Disha Shool, dawn, Godhuli, Nishita, Abhijit/Panchaka south) — each test-first vs Drik, 3 cities. `MISSING` is empty.
+- **Done:** "Visa diena": hand's row framed + tagged (time or "Dabar"); tap opens why each period counts, with text and "Šaltinis: …".
+- **Done:** all `tradition` texts rewritten from rules.md only (9 old ones had unsourced claims; Gulika's contradicted KP); new `traditionSource`, shown in list, glossary, eclipse sheet.
+- **Decided / overturned:** no product claim without a source (user; CONTEXT Key Facts); travel needs a chosen direction (user, option A); Anandadi good/bad = Drik's marks; examples 1 and 5 shift: Hora and good Anandadi lift neutral → good.
+- **Code:** `src/core/periods.ts`, `src/ui/{DayClock,About}.svelte`, `src/ui/{verdict,format,day,state.svelte}.ts`, `src/content/{en,lt}.json`, `src/styles/screens.css`, `tests/{periods,content}.test.ts`; planning: examples.md ex. 1, 5.
+- **Entry point:** `npx vitest run tests/periods.test.ts tests/content.test.ts`; app `npm run dev`.
+- **Not measured:** Godhuli within 5 min only (Drik starts it up to 5 min before sunset outside Aug–Nov, cause unknown); Sankranti instant: day ayanamsha vs mark's month-start one differ ~1 min.
 
 ### Session 2026-10-14 (S14) — engine step 3 done (all SPEC 13 veto values), whole-day list, old UI retired
 
@@ -214,23 +224,3 @@ Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation,
   then CDP `Page.getInstallabilityErrors`; `adb shell pm list packages | grep webapk`
 - **Not measured:** whether pilot users with no other `gerimantas.github.io` app hit this (they
   should not, by the code).
-
-### Session 2026-10-05 (S5) — Sky tab, About texts rewritten for Western readers, sources linked
-
-- **Done:** Yamaganda, Gulika, Choghadiya (+7 kinds) explained on About (EN+LT, NotebookLM
-  research); About key grouped (calendar / times of day / special days); every sheet rewritten
-  for a reader new to the Panchang, vague prose replaced by facts (lunar month naming corrected);
-  Credits link 8 sources; new **Sky** tab: top-down chart (30 lunar days around the Moon's
-  orbit from the Sun, 27 Moon stars, 12 signs) + facts panel, folded legend, ±15-day slider.
-  Live: 765faff, CI green.
-- **Decided / overturned:** 3D sky (three.js) rejected — bodies share one plane; constellation
-  sketches rejected; stars/signs fixed (real motion), not a Sun-fixed frame; only short marks
-  on the chart, names in the panel; labels slide off Sun/Moon lines. Never push without the
-  user's command (global CLAUDE.md).
-- **Code:** `src/ui/{sky.ts,Sky.svelte}`, `src/core/panchang.ts` (`skyAt`), `src/ui/{terms,
-  icons,state.svelte}.ts`, `src/ui/About.svelte`, `src/App.svelte`, `src/content/{en,lt}.json`,
-  `src/styles/screens.css`, `tests/{ui,content}.test.ts`; prototypes `mockups/sky{,-flat}.{html,ts}`,
-  `mockups/sky/`; rules SPEC 5.5; research `.planning/notebooklm/notes/{daily-windows,month-names}.md`.
-- **Entry point:** `npm run dev` → `/VedaCal/#/sky`; `npm test` (1127)
-- **Not measured:** Sky tab on a real phone; Yamaganda/Gulika/Choghadiya times not yet on
-  the day screen (texts only; Drik fixtures already hold Yamaganda/Gulika).

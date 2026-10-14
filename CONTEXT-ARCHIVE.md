@@ -2,6 +2,25 @@
 
 Older session entries moved out of `CONTEXT.md`.
 
+## Session 2026-10-05 (S5) — Sky tab, About texts rewritten for Western readers, sources linked
+
+- **Done:** Yamaganda, Gulika, Choghadiya (+7 kinds) explained on About (EN+LT, NotebookLM
+  research); About key grouped (calendar / times of day / special days); every sheet rewritten
+  for a reader new to the Panchang, vague prose replaced by facts (lunar month naming corrected);
+  Credits link 8 sources; new **Sky** tab: top-down chart (30 lunar days around the Moon's
+  orbit from the Sun, 27 Moon stars, 12 signs) + facts panel, folded legend, ±15-day slider.
+  Live: 765faff, CI green.
+- **Decided / overturned:** 3D sky (three.js) rejected — bodies share one plane; constellation
+  sketches rejected; stars/signs fixed (real motion), not a Sun-fixed frame; only short marks
+  on the chart, names in the panel; labels slide off Sun/Moon lines. Never push without the
+  user's command (global CLAUDE.md).
+- **Code:** `src/ui/{sky.ts,Sky.svelte}`, `src/core/panchang.ts` (`skyAt`), `src/ui/{terms,
+  icons,state.svelte}.ts`, `src/ui/About.svelte`, `src/App.svelte`, `src/content/{en,lt}.json`,
+  `src/styles/screens.css`, `tests/{ui,content}.test.ts`; prototypes `mockups/sky{,-flat}.{html,ts}`,
+  `mockups/sky/`; rules SPEC 5.5; research `.planning/notebooklm/notes/{daily-windows,month-names}.md`.
+- **Entry point:** `npm run dev` → `/VedaCal/#/sky`; `npm test` (1127)
+- **Not measured:** Sky tab on a real phone; Yamaganda/Gulika/Choghadiya times not yet on
+  the day screen (texts only; Drik fixtures already hold Yamaganda/Gulika).
 ## Session 2026-10-05 (S4) — P6 done, Drik evidence complete, ayanamsha fixed, dial redesigned
 
 - **Done:** P6 gate met (offline precache of moon photo/fonts/cities, PNG icons, install
