@@ -801,7 +801,7 @@
     "ringFixed": "1 plonas žiedas – pastovūs langai. Raudona: Rahu Kaal, Yamaganda, sandūros, vidurdienis ir vidurnaktis. Žalia: Abhijit, Brahma Muhurta, Ravi yoga, Siddhi dienos. Lemia.",
     "ringBase": "2 plonas žiedas – pati diena: savaitės diena, mėnulio diena, žvaigždynas. Pilka neutralu, oranžinė silpna, raudona vengti. Lemia.",
     "ringChoghadiya": "3 plonas žiedas, blyškus – Choghadiya: paplitusi praktika be klasikinio šaltinio. Tik rodoma, nelemia.",
-    "clockMissing": "Dar neskaičiuojama: Hora, Anandadi jogos, Tri / Dwi Pushkara, kelionių taisyklės (Panchaka, Disha Shool, Godhuli) ir Sankranti langas. Kol jų nėra, kai kurie laikai atrodo geresni, nei yra.",
+    "clockMissing": "Dar neskaičiuojama: Anandadi jogos, Tri / Dwi Pushkara, kelionių taisyklės (Panchaka, Disha Shool, Godhuli) ir Sankranti langas. Kol jų nėra, kai kurie laikai atrodo geresni, nei yra.",
     "clockNow": "Dabar",
     "clockDayList": "Visa diena",
     "segmentBase": "dienos pagrindas",
@@ -837,7 +837,15 @@
     "paletteTitle": "Laikrodžio spalvos",
     "paletteCurrent": "Dabartinės",
     "paletteRainbow": "Vaivorykštė",
-    "source": "Šaltinis"
+    "source": "Šaltinis",
+    "periodHora": "{planet} hora",
+    "planet_sun": "Saulės",
+    "planet_moon": "Mėnulio",
+    "planet_mars": "Marso",
+    "planet_mercury": "Merkurijaus",
+    "planet_jupiter": "Jupiterio",
+    "planet_venus": "Veneros",
+    "planet_saturn": "Saturno"
   },
   "masa": {
     "1": {

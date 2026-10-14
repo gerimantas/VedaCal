@@ -801,7 +801,7 @@
     "ringFixed": "Thin ring 1 — fixed windows. Red: Rahu Kaal, Yamaganda, junctions, midday and midnight. Green: Abhijit, Brahma Muhurta, Ravi yoga, Siddhi days. Decides.",
     "ringBase": "Thin ring 2 — the day itself: weekday, lunar day, star. Grey neutral, orange weak, red avoid. Decides.",
     "ringChoghadiya": "Thin ring 3, faded — Choghadiya: popular practice without a classical source. Shown only, does not decide.",
-    "clockMissing": "Not counted yet: Hora, Anandadi yogas, Tri / Dwi Pushkara, the travel rules (Panchaka, Disha Shool, Godhuli) and the Sankranti window. Until they are, some times look better than they are.",
+    "clockMissing": "Not counted yet: Anandadi yogas, Tri / Dwi Pushkara, the travel rules (Panchaka, Disha Shool, Godhuli) and the Sankranti window. Until they are, some times look better than they are.",
     "clockNow": "Now",
     "clockDayList": "The whole day",
     "segmentBase": "the day itself",
@@ -837,7 +837,15 @@
     "paletteTitle": "Day clock colours",
     "paletteCurrent": "Current",
     "paletteRainbow": "Rainbow",
-    "source": "Source"
+    "source": "Source",
+    "periodHora": "{planet} hora",
+    "planet_sun": "Sun",
+    "planet_moon": "Moon",
+    "planet_mars": "Mars",
+    "planet_mercury": "Mercury",
+    "planet_jupiter": "Jupiter",
+    "planet_venus": "Venus",
+    "planet_saturn": "Saturn"
   },
   "masa": {
     "1": {

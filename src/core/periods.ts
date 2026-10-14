@@ -13,7 +13,7 @@ export const GROUPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
 const ALL: readonly number[] = GROUPS
 
 /** Values of SPEC 13.2 not computed yet — the screen says so while the list is not empty. */
-export const MISSING = ['hora', 'anandadi', 'pushkara', 'travel', 'sankranti'] as const
+export const MISSING = ['anandadi', 'pushkara', 'travel', 'sankranti'] as const
 
 export type PeriodKind =
   | 'rahuKaal' | 'yamaganda' | 'gulika' | 'durMuhurtam' | 'noon' | 'midnight'
@@ -22,7 +22,7 @@ export type PeriodKind =
   | 'varjyam' | 'amritKalam'
   | 'abhijit' | 'brahma' | 'sarvartha' | 'amritSiddhi' | 'ravi'
   | 'eclipse' | 'eclipseDays' | 'eclipseStar'
-  | 'baana' | 'month'
+  | 'baana' | 'month' | 'hora'
   | 'choghadiya' | 'base'
 
 /**
@@ -145,6 +145,14 @@ const AMRIT_KALAM = [42, 48, 54, 52, 38, 35, 54, 44, 56, 54, 44, 42, 45, 44, 38,
 const CH_LEVEL = { good: 'plus', neutral: 'neutral', avoid: 'veto' } as const
 const CH_RATING = { amrit: 'good', shubh: 'good', labh: 'good', chal: 'neutral', udveg: 'avoid', rog: 'avoid', kaal: 'avoid' } as const
 
+/** Planets in hora order (each hora's lord is the 6th from the last in weekday order, R6). */
+export const HORA_ORDER = ['saturn', 'jupiter', 'mars', 'sun', 'venus', 'mercury', 'moon'] as const
+/** Weekday 0–6 → its lord's place in HORA_ORDER. */
+const WEEKDAY_LORD = [3, 6, 2, 5, 1, 4, 0]
+/** Planet → the weekday it rules, whose class the hora carries (R22). */
+const PLANET_WEEKDAY: Record<(typeof HORA_ORDER)[number], number> = { sun: 0, moon: 1, mars: 2, mercury: 3, jupiter: 4, venus: 5, saturn: 6 }
+const horaGroups = (planet: (typeof HORA_ORDER)[number]) => GROUPS.filter((g) => classGrade(WEEKDAY_CLASS[PLANET_WEEKDAY[planet]], g) === 'good')
+
 const sunStar = (t: Date) => Math.floor(skyAt(t).sun / (360 / 27)) + 1
 
 export type Baana = 'mrityu' | 'agni' | 'raja' | 'chora' | 'roga'
@@ -252,6 +260,20 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
   // Choghadiya: shown, never decides (R21).
   for (const p of [...day.choghadiyaBefore, ...day.choghadiya])
     add(p.start, p.end, 'choghadiya', CH_LEVEL[CH_RATING[p.name]], 'R21', { decides: false, detail: { name: p.name } })
+
+  // Hora (R6): 12 equal parts of the day, 12 of the night, from the weekday's lord; Drik starts
+  // them at local sunrise. Each is + for the groups its planet's weekday class suits (R22);
+  // Mars, Mercury and Saturn suit none. Before sunrise: the previous day's night horas.
+  const horas = (a: Date, b: Date, first: number) => {
+    const len = (b.getTime() - a.getTime()) / 12
+    for (let i = 0; i < 12; i++) {
+      const planet = HORA_ORDER[(first + i) % 7]
+      add(plus(a, i * len), plus(a, (i + 1) * len), 'hora', 'plus', 'R6', { groups: horaGroups(planet), detail: { planet } })
+    }
+  }
+  if (prev.sunset) horas(prev.sunset, sunrise, WEEKDAY_LORD[prev.vara] + 12)
+  horas(sunrise, sunset, WEEKDAY_LORD[day.vara])
+  horas(sunset, nextSunrise, WEEKDAY_LORD[day.vara] + 12)
 
   // Junctions (D5): the end of Panchami, Dashami, Purnima and the start of the next tithi,
   // 1 ghatika each side; Ashlesha, Jyeshtha, Revati and the next star, 2 each side.

@@ -191,10 +191,12 @@ describe('periods, Vilnius 2026-05-10 (example 5)', () => {
     near(d.start, L('2026-05-10', '12:36'), 2)
     near(d.end, L('2026-05-10', '22:36'), 2)
   })
-  it('group 0: neutral morning, avoid in Navami, fb at night', () => {
+  it('group 0: Sun hora good, neutral morning, avoid in Navami, fb at night but neutral in a Sun hora', () => {
+    expect(verdictAt('2026-05-10', 0, L('2026-05-10', '06:00')).verdict).toBe('good')
     expect(verdictAt('2026-05-10', 0, L('2026-05-10', '08:00')).verdict).toBe('neutral')
     expect(verdictAt('2026-05-10', 0, L('2026-05-10', '16:00')).verdict).toBe('avoid')
-    expect(verdictAt('2026-05-10', 0, L('2026-05-10', '23:00')).verdict).toBe('fb')
+    expect(verdictAt('2026-05-10', 0, L('2026-05-10', '23:00')).verdict).toBe('neutral')
+    expect(verdictAt('2026-05-10', 0, L('2026-05-10', '23:30')).verdict).toBe('fb')
   })
 })
 
@@ -435,6 +437,41 @@ describe('Baana (R19)', () => {
   })
   it('Vilnius 2026-10-14: Roga at night only, for group 7 — none, as it ends at 16:50', () => {
     expect(baanas('2026-10-14').filter((p) => p.detail?.name === 'roga').every((p) => p.end <= L('2026-10-14', '07:46'))).toBe(true)
+  })
+})
+
+// Hora (R6): 12 equal parts of the day and 12 of the night, the first ruled by the weekday's
+// lord, each next by the planet 6th from it in weekday order — Drik's hora pages, 3 cities.
+// R22: a hora carries its planet's weekday class, so it is + for the groups that class suits.
+describe('Hora (R6, R22)', () => {
+  const placeOf = (city: string): Location => {
+    const x = CITIES[city as keyof typeof CITIES]
+    return { name: x.drikName, country: '', lat: x.lat, lon: x.lon, elevation: x.elevation, tz: x.tz }
+  }
+  for (const file of readdirSync('tests/fixtures/drik-extra')) {
+    const f = JSON.parse(readFileSync(`tests/fixtures/drik-extra/${file}`, 'utf8'))
+    it(`${f.city} ${f.date}: every hora inside the day window within 2 min of Drik, same planet`, () => {
+      const place = placeOf(f.city)
+      const { window, periods } = dayPeriods(computeDay(f.date, place), computeDay(addDays(f.date, -1), place))
+      const ours = periods.filter((p) => p.kind === 'hora')
+      const drik = [...f.hora.day, ...f.hora.night] as { name: string; start: string; end: string }[]
+      expect(drik).toHaveLength(24)
+      for (const h of drik) {
+        const p = ours.find((x) => Math.abs(x.start.getTime() - Date.parse(h.start)) <= 2 * MIN)
+        expect(p, `${h.name} from ${h.start}`).toBeDefined()
+        expect(p!.detail?.planet).toBe(h.name.toLowerCase())
+        near(p!.end, new Date(Math.min(Date.parse(h.end), window.end.getTime())), 2)
+      }
+      // the horas before sunrise are the previous day's last night horas
+      expect(ours[0].start.getTime()).toBe(window.start.getTime())
+    })
+  }
+  it('Vilnius 2026-10-10 (Saturday): Saturn first; + for the groups of its weekday class', () => {
+    const hs = periodsOf('2026-10-10').periods.filter((p) => p.kind === 'hora' && p.start >= L('2026-10-10', '07:30'))
+    expect(hs.slice(0, 7).map((p) => p.detail?.planet)).toEqual(['saturn', 'jupiter', 'mars', 'sun', 'venus', 'mercury', 'moon'])
+    const groups = Object.fromEntries(hs.slice(0, 7).map((p) => [p.detail!.planet, p.groups]))
+    expect(groups).toEqual({ sun: [0, 3, 8, 9], moon: [1], mars: [], mercury: [], jupiter: [1, 4, 5, 6], venus: [2, 5], saturn: [] })
+    expect(hs.every((p) => p.level === 'plus' && p.decides)).toBe(true)
   })
 })
 
