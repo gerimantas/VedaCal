@@ -1,6 +1,7 @@
 <script lang="ts">
   // Day screen (SPEC 5.1) — the approved P3 mockup (mockups/day.ts, v22) in Svelte. Both
   // render dayView() from ./day, so every value on screen is the engine's output.
+  import VersionTag from './VersionTag.svelte'
   import { computeDay } from '../core/panchang'
   import { addDays, civilDate } from '../core/time'
   import DayClock from './DayClock.svelte'
@@ -76,6 +77,7 @@
       <span class="num">{v.shortDate}</span>
       <button aria-label={t('nextDay')} onclick={() => go(1)}>{@html icon.right}</button>
     </div>
+    <VersionTag />
   </header>
   {#if date !== today}
     <a class="today-link" href="#/day" onclick={() => (app.date = null)}>{t('today')} →</a>

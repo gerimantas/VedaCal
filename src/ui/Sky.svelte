@@ -2,6 +2,7 @@
   // Sky screen (user, 2026-10-05): a top-down chart of the Sun, the Moon and the Earth over
   // the 30 lunar days, 27 Moon stars and 12 signs (./sky), then the facts it shows, a folded
   // legend and a time slider (±15 days). Prototype: mockups/sky-flat.ts.
+  import VersionTag from './VersionTag.svelte'
   import { LOCALE, MONTH, entry, t } from './format'
   import { icon } from './icons'
   import { realisticMoon } from './moon'
@@ -47,6 +48,7 @@
       <span class="num">{shortDate}</span>
       <button aria-label={t('nextDay')} onclick={() => (base += DAY)}>{@html icon.right}</button>
     </div>
+    <VersionTag />
   </header>
 
   <section class="card sky-card">{@html v.svg}</section>

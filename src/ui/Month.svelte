@@ -1,6 +1,7 @@
 <script lang="ts">
   // Month screen (SPEC 5.2) — the approved P3 mockup (mockups/month.ts) in Svelte. Both render
   // monthView() from ./month. Tapping a day or a key date opens that day.
+  import VersionTag from './VersionTag.svelte'
   import { computeMonth } from '../core/panchang'
   import { civilDate } from '../core/time'
   import { t } from './format'
@@ -34,6 +35,7 @@
       <h1 class="num">{v.title}</h1>
       <button aria-label={t('nextMonth')} onclick={() => (shown = shiftMonth(shown, 1))}>{@html icon.right}</button>
     </div>
+    <VersionTag />
   </header>
 
   <div class="grid">

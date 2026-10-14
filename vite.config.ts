@@ -28,7 +28,7 @@ const commit = (() => {
 // previous server's poll is dropped on each restart (the config module is loaded anew).
 const liveVersion = (): Plugin => ({
   name: 'live-version',
-  apply: 'serve',
+  apply: (_, env) => env.command === 'serve' && !process.env.VITEST, // not the test runner's server
   configureServer(server) {
     const log = fileURLToPath(new URL('./.git/logs/HEAD', import.meta.url))
     const g = globalThis as { __vedacalVersionPoll?: () => void }
