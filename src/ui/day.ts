@@ -3,7 +3,7 @@
 // mockup and the app cannot drift apart, and tests can compare the screen with the engine.
 import { addDays, civilDate, tzOffsetMinutes, zonedTimeToUtc } from '../core/time'
 import { CHOGHADIYA_RATING, type DayPanchang, type Interval, type Location, type Span } from '../core/types'
-import { LOCALE, MONTH, content, entry, lead, percent, progress, t, time, tradition as traditionOf, until, type Lead } from './format'
+import { LOCALE, barDate, content, entry, lead, percent, progress, t, time, tradition as traditionOf, until, type Lead } from './format'
 import { icon } from './icons'
 import { markText, shownMarks } from './marks'
 import { terms, type Term } from './terms'
@@ -117,7 +117,7 @@ const following = (spans: Span[], s: Span, day: DayPanchang) => {
 /** `clock`: where the sun dial stands — its sun, "Now: …" and "Sunset in …" (see clockOn). */
 export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodiac = 'vedic', clock: Date = now): DayView {
   const noonish = day.sunrise ?? new Date(`${day.date}T12:00:00Z`)
-  const shortDate = new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: MONTH, timeZone: loc.tz }).format(noonish)
+  const shortDate = barDate(day.date)
 
   const tithi = activeAt(day.tithi, now)
   const te = entry('tithi', tithi.index)

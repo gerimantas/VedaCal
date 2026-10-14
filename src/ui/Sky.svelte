@@ -3,7 +3,8 @@
   // the 30 lunar days, 27 Moon stars and 12 signs (./sky), then the facts it shows, a folded
   // legend and a time slider (±15 days). Prototype: mockups/sky-flat.ts.
   import VersionTag from './VersionTag.svelte'
-  import { LOCALE, MONTH, entry, t } from './format'
+  import { civilDate } from '../core/time'
+  import { LOCALE, barDate, entry, t } from './format'
   import { icon } from './icons'
   import { realisticMoon } from './moon'
   import { rashi, skyView } from './sky'
@@ -25,7 +26,7 @@
   // The top bar is the Day screen's: city, then the date with ‹ › — a day back or on.
   const DAY = 24 * HOUR
   const shortDate = $derived(
-    new Intl.DateTimeFormat(LOCALE, { weekday: 'short', day: 'numeric', month: MONTH, timeZone: app.location.tz }).format(when),
+    barDate(civilDate(app.location.tz, when)),
   )
 
   const now = () => {

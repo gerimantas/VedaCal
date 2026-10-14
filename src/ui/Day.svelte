@@ -80,7 +80,7 @@
       <button aria-label={t('previousDay')} onclick={() => go(-1)}>{@html icon.left}</button>
       <!-- Tap the date for the system calendar: any day in one step (user, 2026-10-14). -->
       <label class="datepick">
-        <span class="num"><small>{date.slice(0, 4)}</small>{v.shortDate}</span>
+        <span class="num">{v.shortDate}</span>
         <input
           type="date"
           value={date}

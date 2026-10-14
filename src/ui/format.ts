@@ -61,6 +61,10 @@ export const LOCALE: string = LANG
 /** Month in short dates: "Oct 17" in English; Lithuanian's short form is numeric ("10-17"), so "spalio 17 d.". */
 export const MONTH: 'short' | 'long' = LANG === 'lt' ? 'long' : 'short'
 
+/** The top bar's date, "2026-10-14, tr" (user, 2026-10-14): the civil date as is, then its weekday. */
+export const barDate = (date: string) =>
+  `${date}, ${new Intl.DateTimeFormat(LOCALE, { weekday: 'short', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`))}`
+
 const regions = new Intl.DisplayNames([LOCALE], { type: 'region' })
 /** Country name in the app's language ("LT" → "Lithuania" / "Lietuva"); GeoNames' English name as fallback. */
 export const countryName = (cc: string, fallback: string) => {
