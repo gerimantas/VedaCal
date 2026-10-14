@@ -1,11 +1,11 @@
 <script lang="ts">
-  // Day screen (SPEC 5.1) — the approved P3 mockup (mockups/day.ts, v22) in Svelte. Both
-  // render dayView() from ./day, so every value on screen is the engine's output.
+  // Day screen (SPEC 5.1): renders dayView() from ./day and the day clock, so every value on
+  // screen is the engine's output.
   import VersionTag from './VersionTag.svelte'
   import { computeDay } from '../core/panchang'
   import { addDays, civilDate } from '../core/time'
   import DayClock from './DayClock.svelte'
-  import { clockOn, dayView, momentFor, type Fact, type SignLine } from './day'
+  import { dayView, momentFor, type Fact, type SignLine } from './day'
   import { t } from './format'
   import { icon } from './icons'
   import { realisticMoon } from './moon'
@@ -34,7 +34,7 @@
   const prev = $derived(computeDay(addDays(date, -1), loc))
   const v = $derived.by(() => {
     void app.settings.hour12 // times are formatted inside dayView; re-run when the format changes
-    return dayView(day, loc, momentFor(day, loc, clock), app.settings.zodiac, clockOn(day, loc, clock))
+    return dayView(day, loc, momentFor(day, loc, clock), app.settings.zodiac)
   })
 
   // Where the clock's hand was moved to (null = now); the top bar's Now brings back today and now.

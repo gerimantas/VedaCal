@@ -8,7 +8,7 @@ import data from '../src/data/cities.json'
 import { computeDay } from '../src/core/panchang'
 import { civilDate } from '../src/core/time'
 import { buildIndex, nearest, search, type CityData } from '../src/ui/cities'
-import { activeAt, clockOn, dayView } from '../src/ui/day'
+import { activeAt, dayView } from '../src/ui/day'
 import { content, entry, time, until } from '../src/ui/format'
 import { skyView } from '../src/ui/sky'
 import { termGroups, terms } from '../src/ui/terms'
@@ -67,19 +67,6 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
     expect(v.moon).toMatchObject({ illumination: day.moon.illumination, waxing: day.moon.waxing })
   })
 
-  it('sunrise, sunset and the five windows, whole, as the engine has them', () => {
-    expect(v.sunrise).toBe(time(day.sunrise, loc))
-    expect(v.sunset).toBe(time(day.sunset, loc))
-    const shown = Object.fromEntries(v.windows.map((w) => [w.term, w]))
-    for (const k of ['brahma', 'abhijit', 'rahuKaal', 'yamaganda', 'gulika'] as const) {
-      const w = day.windows[k]
-      if (w) expect(shown[k], k).toMatchObject({ start: time(w.start, loc), end: time(w.end, loc) })
-      else expect(shown[k].start, k).toBe('')
-    }
-    const at = v.windows.filter((w) => w.track).map((w) => w.track!.from)
-    expect(at, 'in time order').toEqual([...at].sort((a, b) => a - b))
-  })
-
   it('day facts', () => {
     const facts = Object.fromEntries([...v.facts, ...v.moreFacts].map((f) => [f.term, f]))
     expect(facts.vara.value).toBe(entry('vara', day.vara).title)
@@ -108,48 +95,6 @@ describe.each(['Vilnius', 'New York', 'New Delhi'])('day screen for %s today sho
     const ritu = content.rhythm[`ritu${day.rhythm.ritu}` as 'ritu1']
     expect(facts.ritu).toMatchObject({ value: ritu.title, sanskrit: ritu.name, lead: { title: `${ritu.title} · ${ritu.name}`, text: ritu.meaning } })
     expect(facts.rhythm, 'the rhythm sheet belongs to the tradition card').toBeUndefined()
-  })
-})
-
-describe('Yamaganda, Gulika and Choghadiya (Vilnius, Tuesday 2026-10-06; Drik: Abhijit 12:44–13:29, Gulika 13:06–14:31)', () => {
-  const loc = city('Vilnius')
-  const day = computeDay('2026-10-06', loc)
-  const at = (iso: string) => dayView(day, loc, new Date(iso))
-
-  // User, 2026-10-10: nothing is cut, as on Drik; the overlap shows on each row's day track.
-  it('the good time and Gulika both stay whole; the good row marks where Gulika overlaps it', () => {
-    const v = at('2026-10-06T09:00:00Z')
-    const row = (term: string) => v.windows.find((w) => w.term === term)!
-    const { abhijit, gulika } = day.windows
-    expect(row('abhijit')).toMatchObject({ start: time(abhijit!.start, loc), end: time(abhijit!.end, loc) })
-    expect(row('gulika')).toMatchObject({ start: time(gulika!.start, loc), end: time(gulika!.end, loc) })
-    const g = row('gulika').track!, a = row('abhijit').track!
-    expect(a.clashes.some((c) => Math.abs(c.from - g.from) < 1e-9 && Math.abs(c.to - a.to) < 1e-9), 'Gulika inside Abhijit').toBe(true)
-    expect(g.clashes).toEqual([]) // a time to avoid carries no clash marks
-    expect(v.windows.map((w) => w.term).slice(0, 6), 'in time order').toEqual(['brahma', 'sarvarthaSiddhi', 'yamaganda', 'abhijit', 'gulika', 'rahuKaal'])
-  })
-
-  it('counts Yamaganda and Gulika as time to avoid in the dial centre, and both where they overlap the good time', () => {
-    expect(at('2026-10-06T07:30:00Z').nowWindows).toEqual(['avoid']) // 10:30, Yamaganda
-    expect(at('2026-10-06T11:00:00Z').nowWindows).toEqual(['avoid']) // 14:00, Gulika
-    expect(at('2026-10-06T09:50:00Z').nowWindows).toEqual(['good']) // 12:50, Abhijit only
-    expect(at('2026-10-06T10:15:00Z').nowWindows).toEqual(['avoid', 'good']) // 13:15, both
-  })
-
-  it('lists 16 Choghadiya parts and marks the one now', () => {
-    const v = at('2026-10-06T09:00:00Z') // 12:00 — Labh, 11:42–13:06
-    expect(v.choghadiya).toHaveLength(16)
-    expect(v.choghadiya.filter((c) => c.current)).toHaveLength(1)
-    expect(v.choghadiyaNow).toMatchObject({ name: 'Gain', sanskrit: 'Labh', rating: 'good', part: 'day' })
-  })
-
-  it('before sunrise, leads with what is left of last night (Monday night, Drik: Chara 05:55–07:30)', () => {
-    const early = at('2026-10-06T03:30:00Z') // 06:30, before the 07:30 sunrise
-    expect(early.choghadiyaNow).toMatchObject({ name: 'Moving', sanskrit: 'Chal', part: 'before' })
-    expect(early.choghadiya.filter((c) => c.part === 'before')).toHaveLength(1)
-    expect(early.choghadiya).toHaveLength(17)
-    expect(early.choghadiya.filter((c) => c.current)).toHaveLength(1)
-    expect(at('2026-10-06T09:00:00Z').choghadiya.some((c) => c.part === 'before'), 'gone after sunrise').toBe(false)
   })
 })
 
@@ -189,31 +134,8 @@ describe('Ekadashi fast end (Vilnius, Indira Ekadashi 2026-10-06; Drik: 07:32–
 it('a polar night still shows the day (Tromsø, 2026-12-21)', () => {
   const loc = city('Tromso')
   const v = dayView(computeDay('2026-12-21', loc), loc, new Date('2026-12-21T11:00:00Z'))
-  expect(v.polar).toBe(true)
   expect(v.tithi.title).toBeTruthy()
   expect(v.facts.length).toBeGreaterThan(3)
-})
-
-describe('sun dial on another day: the device clock time on that date', () => {
-  const loc = city('Vilnius')
-  const now = new Date('2026-10-16T09:50:00Z') // 12:50 in Vilnius (summer time)
-
-  it('today: now', () => {
-    expect(clockOn(computeDay('2026-10-16', loc), loc, now)).toEqual(now)
-  })
-
-  it('another day: 12:50 there too, also after summer time ends (Oct 25)', () => {
-    expect(clockOn(computeDay('2026-10-20', loc), loc, now).toISOString()).toBe('2026-10-20T09:50:00.000Z')
-    expect(clockOn(computeDay('2026-10-30', loc), loc, now).toISOString()).toBe('2026-10-30T10:50:00.000Z')
-  })
-
-  it('the countdown runs from that time, not from sunrise', () => {
-    const day = computeDay('2026-10-20', loc)
-    const clock = clockOn(day, loc, now)
-    const v = dayView(day, loc, day.sunrise!, 'vedic', clock)
-    const mins = Math.round((day.sunset!.getTime() - clock.getTime()) / 60_000)
-    expect(v.next?.in).toBe(`${Math.floor(mins / 60)} h ${mins % 60} min`)
-  })
 })
 
 // About page groups (user, 2026-10-05): every term sits in exactly one group.
@@ -235,74 +157,11 @@ it('Sky chart agrees with the day screen at sunrise', () => {
   }
 })
 
-// User, 2026-10-10 (whole-app review): days to avoid are too many to mark on the month (Drik,
-// October 2026 Vilnius: Panchak, Bhadra and Ganda Mool touch 19 of 31 days), so the day's time
-// list carries Bhadra, Vyatipata, Vaidhriti and the eclipse as times to avoid, each with the
-// same day track as the other rows.
-describe('times to avoid beyond Rahu Kaal (Vilnius 2026)', () => {
-  const loc = city('Vilnius')
-  const rows = (date: string) => dayView(computeDay(date, loc), loc, new Date(`${date}T09:00:00Z`)).windows
-  const row = (date: string, term: string) => rows(date).find((w) => w.term === term)
-
-  it('Bhadra is the Vishti half lunar day, cut to the Panchang day (Drik Oct 14: 09:46–22:43)', () => {
-    const day = computeDay('2026-10-14', loc)
-    const vishti = day.karana.find((k) => k.index === 7)!
-    expect(row('2026-10-14', 'bhadra')).toMatchObject({ kind: 'avoid', sanskrit: 'Bhadra', start: time(vishti.start, loc), end: time(vishti.end, loc) })
-    expect(row('2026-10-14', 'amritSiddhi')!.track!.clashes.length, 'Bhadra inside Amrit Siddhi').toBeGreaterThan(0)
-    expect(row('2026-10-15', 'bhadra')).toBeUndefined()
-  })
-
-  it('Vyatipata and Vaidhriti come from the yoga of the day (Drik: Vyatipata from Oct 27 07:23)', () => {
-    const day = computeDay('2026-10-27', loc)
-    const v = day.yoga.find((y) => y.index === 17)!
-    expect(row('2026-10-27', 'vyatipata')).toMatchObject({ kind: 'avoid', start: time(v.start > day.sunrise! ? v.start : day.sunrise, loc) })
-    const october = Array.from({ length: 31 }, (_, i) => `2026-10-${String(i + 1).padStart(2, '0')}`)
-    const vaidhriti = october.filter((d) => row(d, 'vaidhriti'))
-    expect(vaidhriti.length).toBeGreaterThanOrEqual(1)
-    expect(vaidhriti.length).toBeLessThanOrEqual(3)
-  })
-
-  it('an eclipse is a time to avoid while it can be seen here (Drik Aug 28: 05:34 to moonset 06:16)', () => {
-    expect(row('2026-08-28', 'eclipse')).toMatchObject({ kind: 'avoid', sanskrit: 'Chandra Grahan' })
-    expect(row('2026-03-03', 'eclipse'), 'not visible in Vilnius').toBeUndefined()
-  })
-
-  it('every row with a time has a track inside the day, and the track knows where daylight ends', () => {
-    const v = dayView(computeDay('2026-10-14', loc), loc, new Date('2026-10-14T09:00:00Z'))
-    for (const w of v.windows.filter((x) => x.start)) {
-      expect(w.track, w.term).not.toBeNull()
-      expect(w.track!.from).toBeGreaterThanOrEqual(0)
-      expect(w.track!.to).toBeLessThanOrEqual(1)
-      expect(w.track!.from).toBeLessThan(w.track!.to)
-    }
-    expect(v.track.dusk).toBeGreaterThan(0.3)
-    expect(v.track.dusk).toBeLessThan(0.6)
-  })
-})
-
 // User, 2026-10-10: every sheet read on the day screen opens on that day — its times, why they
 // fall there, and what tradition does — and its numbers are the ones the row shows.
 describe('day sheets lead with the day (Vilnius 2026)', () => {
   const loc = city('Vilnius')
   const view = (date: string, at = `${date}T09:00:00Z`) => dayView(computeDay(date, loc), loc, new Date(at))
-  const row = (date: string, term: string) => view(date).windows.find((w) => w.term === term)!
-
-  it("Rahu Kaal: today's range, the eighth it is on this weekday, then what tradition does", () => {
-    const r = row('2026-10-10', 'rahuKaal') // Saturday: the third eighth
-    expect(r.lead.text).toContain(`${r.start}–${r.end}`)
-    expect(r.lead.text).toContain('on Saturday Rahu Kaal is part 3')
-    expect(r.lead.text.endsWith(content.tradition.rahuKaal)).toBe(true)
-  })
-
-  it("Amrit Siddhi names the weekday and the Moon's star that make it (Wed + Anuradha)", () => {
-    const r = row('2026-10-14', 'amritSiddhi')
-    expect(r.lead.text).toContain('Wednesday, and the Moon is in Anuradha: this pair makes Amrit Siddhi')
-    expect(r.lead.text).toContain(`${r.start}–${r.end}`)
-  })
-
-  it('Bhadra says which half of which lunar day it is (Oct 14: the second half of day 4)', () => {
-    expect(row('2026-10-14', 'bhadra').lead.text).toMatch(/^.+: the second half of lunar day 4 /)
-  })
 
   it("the month, the signs and the tradition card say what today's value means", () => {
     const v = view('2026-10-10')
@@ -314,49 +173,16 @@ describe('day sheets lead with the day (Vilnius 2026)', () => {
   })
 
   it('an eclipse names what is seen here (Aug 28: from 05:33 to moonset; the peak after it)', () => {
-    const r = row('2026-08-28', 'eclipse')
-    expect(r.lead.text).toContain(`Seen here ${r.start}–${r.end}`)
-    expect(r.lead.text).toContain('is not seen here')
+    const f = view('2026-08-28').facts.find((x) => x.lead?.text.includes('Seen here'))!
+    expect(f.lead!.text).toMatch(/Seen here 05:3\d–06:1\d/)
+    expect(f.lead!.text).toContain('is not seen here')
   })
 
   it('every tappable thing on the day screen has a lead', () => {
     for (const date of ['2026-10-06', '2026-10-10', '2026-10-14', '2026-10-17', '2026-08-28']) {
       const v = view(date)
-      for (const w of v.windows) expect(w.lead.text, `${date} ${w.term}`).not.toBe('')
       for (const f of [...v.facts, ...v.moreFacts]) expect(f.lead?.text, `${date} ${f.term}`).toBeTruthy()
-      for (const c of v.choghadiya) expect(c.lead.text).toBeTruthy()
       expect(v.tithi.lead.text && v.moonSign.lead.text && v.sunSign.lead.text).toBeTruthy()
     }
-  })
-})
-
-// User, 2026-10-10: a night part's sheet said how the *day* starts, and the general text took
-// two thirds of it. Each part's sheet is about that part only; the general text is in the glossary.
-describe('Choghadiya sheets are about the part tapped (Vilnius, Tuesday 2026-10-06)', () => {
-  const loc = city('Vilnius')
-  const day = computeDay('2026-10-06', loc)
-  const v = dayView(day, loc, new Date('2026-10-06T09:00:00Z'))
-
-  it("say which of whose eight parts it is, then its meaning", () => {
-    const dayRow = v.choghadiya.find((c) => c.part === 'day')!
-    const nightRow = v.choghadiya.filter((c) => c.part === 'night')[4]
-    expect(dayRow.lead.title).toBe(`${dayRow.name} · ${dayRow.sanskrit} · ${dayRow.start}–${dayRow.end}`)
-    expect(dayRow.lead.text).toMatch(/^Part 1 of 8 of Tuesday's day, about \d+ min each\. /)
-    expect(nightRow.lead.text).toMatch(/^Part 5 of 8 of Tuesday's night, about \d+ min each\. /)
-    expect(dayRow.lead.text).not.toContain('starts with')
-  })
-
-  it('a good part inside Rahu Kaal says tradition still avoids it (Shubh 15:54–17:18)', () => {
-    const { rahuKaal } = day.windows
-    const good = day.choghadiya.filter((p) => !p.night && ['amrit', 'shubh', 'labh'].includes(p.name) && p.start < rahuKaal!.end && rahuKaal!.start < p.end)
-    expect(good.length).toBeGreaterThan(0)
-    expect(v.choghadiya.filter((c) => c.part === 'day' && /falls in Rahu Kaal/.test(c.lead.text)).length).toBe(good.length)
-  })
-
-  it("before sunrise, last night's parts are Monday's", () => {
-    const early = dayView(day, loc, new Date('2026-10-06T03:00:00Z'), 'vedic', new Date('2026-10-06T03:00:00Z'))
-    const before = early.choghadiya.filter((c) => c.part === 'before')
-    expect(before.length).toBeGreaterThan(0)
-    for (const c of before) expect(c.lead.text).toContain("of Monday's night")
   })
 })

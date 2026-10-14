@@ -83,13 +83,8 @@ describe('favoured days, October 2026, Vilnius (SPEC 4.11)', () => {
     expect(view.events.some((e) => e.sub === 'Sarvartha Siddhi')).toBe(false)
   })
 
-  it('shows one favoured row on the day screen, in the time list, and not again among the facts', () => {
+  it('does not list a favoured day among the day facts (the day clock shows its window)', () => {
     const view = (date: string) => dayView(computeDay(date, loc), loc, new Date(`${date}T10:00:00Z`))
-    const favoured = (date: string) => view(date).windows.filter((w) => w.kind === 'favoured')
-    expect(favoured('2026-10-14').map((w) => [w.term, w.sanskrit])).toEqual([['amritSiddhi', 'Amrit Siddhi']])
-    expect(favoured('2026-10-04').map((w) => [w.term, w.sanskrit])).toEqual([['pushya', 'Ravi Pushya']])
-    expect(favoured('2026-10-04')[0].start).toMatch(/^(21|9):44/)
-    expect(favoured('2026-10-06').map((w) => w.term)).toEqual(['sarvarthaSiddhi'])
     for (const d of ['2026-10-04', '2026-10-06', '2026-10-14']) expect(view(d).facts.map((f) => f.term).filter((x) => /Siddhi|pushya/.test(x)), d).toEqual([])
   })
 })

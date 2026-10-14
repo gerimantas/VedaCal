@@ -1,4 +1,4 @@
-// Sky screen chart (user, 2026-10-05; prototype mockups/sky-flat.ts): the Sun, the Moon and
+// Sky screen chart (user, 2026-10-05): the Sun, the Moon and
 // the Earth share one plane, so a top-down chart says it all. Earth in the centre; the Moon's
 // orbit cut into the 30 lunar days counted from the Sun; the Sun in its direction; a ring of
 // the 27 Moon stars; and an outer ring of the 12 signs. Not to scale: only directions are true.

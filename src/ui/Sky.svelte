@@ -1,7 +1,7 @@
 <script lang="ts">
   // Sky screen (user, 2026-10-05): a top-down chart of the Sun, the Moon and the Earth over
   // the 30 lunar days, 27 Moon stars and 12 signs (./sky), then the facts it shows, a folded
-  // legend and a time slider (±15 days). Prototype: mockups/sky-flat.ts.
+  // legend and a time slider (±15 days).
   import VersionTag from './VersionTag.svelte'
   import { civilDate } from '../core/time'
   import { LOCALE, barDate, entry, t } from './format'

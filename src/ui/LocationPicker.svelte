@@ -1,7 +1,6 @@
 <script lang="ts">
-  // Settings tab (SPEC 5.3, 6): the location picker — the approved P3 mockup
-  // (mockups/location.ts) with the real GeoNames search, offline, every city above 15,000
-  // people — then zodiac signs (Vedic by default), time format and theme.
+  // Settings tab (SPEC 5.3, 6): the location picker — the real GeoNames search, offline, every
+  // city above 15,000 people — then zodiac signs (Vedic by default), time format and theme.
   import VersionTag from './VersionTag.svelte'
   import { loadCities, nearest, search, type CityIndex, type Place } from './cities'
   import { LANG, countryName, deviceHour12, t, time } from './format'

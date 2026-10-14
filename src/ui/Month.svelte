@@ -1,6 +1,6 @@
 <script lang="ts">
-  // Month screen (SPEC 5.2) — the approved P3 mockup (mockups/month.ts) in Svelte. Both render
-  // monthView() from ./month. Tapping a day or a key date opens that day.
+  // Month screen (SPEC 5.2): renders monthView() from ./month. Tapping a day or a key date
+  // opens that day.
   import VersionTag from './VersionTag.svelte'
   import { computeMonth } from '../core/panchang'
   import { civilDate } from '../core/time'
