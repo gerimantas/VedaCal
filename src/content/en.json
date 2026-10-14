@@ -1057,7 +1057,16 @@
     "baana_raja": "Raja Baana spoils serving a king (official matters); it holds by day.",
     "baana_chora": "Chora Baana spoils travel; it holds at night.",
     "baana_roga": "Roga Baana spoils the sacred thread rite; it holds at night.",
-    "base": "The lunar day, the weekday and the Moon's star, each rated for the chosen activity; how they combine is a rule of this app."
+    "base": "The lunar day, the weekday and the Moon's star, each rated for the chosen activity; how they combine is a rule of this app.",
+    "hora": "The day is split into 24 horas, each ruled by a planet; the day's first hora belongs to the weekday's lord. An act meant for a weekday may, if it cannot wait, be done in that weekday's planet's hora; so a hora suits the activities its planet's weekday suits (drawn from two rules, not one sentence).",
+    "anandadi": "28 yogas from the weekday and the Moon's star together; \"each gives the fruit its name says\". Which are good is marked by Drik; the bad ones are a regional custom, so the app does not count them; the first 4 ghatikas of Padma are bad.",
+    "pushkara": "Lunar day 2, 7 or 12 on a Sunday, Tuesday or Saturday with certain stars: \"death, loss or gain is tripled\" (Tri) or doubled (Dwi). So the app counts it neither good nor bad – it only shows it.",
+    "sankranti": "16 ghatikas before the Sun enters Karka, Vrishabha, Simha, Vrishchika, Kumbha; 8 each side of Tula and Mesha; 16 after entering the other signs – \"very meritorious\" for bathing and gifts. The app counts them good for spiritual rites.",
+    "panchaka": "With the Moon in Kumbha or Meena these are not done: cremation, travel south, making a bed, roofing a house, gathering firewood.",
+    "dishaShool": "Each weekday has a direction not travelled that day. The directions as Drik gives them: Sunday and Friday west, Monday and Saturday east, Tuesday and Wednesday north, Thursday south.",
+    "dawn": "For travel dawn is good, except travel east. The time as Drik draws it (the tenth of the night before sunrise).",
+    "godhuli": "For travel the time after sunset is good, except travel west. The time as Drik draws it.",
+    "nishita": "For travel the time around midnight is good, except travel north. The time as Drik draws it."
   },
   "traditionSource": {
     "brahma": "Ashtanga Hridaya, Sutrasthana 2.1",
@@ -1098,7 +1107,16 @@
     "baana_raja": "Muhurta Chintamani 6.73–74",
     "baana_chora": "Muhurta Chintamani 6.73–74",
     "baana_roga": "Muhurta Chintamani 6.73–74",
-    "base": "Muhurta Chintamani 1.4, 2.2–8"
+    "base": "Muhurta Chintamani 1.4, 2.2–8",
+    "hora": "Muhurta Chintamani 1.56, 2.2–8; Kalaprakasika, p. 176–177; Drik Panchang",
+    "anandadi": "Muhurta Chintamani 1.23–26, 1.31; Drik Panchang",
+    "pushkara": "Muhurta Chintamani 2.50; Drik Panchang",
+    "sankranti": "Muhurta Chintamani 3.8",
+    "panchaka": "Muhurta Chintamani 2.48",
+    "dishaShool": "Muhurta Chintamani 1.56; Drik Panchang",
+    "dawn": "Muhurta Chintamani, travel chapter, 51; Drik Panchang",
+    "godhuli": "Muhurta Chintamani, travel chapter, 51; Drik Panchang",
+    "nishita": "Muhurta Chintamani, travel chapter, 51; Drik Panchang"
   },
   "leads": {
     "firstHalf": "first",

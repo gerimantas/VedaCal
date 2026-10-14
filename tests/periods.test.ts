@@ -689,12 +689,14 @@ it('every moment of the day belongs to exactly one segment, for every group', ()
 })
 
 it('the day clock names every period and colours every shade in both palettes', async () => {
-  const { periodName, levelWord, colourVar, clockModel } = await import('../src/ui/verdict')
+  const { periodName, periodWhy, levelWord, colourVar, clockModel } = await import('../src/ui/verdict')
   for (const date of ['2026-10-10', '2026-10-06', '2026-10-25', '2026-05-10']) {
     const day = computeDay(date, VILNIUS), prev = computeDay(addDays(date, -1), VILNIUS)
     for (const p of dayPeriods(day, prev).periods) {
       expect(periodName(p), p.kind).toMatch(/\S/)
       expect(levelWord(p), p.kind).toMatch(/\S/)
+      // every period that can decide says why, with its source (user, 2026-10-14)
+      if (p.decides) expect(periodWhy(p).text && periodWhy(p).source, `${p.kind} ${JSON.stringify(p.detail)}`).toMatch(/\S/)
       for (const palette of ['current', 'rainbow'] as const) expect(colourVar(p.level, palette)).toMatch(/^--/)
     }
     expect(clockModel(day, prev, 0)?.segments.length).toBeGreaterThan(0)

@@ -1057,7 +1057,16 @@
     "baana_raja": "Raja Baana gadina tarnybą valdovui (oficialius reikalus); galioja dieną.",
     "baana_chora": "Chora Baana gadina kelionę; galioja naktį.",
     "baana_roga": "Roga Baana gadina šventosios virvelės apeigą; galioja naktį.",
-    "base": "Mėnulio diena, savaitės diena ir Mėnulio žvaigždynas, įvertinti pasirinktai veiklai; kaip juos sujungti – programos taisyklė."
+    "base": "Mėnulio diena, savaitės diena ir Mėnulio žvaigždynas, įvertinti pasirinktai veiklai; kaip juos sujungti – programos taisyklė.",
+    "hora": "Para dalijama į 24 horas, kiekvieną valdo planeta; pirmoji dienos hora priklauso savaitės dienos valdovui. Darbas, skirtas savaitės dienai, jei negali laukti, gali būti daromas tos dienos planetos horoje; todėl hora tinka toms veikloms, kurios tinka jos planetos savaitės dienai (išvada iš dviejų taisyklių, ne vieno sakinio).",
+    "anandadi": "28 jogos pagal savaitės dienos ir Mėnulio žvaigždyno derinį; „kiekviena duoda tai, ką sako jos vardas“. Kurios geros, pažymi Drik; blogosios – vietinis paprotys, todėl programa jų nevertina; Padma pirmosios 4 ghatikos blogos.",
+    "pushkara": "2-a, 7-a ar 12-a Mėnulio diena sekmadienį, antradienį ar šeštadienį su tam tikru žvaigždynu: „mirtis, nuostolis ar laimėjimas patrigubėja“ (Tri) arba padvigubėja (Dwi). Todėl programa jo nelaiko nei geru, nei blogu – tik rodo.",
+    "sankranti": "16 ghatikų prieš Saulei įeinant į Karka, Vrishabha, Simha, Vrishchika, Kumbha; po 8 abipus Tula ir Mesha; 16 po įėjimo į kitus ženklus – „labai nuopelningi“ maudynėms ir dovanoms. Programa juos laiko palankiais dvasinėms apeigoms.",
+    "panchaka": "Kai Mėnulis yra Kumbha ar Meena ženkle, nedaroma: laidotuvės, kelionė į pietus, lovos gaminimas, stogo dengimas, malkų rinkimas.",
+    "dishaShool": "Kiekviena savaitės diena turi kryptį, kuria tą dieną nekeliaujama. Kryptys – kaip Drik: sekmadienį ir penktadienį vakarai, pirmadienį ir šeštadienį rytai, antradienį ir trečiadienį šiaurė, ketvirtadienį pietūs.",
+    "dawn": "Kelionei aušra gera, išskyrus kelionę į rytus. Laikas – kaip Drik (dešimtoji nakties dalis prieš saulėtekį).",
+    "godhuli": "Kelionei laikas po saulėlydžio geras, išskyrus kelionę į vakarus. Laikas – kaip Drik.",
+    "nishita": "Kelionei laikas apie vidurnaktį geras, išskyrus kelionę į šiaurę. Laikas – kaip Drik."
   },
   "traditionSource": {
     "brahma": "Aštangahridaja, Sūtrasthāna 2.1",
@@ -1098,7 +1107,16 @@
     "baana_raja": "Muhurta Chintamani 6.73–74",
     "baana_chora": "Muhurta Chintamani 6.73–74",
     "baana_roga": "Muhurta Chintamani 6.73–74",
-    "base": "Muhurta Chintamani 1.4, 2.2–8"
+    "base": "Muhurta Chintamani 1.4, 2.2–8",
+    "hora": "Muhurta Chintamani 1.56, 2.2–8; Kalaprakasika, psl. 176–177; Drik Panchang",
+    "anandadi": "Muhurta Chintamani 1.23–26, 1.31; Drik Panchang",
+    "pushkara": "Muhurta Chintamani 2.50; Drik Panchang",
+    "sankranti": "Muhurta Chintamani 3.8",
+    "panchaka": "Muhurta Chintamani 2.48",
+    "dishaShool": "Muhurta Chintamani 1.56; Drik Panchang",
+    "dawn": "Muhurta Chintamani, kelionių skyrius, 51; Drik Panchang",
+    "godhuli": "Muhurta Chintamani, kelionių skyrius, 51; Drik Panchang",
+    "nishita": "Muhurta Chintamani, kelionių skyrius, 51; Drik Panchang"
   },
   "leads": {
     "firstHalf": "pirmoji",
