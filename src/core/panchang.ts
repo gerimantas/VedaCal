@@ -22,6 +22,7 @@ import {
   SearchLocalSolarEclipse,
   SearchLunarEclipse,
   SearchMoonPhase,
+  SearchRiseSet,
   SearchSunLongitude,
   SiderealTime,
   SunPosition,
@@ -557,6 +558,67 @@ export function skyAt(t: Date): { sun: number; moon: number } {
   return { sun: siderealSun(ayanamsa)(t), moon: siderealMoon(ayanamsa)(t) }
 }
 
+// ── Jupiter and Venus combust (asta, month rule M1) ─────────────────────────────
+
+const ASTA_BODY = { jupiter: Body.Jupiter, venus: Body.Venus } as const
+type AstaBody = keyof typeof ASTA_BODY
+const HOUR_MS = 3_600_000
+
+/**
+ * The Sun's altitude, at the planet's set (evening) or rise (morning), at or below which the
+ * planet is seen — the arcus visionis. [MC] gives none (SPEC 13.3); these are read off Drik's
+ * Graha Asta pages, 3 cities, 2024–2027 (tests/asta.test.ts): Jupiter −7.1° setting, −8.99°
+ * rising; Venus −5.7° (Schoch's value), but −4.88° in the evening while it nears the Sun.
+ */
+function seenBelow(body: AstaBody, evening: boolean, nearing: boolean): number {
+  if (body === 'jupiter') return evening ? -7.1 : -8.99
+  return evening && nearing ? -4.88 : -5.7
+}
+
+const astaEvents = new Map<string, { at: Date; seen: boolean } | null>()
+/** Whether the planet is seen on `date`, and when it rises (morning sky) or sets (evening sky). */
+function astaEvent(body: AstaBody, loc: Location, date: string) {
+  return remember(astaEvents, `${body},${key(loc, date)}`, () => {
+    const sunrise = sunriseOn(loc, date)
+    const sunset = sunsetOn(loc, date)
+    if (!sunrise || !sunset) return null
+    const t = noon(loc, date)
+    const gap = (u: Date) => norm(tropical(ASTA_BODY[body], u) - tropical(Body.Sun, u) + 180) - 180
+    const g = gap(t)
+    if (Math.abs(g) > 60) return { at: t, seen: true } // far from the Sun: never lost in its light
+    const evening = g > 0
+    const observer = observerOf(loc)
+    const ev = evening
+      ? SearchRiseSet(ASTA_BODY[body], observer, -1, MakeTime(new Date(sunset.getTime() - 6 * HOUR_MS)), 1)
+      : SearchRiseSet(ASTA_BODY[body], observer, +1, MakeTime(new Date(sunrise.getTime() - 12 * HOUR_MS)), 1)
+    if (!ev) return null
+    const sun = Equator(Body.Sun, ev.date, observer, true, true)
+    const depth = Horizon(ev.date, observer, sun.ra, sun.dec, 'normal').altitude
+    const nearing = Math.abs(gap(new Date(t.getTime() + DAY_MS))) < Math.abs(g)
+    return { at: ev.date, seen: depth <= seenBelow(body, evening, nearing) }
+  })
+}
+
+/** Combust spans of Jupiter and Venus over the days around `date` (two before to one after). */
+function combustNear(loc: Location, date: string): DayPanchang['combust'] {
+  const out: DayPanchang['combust'] = []
+  for (const body of ['jupiter', 'venus'] as const) {
+    const ev = [-2, -1, 0, 1].map((k) => astaEvent(body, loc, addDays(date, k)))
+    if (ev.some((e) => !e)) continue
+    const days = ev as { at: Date; seen: boolean }[]
+    let start: Date | null = null
+    for (let k = 0; k + 1 < days.length; k++) {
+      if (days[k].seen && !days[k + 1].seen) start = days[k].at
+      if (!days[k].seen && days[k + 1].seen) {
+        out.push({ body, start, end: days[k + 1].at })
+        start = null
+      }
+    }
+    if (!days[days.length - 1].seen) out.push({ body, start, end: null })
+  }
+  return out
+}
+
 // ── The day ─────────────────────────────────────────────────────────────────────
 
 const interval = (w: { start: Date; end: Date } | null | undefined): Interval | null =>
@@ -655,6 +717,7 @@ export function computeDay(date: string, loc: Location): DayPanchang {
       rhythm: rhythm(loc, date),
       marks: marksOn(loc, date),
       eclipses: eclipsesNear(loc, date, from, to),
+      combust: Math.abs(loc.lat) < LAGNA_MAX_LAT ? combustNear(loc, date) : [],
       ayanamsha: ayanamsa,
     }
   })

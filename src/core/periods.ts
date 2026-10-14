@@ -13,7 +13,7 @@ export const GROUPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
 const ALL: readonly number[] = GROUPS
 
 /** Values of SPEC 13.2 not computed yet — the screen says so while the list is not empty. */
-export const MISSING = ['combustion'] as const
+export const MISSING = ['hora', 'anandadi', 'pushkara', 'travel', 'sankranti'] as const
 
 export type PeriodKind =
   | 'rahuKaal' | 'yamaganda' | 'gulika' | 'durMuhurtam' | 'noon' | 'midnight'
@@ -363,6 +363,9 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
     if (s.name)
       for (const w of when[s.name])
         add(s.start > w.start ? s.start : w.start, s.end < w.end ? s.end : w.end, 'baana', 'veto', 'R19', { groups: [BAANA_GROUP[s.name]], detail: { name: s.name } })
+
+  // Jupiter or Venus combust (M1): a veto for RITES from the planet's last sighting to its next.
+  for (const c of day.combust) add(c.start ?? window.start, c.end ?? window.end, 'month', 'veto', 'M1', { groups: RITES, detail: { name: `${c.body}Asta` } })
 
   // Month rules (SPEC 13.3), each a veto for the groups its record names: M1's Adhika month and
   // M2 Jupiter in Magha – P.Phalguni 1 for RITES; M5 outside the marriage months for marriage —

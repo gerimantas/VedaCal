@@ -94,6 +94,11 @@ export type DayPanchang = {
   /** Rising sign (Udaya Lagna, sidereal, 1 Mesha … 12 Meena) from sunrise to the next sunrise; the first starts before sunrise; empty above 66° latitude. */
   lagna: Span[]
   marks: DayMark[]
+  /**
+   * Jupiter or Venus combust (asta, M1) around this day: from its rise / set on the last day it is
+   * seen to its rise / set on the first day it is seen again; null = before / after the days looked at.
+   */
+  combust: { body: 'jupiter' | 'venus'; start: Date | null; end: Date | null }[]
   /** Eclipses seen here from about 6 lunar months before this day to 4 days after it (E1). */
   eclipses: SeenEclipse[]
   newMoon: Date | null // instant inside this civil day

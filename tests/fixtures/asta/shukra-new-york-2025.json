@@ -1,0 +1,18 @@
+{
+  "source": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=5128581&year=2025",
+  "fetchedAt": "2026-10-14T10:05:03.897Z",
+  "city": "new-york",
+  "planet": "shukra",
+  "year": 2025,
+  "tz": "America/New_York",
+  "asta": [
+    {
+      "start": "2025-03-20T23:38:00.000Z",
+      "end": "2025-03-23T10:14:00.000Z"
+    },
+    {
+      "start": "2025-12-08T11:34:00.000Z",
+      "end": "2026-02-04T22:49:00.000Z"
+    }
+  ]
+}

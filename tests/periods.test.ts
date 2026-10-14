@@ -101,13 +101,20 @@ describe('periods, Vilnius 2026-10-10 (example 1)', () => {
     expect(verdictAt('2026-10-10', 0, L('2026-10-10', '18:40')).verdict).toBe('avoid')
     expect(verdictAt('2026-10-10', 0, L('2026-10-10', '19:10')).verdict).toBe('fb')
   })
-  it('group 7: Amavasya no veto, Brahma Muhurta lifts the poor base to neutral, Abhijit good', () => {
+  it('group 7: Amavasya no veto, Brahma Muhurta lifts the poor base to neutral, Abhijit good — inside the day', () => {
+    // The day's own values, without the month rules (Venus is combust here, M1).
+    const at = (hhmm: string) => {
+      const t = L('2026-10-10', hhmm)
+      return verdictOf(periods.filter((p) => p.kind !== 'month' && p.start <= t && t < p.end), 7)
+    }
     // Amavasya is the last of the dark half's five low tithis (D4): base poor; BM + → neutral.
-    expect(verdictAt('2026-10-10', 7, L('2026-10-10', '06:10')).verdict).toBe('neutral')
-    expect(verdictAt('2026-10-10', 7, L('2026-10-10', '06:55')).verdict).toBe('fb') // BM over, base poor
-    const a = verdictAt('2026-10-10', 7, L('2026-10-10', '13:20'))
-    expect(a).toMatchObject({ verdict: 'good', strong: true })
-    expect(verdictAt('2026-10-10', 7, L('2026-10-10', '13:05')).verdict).toBe('avoid') // noon window inside Abhijit
+    expect(at('06:10').verdict).toBe('neutral')
+    expect(at('06:55').verdict).toBe('fb') // BM over, base poor
+    expect(at('13:20')).toMatchObject({ verdict: 'good', strong: true })
+    expect(at('13:05').verdict).toBe('avoid') // noon window inside Abhijit
+  })
+  it('group 7: with the month rules, Venus combust avoids the whole day (M1; Drik: asta 09-04 → 10-31)', () => {
+    expect(verdictAt('2026-10-10', 7, L('2026-10-10', '13:20')).by.map((p) => p.detail?.name)).toContain('venusAsta')
   })
 })
 

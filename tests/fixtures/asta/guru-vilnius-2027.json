@@ -1,0 +1,14 @@
+{
+  "source": "https://www.drikpanchang.com/planet/asta/guru-asta-date-time.html?geoname-id=593116&year=2027",
+  "fetchedAt": "2026-10-14T10:04:34.006Z",
+  "city": "vilnius",
+  "planet": "guru",
+  "year": 2027,
+  "tz": "Europe/Vilnius",
+  "asta": [
+    {
+      "start": "2027-07-19T19:53:00.000Z",
+      "end": "2027-09-14T02:45:00.000Z"
+    }
+  ]
+}

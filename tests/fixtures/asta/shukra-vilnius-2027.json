@@ -1,0 +1,14 @@
+{
+  "source": "https://www.drikpanchang.com/planet/asta/shukra-asta-date-time.html?geoname-id=593116&year=2027",
+  "fetchedAt": "2026-10-14T10:04:21.059Z",
+  "city": "vilnius",
+  "planet": "shukra",
+  "year": 2027,
+  "tz": "Europe/Vilnius",
+  "asta": [
+    {
+      "start": "2027-04-04T03:05:00.000Z",
+      "end": "2027-10-30T15:28:00.000Z"
+    }
+  ]
+}
