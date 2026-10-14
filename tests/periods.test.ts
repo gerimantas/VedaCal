@@ -568,10 +568,10 @@ describe('Anandadi yogas (R15) against Drik', () => {
 // Panchaka (G3, [MC] 2.48): the Moon in Kumbha or Meena — no roofing, no bed-making: a veto
 // for home and property (3). Travel south is the other act it names (needs a direction).
 describe('Panchaka (G3)', () => {
-  it('Vilnius 2026-10-25: the Moon in Meena until it leaves — group 3 only', () => {
+  it('Vilnius 2026-10-25: the Moon in Meena until it leaves — group 3 (and travel south, below)', () => {
     const day = computeDay('2026-10-25', VILNIUS)
     const { window, periods } = periodsOf('2026-10-25')
-    const ps = periods.filter((p) => p.kind === 'panchaka')
+    const ps = periods.filter((p) => p.kind === 'panchaka' && !p.dir)
     const moon = [...computeDay('2026-10-24', VILNIUS).signs.vedic.moon, ...day.signs.vedic.moon].filter((s) => (s.index === 11 || s.index === 12) && s.end > window.start && s.start < window.end)
     expect(moon.length).toBeGreaterThan(0)
     expect(ps.length).toBeGreaterThan(0)
@@ -581,6 +581,61 @@ describe('Panchaka (G3)', () => {
   })
   it('Vilnius 2026-10-10: the Moon in Simha or Kanya — none', () => {
     expect(periodsOf('2026-10-10').periods.filter((p) => p.kind === 'panchaka')).toHaveLength(0)
+  })
+})
+
+// Travel (group 1) by direction (user, 2026-10-14: the traveller picks one). Disha Shool (R25):
+// the weekday's direction, Drik's field. R9 ([MC] travel ch. 51): dawn good except east,
+// Godhuli except west, Nishita except north, Abhijit except south (a veto there, SPEC 13.2);
+// Panchaka (G3): no travel south. Times as Drik draws them: Pratah Sandhya (the tenth of the
+// night before sunrise), Godhuli (from sunset, a thirtieth of the night), Nishita (a fifteenth
+// of the night around midnight).
+describe('travel by direction (R9, R25, G3)', () => {
+  const placeOf = (city: string): Location => {
+    const x = CITIES[city as keyof typeof CITIES]
+    return { name: x.drikName, country: '', lat: x.lat, lon: x.lon, elevation: x.elevation, tz: x.tz }
+  }
+  for (const file of readdirSync('tests/fixtures/drik')) {
+    const f = JSON.parse(readFileSync(`tests/fixtures/drik/${file}`, 'utf8'))
+    if (!f.nextSunrise) continue
+    it(`${f.city} ${f.date}: Disha Shool, dawn, Godhuli and Nishita as Drik`, () => {
+      const place = placeOf(f.city)
+      const day = computeDay(f.date, place)
+      const { periods } = dayPeriods(day, computeDay(addDays(f.date, -1), place))
+      const one = (kind: Period['kind'], t: Date) => periods.filter((p) => p.kind === kind && p.start <= t && t < p.end)
+      const shool = one('dishaShool', new Date(day.sunrise!.getTime() + 60 * MIN))
+      expect(shool).toHaveLength(1)
+      expect(shool[0]).toMatchObject({ level: 'veto', groups: [1], dir: { only: f.raw['Nivas and Shool']['Disha Shool'][0].toLowerCase() } })
+      const a = f.raw['Auspicious Timings']
+      for (const [kind, key, except, tol] of [['dawn', 'Pratah Sandhya', 'east', 2], ['godhuli', 'Godhuli Muhurta', 'west', 5], ['nishita', 'Nishita Muhurta', 'north', 2]] as const) {
+        const r = range(f.tz, f.date, a[key][0])!
+        const p = periods.find((x) => x.kind === kind && Math.abs(x.start.getTime() - Date.parse(r.start)) <= tol * MIN)
+        expect(p, `${kind} from ${r.start}`).toBeDefined()
+        near(p!.end, new Date(r.end), tol)
+        expect(p).toMatchObject({ level: 'plus', groups: [1], dir: { except } })
+      }
+    })
+  }
+  it('Vilnius 2026-10-10 (Saturday, Disha Shool east): travel east avoided all day, west not; no direction, no effect', () => {
+    const t = L('2026-10-10', '16:30')
+    const v = (dir?: 'east' | 'west') => daySegments(computeDay('2026-10-10', VILNIUS), computeDay('2026-10-09', VILNIUS), 1, dir).find((s) => s.start <= t && t < s.end)!
+    expect(v('east').by.map((p) => p.kind)).toContain('dishaShool')
+    expect(v('west').by.map((p) => p.kind)).not.toContain('dishaShool')
+    expect(v().by.map((p) => p.kind)).not.toContain('dishaShool')
+  })
+  it('Vilnius 2026-10-25 (Moon in Meena): Panchaka avoids travel south only', () => {
+    const t = L('2026-10-25', '09:00')
+    const v = (dir: 'south' | 'north') => daySegments(computeDay('2026-10-25', VILNIUS), computeDay('2026-10-24', VILNIUS), 1, dir).find((s) => s.start <= t && t < s.end)!
+    expect(v('south').by.map((p) => p.kind)).toContain('panchaka')
+    expect(v('north').by.map((p) => p.kind)).not.toContain('panchaka')
+  })
+  it('Abhijit: avoided for travel south, good for travel north', () => {
+    const { periods } = periodsOf('2026-10-10')
+    const ab = periods.find((p) => p.kind === 'abhijit' && p.level === 'strong')!
+    const t = new Date((ab.start.getTime() + ab.end.getTime()) / 2 - 10 * MIN)
+    const active = periods.filter((p) => p.start <= t && t < p.end && p.kind === 'abhijit')
+    expect(verdictOf(active, 1, 'south').verdict).toBe('avoid')
+    expect(verdictOf(active, 1, 'north')).toMatchObject({ verdict: 'good', strong: true })
   })
 })
 

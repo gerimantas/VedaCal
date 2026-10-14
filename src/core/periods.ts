@@ -13,7 +13,7 @@ export const GROUPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
 const ALL: readonly number[] = GROUPS
 
 /** Values of SPEC 13.2 not computed yet — the screen says so while the list is not empty. */
-export const MISSING = ['travel'] as const
+export const MISSING = [] as const
 
 export type PeriodKind =
   | 'rahuKaal' | 'yamaganda' | 'gulika' | 'durMuhurtam' | 'noon' | 'midnight'
@@ -23,6 +23,7 @@ export type PeriodKind =
   | 'abhijit' | 'brahma' | 'sarvartha' | 'amritSiddhi' | 'ravi'
   | 'eclipse' | 'eclipseDays' | 'eclipseStar'
   | 'baana' | 'month' | 'hora' | 'pushkara' | 'sankranti' | 'anandadi' | 'panchaka'
+  | 'dishaShool' | 'dawn' | 'godhuli' | 'nishita'
   | 'choghadiya' | 'base'
 
 /**
@@ -30,6 +31,9 @@ export type PeriodKind =
  * moment; good / neutral / poor / veto are the day base's grades (13.3).
  */
 export type Level = 'veto' | 'fb' | 'strong' | 'plus' | 'good' | 'neutral' | 'poor'
+
+/** A travel direction (group 1); the traveller picks one (user, 2026-10-14). */
+export type Direction = 'north' | 'east' | 'south' | 'west'
 
 export type Period = Interval & {
   kind: PeriodKind
@@ -39,6 +43,8 @@ export type Period = Interval & {
   decides: boolean
   /** Record in the rule registry, e.g. 'R1', 'D3', 'C1'. */
   rule: string
+  /** Travel rules: the period counts only for this direction, or for every direction but this one. */
+  dir?: { only: Direction } | { except: Direction }
   /** Element index the period comes from (tithi 1–30, nakshatra 1–27, yoga 1–27, Choghadiya name …). */
   detail?: Record<string, number | string>
 }
@@ -222,6 +228,9 @@ export function anandadiSpans(day: DayPanchang, prev: DayPanchang, a: Date, b: D
   return out
 }
 
+/** Disha Shool (R25): the direction each weekday (Sunday first) forbids, as Drik gives it. */
+const DISHA_SHOOL: Direction[] = ['west', 'east', 'north', 'north', 'south', 'west', 'east']
+
 const sunStar = (t: Date) => Math.floor(skyAt(t).sun / (360 / 27)) + 1
 
 export type Baana = 'mrityu' | 'agni' | 'raja' | 'chora' | 'roga'
@@ -301,7 +310,10 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
   if (w.rahuKaal) add(w.rahuKaal.start, w.rahuKaal.end, 'rahuKaal', 'veto', 'R1')
   if (w.yamaganda) add(w.yamaganda.start, w.yamaganda.end, 'yamaganda', 'veto', 'R2')
   if (w.gulika) add(w.gulika.start, w.gulika.end, 'gulika', 'veto', 'R3', { decides: false })
-  if (w.abhijit) add(w.abhijit.start, w.abhijit.end, 'abhijit', 'strong', 'R9')
+  if (w.abhijit) {
+    add(w.abhijit.start, w.abhijit.end, 'abhijit', 'strong', 'R9')
+    add(w.abhijit.start, w.abhijit.end, 'abhijit', 'veto', 'R9', { groups: [1], dir: { only: 'south' } })
+  }
   if (w.brahma) add(w.brahma.start, w.brahma.end, 'brahma', 'plus', 'R20', { groups: [5, 7] })
   add(plus(noon, -10 * PALA), plus(noon, 10 * PALA), 'noon', 'veto', 'R18')
 
@@ -373,9 +385,12 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
     if (ANANDADI_GOOD.has(y.name)) add(y.name === 'Padma' ? plus(y.start, 4 * GHATIKA) : y.start, y.end, 'anandadi', 'plus', 'R15', { detail: { name: y.name } })
 
   // Panchaka (G3, [MC] 2.48): the Moon in Kumbha or Meena — no roofing or bed-making, a veto
-  // for home and property (3). Its travel-south part waits for a travel direction.
+  // for home and property (3); no travel south (1).
   const moonSigns = [...prev.signs.vedic.moon, ...day.signs.vedic.moon].filter((s, i, a) => a.findIndex((x) => x.index === s.index && Math.abs(x.start.getTime() - s.start.getTime()) < MIN) === i)
-  for (const s of moonSigns.filter((x) => x.index === 11 || x.index === 12)) add(s.start, s.end, 'panchaka', 'veto', 'G3', { groups: [3] })
+  for (const s of moonSigns.filter((x) => x.index === 11 || x.index === 12)) {
+    add(s.start, s.end, 'panchaka', 'veto', 'G3', { groups: [3] })
+    add(s.start, s.end, 'panchaka', 'veto', 'G3', { groups: [1], dir: { only: 'south' } })
+  }
 
   // Junctions (D5): the end of Panchami, Dashami, Purnima and the start of the next tithi,
   // 1 ghatika each side; Ashlesha, Jyeshtha, Revati and the next star, 2 each side.
@@ -476,6 +491,16 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
     { start: sunset, end: plus(sunset, night) },
     { start: plus(nextSunrise, -night), end: nextSunrise },
   ]
+
+  // Travel (R9, R25; group 1, by direction). Disha Shool: the weekday's direction, all day.
+  // Dawn (Drik's Pratah Sandhya, the sandhyas above), Godhuli (from sunset, a thirtieth of the
+  // night — Drik starts it up to 5 min before sunset outside Aug–Nov, cause not found) and
+  // Nishita (a fifteenth of the night around midnight): + except east, west, north.
+  add(window.start, sunrise, 'dishaShool', 'veto', 'R25', { groups: [1], dir: { only: DISHA_SHOOL[(day.vara + 6) % 7] } })
+  add(sunrise, nextSunrise, 'dishaShool', 'veto', 'R25', { groups: [1], dir: { only: DISHA_SHOOL[day.vara] } })
+  for (const sd of [...(prev.sunset ? [sandhyas[0]] : []), sandhyas[sandhyas.length - 1]]) add(sd.start, sd.end, 'dawn', 'plus', 'R9', { groups: [1], dir: { except: 'east' } })
+  add(sunset, plus(sunset, night / 3), 'godhuli', 'plus', 'R9', { groups: [1], dir: { except: 'west' } })
+  add(plus(midnight, -night / 3), plus(midnight, night / 3), 'nishita', 'plus', 'R9', { groups: [1], dir: { except: 'north' } })
   const when: Record<Baana, Interval[]> = {
     chora: [{ start: window.start, end: sunrise }, { start: sunset, end: nextSunrise }],
     roga: [{ start: window.start, end: sunrise }, { start: sunset, end: nextSunrise }],
@@ -558,9 +583,13 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
 
 // ── The verdict (13.4) ──────────────────────────────────────────────────────────
 
-/** SPEC 13.4 for the periods active at one moment, for one group. */
-export function verdictOf(active: Period[], group: number): { verdict: Verdict; strong: boolean; by: Period[] } {
-  const deciding = active.filter((p) => p.decides && p.groups.includes(group))
+/** Whether a period counts for this travel direction; with none chosen, direction rules do not. */
+export const dirCounts = (p: Period, dir?: Direction | null) =>
+  !p.dir || (!!dir && ('only' in p.dir ? p.dir.only === dir : p.dir.except !== dir))
+
+/** SPEC 13.4 for the periods active at one moment, for one group (and travel direction). */
+export function verdictOf(active: Period[], group: number, dir?: Direction | null): { verdict: Verdict; strong: boolean; by: Period[] } {
+  const deciding = active.filter((p) => p.decides && p.groups.includes(group) && dirCounts(p, dir))
   const of = (level: Level) => deciding.filter((p) => p.kind !== 'base' && p.level === level)
   const base = deciding.find((p) => p.kind === 'base')
   const vetoes = deciding.filter((p) => p.level === 'veto') // the base's Amavasya veto too
@@ -578,7 +607,7 @@ export function verdictOf(active: Period[], group: number): { verdict: Verdict; 
 }
 
 /** The day cut into segments with one verdict each, for one group; equal neighbours merged. */
-export function daySegments(day: DayPanchang, prev: DayPanchang, group: number): Segment[] {
+export function daySegments(day: DayPanchang, prev: DayPanchang, group: number, dir?: Direction | null): Segment[] {
   const { window, periods } = dayPeriods(day, prev)
   const cuts = [...new Set([window.start, window.end, ...periods.flatMap((p) => [p.start, p.end])].map((t) => t.getTime()))]
     .filter((t) => t >= window.start.getTime() && t <= window.end.getTime())
@@ -587,7 +616,7 @@ export function daySegments(day: DayPanchang, prev: DayPanchang, group: number):
   for (let i = 0; i + 1 < cuts.length; i++) {
     const m = new Date((cuts[i] + cuts[i + 1]) / 2)
     const active = periods.filter((p) => p.start <= m && m < p.end && p.groups.includes(group))
-    const v = verdictOf(active, group)
+    const v = verdictOf(active, group, dir)
     const key = (s: { verdict: Verdict; strong: boolean; by: Period[] }) => `${s.verdict}|${s.strong}|${s.by.map((p) => p.kind + p.rule).join(',')}`
     const last = out[out.length - 1]
     if (last && key(last) === key(v)) {

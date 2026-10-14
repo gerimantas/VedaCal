@@ -7,7 +7,7 @@
   import { tzOffsetMinutes } from '../core/time'
   import { t, time } from './format'
   import { app, setSetting } from './state.svelte'
-  import type { Period } from '../core/periods'
+  import type { Direction, Period } from '../core/periods'
   import { clockModel, colourVar, GROUP_LABELS, legendShades, levelWord, periodName, periodNote, periodWhy, ringOf, shadeOf, shadeWord, type Shade } from './verdict'
 
   // `picked`: the moment the hand was moved to, null = now; bound, so the top bar's Now resets it.
@@ -18,9 +18,12 @@
   const DAY = 86_400_000
   const MIN = 60_000
 
+  const DIRECTIONS: Direction[] = ['north', 'east', 'south', 'west']
   const palette = $derived(app.settings.palette)
   const group = $derived(app.settings.activity)
-  const model = $derived(clockModel(day, prev, group))
+  // Travel rules count only for a chosen direction (user, 2026-10-14).
+  const dir = $derived(group === 1 ? app.settings.travelDir : null)
+  const model = $derived(clockModel(day, prev, group, dir))
   let showInputs = $state(false)
 
   // ── Time ↔ angle: 12:00 at the top, clockwise, one turn per 24 hours (local clock time). ──
@@ -240,6 +243,15 @@
         {#each GROUP_LABELS as name, g (g)}<option value={g}>{name}</option>{/each}
       </select>
     </label>
+    {#if group === 1}
+      <label class="activity">
+        <span>{t('direction')}</span>
+        <select value={app.settings.travelDir ?? ''} onchange={(e) => setSetting('travelDir', (e.currentTarget.value || null) as Direction | null)}>
+          <option value="">{t('directionNone')}</option>
+          {#each DIRECTIONS as d (d)}<option value={d}>{t(`dir_${d}`)}</option>{/each}
+        </select>
+      </label>
+    {/if}
 
     <svg
       bind:this={svg}
@@ -319,7 +331,7 @@
       <ul>
         {#each active as p (p)}
           <li>
-            {periodName(p)} — {levelWord(p)}{#if periodNote(p)}<span class="quiet"> · {periodNote(p)}</span>{/if}{#if seg?.by.includes(p)}
+            {periodName(p)} — {levelWord(p)}{#if periodNote(p, dir)}<span class="quiet"> · {periodNote(p, dir)}</span>{/if}{#if seg?.by.includes(p)}
               <b> ← {t('decides')}</b>{/if}
           </li>
         {/each}
@@ -356,7 +368,6 @@
         </li>
       {/each}
     </ol>
-    <p class="quiet missing">{t('clockMissing')}</p>
   </section>
 {/if}
 
@@ -373,11 +384,14 @@
   }
   .activity {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: 4.5rem minmax(0, 1fr);
     align-items: center;
     gap: var(--space-xs);
     font-size: var(--text-sm);
     color: var(--color-muted);
+  }
+  .activity + .activity {
+    margin-top: var(--space-2xs);
   }
   .activity select {
     min-width: 0;
@@ -621,9 +635,5 @@
   }
   .quiet {
     color: var(--color-muted);
-  }
-  .missing {
-    font-size: var(--text-xs);
-    margin-top: var(--space-sm);
   }
 </style>

@@ -1,5 +1,6 @@
 // App state shared by the screens: the chosen location and settings (kept in localStorage —
 // the only things stored, SPEC 6) and the current route.
+import type { Direction } from '../core/periods'
 import type { Place } from './cities'
 import type { Zodiac } from './day'
 import { LANG, prefs, type Lang } from './format'
@@ -29,8 +30,10 @@ export type Palette = 'current' | 'rainbow'
 /**
  * SPEC 5.3. hour12 null = the device's habit until the user picks one; lang null = the device's language.
  * activity: the day clock's activity group, 0 "General" by default (PLAN-periods Q3 decisions).
+ * travelDir: the direction for travel (group 1), null = not chosen (user, 2026-10-14).
  */
-type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme; lang: Lang | null; activity: number; palette: Palette }
+type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme; lang: Lang | null; activity: number; palette: Palette; travelDir: Direction | null }
+const DIRECTIONS: Direction[] = ['north', 'east', 'south', 'west']
 function storedSettings(): Settings {
   let s: Record<string, unknown> = {}
   try {
@@ -45,6 +48,7 @@ function storedSettings(): Settings {
     lang: s.lang === 'en' || s.lang === 'lt' ? s.lang : null,
     activity: Number.isInteger(s.activity) && (s.activity as number) >= 0 && (s.activity as number) <= 9 ? (s.activity as number) : 0,
     palette: s.palette === 'rainbow' ? 'rainbow' : 'current',
+    travelDir: DIRECTIONS.includes(s.travelDir as Direction) ? (s.travelDir as Direction) : null,
   }
 }
 

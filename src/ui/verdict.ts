@@ -1,6 +1,6 @@
 // Day clock view model (PLAN-periods Q7, mockup mockups/research/d7-clock.html): what the clock
 // draws and says, built from the engine's periods and segments (src/core/periods.ts).
-import { daySegments, dayPeriods, type Level, type Period, type Segment, type Verdict } from '../core/periods'
+import { daySegments, dayPeriods, dirCounts, type Direction, type Level, type Period, type Segment, type Verdict } from '../core/periods'
 import type { DayPanchang, Interval } from '../core/types'
 import { content, entry, LOCALE, MONTH, t, tradition, traditionSource } from './format'
 import type { Palette } from './state.svelte'
@@ -84,6 +84,10 @@ export function periodName(p: Period): string {
     case 'month': return t(`periodMonth_${String(d.name)}` as 'periodMonth_adhika')
     case 'baana': return `${String(d.name)[0].toUpperCase()}${String(d.name).slice(1)} Baana`
     case 'panchaka': return 'Panchaka'
+    case 'dishaShool': return t('periodDishaShool', { dir: t(`dir_${p.dir && 'only' in p.dir ? p.dir.only : 'east'}` as 'dir_east') })
+    case 'dawn': return t('periodDawn')
+    case 'godhuli': return 'Godhuli'
+    case 'nishita': return 'Nishita'
     case 'anandadi': return t('periodAnandadi', { name: String(d.name) })
     case 'sankranti': return t('periodSankranti', { sign: (content.rashi as Record<string, { name: string }>)[String(d.sign)].name })
     case 'pushkara': return d.times === 3 ? 'Tri Pushkara' : 'Dwi Pushkara'
@@ -101,8 +105,9 @@ export function periodWhy(p: Period): { text: string; source: string } {
   return { text: tradition(key), source: traditionSource(key) }
 }
 
-/** The readout's note on a period that never decides. */
-export const periodNote = (p: Period) => (p.decides ? '' : p.kind === 'gulika' ? t('disputedNote') : t('shownOnly'))
+/** The readout's note on a period that never decides, or on a travel rule while no direction is chosen. */
+export const periodNote = (p: Period, dir?: Direction | null) =>
+  p.dir && !dir ? t('needsDirection') : p.decides ? '' : p.kind === 'gulika' ? t('disputedNote') : t('shownOnly')
 
 /** Which thin ring a period is drawn on (outside in), or none. */
 export function ringOf(p: Period): 0 | 1 | 2 | null {
@@ -121,13 +126,14 @@ export type ClockModel = {
 }
 
 /** Everything the clock draws for one group, or null when the day has no sunrise or sunset (polar). */
-export function clockModel(day: DayPanchang, prev: DayPanchang, group: number): ClockModel | null {
+export function clockModel(day: DayPanchang, prev: DayPanchang, group: number, dir?: Direction | null): ClockModel | null {
   if (!day.sunrise || !day.sunset || !day.nextSunrise) return null
   const { window, periods } = dayPeriods(day, prev)
   return {
     window,
-    segments: daySegments(day, prev, group),
-    periods: periods.filter((p) => p.groups.includes(group)),
+    segments: daySegments(day, prev, group, dir),
+    // with no direction chosen, travel rules are listed (marked) but do not colour the day
+    periods: periods.filter((p) => p.groups.includes(group) && (!dir || dirCounts(p, dir))),
     sunrise: day.sunrise,
     noon: new Date((day.sunrise.getTime() + day.sunset.getTime()) / 2),
     sunset: day.sunset,
