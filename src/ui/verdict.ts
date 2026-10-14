@@ -1,6 +1,6 @@
 // Day clock view model (PLAN-periods Q7, mockup mockups/research/d7-clock.html): what the clock
 // draws and says, built from the engine's periods and segments (src/core/periods.ts).
-import { daySegments, dayPeriods, dirCounts, type Direction, type Level, type Period, type Segment, type Verdict } from '../core/periods'
+import { daySegments, dayPeriods, dirCounts, type Birth, type Direction, type Level, type Period, type Segment, type Verdict } from '../core/periods'
 import type { DayPanchang, Interval } from '../core/types'
 import { content, entry, LOCALE, MONTH, t, tradition, traditionSource } from './format'
 import type { Palette } from './state.svelte'
@@ -130,13 +130,13 @@ export type ClockModel = {
   sunset: Date
 }
 
-/** Everything the clock draws for one group, or null when the day has no sunrise or sunset (polar). */
-export function clockModel(day: DayPanchang, prev: DayPanchang, group: number, dir?: Direction | null): ClockModel | null {
+/** Everything the clock draws for one group (and, with `birth`, for the user), or null when the day has no sunrise or sunset (polar). */
+export function clockModel(day: DayPanchang, prev: DayPanchang, group: number, dir?: Direction | null, birth: Birth | null = null): ClockModel | null {
   if (!day.sunrise || !day.sunset || !day.nextSunrise) return null
-  const { window, periods } = dayPeriods(day, prev)
+  const { window, periods } = dayPeriods(day, prev, birth)
   return {
     window,
-    segments: daySegments(day, prev, group, dir),
+    segments: daySegments(day, prev, group, dir, birth),
     // with no direction chosen, travel rules are listed (marked) but do not colour the day
     periods: periods.filter((p) => p.groups.includes(group) && (!dir || dirCounts(p, dir))),
     sunrise: day.sunrise,

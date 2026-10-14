@@ -973,7 +973,21 @@
     "periodChandra": "Mėnulis {n}-ame ženkle nuo jūsiškio",
     "periodChandrashtama": "Chandrashtama: Mėnulis 8-ame ženkle nuo jūsiškio",
     "periodJanmaTithi": "Jūsų gimimo Mėnulio diena",
-    "periodJanmaMonth": "Jūsų gimimo mėnuo"
+    "periodJanmaMonth": "Jūsų gimimo mėnuo",
+    "myData": "Mano duomenys",
+    "birthPrivacy": "Jūsų asmeninei Tarabalai ir Chandrabalai. Saugoma tik šiame telefone, niekur nesiunčiama.",
+    "birthDate": "Gimimo data",
+    "birthTime": "Gimimo laikas",
+    "birthTimeUnknown": "Laiko nežinau",
+    "birthPlace": "Gimimo vieta",
+    "birthPlaceChosen": "Pasirinkta: {name}",
+    "birthPlaceNote": "Pakanka artimiausio miesto toje pačioje šalyje: vieta tik parodo, pagal kurį laikrodį nurodytas laikas.",
+    "birthPick": "Tą dieną Mėnulis perėjo iš {a} į {b}. Pasirinkite savo žvaigždę arba įveskite laiką.",
+    "birthStar": "Gimimo žvaigždė",
+    "birthSign": "Mėnulio ženklas",
+    "birthUnknown": "nežinoma",
+    "birthDelete": "Ištrinti mano duomenis",
+    "mine": "Man"
   },
   "masa": {
     "1": {

@@ -3,10 +3,11 @@
   // city above 15,000 people — then zodiac signs (Vedic by default), time format and theme.
   import VersionTag from './VersionTag.svelte'
   import { loadCities, nearest, search, type CityIndex, type Place } from './cities'
-  import { LANG, countryName, deviceHour12, t, time } from './format'
+  import { resolveBirth, type BirthInput } from './birth'
+  import { LANG, content, countryName, deviceHour12, entry, t, time } from './format'
   import { icon } from './icons'
   import { install, promptInstall } from './install.svelte'
-  import { app, setLocation, setSetting } from './state.svelte'
+  import { app, setBirth, setLocation, setSetting } from './state.svelte'
 
   const deviceTz = Intl.DateTimeFormat().resolvedOptions().timeZone
   let index = $state<CityIndex | null>(null)
@@ -40,6 +41,40 @@
       () => (status = 'error'),
       { timeout: 15_000, maximumAge: 600_000 },
     )
+  }
+
+  // ── My data (PLAN-periods Q7.1): birth date, time and place, kept only on this phone. ──
+  const placeOf = (p: Place) => ({ name: p.name, cc: p.cc, country: p.country, tz: p.tz })
+  const blank = (): BirthInput => ({ date: '', time: null, place: placeOf(app.location), star: null })
+  let draft = $state<BirthInput>(app.birth ? { ...app.birth, place: { ...app.birth.place } } : blank())
+  let timeText = $state(app.birth?.time ?? '')
+  let timeUnknown = $state(app.birth ? app.birth.time === null : false)
+  let birthQuery = $state('')
+  $effect(() => {
+    if (birthQuery.trim() && !index) loadCities().then((i) => (index = i))
+  })
+  const birthPlaces = $derived(birthQuery.trim() && index ? search(index, birthQuery).slice(0, 5) : [])
+  const resolved = $derived(app.birth ? resolveBirth(app.birth) : null)
+  const starName = (n: number) => entry('nakshatra', n).name
+  const signName = (n: number) => content.rashi[String(n) as '1'].name
+
+  /** Saved once there is a date and either a time or "I don't know the time". */
+  function commit(keepStar = false) {
+    if (!keepStar) draft.star = null
+    draft.time = timeUnknown ? null : timeText || null
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(draft.date) || (!timeUnknown && !timeText)) return
+    setBirth($state.snapshot(draft))
+  }
+  function pickPlace(p: Place) {
+    draft.place = placeOf(p)
+    birthQuery = ''
+    commit()
+  }
+  function deleteBirth() {
+    setBirth(null)
+    draft = blank()
+    timeText = ''
+    timeUnknown = false
   }
 
   const hour12 = $derived(app.settings.hour12 ?? deviceHour12())
@@ -84,6 +119,49 @@
   {:else if query.trim() && !places.length}
     <p class="footnote">{t('noCities')}</p>
   {/if}
+
+  <h2 class="about-head">{t('myData')}</h2>
+  <section class="card about-intro birth">
+    <p class="quiet">{t('birthPrivacy')}</p>
+    <label class="field">
+      <span>{t('birthDate')}</span>
+      <input type="date" bind:value={draft.date} onchange={() => commit()} />
+    </label>
+    <label class="field">
+      <span>{t('birthTime')}</span>
+      <input type="time" bind:value={timeText} disabled={timeUnknown} onchange={() => commit()} />
+    </label>
+    <label class="check">
+      <input type="checkbox" bind:checked={timeUnknown} onchange={() => commit()} />
+      <span>{t('birthTimeUnknown')}</span>
+    </label>
+    <label class="field">
+      <span>{t('birthPlace')}</span>
+      <input type="search" placeholder={t('searchCity')} autocomplete="off" bind:value={birthQuery} />
+    </label>
+    {#each birthPlaces as p (`${p.name}${p.lat}${p.lon}`)}
+      <button class="place" onclick={() => pickPlace(p)}>{p.name}, {countryName(p.cc, p.country)}</button>
+    {/each}
+    <p class="quiet">{t('birthPlaceChosen', { name: `${draft.place.name}, ${countryName(draft.place.cc, draft.place.country)}` })}. {t('birthPlaceNote')}</p>
+
+    {#if resolved?.choices.length}
+      <p>{t('birthPick', { a: starName(resolved.choices[0]), b: starName(resolved.choices[resolved.choices.length - 1]) })}</p>
+      <div class="segmented" role="group" aria-label={t('birthStar')}>
+        {#each resolved.choices as n (n)}
+          <button aria-pressed={app.birth?.star === n} onclick={() => ((draft.star = n), commit(true))}>{starName(n)}</button>
+        {/each}
+      </div>
+    {/if}
+    {#if resolved?.birth}
+      <dl class="kinds">
+        <dt>{t('birthStar')}</dt><dd>{starName(resolved.birth.star)}</dd>
+        <dt>{t('birthSign')}</dt><dd>{resolved.birth.sign ? signName(resolved.birth.sign) : t('birthUnknown')}</dd>
+      </dl>
+    {/if}
+    {#if app.birth}
+      <button class="gps" onclick={deleteBirth}><span>{t('birthDelete')}</span></button>
+    {/if}
+  </section>
 
   <h2 class="about-head">{t('language')}</h2>
   <section class="card about-intro">

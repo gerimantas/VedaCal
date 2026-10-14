@@ -973,7 +973,21 @@
     "periodChandra": "Moon in the {n}th sign from yours",
     "periodChandrashtama": "Chandrashtama: Moon in the 8th sign from yours",
     "periodJanmaTithi": "Your birth lunar day",
-    "periodJanmaMonth": "Your birth month"
+    "periodJanmaMonth": "Your birth month",
+    "myData": "My data",
+    "birthPrivacy": "For your own Tarabala and Chandrabala. Kept only on this phone; nothing is sent anywhere.",
+    "birthDate": "Birth date",
+    "birthTime": "Birth time",
+    "birthTimeUnknown": "I don't know the time",
+    "birthPlace": "Birth place",
+    "birthPlaceChosen": "Chosen: {name}",
+    "birthPlaceNote": "The nearest city in the same country is enough: the place only tells which clock the time was read on.",
+    "birthPick": "That day the Moon passed from {a} to {b}. Pick your star, or enter the time.",
+    "birthStar": "Birth star",
+    "birthSign": "Moon sign",
+    "birthUnknown": "not known",
+    "birthDelete": "Delete my data",
+    "mine": "For me"
   },
   "masa": {
     "1": {

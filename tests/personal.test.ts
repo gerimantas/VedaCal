@@ -5,6 +5,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { computeDay, skyAt } from '../src/core/panchang'
 import { birthOf, chandraOf, daySegments, taraOf, type Birth } from '../src/core/periods'
+import { resolveBirth } from '../src/ui/birth'
 import { addDays, zonedTimeToUtc } from '../src/core/time'
 import type { Location } from '../src/core/types'
 import { CITIES } from '../scripts/cities'
@@ -104,4 +105,35 @@ describe('example 3, Vilnius 2026-10-25, with the sample birth (Moon in Kanya, H
     expect(at(L('2026-10-25', '20:00'), { star: 0, sign: 0, tithi, month: 0 }).by.map((p) => p.kind)).toContain('janma')
     expect(at(L('2026-10-25', '20:00'), { star: 0, sign: 0, tithi: 0, month: day.masa.amanta }).by.map((p) => p.kind)).toContain('janma')
   })
+})
+
+describe('birth data from Settings (Q7.1)', () => {
+  const place = { name: 'Vilnius', cc: 'LT', country: 'Lithuania', tz: c.tz }
+
+  it('with a time: the birth Moon at that instant, read on the place\'s clock', () => {
+    expect(resolveBirth({ date: '1995-07-15', time: '14:30', place, star: null })).toEqual({ birth: birthOf(L('1995-07-15', '14:30')), choices: [] })
+  })
+  it('the same clock time in New York is another instant, 7 hours later (summer)', () => {
+    const ny = { name: 'New York', cc: 'US', country: 'United States', tz: 'America/New_York' }
+    expect(resolveBirth({ date: '1995-07-15', time: '14:30', place: ny, star: null }).birth).toEqual(birthOf(new Date(L('1995-07-15', '14:30').getTime() + 7 * 3_600_000)))
+  })
+  it('with no time and one star all day: that star; with two: a choice until one is picked', () => {
+    // 2026-10-25 in Vilnius: the Moon moves from Revati (27) to Ashwini (1) at 15:52.
+    const none = resolveBirth({ date: '2026-10-25', time: null, place, star: null })
+    expect(none).toEqual({ birth: null, choices: [27, 1] })
+    const picked = resolveBirth({ date: '2026-10-25', time: null, place, star: 1 })
+    expect(picked.birth).toMatchObject({ star: 1, sign: 1 })
+    expect(picked.choices).toEqual([27, 1])
+    // A star lasts about a day, so a civil day inside one star is the rarer case: find one.
+    const dates = Array.from({ length: 60 }, (_, i) => addDays('2026-10-01', i))
+    const whole = dates.map((date) => resolveBirth({ date, time: null, place, star: null })).find((r) => !r.choices.length)
+    expect(whole?.birth?.star).toBeGreaterThan(0)
+  })
+})
+
+it('birth data never leaves the device: no network calls in the app, CSP connect-src self', () => {
+  const files = (dir: string): string[] => readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? files(`${dir}/${e.name}`) : [`${dir}/${e.name}`]))
+  const calls = files('src').filter((f) => /\.(ts|svelte)$/.test(f)).filter((f) => /\b(fetch|sendBeacon|XMLHttpRequest|WebSocket|EventSource)\b/.test(readFileSync(f, 'utf8')))
+  expect(calls).toEqual([]) // the city list is a bundled module, not a request
+  expect(readFileSync('index.html', 'utf8')).toMatch(/connect-src 'self'/)
 })

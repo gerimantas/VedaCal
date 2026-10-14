@@ -8,6 +8,7 @@
   import { t, time } from './format'
   import { app, setSetting } from './state.svelte'
   import type { Direction, Period } from '../core/periods'
+  import { resolveBirth } from './birth'
   import { clockModel, colourVar, GROUP_LABELS, legendShades, levelWord, periodName, periodNote, periodWhy, ringOf, shadeOf, shadeWord, type Shade } from './verdict'
 
   // `picked`: the moment the hand was moved to, null = now; bound, so the top bar's Now resets it.
@@ -23,7 +24,9 @@
   const group = $derived(app.settings.activity)
   // Travel rules count only for a chosen direction (user, 2026-10-14).
   const dir = $derived(group === 1 ? app.settings.travelDir : null)
-  const model = $derived(clockModel(day, prev, group, dir))
+  // The user's birth data counts while the "For me" switch is on (Q7.1).
+  const birth = $derived(app.birth && app.settings.mine ? resolveBirth(app.birth).birth : null)
+  const model = $derived(clockModel(day, prev, group, dir, birth))
   let showInputs = $state(false)
 
   // ── Time ↔ angle: 12:00 at the top, clockwise, one turn per 24 hours (local clock time). ──
@@ -252,6 +255,12 @@
         </select>
       </label>
     {/if}
+    {#if app.birth}
+      <label class="activity mine">
+        <span>{t('mine')}</span>
+        <input type="checkbox" checked={app.settings.mine} onchange={(e) => setSetting('mine', e.currentTarget.checked)} />
+      </label>
+    {/if}
 
     <svg
       bind:this={svg}
@@ -392,6 +401,12 @@
   }
   .activity + .activity {
     margin-top: var(--space-2xs);
+  }
+  .mine input {
+    justify-self: start;
+    width: 1.2rem;
+    height: 1.2rem;
+    accent-color: var(--color-accent);
   }
   .activity select {
     min-width: 0;

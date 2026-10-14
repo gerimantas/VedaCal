@@ -791,6 +791,59 @@ h3 {
   cursor: pointer;
 }
 
+/* My data (Q7.1): label and input in a row; city matches as plain buttons under the search. */
+.birth .field {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-xs);
+  margin-top: var(--space-2xs);
+}
+
+.birth .field input {
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0 var(--space-xs);
+  border: var(--rule-hair) solid var(--color-card-line);
+  border-radius: var(--radius-md);
+  background: none;
+  color: var(--color-ink);
+  font: inherit;
+  color-scheme: light dark;
+}
+
+.birth .check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: var(--space-2xs) 0 0 calc(7rem + var(--space-xs));
+}
+
+.birth .check input {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--color-accent);
+}
+
+.birth .place {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-3xs);
+  padding: var(--space-xs);
+  border: var(--rule-hair) solid var(--color-card-line);
+  border-radius: var(--radius-md);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.birth .quiet,
+.birth .kinds {
+  margin-top: var(--space-xs);
+}
+
 /* Two-way choice (zodiac signs): one pill per option, the chosen one filled. */
 .segmented {
   display: grid;
