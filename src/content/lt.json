@@ -995,7 +995,8 @@
     "birthSave": "Išsaugoti",
     "birthSaved": "Išsaugota ✓",
     "birthBefore": "Iki {time}",
-    "birthAfter": "Po {time}"
+    "birthAfter": "Po {time}",
+    "cancelledByRavi": "panaikina Ravi yoga"
   },
   "masa": {
     "1": {
@@ -1214,7 +1215,7 @@
     "bhadraTail": "Paskutinės 3 ghatikos („uodega“) tinka visiems darbams; komentaras: „tikra pergalė“.",
     "varjyam": "„Nuodų ghatikos“: 4 ghatikos kiekviename Mėnulio žvaigždyne, „labai peikiamos palankiame darbe“.",
     "amritKalam": "Drik praktika: geras langas kiekviename Mėnulio žvaigždyne. Klasikiniuose šaltiniuose jo neradome.",
-    "ravi": "Mėnulio žvaigždynas 4-as, 6-as, 9-as, 10-as, 13-as arba 20-as nuo Saulės žvaigždyno; „naikina visus trūkumus“.",
+    "ravi": "Mėnulio žvaigždė yra 4-a, 6-a, 9-a, 10-a, 13-a arba 20-a nuo Saulės žvaigždės; „sunaikina visas ydas“. Tekstas nesako, kurias; programa panaikina pačių dienos elementų ydas (Mėnulio dienos ar jogos pirmas valandas, nuodų ghatikas, sandūras, silpną dieną), bet ne Bhadra, Vyatipata, Vaidhriti, užtemimus, Rahu Kaal, Yamaganda ar asmenines ydas (šios programos pasirinkimas).",
     "eclipseDays": "Vengiamos 3 dienos prieš užtemimą; jei dangaus kūnas leidžiasi užtemęs – 3 dienos prieš, jei teka užtemęs – 3 dienos po; po visiško užtemimo – dar 7 dienos.",
     "eclipseStar": "Žvaigždyno, kuriame buvo užtemimas, vengiama: po visiško užtemimo – 6 mėnesius, po pusinio – 3, po mažesnio – 1.",
     "month_adhika": "Šiuo metu nepradedama: vestuvės, statybos ir namų apeigos, įžadai, didžiosios apeigos (pvz., šventoji virvelė), piligrimystė, kelionė.",

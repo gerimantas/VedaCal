@@ -51,7 +51,7 @@ export type Period = Interval & {
 }
 
 export type Verdict = 'good' | 'neutral' | 'fb' | 'avoid'
-export type Segment = Interval & { verdict: Verdict; strong: boolean; by: Period[]; active: Period[] }
+export type Segment = Interval & { verdict: Verdict; strong: boolean; by: Period[]; active: Period[]; cancelled: Period[] }
 
 const MIN = 60_000
 const GHATIKA = 24 * MIN // a ghatika (= danda) taken as 24 minutes (D3, D5, R12, R17)
@@ -660,23 +660,35 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang, birth: Birth | n
 export const dirCounts = (p: Period, dir?: Direction | null) =>
   !p.dir || (!!dir && ('only' in p.dir ? p.dir.only === dir : p.dir.except !== dir))
 
+/**
+ * Faults Ravi yoga destroys ([MC] 1.27 "adoṣa-saṅgha-vināśakāḥ", R16). The text does not say
+ * which; read as the faults of the day's own elements — a tithi's or a yoga's first hours, the
+ * star's poison ghatikas, the junctions, the day base — not Bhadra, Vyatipata, Vaidhriti
+ * ([MC] 1.42 commentary), eclipses, the windows [MC] does not name (Rahu Kalam, Yamaganda) or
+ * the personal ones (user, 2026-10-14, option A).
+ */
+export const RAVI_CANCELS: readonly PeriodKind[] = ['pakshaRandhra', 'yogaPart', 'varjyam', 'tithiGandanta', 'nakshatraGandanta', 'lagnaGandanta', 'base']
+
 /** SPEC 13.4 for the periods active at one moment, for one group (and travel direction). */
-export function verdictOf(active: Period[], group: number, dir?: Direction | null): { verdict: Verdict; strong: boolean; by: Period[] } {
-  const deciding = active.filter((p) => p.decides && p.groups.includes(group) && dirCounts(p, dir))
+export function verdictOf(active: Period[], group: number, dir?: Direction | null): { verdict: Verdict; strong: boolean; by: Period[]; cancelled: Period[] } {
+  const counting = active.filter((p) => p.decides && p.groups.includes(group) && dirCounts(p, dir))
+  const ravi = counting.some((p) => p.kind === 'ravi')
+  const cancelled = ravi ? counting.filter((p) => (p.level === 'veto' || p.level === 'fb') && RAVI_CANCELS.includes(p.kind)) : []
+  const deciding = counting.filter((p) => !cancelled.includes(p))
   const of = (level: Level) => deciding.filter((p) => p.kind !== 'base' && p.level === level)
   const base = deciding.find((p) => p.kind === 'base')
   const vetoes = deciding.filter((p) => p.level === 'veto') // the base's Amavasya veto too
-  if (vetoes.length) return { verdict: 'avoid', strong: false, by: vetoes }
+  if (vetoes.length) return { verdict: 'avoid', strong: false, by: vetoes, cancelled }
   const fbs = of('fb')
-  if (fbs.length) return { verdict: 'fb', strong: false, by: fbs }
+  if (fbs.length) return { verdict: 'fb', strong: false, by: fbs, cancelled }
   const strong = of('strong')
-  if (strong.length) return { verdict: 'good', strong: true, by: strong }
+  if (strong.length) return { verdict: 'good', strong: true, by: strong, cancelled }
   const pluses = of('plus')
   const b = base?.level ?? 'neutral'
   const withBase = (list: Period[]) => (base ? [base, ...list] : list)
-  if (b === 'good' || (b === 'neutral' && pluses.length)) return { verdict: 'good', strong: false, by: pluses.length ? pluses : withBase([]) }
-  if (b === 'neutral' || (b === 'poor' && pluses.length)) return { verdict: 'neutral', strong: false, by: withBase(pluses) }
-  return { verdict: 'fb', strong: false, by: withBase([]) }
+  if (b === 'good' || (b === 'neutral' && pluses.length)) return { verdict: 'good', strong: false, by: pluses.length ? pluses : withBase([]), cancelled }
+  if (b === 'neutral' || (b === 'poor' && pluses.length)) return { verdict: 'neutral', strong: false, by: withBase(pluses), cancelled }
+  return { verdict: 'fb', strong: false, by: withBase([]), cancelled }
 }
 
 /** The day cut into segments with one verdict each, for one group; equal neighbours merged. */
@@ -695,6 +707,7 @@ export function daySegments(day: DayPanchang, prev: DayPanchang, group: number, 
     if (last && key(last) === key(v)) {
       last.end = new Date(cuts[i + 1])
       for (const p of active) if (!last.active.includes(p)) last.active.push(p)
+      for (const p of v.cancelled) if (!last.cancelled.includes(p)) last.cancelled.push(p)
     } else out.push({ start: new Date(cuts[i]), end: new Date(cuts[i + 1]), ...v, active })
   }
   return out

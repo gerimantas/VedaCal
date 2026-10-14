@@ -995,7 +995,8 @@
     "birthSave": "Save",
     "birthSaved": "Saved ✓",
     "birthBefore": "Before {time}",
-    "birthAfter": "After {time}"
+    "birthAfter": "After {time}",
+    "cancelledByRavi": "cancelled by Ravi yoga"
   },
   "masa": {
     "1": {
@@ -1214,7 +1215,7 @@
     "bhadraTail": "The last 3 ghatikas (the \"tail\") are good for all acts; the commentary: \"sure victory\".",
     "varjyam": "\"Poison ghatikas\": 4 ghatikas in each lunar star, \"very blamed in auspicious work\".",
     "amritKalam": "Drik practice: a good window in each lunar star. Not found in the classical sources.",
-    "ravi": "The Moon's star is the 4th, 6th, 9th, 10th, 13th or 20th from the Sun's; \"destroys all faults\".",
+    "ravi": "The Moon's star is the 4th, 6th, 9th, 10th, 13th or 20th from the Sun's; \"destroys all faults\". The text does not say which faults; the app lifts those of the day's own elements (a lunar day's or a yoga's first hours, the poison ghatikas, the junctions, a weak day) and not Bhadra, Vyatipata, Vaidhriti, eclipses, Rahu Kaal, Yamaganda or personal faults (a choice of this app).",
     "eclipseDays": "The 3 days before an eclipse are avoided; if the body sets eclipsed, the 3 days before, if it rises eclipsed, the 3 days after; after a total eclipse, 7 more days.",
     "eclipseStar": "The star the eclipse fell in is avoided: 6 months after a total eclipse, 3 after a half one, 1 after a smaller one.",
     "month_adhika": "Not begun now: marriage, building and house rites, vows, the great rites (such as the sacred thread), pilgrimage, travel.",

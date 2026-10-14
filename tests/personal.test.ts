@@ -140,6 +140,24 @@ describe('example 3, Vilnius 2026-10-25, with the sample birth (Moon in Kanya, H
   })
 })
 
+describe("Ravi yoga cancels the day elements' own faults (13.4 step 0, user 2026-10-14)", () => {
+  const day = computeDay('2026-10-25', VILNIUS), prev = computeDay('2026-10-24', VILNIUS)
+  const at = (t: Date) => daySegments(day, prev, 0).find((s) => s.start <= t && t < s.end)!
+  it("Vajra's first hours and the star junction under Ravi yoga are cancelled; Bhadra after noon remains (fb)", () => {
+    const s = at(L('2026-10-25', '14:00'))
+    expect(s.verdict).toBe('fb')
+    expect(s.by.map((p) => p.kind)).toEqual(['bhadra'])
+    expect(s.cancelled.map((p) => p.kind)).toContain('yogaPart')
+    const g = at(L('2026-10-25', '15:20')) // the junction, Ravi yoga to 15:52
+    expect(g.verdict).toBe('fb')
+    expect(g.cancelled.map((p) => p.kind)).toContain('nakshatraGandanta')
+  })
+  it('not Bhadra, not Rahu Kalam', () => {
+    expect(at(L('2026-10-25', '13:30')).verdict).toBe('fb') // Bhadra after noon
+    expect(at(L('2026-10-25', '15:50')).verdict).toBe('avoid') // Rahu Kalam
+  })
+})
+
 describe('birth data from Settings (Q7.1)', () => {
   const place = { name: 'Vilnius', cc: 'LT', country: 'Lithuania', tz: c.tz }
 

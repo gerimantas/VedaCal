@@ -348,7 +348,7 @@
       <ul>
         {#each active as p (p)}
           <li>
-            {periodName(p)} — {levelWord(p)}{#if periodNote(p, dir)}<span class="quiet"> · {periodNote(p, dir)}</span>{/if}{#if seg?.by.includes(p)}
+            {periodName(p)} — {levelWord(p)}{#if periodNote(p, dir)}<span class="quiet"> · {periodNote(p, dir)}</span>{/if}{#if seg?.cancelled.includes(p)}<span class="quiet"> · {t('cancelledByRavi')}</span>{/if}{#if seg?.by.includes(p)}
               <b> ← {t('decides')}</b>{/if}
           </li>
         {/each}
