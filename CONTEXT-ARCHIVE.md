@@ -2,6 +2,22 @@
 
 Older session entries moved out of `CONTEXT.md`.
 
+## Session 2026-10-06 (S6) — tablet install fixed; Chrome 154 install-sheet bug found
+
+- **Done:** VedaCal installed as a real app (WebAPK, scope `/VedaCal/`) on the user's Galaxy Tab
+  S9+ and confirmed opening standalone. No code change, nothing pushed.
+- **Done:** root cause from Chromium source + adb on the tablet: Chrome 154's menu item
+  "Install and create shortcut" (`AppInstallMenuHandler.doUniversalInstall`) calls
+  `WebappRegistry.isAppInstalledForUrl`, which matches by ORIGIN. BakeStack's WebAPK on
+  `gerimantas.github.io` makes every app on that origin read "already installed"; "open"
+  then fails. Workaround: the app's own Settings → Install app button (`beforeinstallprompt`,
+  scope-based check) installs normally.
+- **Decided / overturned:** S6's first guesses (stale SVG-only icon, broken old install) were wrong.
+- **Code:** none. Write-up: vault `wiki/frameworks/chrome-android-pwa-install-same-origin.md`
+- **Entry point:** tablet diagnosis: `adb forward tcp:9333 localabstract:chrome_devtools_remote`,
+  then CDP `Page.getInstallabilityErrors`; `adb shell pm list packages | grep webapk`
+- **Not measured:** whether pilot users with no other `gerimantas.github.io` app hit this (they
+  should not, by the code).
 ## Session 2026-10-05 (S5) — Sky tab, About texts rewritten for Western readers, sources linked
 
 - **Done:** Yamaganda, Gulika, Choghadiya (+7 kinds) explained on About (EN+LT, NotebookLM

@@ -1,16 +1,17 @@
 # VedaCal — CONTEXT
 
 ## Status
-Live: P0–P6 (https://gerimantas.github.io/VedaCal/, 950f429). Local, not pushed: S9's brief
-sheets and all of S12–S15.
-Periods work (`.planning/PLAN-periods.md`): the day clock (`src/ui/DayClock.svelte`) is the
-Day screen's time view. Under it, "Visa diena": the hand's row framed and tagged; a tap opens
-why each period counts, with a sourced text. Engine (`src/core/periods.ts`) has every SPEC
-13.2 value (S15 added Hora, Anandadi, Pushkara note, Sankranti, Panchaka, travel rules by a
-chosen direction); `MISSING` is empty; only the personal layer is left. Choghadiya is shown
-only, never decides (R21).
-Rule (S15, user): every product claim needs a source — `tradition` + `traditionSource` in
-`src/content/*.json`, tested; other content texts are not audited yet.
+Live: everything through S16 (https://gerimantas.github.io/VedaCal/, 05db0b6); nothing local.
+Periods work (`.planning/PLAN-periods.md`): the day clock (`src/ui/DayClock.svelte`) with
+"Visa diena" under it; engine `src/core/periods.ts` has every SPEC 13.2 value and, since
+S16, the personal layer (SPEC 13.6): Settings → "Mano duomenys" (kept only in
+`localStorage`), the clock's "Man" switch. Tara / Chandrabala follow MC 4.4, 4.11–13 (not
+Drik's grading); personal faults are fallback, Chandrashtama and the birth tithi veto, the
+birth month shown only. Ravi yoga cancels the elements' own faults (SPEC 13.4 step 0).
+"Veto beats any +" is a model choice (SPEC 13.4), not a source rule — the user asked.
+Rule: every product claim needs a source — all texts now carry one (`tradition` +
+`traditionSource`, every meaning's `source`; `tests/content.test.ts`); records in
+`.planning/research/rules.md` ("Meanings").
 Open: E1's eclipse-time veto for group 7; SPEC day start BM (13.1) vs sunrise (13.5); D3
 paksha-randhra remainder neutral or fallback.
 Workflow: the user reviews on localhost (the dev server restarts itself on every commit;
@@ -18,36 +19,29 @@ the top bar shows the commit); show proposals before changing code; commit local
 only on the user's command.
 
 ## Next Tasks
-- **Source audit of all other product text** (user, 2026-10-14, next session): every claim
-  needs a source (Key Facts rule). Check `content` `sheets` (e.g. Rahu Kaal's "shadow that
-  swallows the Sun"), the tithi / nakshatra / yoga / karana / vara / choghadiya / rhythm
-  meanings (~120) and `ui` texts against `.planning/research/rules.md`; drop or rewrite what
-  no source says, cite the rest. Show the user a table (text · verdict · source) before
-  changing; en + lt together. Method and done example: commit ecbc1e5 (`tradition` +
-  `traditionSource`, test in `tests/content.test.ts`).
-- Personal layer (PLAN-periods Q4.f, Q7.1 birth data): Tarabala, Chandrabala; test vs Drik's
-  Chandrabalam / Tarabalam lists. `MISSING` is empty since 2026-10-14.
-- Ask the user whether to push S9–S15 live (P7 pilot needs it). Button style: one decision for all pages.
+- **P7 pilot** (everything is live): the user shares the link with 5–10 people and collects
+  what confuses them; fix what the pilot reports first, then the user picks the next backlog
+  items (SPEC 10). plan: `.planning/PLAN.md` P7.
+- Personal layer, general form (SPEC 13.6, no birth data): which birth stars / signs the
+  moment favours, Chandrashtama star — not built. Ask the user first whether it is wanted.
+- Further 13.4 review (user asked, option 2 done only for Ravi yoga): other source-backed
+  cancellations, e.g. KP C3 benefics in the rising sign — show a measured table before code.
 - Open SPEC questions for the user: day start BM vs sunrise (13.1 vs 13.5); D3 remainder;
   E1 eclipse-time veto for group 7.
 - New moon shows 18:49 (tithi end, moon card) and 18:50 (key dates, tradition card): two
   methods ~40 s apart (SPEC 11). Use one instant for both. Code: `src/core/panchang.ts`.
-- P7 pilot: the user shares the link with 5–10 people and collects what confuses them;
-  then the user picks the next backlog items (SPEC 10). Fix what the pilot reports first.
-  plan: `.planning/PLAN.md` P7.
 - Optional: find the uniform ~57 s Moon offset vs Drik (`npm run accuracy`; mypanchang agrees
   with us on tithi to 8 s). Inside the gate, so only if the user asks. rules: SPEC 4.11.
 
 ## Done Log
 
+### 2026-10-14 (S16)
+- Source audit: every meaning rewritten from a source and cited; days of restraint replace rest days
+- Personal layer + "Mano duomenys" + "Man" switch; Ravi yoga cancels element faults; deployed (05db0b6)
+
 ### 2026-10-14 (S15)
 - Engine: Hora, Anandadi, Tri/Dwi Pushkara, Sankranti, Panchaka, travel by direction — `MISSING` empty
 - "Visa diena": hand's row framed; tap opens sourced reasons; all `tradition` texts sourced
-
-### 2026-10-14 (S14)
-- Engine step 3: Dur Muhurtam, Varjyam, Amrit Kalam, lagna junctions, Baana, M1 (Adhika, combust), M2, M5, M6
-- Clock approved: "Visa diena" list, "↺ Dabar" on the top bar, date picker, `2026-10-14, tr`, dev version tag
-- Old sun dial, time list, Choghadiya list, P3 mockups, 3D prototype, `three` removed
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
@@ -111,6 +105,16 @@ only on the user's command.
 ## Archive
 
 Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation, newest first). This section keeps the most recent 10 sessions.
+
+### Session 2026-10-14 (S16) — every meaning sourced; personal layer built and live; Ravi yoga cancels element faults
+
+- **Done:** all ~140 meanings rewritten from sources (MC 1.3 tithi lords, BS 98/100, MC 2.2–8, Monier-Williams for names), each with `source`, shown in sheets and glossary; rest days → days of restraint (new moon + day before, full moon; dharmasutras).
+- **Done:** personal layer: `birthOf`, Tarabala, Chandrabala, Chandrashtama, birth tithi; Settings "My data" (year/month/day + hour/minute lists, place, Save, before/after-a-time pick) and the clock's "For me" switch. Matches Drik's lists on 49 days.
+- **Done:** deployed twice (S9–S16 live at 05db0b6).
+- **Decided / overturned:** tara cycles and 2/5/9 sign by MC 4.4, 4.11–13, not Drik's equal grading; bad taras and Moon 4/12 → fallback (MC 4.13 remedies), Chandrashtama the one personal veto; birth month shown only; Ravi yoga cancels the elements' own faults (13.4 step 0, option A); "veto beats any +" recorded as a model choice, not a source rule.
+- **Code:** `src/core/periods.ts`, `src/core/panchang.ts`, `src/ui/birth.ts`, `src/ui/LocationPicker.svelte`, `src/ui/DayClock.svelte`, `src/ui/verdict.ts`, `src/ui/day.ts`, `src/content/*.json`, `tests/personal.test.ts`; records in `.planning/research/rules.md` (Meanings T1–CH1, P2), SPEC 4.8, 13.4, 13.6.
+- **Entry point:** `npx vitest run tests/personal.test.ts`; app: Settings → Mano duomenys.
+- **Not measured:** General form of the personal layer (13.6, no birth data) not built; real-phone city search only tested in emulation (user confirmed it works).
 
 ### Session 2026-10-14 (S15) — every SPEC 13.2 value built; every tradition text cites a source
 
@@ -207,20 +211,3 @@ Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation,
 - **Entry point:** `npm test` (1159 pass); `node scripts/fetch-choghadiya.ts <city> <dates>`
 - **Not measured:** the background lights' battery/CPU cost on a real phone; mockups for
   About/Sky not updated to the no-card look.
-
-### Session 2026-10-06 (S6) — tablet install fixed; Chrome 154 install-sheet bug found
-
-- **Done:** VedaCal installed as a real app (WebAPK, scope `/VedaCal/`) on the user's Galaxy Tab
-  S9+ and confirmed opening standalone. No code change, nothing pushed.
-- **Done:** root cause from Chromium source + adb on the tablet: Chrome 154's menu item
-  "Install and create shortcut" (`AppInstallMenuHandler.doUniversalInstall`) calls
-  `WebappRegistry.isAppInstalledForUrl`, which matches by ORIGIN. BakeStack's WebAPK on
-  `gerimantas.github.io` makes every app on that origin read "already installed"; "open"
-  then fails. Workaround: the app's own Settings → Install app button (`beforeinstallprompt`,
-  scope-based check) installs normally.
-- **Decided / overturned:** S6's first guesses (stale SVG-only icon, broken old install) were wrong.
-- **Code:** none. Write-up: vault `wiki/frameworks/chrome-android-pwa-install-same-origin.md`
-- **Entry point:** tablet diagnosis: `adb forward tcp:9333 localabstract:chrome_devtools_remote`,
-  then CDP `Page.getInstallabilityErrors`; `adb shell pm list packages | grep webapk`
-- **Not measured:** whether pilot users with no other `gerimantas.github.io` app hit this (they
-  should not, by the code).
