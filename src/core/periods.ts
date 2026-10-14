@@ -586,36 +586,35 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang, birth: Birth | n
     const merged = (a: Span[], b: Span[]) => [...b, ...a].filter((s, i, x) => x.findIndex((y) => y.index === s.index && Math.abs(y.start.getTime() - s.start.getTime()) < MIN) === i)
       .sort((p, q) => p.start.getTime() - q.start.getTime())
     // Tarabala ([MC] 4.11–13, P2). The star's place n from the birth star (1–27), in three
-    // cycles of nine. First cycle: Vipat (3) and Vadha (7) vetoed; the birth star (1) and
-    // Pratyari (5) until midday, a fallback after ([MC] 1.42 commentary, C1). Second cycle: of
-    // the 3rd, 5th and 7th only the first, last and third quarter (12th, 14th, 16th star); the
-    // 10th and 19th ("the three janmas", a gift remedies them) a fallback. Third cycle: "all
-    // good". Drik grades the three cycles alike — practice, not used here (base: [MC]).
+    // cycles of nine. First cycle: Janma (1), Vipat (3), Pratyari (5), Vadha (7) bad; second
+    // cycle: only the first, last and third quarter of the 12th, 14th and 16th star, and the
+    // 10th and 19th (with the 1st, "the three janmas"); third cycle "all good". Drik grades the
+    // three cycles alike — practice, not used (base: [MC]). [MC] 4.13 gives each bad tara a
+    // remedy (a gift), so a bad tara is a fallback, not a veto (user, 2026-10-14).
     if (birth.star) for (const s of stars) {
       const n = ((s.index - birth.star + 27) % 27) + 1
       const tara = ((n - 1) % 9) + 1
       const extra = { detail: { tara, star: s.index, cycle: Math.ceil(n / 9) } }
       const quarter = (q: number) => {
         const len = (s.end.getTime() - s.start.getTime()) / 4
-        add(plus(s.start, (q - 1) * len), plus(s.start, q * len), 'tara', 'veto', 'P2', extra)
+        add(plus(s.start, (q - 1) * len), plus(s.start, q * len), 'tara', 'fb', 'P2', extra)
       }
-      if (n === 1 || n === 5) untilMidday(s.start, s.end, 'tara', 'C1', extra)
-      else if (n === 3 || n === 7) add(s.start, s.end, 'tara', 'veto', 'P2', extra)
-      else if (n === 10 || n === 19) add(s.start, s.end, 'tara', 'fb', 'P2', extra)
+      if ([1, 3, 5, 7, 10, 19].includes(n)) add(s.start, s.end, 'tara', 'fb', 'P2', extra)
       else if (n === 12) quarter(1)
       else if (n === 14) quarter(4)
       else if (n === 16) quarter(3)
       else add(s.start, s.end, 'tara', 'plus', 'P2', { ...extra, decides: false })
     }
-    // Chandrabala ([MC] 4.4, P2): the Moon in the 4th, 8th or 12th sign from the birth sign is
-    // vetoed (the 8th is Chandrashtama, P1); in the 2nd, 5th or 9th it is bad in the dark half
-    // and good in the bright half ("sita", [MC] 4.4) — a fallback only while waning; the good
-    // places shown only. Vedha (another planet cancelling a bad place) is not computed.
+    // Chandrabala ([MC] 4.4, P2): the Moon in the 8th sign from the birth sign is Chandrashtama,
+    // "nothing auspicious should be started" ([KP] p. 167, P1) — a veto; in the 4th or 12th, or
+    // in the 2nd, 5th or 9th while it wanes ("good in the bright half", [MC] 4.4), a fallback
+    // (user, 2026-10-14: personal faults orange, not red). Vedha is regional ([MC] 4.5), not
+    // computed; the good places shown only.
     if (birth.sign) for (const s of merged(day.signs.vedic.moon, prev.signs.vedic.moon)) {
       const place = chandraOf(birth.sign, s.index)
       const extra = { detail: { place, sign: s.index } }
       if (place === 8) add(s.start, s.end, 'chandra', 'veto', 'P1', extra)
-      else if ([4, 12].includes(place)) add(s.start, s.end, 'chandra', 'veto', 'P2', extra)
+      else if ([4, 12].includes(place)) add(s.start, s.end, 'chandra', 'fb', 'P2', extra)
       else if ([2, 5, 9].includes(place)) {
         for (const t of merged(day.tithi, prev.tithi)) {
           const w = clip(s.start, s.end, t)

@@ -96,7 +96,7 @@ describe('example 3, Vilnius 2026-10-25, with the sample birth (Moon in Kanya, H
     expect(s.by.map((p) => p.kind)).toEqual(['chandra'])
     // [MC] 4.13: in the second cycle only the third quarter of the 7th tara (Vadha) is bad.
     const d = dayPeriods(day, prev, birth).periods.find((p) => p.kind === 'tara' && p.detail?.star === 1)!
-    expect(d).toMatchObject({ level: 'veto', detail: { tara: 7, cycle: 2 } })
+    expect(d).toMatchObject({ level: 'fb', detail: { tara: 7, cycle: 2 } })
     const ashwini = day.nakshatra.find((x) => x.index === 1)!
     const q = (ashwini.end.getTime() - ashwini.start.getTime()) / 4
     expect(Math.abs(d.start.getTime() - (ashwini.start.getTime() + 2 * q))).toBeLessThan(60_000)
@@ -117,17 +117,17 @@ describe('example 3, Vilnius 2026-10-25, with the sample birth (Moon in Kanya, H
     const seg = daySegments(d, p, 0, null, b).find((x) => x.start <= noon && noon < x.end)!
     expect(seg.active.find((x) => x.kind === 'chandra')).toMatchObject({ level: 'fb', decides: true, detail: { place: 2 } })
   })
-  it('the birth star is avoided until midday, a fallback after it (C1)', () => {
+  it('the birth star is a fallback, not a veto: [MC] 4.13 gives it a remedy (user, 2026-10-14)', () => {
     const own: Birth = { star: 27, sign: 0, tithi: 0, month: 0 } // Revati, the Moon's star that morning
-    expect(at(L('2026-10-25', '10:00'), own).verdict).toBe('avoid')
-    expect(at(L('2026-10-25', '13:30'), own).by.some((p) => p.kind === 'tara' && p.level === 'fb')).toBe(true)
+    expect(at(L('2026-10-25', '07:30'), own)).toMatchObject({ verdict: 'fb' })
+    expect(at(L('2026-10-25', '07:30'), null)).toMatchObject({ verdict: 'good' })
   })
-  it('Pratyari, like the birth star, is avoided until midday and a fallback after (C1)', () => {
+  it('Pratyari is a fallback all day (a remedy, [MC] 4.13), not red', () => {
     // 2026-10-14: the Moon in Anuradha all day, the 5th star from Hasta (user's report).
     const d = computeDay('2026-10-14', VILNIUS), p = computeDay('2026-10-13', VILNIUS)
     const seg = (t: Date) => daySegments(d, p, 0, null, birth).find((s) => s.start <= t && t < s.end)!
     const tara = (t: Date) => seg(t).active.find((x) => x.kind === 'tara')!
-    expect(tara(L('2026-10-14', '11:00'))).toMatchObject({ level: 'veto', detail: { tara: 5 } })
+    expect(tara(L('2026-10-14', '11:00'))).toMatchObject({ level: 'fb', detail: { tara: 5 } })
     expect(tara(L('2026-10-14', '17:15'))).toMatchObject({ level: 'fb', detail: { tara: 5 } })
     expect(seg(L('2026-10-14', '17:15')).verdict).toBe('fb')
   })

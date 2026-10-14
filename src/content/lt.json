@@ -1238,8 +1238,8 @@
     "dawn": "Kelionei aušra gera, išskyrus kelionę į rytus. Laikas – kaip Drik (dešimtoji nakties dalis prieš saulėtekį).",
     "godhuli": "Kelionei laikas po saulėlydžio geras, išskyrus kelionę į vakarus. Laikas – kaip Drik.",
     "nishita": "Kelionei laikas apie vidurnaktį geras, išskyrus kelionę į šiaurę. Laikas – kaip Drik.",
-    "tara": "Mėnulio žvaigždė, skaičiuojama nuo jūsų gimimo žvaigždės trimis devynetais. Pirmajame vengiama Vipat („pavojus“) ir Vadha („žudymas“), o Janma, jūsų pačių žvaigždės, ir Pratyari („kliūtys“) – iki vidurdienio; antrajame – tik po ketvirtadalį 3-osios, 5-osios ir 7-osios; trečiajame „visos palankios“. Drik visus tris devynetus vertina vienodai; programa laikosi pagrindinio teksto.",
-    "chandra": "Mėnulio ženklas, skaičiuojamas nuo jūsų gimimo ženklo: 1-as, 3-ias, 6-as, 7-as, 10-as ir 11-as palankūs, 4-as, 8-as ir 12-as – blogi; 2-as, 5-as ir 9-as blogi, kol Mėnulis dyla, ir palankūs, kol jis auga. 8-as yra Chandrashtama, kai „nieko palankaus ar svarbaus savo gerovei nevalia pradėti“.",
+    "tara": "Mėnulio žvaigždė, skaičiuojama nuo jūsų gimimo žvaigždės trimis devynetais. Pirmajame blogos Janma (jūsų pačių žvaigždė), Vipat („pavojus“), Pratyari („kliūtys“) ir Vadha („žudymas“); antrajame – tik po ketvirtadalį 3-osios, 5-osios ir 7-osios bei 1-oji; trečiajame „visos palankios“. Tekstas kiekvienai blogai tarai duoda atpirkimą (auką), todėl programa ją žymi „Tik jei negalima atidėti“, o ne „Vengti“. Drik visus tris devynetus vertina vienodai; programa laikosi pagrindinio teksto.",
+    "chandra": "Mėnulio ženklas, skaičiuojamas nuo jūsų gimimo ženklo: 1-as, 3-ias, 6-as, 7-as, 10-as ir 11-as palankūs, 4-as ir 12-as blogi, 2-as, 5-as ir 9-as blogi, kol Mėnulis dyla, ir palankūs, kol jis auga – blogus programa žymi „Tik jei negalima atidėti“. 8-as yra Chandrashtama, kai „nieko palankaus ar svarbaus savo gerovei nevalia pradėti“: vengti.",
     "janma": "Jūsų gimimo Mėnulio dienos vengiama visuose palankiuose darbuose. Tekstas mini ir gimimo mėnesį, bet vestuvių skyriuje jį susiaurina iki pirmagimio vestuvių, todėl programa gimimo mėnesį rodo, bet neįskaičiuoja (šios programos pasirinkimas)."
   },
   "traditionSource": {
@@ -1291,7 +1291,7 @@
     "dawn": "Muhurta Chintamani, kelionių skyrius, 51; Drik Panchang",
     "godhuli": "Muhurta Chintamani, kelionių skyrius, 51; Drik Panchang",
     "nishita": "Muhurta Chintamani, kelionių skyrius, 51; Drik Panchang",
-    "tara": "Muhurta Chintamani 4.11–13, 1.42; Kalaprakasika, psl. 166–167; Drik Panchang",
+    "tara": "Muhurta Chintamani 4.11–13; Kalaprakasika, psl. 166–167; Drik Panchang",
     "chandra": "Muhurta Chintamani 4.4; Brihat Samhita 98.12–15; Kalaprakasika, psl. 167",
     "janma": "Muhurta Chintamani 1.34–35, 6.14"
   },
