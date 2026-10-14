@@ -980,7 +980,6 @@
     "birthTime": "Gimimo laikas",
     "birthTimeUnknown": "Laiko nežinau",
     "birthPlace": "Gimimo vieta",
-    "birthPlaceChosen": "Pasirinkta: {name}",
     "birthPlaceNote": "Pakanka artimiausio miesto toje pačioje šalyje: vieta tik parodo, pagal kurį laikrodį nurodytas laikas.",
     "birthStar": "Gimimo žvaigždė",
     "birthSign": "Mėnulio ženklas",
@@ -999,7 +998,8 @@
     "cancelledByRavi": "panaikina Ravi yoga",
     "birthYear": "Metai",
     "birthMonth": "Mėnuo",
-    "birthDay": "Diena"
+    "birthDay": "Diena",
+    "birthNoCity": "Tokio miesto sąraše nėra (jame miestai nuo 15 000 gyventojų). Įveskite artimiausią didesnį miestą toje pačioje šalyje."
   },
   "masa": {
     "1": {

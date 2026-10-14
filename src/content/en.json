@@ -980,7 +980,6 @@
     "birthTime": "Birth time",
     "birthTimeUnknown": "I don't know the time",
     "birthPlace": "Birth place",
-    "birthPlaceChosen": "Chosen: {name}",
     "birthPlaceNote": "The nearest city in the same country is enough: the place only tells which clock the time was read on.",
     "birthStar": "Birth star",
     "birthSign": "Moon sign",
@@ -999,7 +998,8 @@
     "cancelledByRavi": "cancelled by Ravi yoga",
     "birthYear": "Year",
     "birthMonth": "Month",
-    "birthDay": "Day"
+    "birthDay": "Day",
+    "birthNoCity": "No such city in the list (it holds cities of 15,000 people or more). Type the nearest bigger city in the same country."
   },
   "masa": {
     "1": {

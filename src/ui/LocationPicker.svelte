@@ -194,10 +194,18 @@
       <span>{t('birthPlace')}</span>
       <input type="search" placeholder={t('searchCity')} autocomplete="off" bind:value={birthQuery} />
     </label>
+    <!-- mousedown kept from blurring the field: the phone keyboard would close, the page
+         shift, and the tap miss the city (user, 2026-10-14: the city could not be chosen). -->
     {#each birthPlaces as p (`${p.name}${p.lat}${p.lon}`)}
-      <button class="place" onclick={() => pickPlace(p)}>{p.name}, {countryName(p.cc, p.country)}</button>
+      <button class="place" onmousedown={(e) => e.preventDefault()} onclick={() => pickPlace(p)}>{p.name}, {countryName(p.cc, p.country)}</button>
     {/each}
-    <p class="quiet">{t('birthPlaceChosen', { name: `${draft.place.name}, ${countryName(draft.place.cc, draft.place.country)}` })}. {t('birthPlaceNote')}</p>
+    {#if birthQuery.trim() && !index}
+      <p class="quiet">{t('loadingCities')}</p>
+    {:else if birthQuery.trim() && !birthPlaces.length}
+      <p class="quiet">{t('birthNoCity')}</p>
+    {/if}
+    <p class="chosen">{@html icon.pin}<b>{draft.place.name}, {countryName(draft.place.cc, draft.place.country)}</b></p>
+    <p class="quiet">{t('birthPlaceNote')}</p>
 
     <!-- No time and the Moon changed star that day: the user picks the part of the day, by clock time. -->
     {#if preview?.parts.length}

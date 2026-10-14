@@ -879,6 +879,18 @@ h3 {
   cursor: pointer;
 }
 
+.birth .chosen {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin-top: var(--space-xs);
+}
+
+.birth .chosen svg {
+  color: var(--color-accent);
+  flex: none;
+}
+
 .birth .quiet,
 .birth .kinds {
   margin-top: var(--space-xs);
