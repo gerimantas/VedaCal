@@ -49,6 +49,8 @@ export function lead(key: keyof typeof en.leads, vars: Record<string, string | n
 
 /** What tradition does in a time window, said once: in its day sheet and on the About page. */
 export const tradition = (key: string): string => (content.tradition as Record<string, string>)[key] ?? ''
+/** Where a tradition text comes from (rules.md records); every text has one. */
+export const traditionSource = (key: string): string => (content.traditionSource as Record<string, string>)[key] ?? ''
 
 /** A row's sheet opens on this: what its value means on this day. `title` may be ''. */
 export type Lead = { title: string; text: string }

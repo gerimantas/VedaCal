@@ -3,7 +3,7 @@
 // clock's (src/ui/verdict.ts, DayClock.svelte).
 import { addDays, civilDate } from '../core/time'
 import { type DayPanchang, type Interval, type Location, type Span } from '../core/types'
-import { LOCALE, barDate, content, entry, lead, percent, progress, t, time, tradition as traditionOf, until, type Lead } from './format'
+import { LOCALE, barDate, content, entry, lead, percent, progress, t, time, tradition as traditionOf, traditionSource, until, type Lead } from './format'
 import { icon } from './icons'
 import { markText } from './marks'
 import type { Term } from './terms'
@@ -133,6 +133,7 @@ export function dayView(day: DayPanchang, loc: Location, now: Date, zodiac: Zodi
         seen ? lead('eclipse', { range: range(seen) }) : markText(mk, loc, zodiac).note,
         seen ? lead(peakSeen ? 'eclipsePeak' : 'eclipsePeakUnseen', { time: stamp(mk.peak) }) : '',
         traditionOf('eclipse'),
+        `${t('source')}: ${traditionSource('eclipse')}.`,
       ),
     }
   }

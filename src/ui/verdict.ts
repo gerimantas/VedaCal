@@ -2,7 +2,7 @@
 // draws and says, built from the engine's periods and segments (src/core/periods.ts).
 import { daySegments, dayPeriods, type Level, type Period, type Segment, type Verdict } from '../core/periods'
 import type { DayPanchang, Interval } from '../core/types'
-import { content, entry, LOCALE, MONTH, t, tradition } from './format'
+import { content, entry, LOCALE, MONTH, t, tradition, traditionSource } from './format'
 import type { Palette } from './state.svelte'
 
 /** What the clock colours a moment: the verdict, with "good by a strong +" apart for the rainbow palette. */
@@ -89,11 +89,11 @@ export function periodName(p: Period): string {
   }
 }
 
-/** What tradition does in a period, one plain sentence (content `tradition`); '' where none is written yet. */
-export function periodWhy(p: Period): string {
+/** What the sources say of a period and where (content `tradition`, `traditionSource`); '' where none is written. */
+export function periodWhy(p: Period): { text: string; source: string } {
   const d = p.detail ?? {}
   const key = p.kind === 'sarvartha' ? 'sarvarthaSiddhi' : p.kind === 'month' || p.kind === 'baana' ? `${p.kind}_${String(d.name)}` : p.kind
-  return tradition(key)
+  return { text: tradition(key), source: traditionSource(key) }
 }
 
 /** The readout's note on a period that never decides. */

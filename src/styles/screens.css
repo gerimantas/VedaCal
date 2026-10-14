@@ -948,6 +948,12 @@ h3 {
   font-size: var(--text-sm);
 }
 
+.terms details p.src {
+  margin-top: calc(-1 * var(--space-2xs));
+  font-size: var(--text-xs);
+  font-style: italic;
+}
+
 .terms .kinds {
   margin: 0 0 var(--space-xs);
   font-size: var(--text-sm);

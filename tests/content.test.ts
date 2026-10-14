@@ -77,3 +77,11 @@ describe('lt.json', () => {
     expect(about.replace('nėra medicininis ar profesionalus patarimas', '')).not.toMatch(LT_HEALTH)
   })
 })
+
+// Every tradition text names its source (user, 2026-10-14: no claim without a source).
+it('every tradition text has a source, and every source a text', () => {
+  for (const c of [en, lt]) {
+    expect(Object.keys(c.traditionSource).sort()).toEqual(Object.keys(c.tradition).sort())
+    for (const [k, s] of Object.entries(c.traditionSource)) expect(s.trim(), k).not.toBe('')
+  }
+})

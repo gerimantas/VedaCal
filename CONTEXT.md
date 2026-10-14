@@ -60,6 +60,11 @@ only on the user's command.
   vitest file calling `daySegments` works (Node cannot run `src/` TS directly: extensionless
   imports). Every verdict must match `.planning/research/examples.md`; fix the example when
   the engine proves it wrong, and say so in the example.
+- **Every claim in product text needs a source** (user, 2026-10-14: "no LLM
+  hallucinations"). Translate and simplify what `.planning/research/rules.md` records
+  ([MC], Drik, [KP], [BS], [Raman]) and cite it; add nothing the source does not say. No
+  source → no text (the name and level only), or say plainly "Drik practice, no classical
+  source" / "model choice". Applies to `tradition`, `sheets` and every meaning in `content`.
 - Source texts for the periods registry are archive.org scans; the clean Muhurta
   Chintamani is Pyarelal Mishra's Hindi edition (link in `.planning/research/rules.md`).
 - Two languages: `src/content/en.json` and `lt.json` (same keys, `tests/content.test.ts`).

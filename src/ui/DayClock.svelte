@@ -342,9 +342,11 @@
           {#if isOpen && r.why.length}
             <ul class="detail">
               {#each r.why as p (p)}
+                {@const w = periodWhy(p)}
                 <li>
                   <b>{periodName(p)}</b><span class="quiet"> · {levelWord(p)}</span>
-                  {#if periodWhy(p)}<p>{periodWhy(p)}</p>{/if}
+                  {#if w.text}<p>{w.text}</p>{/if}
+                  {#if w.source}<p class="src">{t('source')}: {w.source}</p>{/if}
                 </li>
               {/each}
             </ul>
@@ -611,6 +613,10 @@
   .detail p {
     margin: 0.1rem 0 0;
     color: var(--color-muted);
+  }
+  .detail .src {
+    font-size: var(--text-xs);
+    font-style: italic;
   }
   .quiet {
     color: var(--color-muted);
