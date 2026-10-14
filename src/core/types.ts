@@ -91,6 +91,8 @@ export type DayPanchang = {
   masa: { amanta: number; purnimanta: number; adhika: boolean }
   /** Sign (1 Aries/Mesha … 12 Pisces) of the Moon and the Sun: Vedic (sidereal, Lahiri) and Western (tropical). */
   signs: { vedic: SignSpans; western: SignSpans }
+  /** Rising sign (Udaya Lagna, sidereal, 1 Mesha … 12 Meena) from sunrise to the next sunrise; the first starts before sunrise; empty above 66° latitude. */
+  lagna: Span[]
   marks: DayMark[]
   /** Eclipses seen here from about 6 lunar months before this day to 4 days after it (E1). */
   eclipses: SeenEclipse[]

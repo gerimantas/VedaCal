@@ -67,6 +67,7 @@ export function periodName(p: Period): string {
     case 'midnight': return t('periodMidnight')
     case 'tithiGandanta': return t('periodTithiJunction')
     case 'nakshatraGandanta': return t('periodStarJunction')
+    case 'lagnaGandanta': return t('periodSignJunction')
     case 'pakshaRandhra': return t('periodFirstHours', { name: tithiName(Number(d.tithi)) })
     case 'yogaPart': return t('periodYogaStart', { name: yogaName(Number(d.yoga)) })
     case 'vyatipata': return 'Vyatipata'

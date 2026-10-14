@@ -23,7 +23,9 @@ import {
   SearchLunarEclipse,
   SearchMoonPhase,
   SearchSunLongitude,
+  SiderealTime,
   SunPosition,
+  e_tilt,
 } from 'astronomy-engine'
 // Deep imports on purpose: the package root also loads kundli/exporter.js (needs Node's `fs`).
 import { getAyanamsa as libraryAyanamsa } from '@ishubhamx/panchangam-js/dist/core/ayanamsa'
@@ -128,6 +130,25 @@ const NAKSHATRA = 360 / 27
 const SIGN = 30
 // Longest stay in one sign: the Moon ~2.5 days.
 const MOON_SIGN_DAYS = 2.8
+// Longest a rising sign lasts: ~4 h at 55° N; the search brackets then span 12 h, inside which
+// the ascendant passes each longitude once (it turns once a sidereal day).
+const LAGNA_DAYS = 0.3
+// Near and above the polar circle (90° − obliquity ≈ 66.6°) the ascendant no longer turns
+// smoothly — some signs never rise — so no rising signs are given there.
+const LAGNA_MAX_LAT = 66
+
+/**
+ * Sidereal longitude of the ascendant — the ecliptic point rising in the east (PLAN-periods
+ * Q4.g; own code, so no kundli module enters the bundle): from the local sidereal time, the
+ * true obliquity and the latitude, less the ayanamsa.
+ */
+const lagnaAngle = (loc: Location, ayanamsa: number) => (t: Date) => {
+  const RAD = Math.PI / 180
+  const ramc = (SiderealTime(t) * 15 + loc.lon) * RAD
+  const eps = e_tilt(MakeTime(t)).tobl * RAD
+  const asc = Math.atan2(Math.cos(ramc), -(Math.sin(ramc) * Math.cos(eps) + Math.tan(loc.lat * RAD) * Math.sin(eps)))
+  return norm(asc / RAD - ayanamsa)
+}
 const siderealSun = (ayanamsa: number) => (t: Date) => norm(tropical(Body.Sun, t) - ayanamsa)
 
 // ── Moon and Sun events ─────────────────────────────────────────────────────────
@@ -625,6 +646,7 @@ export function computeDay(date: string, loc: Location): DayPanchang {
           sun: sunSignSpans(0, from, to),
         },
       },
+      lagna: Math.abs(loc.lat) < LAGNA_MAX_LAT ? span(lagnaAngle(loc, ayanamsa), SIGN, sign, LAGNA_DAYS) : [],
       newMoon: moonPhaseIn(0, midnight(loc, date), midnight(loc, addDays(date, 1))),
       fullMoon: moonPhaseIn(180, midnight(loc, date), midnight(loc, addDays(date, 1))),
       rhythm: rhythm(loc, date),

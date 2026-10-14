@@ -1,7 +1,7 @@
 // Day periods and the segment verdict (SPEC 13.2–13.4, PLAN-periods Q4–Q5 step 1).
 // Expected times come from the Drik fixtures and the worked examples in
 // .planning/research/examples.md (Vilnius); verdicts are checked only at moments where no
-// value from the `missing` list (lagna junctions, Baana,
+// value from the `missing` list (Baana,
 // eclipse star, month rules) is active.
 import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
@@ -350,6 +350,42 @@ describe('Varjyam (R7) and Amrit Kalam (R23) against Drik', () => {
   it('the fixtures cover every star for both', () => {
     expect(stars.varjyam.size).toBe(27)
     expect(stars.amritKalam.size).toBe(27)
+  })
+})
+
+// Rising signs (Udaya Lagna, PLAN-periods Q4.g) against Drik's lagna pages, and their
+// junctions (D5): the last half ghatika of Karka, Vrishchika, Meena and the first of the next.
+describe('rising signs and their junctions (D5)', () => {
+  const RASHIS = ['Mesha', 'Vrishabha', 'Mithuna', 'Karka', 'Simha', 'Kanya', 'Tula', 'Vrishchika', 'Dhanu', 'Makara', 'Kumbha', 'Meena']
+  const placeOf = (city: string): Location => {
+    const x = CITIES[city as keyof typeof CITIES]
+    return { name: x.drikName, country: '', lat: x.lat, lon: x.lon, elevation: x.elevation, tz: x.tz }
+  }
+  for (const file of readdirSync('tests/fixtures/drik-extra')) {
+    const f = JSON.parse(readFileSync(`tests/fixtures/drik-extra/${file}`, 'utf8'))
+    it(`${f.city} ${f.date}: every rising sign within 2 min of Drik`, () => {
+      const lagna = computeDay(f.date, placeOf(f.city)).lagna
+      for (const r of f.lagna as { rashi: string; start: string; end: string }[]) {
+        const s = lagna.find((x) => x.index === RASHIS.indexOf(r.rashi) + 1 && Math.abs(x.end.getTime() - Date.parse(r.end)) < 30 * MIN)
+        expect(s, `${r.rashi} to ${r.end}`).toBeDefined()
+        near(s!.start, new Date(r.start), 2)
+        near(s!.end, new Date(r.end), 2)
+      }
+    })
+  }
+  it('Vilnius 2026-10-10: junctions are vetoes 12 min each side of Karka/Simha, Vrishchika/Dhanu, Meena/Mesha', () => {
+    const day = computeDay('2026-10-10', VILNIUS)
+    const { window, periods } = dayPeriods(day, computeDay('2026-10-09', VILNIUS))
+    const js = periods.filter((p) => p.kind === 'lagnaGandanta')
+    const all = [...computeDay('2026-10-09', VILNIUS).lagna, ...day.lagna]
+    const expected = all.filter((s) => [5, 9, 1].includes(s.index) && s.start > new Date(window.start.getTime() - 12 * MIN) && s.start < new Date(window.end.getTime() + 12 * MIN))
+    expect(js.length).toBe(new Set(expected.map((s) => s.start.getTime())).size)
+    expect(js.length).toBeGreaterThanOrEqual(2)
+    for (const p of js) {
+      expect(p.level).toBe('veto')
+      const s = expected.find((x) => Math.abs(x.start.getTime() - (p.start.getTime() + 12 * MIN)) < MIN || Math.abs(x.start.getTime() - (p.end.getTime() - 12 * MIN)) < MIN)
+      expect(s, p.start.toISOString()).toBeDefined()
+    }
   })
 })
 

@@ -13,11 +13,11 @@ export const GROUPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
 const ALL: readonly number[] = GROUPS
 
 /** Values of SPEC 13.2 not computed yet — the screen says so while the list is not empty. */
-export const MISSING = ['lagnaGandanta', 'baana', 'monthRules'] as const
+export const MISSING = ['baana', 'monthRules'] as const
 
 export type PeriodKind =
   | 'rahuKaal' | 'yamaganda' | 'gulika' | 'durMuhurtam' | 'noon' | 'midnight'
-  | 'tithiGandanta' | 'nakshatraGandanta' | 'pakshaRandhra' | 'yogaPart' | 'vyatipata' | 'vaidhriti'
+  | 'tithiGandanta' | 'nakshatraGandanta' | 'lagnaGandanta' | 'pakshaRandhra' | 'yogaPart' | 'vyatipata' | 'vaidhriti'
   | 'bhadraMouth' | 'bhadra' | 'bhadraTail'
   | 'varjyam' | 'amritKalam'
   | 'abhijit' | 'brahma' | 'sarvartha' | 'amritSiddhi' | 'ravi'
@@ -221,6 +221,11 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
     if ([5, 10, 15, 20, 25].includes(before)) add(plus(t, -GHATIKA), plus(t, GHATIKA), 'tithiGandanta', 'veto', 'D5', { detail: { before } })
   for (const [t, before] of junctions(day.nakshatra, 27))
     if ([9, 18, 27].includes(before)) add(plus(t, -2 * GHATIKA), plus(t, 2 * GHATIKA), 'nakshatraGandanta', 'veto', 'D5', { detail: { before } })
+  // Rising signs Karka / Simha, Vrishchika / Dhanu, Meena / Mesha, half a ghatika each side; the
+  // signs before this sunrise come from the previous day.
+  const lagna = [...prev.lagna, ...day.lagna].filter((s, i, a) => a.findIndex((x) => x.index === s.index && Math.abs(x.start.getTime() - s.start.getTime()) < MIN) === i)
+  for (const [t, before] of junctions(lagna, 12))
+    if ([4, 8, 12].includes(before)) add(plus(t, -GHATIKA / 2), plus(t, GHATIKA / 2), 'lagnaGandanta', 'veto', 'D5', { detail: { before } })
 
   // Paksha-randhra tithis: their first ghatikas (D3).
   for (const s of day.tithi) {
