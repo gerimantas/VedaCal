@@ -982,14 +982,20 @@
     "birthPlace": "Birth place",
     "birthPlaceChosen": "Chosen: {name}",
     "birthPlaceNote": "The nearest city in the same country is enough: the place only tells which clock the time was read on.",
-    "birthPick": "That day the Moon passed from {a} to {b}. Pick your star, or enter the time.",
     "birthStar": "Birth star",
     "birthSign": "Moon sign",
     "birthUnknown": "not known",
     "birthDelete": "Delete my data",
     "mine": "For me",
     "mineNow": "Yours now",
-    "mineNeedsStar": "Your birth star is not chosen yet, so nothing personal counts. Choose it in Settings → My data."
+    "mineNeedsStar": "Your birth data is not saved yet, so nothing personal counts. Finish it in Settings → My data.",
+    "birthHour": "Hour",
+    "birthMinute": "Minute",
+    "birthPickPart": "That day the Moon moved into another star. When were you born?",
+    "birthSave": "Save",
+    "birthSaved": "Saved ✓",
+    "birthBefore": "Before {time}",
+    "birthAfter": "After {time}"
   },
   "masa": {
     "1": {

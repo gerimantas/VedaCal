@@ -47,34 +47,50 @@
   const placeOf = (p: Place) => ({ name: p.name, cc: p.cc, country: p.country, tz: p.tz })
   const blank = (): BirthInput => ({ date: '', time: null, place: placeOf(app.location), star: null })
   let draft = $state<BirthInput>(app.birth ? { ...app.birth, place: { ...app.birth.place } } : blank())
-  let timeText = $state(app.birth?.time ?? '')
+  // Hour and minute as two lists, 24-hour: a browser's own time field may ask for AM/PM and
+  // stay empty without it (user, 2026-10-14).
+  let hour = $state(app.birth?.time?.slice(0, 2) ?? '')
+  let minute = $state(app.birth?.time?.slice(3, 5) ?? '')
   let timeUnknown = $state(app.birth ? app.birth.time === null : false)
+  let saved = $state(false)
+  const HOURS = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'))
+  const MINUTES = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'))
   let birthQuery = $state('')
   $effect(() => {
     if (birthQuery.trim() && !index) loadCities().then((i) => (index = i))
   })
   const birthPlaces = $derived(birthQuery.trim() && index ? search(index, birthQuery).slice(0, 5) : [])
-  const resolved = $derived(app.birth ? resolveBirth(app.birth) : null)
+  /** The form as it stands, or null while the date or the time is missing. */
+  const input = $derived<BirthInput | null>(
+    /^\d{4}-\d{2}-\d{2}$/.test(draft.date) && (timeUnknown || (hour && minute))
+      ? { ...$state.snapshot(draft), time: timeUnknown ? null : `${hour}:${minute}` }
+      : null,
+  )
+  const preview = $derived(input ? resolveBirth(input) : null)
   const starName = (n: number) => entry('nakshatra', n).name
   const signName = (n: number) => content.rashi[String(n) as '1'].name
+  const clock = (d: Date) => time(d, { ...app.location, tz: draft.place.tz })
 
-  /** Saved once there is a date and either a time or "I don't know the time". */
-  function commit(keepStar = false) {
-    if (!keepStar) draft.star = null
-    draft.time = timeUnknown ? null : timeText || null
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(draft.date) || (!timeUnknown && !timeText)) return
-    setBirth($state.snapshot(draft))
+  /** Any change: the star pick and the "saved" note are cleared. */
+  function changed() {
+    draft.star = null
+    saved = false
   }
   function pickPlace(p: Place) {
     draft.place = placeOf(p)
     birthQuery = ''
-    commit()
+    changed()
+  }
+  function save() {
+    if (!input || !preview?.birth) return
+    setBirth(input)
+    saved = true
   }
   function deleteBirth() {
     setBirth(null)
     draft = blank()
-    timeText = ''
-    timeUnknown = false
+    hour = minute = ''
+    timeUnknown = saved = false
   }
 
   const hour12 = $derived(app.settings.hour12 ?? deviceHour12())
@@ -125,14 +141,24 @@
     <p class="quiet">{t('birthPrivacy')}</p>
     <label class="field">
       <span>{t('birthDate')}</span>
-      <input type="date" bind:value={draft.date} onchange={() => commit()} />
+      <input type="date" bind:value={draft.date} onchange={changed} />
     </label>
-    <label class="field">
+    <div class="field">
       <span>{t('birthTime')}</span>
-      <input type="time" bind:value={timeText} disabled={timeUnknown} onchange={() => commit()} />
-    </label>
+      <div class="hm">
+        <select aria-label={t('birthHour')} bind:value={hour} disabled={timeUnknown} onchange={changed}>
+          <option value="">--</option>
+          {#each HOURS as h (h)}<option value={h}>{h}</option>{/each}
+        </select>
+        <span>:</span>
+        <select aria-label={t('birthMinute')} bind:value={minute} disabled={timeUnknown} onchange={changed}>
+          <option value="">--</option>
+          {#each MINUTES as mm (mm)}<option value={mm}>{mm}</option>{/each}
+        </select>
+      </div>
+    </div>
     <label class="check">
-      <input type="checkbox" bind:checked={timeUnknown} onchange={() => commit()} />
+      <input type="checkbox" bind:checked={timeUnknown} onchange={changed} />
       <span>{t('birthTimeUnknown')}</span>
     </label>
     <label class="field">
@@ -144,22 +170,26 @@
     {/each}
     <p class="quiet">{t('birthPlaceChosen', { name: `${draft.place.name}, ${countryName(draft.place.cc, draft.place.country)}` })}. {t('birthPlaceNote')}</p>
 
-    {#if resolved?.choices.length}
-      <p>{t('birthPick', { a: starName(resolved.choices[0]), b: starName(resolved.choices[resolved.choices.length - 1]) })}</p>
-      <div class="segmented" role="group" aria-label={t('birthStar')}>
-        {#each resolved.choices as n (n)}
-          <button aria-pressed={app.birth?.star === n} onclick={() => ((draft.star = n), commit(true))}>{starName(n)}</button>
+    <!-- No time and the Moon changed star that day: the user picks the part of the day, by clock time. -->
+    {#if preview?.parts.length}
+      <p>{t('birthPickPart')}</p>
+      <div class="segmented" role="group" aria-label={t('birthTime')}>
+        {#each preview.parts as part, i (part.star)}
+          <button aria-pressed={draft.star === part.star} onclick={() => ((draft.star = part.star), (saved = false))}>
+            {i === 0 ? t('birthBefore', { time: clock(part.end) }) : i === preview.parts.length - 1 ? t('birthAfter', { time: clock(part.start) }) : `${clock(part.start)}–${clock(part.end)}`}
+          </button>
         {/each}
       </div>
     {/if}
-    {#if resolved?.birth}
+    {#if preview?.birth}
       <dl class="kinds">
-        <dt>{t('birthStar')}</dt><dd>{starName(resolved.birth.star)}</dd>
-        <dt>{t('birthSign')}</dt><dd>{resolved.birth.sign ? signName(resolved.birth.sign) : t('birthUnknown')}</dd>
+        <dt>{t('birthStar')}</dt><dd>{starName(preview.birth.star)}</dd>
+        <dt>{t('birthSign')}</dt><dd>{preview.birth.sign ? signName(preview.birth.sign) : t('birthUnknown')}</dd>
       </dl>
     {/if}
+    <button class="gps save" onclick={save} disabled={!preview?.birth}><span>{saved ? t('birthSaved') : t('birthSave')}</span></button>
     {#if app.birth}
-      <button class="gps" onclick={deleteBirth}><span>{t('birthDelete')}</span></button>
+      <button class="gps quiet-button" onclick={deleteBirth}><span>{t('birthDelete')}</span></button>
     {/if}
   </section>
 

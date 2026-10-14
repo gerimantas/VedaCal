@@ -982,14 +982,20 @@
     "birthPlace": "Gimimo vieta",
     "birthPlaceChosen": "Pasirinkta: {name}",
     "birthPlaceNote": "Pakanka artimiausio miesto toje pačioje šalyje: vieta tik parodo, pagal kurį laikrodį nurodytas laikas.",
-    "birthPick": "Tą dieną Mėnulis perėjo iš {a} į {b}. Pasirinkite savo žvaigždę arba įveskite laiką.",
     "birthStar": "Gimimo žvaigždė",
     "birthSign": "Mėnulio ženklas",
     "birthUnknown": "nežinoma",
     "birthDelete": "Ištrinti mano duomenis",
     "mine": "Man",
     "mineNow": "Jums dabar",
-    "mineNeedsStar": "Gimimo žvaigždė dar nepasirinkta, todėl niekas asmeniško neįskaičiuojama. Pasirinkite ją: Nustatymai → Mano duomenys."
+    "mineNeedsStar": "Gimimo duomenys dar neišsaugoti, todėl niekas asmeniško neįskaičiuojama. Užbaikite: Nustatymai → Mano duomenys.",
+    "birthHour": "Valanda",
+    "birthMinute": "Minutė",
+    "birthPickPart": "Tą dieną Mėnulis perėjo į kitą žvaigždę. Kada gimėte?",
+    "birthSave": "Išsaugoti",
+    "birthSaved": "Išsaugota ✓",
+    "birthBefore": "Iki {time}",
+    "birthAfter": "Po {time}"
   },
   "masa": {
     "1": {

@@ -111,22 +111,25 @@ describe('birth data from Settings (Q7.1)', () => {
   const place = { name: 'Vilnius', cc: 'LT', country: 'Lithuania', tz: c.tz }
 
   it('with a time: the birth Moon at that instant, read on the place\'s clock', () => {
-    expect(resolveBirth({ date: '1995-07-15', time: '14:30', place, star: null })).toEqual({ birth: birthOf(L('1995-07-15', '14:30')), choices: [] })
+    expect(resolveBirth({ date: '1995-07-15', time: '14:30', place, star: null })).toEqual({ birth: birthOf(L('1995-07-15', '14:30')), parts: [] })
   })
   it('the same clock time in New York is another instant, 7 hours later (summer)', () => {
     const ny = { name: 'New York', cc: 'US', country: 'United States', tz: 'America/New_York' }
     expect(resolveBirth({ date: '1995-07-15', time: '14:30', place: ny, star: null }).birth).toEqual(birthOf(new Date(L('1995-07-15', '14:30').getTime() + 7 * 3_600_000)))
   })
-  it('with no time and one star all day: that star; with two: a choice until one is picked', () => {
+  it('with no time and one star all day: that star; with two: the part of the day is picked', () => {
     // 2026-10-25 in Vilnius: the Moon moves from Revati (27) to Ashwini (1) at 15:52.
     const none = resolveBirth({ date: '2026-10-25', time: null, place, star: null })
-    expect(none).toEqual({ birth: null, choices: [27, 1] })
+    expect(none.birth).toBeNull()
+    expect(none.parts.map((p) => p.star)).toEqual([27, 1])
+    // The user picks by clock time: the change is found to the minute (Drik: 15:52).
+    expect(Math.abs(none.parts[0].end.getTime() - L('2026-10-25', '15:52').getTime())).toBeLessThanOrEqual(2 * 60_000)
+    expect(none.parts[1].start).toEqual(none.parts[0].end)
     const picked = resolveBirth({ date: '2026-10-25', time: null, place, star: 1 })
     expect(picked.birth).toMatchObject({ star: 1, sign: 1 })
-    expect(picked.choices).toEqual([27, 1])
     // A star lasts about a day, so a civil day inside one star is the rarer case: find one.
     const dates = Array.from({ length: 60 }, (_, i) => addDays('2026-10-01', i))
-    const whole = dates.map((date) => resolveBirth({ date, time: null, place, star: null })).find((r) => !r.choices.length)
+    const whole = dates.map((date) => resolveBirth({ date, time: null, place, star: null })).find((r) => !r.parts.length)
     expect(whole?.birth?.star).toBeGreaterThan(0)
   })
 })
