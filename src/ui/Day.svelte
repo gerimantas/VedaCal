@@ -74,7 +74,26 @@
     <a class="chip" href="#/settings">{@html icon.navigate}<span>{loc.name}, {loc.cc}</span></a>
     <div class="datechip">
       <button aria-label={t('previousDay')} onclick={() => go(-1)}>{@html icon.left}</button>
-      <span class="num">{v.shortDate}</span>
+      <!-- Tap the date for the system calendar: any day in one step (user, 2026-10-14). -->
+      <label class="datepick">
+        <span class="num">{v.shortDate}</span>
+        <input
+          type="date"
+          value={date}
+          aria-label={t('pickDate')}
+          onclick={(e) => {
+            try {
+              e.currentTarget.showPicker()
+            } catch {
+              // older browsers open their own picker on the tap
+            }
+          }}
+          onchange={(e) => {
+            const d = e.currentTarget.value
+            if (d) app.date = d === today ? null : d
+          }}
+        />
+      </label>
       <button aria-label={t('nextDay')} onclick={() => go(1)}>{@html icon.right}</button>
     </div>
     <VersionTag />
