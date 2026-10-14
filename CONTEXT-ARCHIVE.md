@@ -2,6 +2,23 @@
 
 Older session entries moved out of `CONTEXT.md`.
 
+## Session 2026-10-05 (S4) — P6 done, Drik evidence complete, ayanamsha fixed, dial redesigned
+
+- **Done:** P6 gate met (offline precache of moon photo/fonts/cities, PNG icons, install
+  button; offline reload works; Chrome manifest clean; Lighthouse mobile perf 94). All
+  reCAPTCHA-blocked Drik evidence fetched (Parana NY/Delhi 2027, adhika day pages, Sankranti,
+  eclipse, Guru/Ravi Pushya pages). Sun dial redesigned to the user's spec (24 h clock face,
+  sun outside ring by day, overlap shown, solid blue/red/green). Update-prompt bar.
+- **Decided / overturned:** Lahiri ayanamsha = Drik's printed value (library +24.14″, constant
+  on all 48 pages) — Sankranti 9 min gap closed; lunar eclipse typed by local view; Abhijit/
+  Rahu Kaal Friday overlap shown with real times (not shortened); dial on other days at the
+  device clock time; sun hidden at night; update check only on app open (no hourly poll).
+- **Code:** `scripts/fetch-marks.ts`, `tests/drik-marks.test.ts`, `tests/fixtures/{marks,parana,drik}`,
+  `src/core/panchang.ts` (DRIK_LAHIRI_OFFSET, lunar type), `src/ui/day.ts` (sunDial, clockOn,
+  overlap), `src/ui/{install,update}.svelte.ts`, `src/ui/UpdateBar.svelte`, `vite.config.ts`
+- **Entry point:** `npm test`; `npm run accuracy`; `node scripts/fetch-marks.ts <city> 2026`
+- **Not measured:** remaining uniform ~57 s Moon offset vs Drik (tithi/nakshatra/yoga/karana,
+  max 93 s, inside the gate) — cause unknown. Install prompt not tried on a real phone.
 ## Session 2026-10-05 (S3) — P3 approved, P4 + P5 built, source audit, Lithuanian, deployed
 
 - **Done:** P3 approved at mockups v22; P4 (Svelte day screen, offline GeoNames search, GPS,

@@ -2,57 +2,54 @@
 
 ## Status
 Live: P0–P6 (https://gerimantas.github.io/VedaCal/, 950f429). Local, not pushed: S9's brief
-sheets, all of S12 and S13.
-Periods work (`.planning/PLAN-periods.md`): Q0–Q2 done (registry `research/rules.md`, model
-SPEC 13, worked examples `research/examples.md`). S12: day view direction approved = the
-24 h clock (mockup `mockups/research/d7-clock.html`; every user decision in PLAN-periods Q3
-"Decisions so far"). Engine step 1 built: `src/core/periods.ts` (values derivable from
-computeDay + SPEC 13.4 verdict; still-missing values listed in its `MISSING`). Step 2 built:
-the clock on the Day screen (`src/ui/DayClock.svelte`), under the moon hero; the old sun dial
-and time list stay below it until the user approves the clock. Choghadiya is shown only,
-never decides (R21). S13: engine step 3 started — E1 eclipses built (days around an eclipse
-seen here + its star; rules.md E1 holds the commentary reading); 2026-10-06 now avoid until
-19:47. Still missing (Dur Muhurtam, Varjyam, Amrit Kalam, lagna junctions, Baana, month
-rules): some times look better than they are — the clock says so. Open: E1's eclipse-time
-veto for group 7 (spiritual rites). Open SPEC questions: day start BM (13.1) vs sunrise (13.5); D3 paksha-randhra
-remainder neutral or fallback.
-Workflow: the user reviews on localhost; show proposals before changing code; commit
-locally, push only on the user's command.
+sheets and all of S12–S14.
+Periods work (`.planning/PLAN-periods.md`): the day clock (`src/ui/DayClock.svelte`, approved
+design `mockups/research/d7-clock.html`) is the Day screen's time view; the user approved it
+in S14, and the old sun dial, time list and Choghadiya list are gone. Under the clock, a
+"Visa diena" list (same-colour parts merged, tap → hand). Engine (`src/core/periods.ts`)
+now has every SPEC 13.2 veto value and the month rules: E1, Dur Muhurtam, Varjyam, Amrit
+Kalam, lagna junctions, Baana, M1 (Adhika, Jupiter/Venus combust by Drik's visibility
+model), M2, M5, M6 (marriage only). `MISSING` (shown under the clock): Hora, Anandadi,
+Tri/Dwi Pushkara, travel rules (Godhuli, Nishita, Panchaka, Disha Shool, Abhijit south),
+Sankranti window. Choghadiya is shown only, never decides (R21).
+Open: E1's eclipse-time veto for group 7; SPEC day start BM (13.1) vs sunrise (13.5); D3
+paksha-randhra remainder neutral or fallback.
+Workflow: the user reviews on localhost (the dev server restarts itself on every commit;
+the top bar shows the commit); show proposals before changing code; commit locally, push
+only on the user's command.
 
 ## Next Tasks
-- Engine step 3 (PLAN-periods Q4), next value: Dur Muhurtam (rules.md R10), test-first vs
-  Drik fixtures (3 cities); then Varjyam (R7), Amrit Kalam (R23), lagna junctions (D5, Q4.g),
-  Baana (R19), month rules (M1–M6). Read first: PLAN-periods Q4, SPEC 13, `tests/periods.test.ts`.
-  Ask the user first how the clock looks with E1 (Vilnius 2026-10-06, 2026-08-10).
-- User review of the app clock (Day screen); on approval remove the old sun dial, time list
-  and folded Choghadiya (PLAN-periods Q7 gate). Button style: one decision for all pages.
-- Open SPEC questions for the user: day start BM vs sunrise (13.1 vs 13.5); D3 remainder.
+- Engine, the values left in `MISSING` (PLAN-periods Q4 b, d, e; SPEC 13.2): Hora (R6, R22),
+  Anandadi (R15), Tri/Dwi Pushkara note (R24), travel rules (R9, G3, R25), Sankranti (R26);
+  then the personal layer (Q4.f, Q7.1 birth data). Test-first vs Drik, 3 cities. Ask the user
+  which first. Read: PLAN-periods Q4, SPEC 13.2, `.planning/research/rules.md`.
+- Ask the user whether to push S9–S14 live (P7 pilot needs it). Button style: one decision for all pages.
+- Open SPEC questions for the user: day start BM vs sunrise (13.1 vs 13.5); D3 remainder;
+  E1 eclipse-time veto for group 7.
 - New moon shows 18:49 (tithi end, moon card) and 18:50 (key dates, tradition card): two
   methods ~40 s apart (SPEC 11). Use one instant for both. Code: `src/core/panchang.ts`.
 - P7 pilot: the user shares the link with 5–10 people and collects what confuses them;
   then the user picks the next backlog items (SPEC 10). Fix what the pilot reports first.
   plan: `.planning/PLAN.md` P7.
-- Mockups `mockups/about.ts`, `sky*.ts`, `location.ts` predate S7's About split and no-card
-  look; update them or retire the P3 mockups (ask the user).
-- Ask the user: delete the rejected 3D prototype (`mockups/sky.*`, `mockups/sky/*.jpg`,
-  devDependency `three`)?
 - Optional: find the uniform ~57 s Moon offset vs Drik (`npm run accuracy`; mypanchang agrees
   with us on tithi to 8 s). Inside the gate, so only if the user asks. rules: SPEC 4.11.
 
 ## Done Log
 
+### 2026-10-14 (S14)
+- Engine step 3: Dur Muhurtam, Varjyam, Amrit Kalam, lagna junctions, Baana, M1 (Adhika, combust), M2, M5, M6
+- Clock approved: "Visa diena" list, "↺ Dabar" on the top bar, date picker, `2026-10-14, tr`, dev version tag
+- Old sun dial, time list, Choghadiya list, P3 mockups, 3D prototype, `three` removed
+
 ### 2026-10-11 (S13)
 - E1 eclipse rule: days around an eclipse seen here + its star (engine, tests 3 cities, clock labels)
-
-### 2026-10-10 (S12)
-- D6 graph variants, D7 24 h clock mockup (approved direction); Choghadiya → shown only
-- `src/core/periods.ts` (engine step 1) + tests; day clock on the Day screen; activity and palette settings
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
 - Deploy = push to `main` (only on the user's command); `.github/workflows/ci.yml` tests and
-  publishes. Check: `gh run list --limit 1`. Dev server must be restarted for the About
-  version label to show a new commit.
+  publishes. Check: `gh run list --limit 1`. The dev server restarts itself on every commit
+  (`vite.config.ts` liveVersion); the top bar shows the commit (dev only, `VersionTag.svelte`);
+  the browser still needs F5 (the CSP blocks Vite's reload worker).
 - After any dependency change: `npm run scan` (security scan, also runs in CI)
 - Drik fixture scripts go through `scripts/drik-page.ts`: pages cached in `.cache/drik/`
   (re-parse without re-fetching), 12 s between requests (`DRIK_DELAY_MS`), stop at the first
@@ -72,13 +69,10 @@ locally, push only on the user's command.
   `fetch-mypanchang.ts`, `fetch-ekadashi.ts`, `fetch-choghadiya.ts`, `fetch-drik-extra.ts` (fixtures in
   `tests/fixtures/`, never hand-typed)
 - Speed: `npm run dev`, open `/VedaCal/tests/perf/perf.html` (dev-only harness)
-- Mockups (P3): `npm run dev` → http://localhost:5173/VedaCal/mockups/ . Bump `MOCKUP_VERSION`
-  in `mockups/version.ts` on every visible change — each screen shows a version badge so the
-  user can tell a stale browser copy from a real change. Dev server sends `Cache-Control: no-store`.
-- Mockups are NOT covered by `npm run check` (tsconfig.app includes `src/` only). Type-check
-  them with: `node_modules/.bin/tsc --ignoreConfig --noEmit --strict --noUnusedLocals --module esnext
-  --moduleResolution bundler --target es2022 --lib es2022,dom,dom.iterable --skipLibCheck
-  --resolveJsonModule --types vite/client mockups/*.ts src/globals.d.ts`
+- Design research and the approved clock design: `mockups/research/` (the P3 mockups were
+  retired in S14). Dev server sends `Cache-Control: no-store`.
+- Combust (M1) reference: `node scripts/fetch-asta.ts <city> <shukra|guru> <year>` → Drik Graha
+  Asta pages in `tests/fixtures/asta/` (12-hour times; the start is the last day still seen).
 - Browser auto-dark (Chrome force-dark) ignores `color-scheme` and inverts SVG fills; reproduce
   with Chromium arg `--blink-settings=forceDarkModeEnabled=true`. Photos are left alone.
 - Android install: Chrome 154 menu "Install and create shortcut" checks by origin, so with
@@ -107,6 +101,16 @@ locally, push only on the user's command.
 ## Archive
 
 Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation, newest first). This section keeps the most recent 10 sessions.
+
+### Session 2026-10-14 (S14) — engine step 3 done (all SPEC 13 veto values), whole-day list, old UI retired
+
+- **Done:** Dur Muhurtam (R10), Varjyam (R7), Amrit Kalam (R23), lagna junctions (D5, own ascendant), Baana (R19), month rules M1 Adhika + combust, M2, M5, M6 — each test-first vs Drik, 3 cities. Combust = Drik's visibility model (Sun depth at planet rise/set; thresholds in rules.md M1), 54/60 Drik edges.
+- **Done:** Day screen: "Visa diena" list under the clock (tap → hand); one "↺ Dabar" on the top bar; tap the date → calendar; date `2026-10-14, tr`; dev-only version tag; dev server restarts on every commit.
+- **Done:** old sun dial, time list, Choghadiya list, P3 mockups, 3D prototype and `three` removed.
+- **Decided / overturned:** Drik's Dur Muhurtam / Varjyam tables over Raman / KP where they differ; Chaturmas = marriage only (user); Baana by time only; lagna junction ½ ghatika each side — examples 1, 2, 3, 5 fixed; Venus combust in Vilnius 09-04 → 10-31 overturns example 1's "not combust".
+- **Code:** `src/core/{panchang,periods,types}.ts`, `src/ui/{DayClock,Day,VersionTag}.svelte`, `src/ui/{day,verdict,format}.ts`, `scripts/fetch-asta.ts`, `tests/{periods,asta}.test.ts`, fixtures `tests/fixtures/{drik,asta}`, `vite.config.ts`; planning: rules.md R7 R10 R19 R23 D5 M1 M2 M5 M6, SPEC 13.3, examples.md.
+- **Entry point:** `npx vitest run tests/periods.test.ts tests/asta.test.ts`; app `npm run dev` (port 5174 this session).
+- **Not measured:** Baana 17–126 s after Drik (3 min tolerance); Venus March 2025 inferior conjunction not reproduced; throttled-phone speed.
 
 ### Session 2026-10-11 (S13) — E1 eclipse rule built (engine step 3, first value)
 
@@ -220,21 +224,3 @@ Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation,
 - **Entry point:** `npm run dev` → `/VedaCal/#/sky`; `npm test` (1127)
 - **Not measured:** Sky tab on a real phone; Yamaganda/Gulika/Choghadiya times not yet on
   the day screen (texts only; Drik fixtures already hold Yamaganda/Gulika).
-
-### Session 2026-10-05 (S4) — P6 done, Drik evidence complete, ayanamsha fixed, dial redesigned
-
-- **Done:** P6 gate met (offline precache of moon photo/fonts/cities, PNG icons, install
-  button; offline reload works; Chrome manifest clean; Lighthouse mobile perf 94). All
-  reCAPTCHA-blocked Drik evidence fetched (Parana NY/Delhi 2027, adhika day pages, Sankranti,
-  eclipse, Guru/Ravi Pushya pages). Sun dial redesigned to the user's spec (24 h clock face,
-  sun outside ring by day, overlap shown, solid blue/red/green). Update-prompt bar.
-- **Decided / overturned:** Lahiri ayanamsha = Drik's printed value (library +24.14″, constant
-  on all 48 pages) — Sankranti 9 min gap closed; lunar eclipse typed by local view; Abhijit/
-  Rahu Kaal Friday overlap shown with real times (not shortened); dial on other days at the
-  device clock time; sun hidden at night; update check only on app open (no hourly poll).
-- **Code:** `scripts/fetch-marks.ts`, `tests/drik-marks.test.ts`, `tests/fixtures/{marks,parana,drik}`,
-  `src/core/panchang.ts` (DRIK_LAHIRI_OFFSET, lunar type), `src/ui/day.ts` (sunDial, clockOn,
-  overlap), `src/ui/{install,update}.svelte.ts`, `src/ui/UpdateBar.svelte`, `vite.config.ts`
-- **Entry point:** `npm test`; `npm run accuracy`; `node scripts/fetch-marks.ts <city> 2026`
-- **Not measured:** remaining uniform ~57 s Moon offset vs Drik (tithi/nakshatra/yoga/karana,
-  max 93 s, inside the gate) — cause unknown. Install prompt not tried on a real phone.
