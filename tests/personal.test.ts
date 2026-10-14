@@ -4,7 +4,7 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { computeDay, skyAt } from '../src/core/panchang'
-import { birthOf, chandraOf, daySegments, taraOf, type Birth } from '../src/core/periods'
+import { birthOf, chandraOf, dayPeriods, daySegments, taraOf, type Birth } from '../src/core/periods'
 import { resolveBirth } from '../src/ui/birth'
 import { addDays, zonedTimeToUtc } from '../src/core/time'
 import type { Location } from '../src/core/types'
@@ -89,11 +89,33 @@ describe('example 3, Vilnius 2026-10-25, with the sample birth (Moon in Kanya, H
   it('morning: Sadhaka tara and the 7th sign — the verdict stays good', () => {
     expect(at(L('2026-10-25', '07:30'), birth)).toMatchObject({ verdict: 'good' })
   })
-  it('from 15:52 Vadha (Naidhana) and Chandrashtama: the evening window turns to avoid', () => {
+  it('from 15:52 Chandrashtama turns the evening window to avoid; Ashwini, the 16th star, only in its third quarter', () => {
     expect(at(L('2026-10-25', '20:00'), null).verdict).toBe('good')
     const s = at(L('2026-10-25', '20:00'), birth)
     expect(s.verdict).toBe('avoid')
-    expect(s.by.map((p) => p.kind).sort()).toEqual(['chandra', 'tara'])
+    expect(s.by.map((p) => p.kind)).toEqual(['chandra'])
+    // [MC] 4.13: in the second cycle only the third quarter of the 7th tara (Vadha) is bad.
+    const d = dayPeriods(day, prev, birth).periods.find((p) => p.kind === 'tara' && p.detail?.star === 1)!
+    expect(d).toMatchObject({ level: 'veto', detail: { tara: 7, cycle: 2 } })
+    const ashwini = day.nakshatra.find((x) => x.index === 1)!
+    const q = (ashwini.end.getTime() - ashwini.start.getTime()) / 4
+    expect(Math.abs(d.start.getTime() - (ashwini.start.getTime() + 2 * q))).toBeLessThan(60_000)
+  })
+  it('the third cycle is all good; the 2nd, 5th, 9th sign counts only while the Moon wanes ([MC] 4.4, 4.13)', () => {
+    // Morning of 10-25: the Moon in Revati (27), sign Meena (12), lunar day 14 (waxing).
+    const third: Birth = { star: 7, sign: 0, tithi: 0, month: 0 } // Revati is the 21st from Punarvasu: Vipat of the third cycle
+    expect(at(L('2026-10-25', '07:30'), third).active.find((p) => p.kind === 'tara')).toMatchObject({ decides: false, detail: { tara: 3, cycle: 3 } })
+    const second: Birth = { star: 0, sign: 11, tithi: 0, month: 0 } // Meena is the 2nd sign from Kumbha
+    expect(at(L('2026-10-25', '07:30'), second).active.find((p) => p.kind === 'chandra')).toMatchObject({ decides: false, detail: { place: 2 } })
+    // A waning day: the same place is a fallback. 2026-11-05, Vilnius, noon.
+    const d = computeDay('2026-11-05', VILNIUS), p = computeDay('2026-11-04', VILNIUS)
+    const noon = L('2026-11-05', '12:00')
+    const inForce = <T extends { start: Date; end: Date }>(xs: T[]) => xs.find((x) => x.start <= noon && noon < x.end)!
+    expect((inForce(d.tithi) as { index: number }).index).toBeGreaterThan(15)
+    const sign = (inForce(d.signs.vedic.moon) as { index: number }).index
+    const b: Birth = { star: 0, sign: ((sign + 10) % 12) + 1, tithi: 0, month: 0 } // the Moon's sign is the 2nd from it
+    const seg = daySegments(d, p, 0, null, b).find((x) => x.start <= noon && noon < x.end)!
+    expect(seg.active.find((x) => x.kind === 'chandra')).toMatchObject({ level: 'fb', decides: true, detail: { place: 2 } })
   })
   it('the birth star is avoided until midday, a fallback after it (C1)', () => {
     const own: Birth = { star: 27, sign: 0, tithi: 0, month: 0 } // Revati, the Moon's star that morning

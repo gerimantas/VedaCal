@@ -1238,8 +1238,8 @@
     "dawn": "For travel dawn is good, except travel east. The time as Drik draws it (the tenth of the night before sunrise).",
     "godhuli": "For travel the time after sunset is good, except travel west. The time as Drik draws it.",
     "nishita": "For travel the time around midnight is good, except travel north. The time as Drik draws it.",
-    "tara": "The Moon's star counted from your birth star, in sets of nine. Vipat (\"danger\") and Vadha (\"slaughter\") are avoided; Janma, your own star, and Pratyari (\"obstacles\") are avoided until midday and acceptable after it if the act cannot wait.",
-    "chandra": "The Moon's sign counted from your birth sign: the 1st, 3rd, 6th, 7th, 10th and 11th are good. Drik marks the 4th, 8th and 12th bad and the 2nd, 5th and 9th \"puja needed\"; the 8th is Chandrashtama, when \"nothing auspicious or important to one's welfare should be started\".",
+    "tara": "The Moon's star counted from your birth star, in three cycles of nine. In the first cycle Vipat (\"danger\") and Vadha (\"slaughter\") are avoided, and Janma, your own star, and Pratyari (\"obstacles\") until midday; in the second only one quarter of the 3rd, 5th and 7th; in the third \"all are auspicious\". Drik grades the three cycles alike; the app follows the base text.",
+    "chandra": "The Moon's sign counted from your birth sign: the 1st, 3rd, 6th, 7th, 10th and 11th are good, the 4th, 8th and 12th bad; the 2nd, 5th and 9th are bad while the Moon wanes and good while it waxes. The 8th is Chandrashtama, when \"nothing auspicious or important to one's welfare should be started\".",
     "janma": "Your birth lunar day is avoided in all auspicious work. The text names your birth month too, but its marriage chapter narrows that to the marriage of a first-born, so the app shows the birth month and does not count it (a choice of this app)."
   },
   "traditionSource": {
@@ -1291,8 +1291,8 @@
     "dawn": "Muhurta Chintamani, travel chapter, 51; Drik Panchang",
     "godhuli": "Muhurta Chintamani, travel chapter, 51; Drik Panchang",
     "nishita": "Muhurta Chintamani, travel chapter, 51; Drik Panchang",
-    "tara": "Kalaprakasika, p. 166–167; Brihat Samhita 98.12–15; Muhurta Chintamani 1.42; Drik Panchang",
-    "chandra": "Brihat Samhita 98.12–15; Kalaprakasika, p. 167; Drik Panchang",
+    "tara": "Muhurta Chintamani 4.11–13, 1.42; Kalaprakasika, p. 166–167; Drik Panchang",
+    "chandra": "Muhurta Chintamani 4.4; Brihat Samhita 98.12–15; Kalaprakasika, p. 167",
     "janma": "Muhurta Chintamani 1.34–35, 6.14"
   },
   "leads": {
