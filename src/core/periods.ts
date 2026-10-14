@@ -604,10 +604,12 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang, birth: Birth | n
       else if ([2, 5, 9].includes(place)) add(s.start, s.end, 'chandra', 'fb', 'P2', extra)
       else add(s.start, s.end, 'chandra', 'plus', 'P2', { ...extra, decides: false })
     }
-    // The birth lunar day and the birth (amanta) month are avoided (R17).
+    // The birth lunar day is avoided (R17). The birth (amanta) month too, by [MC] 1.34–35, but
+    // [MC] 6.14 narrows it to a first-born's marriage and a whole month in red told the user
+    // nothing: shown, does not decide (user, 2026-10-14).
     for (const s of merged(day.tithi, prev.tithi)) {
       if (s.index === birth.tithi) add(s.start, s.end, 'janma', 'veto', 'R17', { detail: { what: 'tithi' } })
-      if (birth.month && masaAt(mid(s.start, s.end)).amanta === birth.month) add(s.start, s.end, 'janma', 'veto', 'R17', { detail: { what: 'month' } })
+      if (birth.month && masaAt(mid(s.start, s.end)).amanta === birth.month) add(s.start, s.end, 'janma', 'veto', 'R17', { detail: { what: 'month' }, decides: false })
     }
   }
 

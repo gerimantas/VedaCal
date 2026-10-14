@@ -100,10 +100,12 @@ describe('example 3, Vilnius 2026-10-25, with the sample birth (Moon in Kanya, H
     expect(at(L('2026-10-25', '10:00'), own).verdict).toBe('avoid')
     expect(at(L('2026-10-25', '13:30'), own).by.some((p) => p.kind === 'tara' && p.level === 'fb')).toBe(true)
   })
-  it('the birth lunar day and the birth month are avoided (R17)', () => {
+  it('the birth lunar day is avoided (R17); the birth month is shown, not counted (user, 2026-10-14)', () => {
     const tithi = day.tithi.find((s) => s.start <= L('2026-10-25', '12:00') && L('2026-10-25', '12:00') < s.end)!.index
     expect(at(L('2026-10-25', '20:00'), { star: 0, sign: 0, tithi, month: 0 }).by.map((p) => p.kind)).toContain('janma')
-    expect(at(L('2026-10-25', '20:00'), { star: 0, sign: 0, tithi: 0, month: day.masa.amanta }).by.map((p) => p.kind)).toContain('janma')
+    const month = at(L('2026-10-25', '20:00'), { star: 0, sign: 0, tithi: 0, month: day.masa.amanta })
+    expect(month.verdict).toBe(at(L('2026-10-25', '20:00'), null).verdict)
+    expect(month.active.find((p) => p.kind === 'janma')).toMatchObject({ decides: false, detail: { what: 'month' } })
   })
 })
 

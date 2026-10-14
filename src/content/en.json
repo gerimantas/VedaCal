@@ -1240,7 +1240,7 @@
     "nishita": "For travel the time around midnight is good, except travel north. The time as Drik draws it.",
     "tara": "The Moon's star counted from your birth star, in sets of nine. Vipat (\"danger\"), Pratyari (\"obstacles\") and Vadha (\"slaughter\") are avoided; Janma, your own star, is avoided until midday and acceptable after it if the act cannot wait.",
     "chandra": "The Moon's sign counted from your birth sign: the 1st, 3rd, 6th, 7th, 10th and 11th are good. Drik marks the 4th, 8th and 12th bad and the 2nd, 5th and 9th \"puja needed\"; the 8th is Chandrashtama, when \"nothing auspicious or important to one's welfare should be started\".",
-    "janma": "Your birth lunar day and your birth month are avoided in all auspicious work. The app counts the lunar month you were born in (a choice of this app)."
+    "janma": "Your birth lunar day is avoided in all auspicious work. The text names your birth month too, but its marriage chapter narrows that to the marriage of a first-born, so the app shows the birth month and does not count it (a choice of this app)."
   },
   "traditionSource": {
     "brahma": "Ashtanga Hridaya, Sutrasthana 2.1",
@@ -1293,7 +1293,7 @@
     "nishita": "Muhurta Chintamani, travel chapter, 51; Drik Panchang",
     "tara": "Kalaprakasika, p. 166–167; Brihat Samhita 98.12–15; Muhurta Chintamani 1.42; Drik Panchang",
     "chandra": "Brihat Samhita 98.12–15; Kalaprakasika, p. 167; Drik Panchang",
-    "janma": "Muhurta Chintamani 1.34–35"
+    "janma": "Muhurta Chintamani 1.34–35, 6.14"
   },
   "leads": {
     "firstHalf": "first",
