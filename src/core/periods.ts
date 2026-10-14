@@ -5,7 +5,7 @@
 // Step 1 of PLAN-periods Q4–Q5: the values that follow from what computeDay already finds
 // (sunrise, sunset, the five elements, the Moon's sign, the library's windows, the star-day
 // marks). Values that need new computation are listed in MISSING and do not decide yet.
-import { skyAt } from './panchang'
+import { jupiterAt, masaAt, skyAt } from './panchang'
 import { addDays } from './time'
 import type { DayPanchang, Interval, Span } from './types'
 
@@ -13,7 +13,7 @@ export const GROUPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
 const ALL: readonly number[] = GROUPS
 
 /** Values of SPEC 13.2 not computed yet — the screen says so while the list is not empty. */
-export const MISSING = ['monthRules'] as const
+export const MISSING = ['combustion'] as const
 
 export type PeriodKind =
   | 'rahuKaal' | 'yamaganda' | 'gulika' | 'durMuhurtam' | 'noon' | 'midnight'
@@ -22,7 +22,7 @@ export type PeriodKind =
   | 'varjyam' | 'amritKalam'
   | 'abhijit' | 'brahma' | 'sarvartha' | 'amritSiddhi' | 'ravi'
   | 'eclipse' | 'eclipseDays' | 'eclipseStar'
-  | 'baana'
+  | 'baana' | 'month'
   | 'choghadiya' | 'base'
 
 /**
@@ -152,6 +152,14 @@ export type Baana = 'mrityu' | 'agni' | 'raja' | 'chora' | 'roga'
 const BAANA: Record<number, Baana> = { 1: 'mrityu', 2: 'agni', 4: 'raja', 6: 'chora', 8: 'roga' }
 /** The act each Baana spoils ([MC] 6.74, SPEC 13.2): travel, marriage, house, official work, rites. */
 const BAANA_GROUP: Record<Baana, number> = { chora: 1, mrityu: 2, agni: 3, raja: 9, roga: 7 }
+
+/** Groups the month rules M1 and M2 name ([MC] 1.46–48): travel, marriage, home, rites, official work. */
+const RITES = [1, 2, 3, 7, 9]
+/** Jupiter in Magha 1 – P.Phalguni 1, "blamed in all countries" (M2, [MC] 1.50). */
+const JUPITER_BLAMED = [120, 120 + 40 / 3]
+/** Sun signs of the marriage months (M5, [MC] 6.13): Mesha, Vrishabha, Vrishchika, Makara, Kumbha. */
+const MARRIAGE_SIGNS = [1, 2, 8, 10, 11]
+const MITHUNA = 3, ASHADHA = 4, KARTIKA = 8
 
 /** The Baana over [a, b), cut where the Sun completes a degree (about once a day); null where there is none. */
 export function baanaSpans(a: Date, b: Date): { name: Baana | null; start: Date; end: Date }[] {
@@ -355,6 +363,47 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
     if (s.name)
       for (const w of when[s.name])
         add(s.start > w.start ? s.start : w.start, s.end < w.end ? s.end : w.end, 'baana', 'veto', 'R19', { groups: [BAANA_GROUP[s.name]], detail: { name: s.name } })
+
+  // Month rules (SPEC 13.3), each a veto for the groups its record names: M1's Adhika month and
+  // M2 Jupiter in Magha – P.Phalguni 1 for RITES; M5 outside the marriage months for marriage —
+  // the Sun in Mithuna counts only in Ashadha's first ten tithis; M6 Chaturmas (Ashadha Shukla
+  // 11 to Kartika Shukla 11, amanta) for marriage and rites. Cut where the tithi, the Sun's sign
+  // or Jupiter's place changes; pieces in a row with the same rule are one period.
+  const blamed = (t: Date) => jupiterAt(t) >= JUPITER_BLAMED[0] && jupiterAt(t) < JUPITER_BLAMED[1]
+  let jupiterCut: Date[] = []
+  if (blamed(window.start) !== blamed(window.end)) {
+    let lo = window.start.getTime(), hi = window.end.getTime()
+    while (hi - lo > MIN) {
+      const m = (lo + hi) / 2
+      if (blamed(new Date(m)) === blamed(window.start)) lo = m
+      else hi = m
+    }
+    jupiterCut = [new Date(hi)]
+  }
+  const monthCuts = [window.start, window.end, ...jupiterCut, ...day.tithi.map((s) => s.start), ...day.signs.vedic.sun.map((s) => s.start)]
+    .filter((t) => t >= window.start && t <= window.end)
+    .sort((a, b) => a.getTime() - b.getTime())
+  const lastOf = new Map<string, Period>()
+  const month = (a: Date, b: Date, rule: string, name: string, groups: number[]) => {
+    const last = lastOf.get(rule)
+    if (last && last.end.getTime() === a.getTime()) last.end = b
+    else {
+      add(a, b, 'month', 'veto', rule, { groups, detail: { name } })
+      lastOf.set(rule, out[out.length - 1])
+    }
+  }
+  for (let i = 0; i + 1 < monthCuts.length; i++) {
+    const [a, b] = [monthCuts[i], monthCuts[i + 1]]
+    if (a.getTime() === b.getTime()) continue
+    const m = mid(a, b)
+    const tithi = spanAt(day.tithi, m)?.index ?? 0
+    const sun = spanAt(day.signs.vedic.sun, m)?.index ?? 0
+    const { amanta, adhika } = masaAt(m)
+    if (adhika) month(a, b, 'M1', 'adhika', RITES)
+    if (blamed(m)) month(a, b, 'M2', 'jupiter', RITES)
+    if (!MARRIAGE_SIGNS.includes(sun) && !(sun === MITHUNA && amanta === ASHADHA && !adhika && tithi <= 10)) month(a, b, 'M5', 'marriage', [2])
+    if ((amanta === ASHADHA && !adhika && tithi >= 11) || (amanta > ASHADHA && amanta < KARTIKA) || (amanta === KARTIKA && tithi <= 11)) month(a, b, 'M6', 'chaturmas', [2, 7])
+  }
 
   // Day base per group (13.3): cut where the weekday, tithi, star or Tuesday's half changes.
   const cuts = [window.start, window.end, sunrise, noon, ...day.tithi.map((s) => s.start), ...day.nakshatra.map((s) => s.start)]

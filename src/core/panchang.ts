@@ -472,7 +472,7 @@ const sunSignAt = (t: Date) => Math.floor(siderealSun(getAyanamsa(t))(t) / SIGN)
  * Purnimanta months end at the full moon, so in the waning half they already carry the next
  * month's name; an adhika month keeps its span in both systems (Drik).
  */
-function masaAt(t: Date): DayPanchang['masa'] {
+export function masaAt(t: Date): DayPanchang['masa'] {
   const [opened, closes] = lunation(t)
   const sign = sunSignAt(opened)
   const amanta = ((sign + 1) % 12) + 1
@@ -547,6 +547,9 @@ function paranaAfter(loc: Location, date: string): Interval | null {
 }
 
 // ── The sky at an instant (Sky screen) ─────────────────────────────────────────────
+
+/** Sidereal (Drik Lahiri) longitude of Jupiter at `t`, in degrees 0–360 (month rule M2). */
+export const jupiterAt = (t: Date) => norm(tropical(Body.Jupiter, t) - getAyanamsa(t))
 
 /** Sidereal (Drik Lahiri) longitudes of the Sun and the Moon at `t`, in degrees 0–360. */
 export function skyAt(t: Date): { sun: number; moon: number } {
