@@ -987,7 +987,9 @@
     "birthSign": "Moon sign",
     "birthUnknown": "not known",
     "birthDelete": "Delete my data",
-    "mine": "For me"
+    "mine": "For me",
+    "mineNow": "Yours now",
+    "mineNeedsStar": "Your birth star is not chosen yet, so nothing personal counts. Choose it in Settings → My data."
   },
   "masa": {
     "1": {

@@ -987,7 +987,9 @@
     "birthSign": "Mėnulio ženklas",
     "birthUnknown": "nežinoma",
     "birthDelete": "Ištrinti mano duomenis",
-    "mine": "Man"
+    "mine": "Man",
+    "mineNow": "Jums dabar",
+    "mineNeedsStar": "Gimimo žvaigždė dar nepasirinkta, todėl niekas asmeniško neįskaičiuojama. Pasirinkite ją: Nustatymai → Mano duomenys."
   },
   "masa": {
     "1": {
