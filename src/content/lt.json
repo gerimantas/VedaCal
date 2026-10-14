@@ -968,7 +968,12 @@
     "dir_west": "vakarai",
     "direction": "Kryptis",
     "directionNone": "nepasirinkta",
-    "needsDirection": "priklauso nuo krypties – pasirinkite ją"
+    "needsDirection": "priklauso nuo krypties – pasirinkite ją",
+    "periodTara": "{name} tara",
+    "periodChandra": "Mėnulis {n}-ame ženkle nuo jūsiškio",
+    "periodChandrashtama": "Chandrashtama: Mėnulis 8-ame ženkle nuo jūsiškio",
+    "periodJanmaTithi": "Jūsų gimimo Mėnulio diena",
+    "periodJanmaMonth": "Jūsų gimimo mėnuo"
   },
   "masa": {
     "1": {
@@ -1210,7 +1215,10 @@
     "dishaShool": "Kiekviena savaitės diena turi kryptį, kuria tą dieną nekeliaujama. Kryptys – kaip Drik: sekmadienį ir penktadienį vakarai, pirmadienį ir šeštadienį rytai, antradienį ir trečiadienį šiaurė, ketvirtadienį pietūs.",
     "dawn": "Kelionei aušra gera, išskyrus kelionę į rytus. Laikas – kaip Drik (dešimtoji nakties dalis prieš saulėtekį).",
     "godhuli": "Kelionei laikas po saulėlydžio geras, išskyrus kelionę į vakarus. Laikas – kaip Drik.",
-    "nishita": "Kelionei laikas apie vidurnaktį geras, išskyrus kelionę į šiaurę. Laikas – kaip Drik."
+    "nishita": "Kelionei laikas apie vidurnaktį geras, išskyrus kelionę į šiaurę. Laikas – kaip Drik.",
+    "tara": "Mėnulio žvaigždė, skaičiuojama nuo jūsų gimimo žvaigždės devynetais. Vipat („pavojus“), Pratyari („kliūtys“) ir Vadha („žudymas“) vengiamos; Janma, jūsų pačių žvaigždės, vengiama iki vidurdienio, o po jo ji tinka, jei darbas negali laukti.",
+    "chandra": "Mėnulio ženklas, skaičiuojamas nuo jūsų gimimo ženklo: 1-as, 3-ias, 6-as, 7-as, 10-as ir 11-as palankūs. Drik 4-ą, 8-ą ir 12-ą žymi kaip blogus, o 2-ą, 5-ą ir 9-ą – „reikia pudžos“; 8-as yra Chandrashtama, kai „nieko palankaus ar svarbaus savo gerovei nevalia pradėti“.",
+    "janma": "Jūsų gimimo Mėnulio dienos ir gimimo mėnesio vengiama visuose palankiuose darbuose. Programa skaičiuoja Mėnulio mėnesį, kuriame gimėte (šios programos pasirinkimas)."
   },
   "traditionSource": {
     "brahma": "Aštangahridaja, Sūtrasthāna 2.1",
@@ -1260,7 +1268,10 @@
     "dishaShool": "Muhurta Chintamani 1.56; Drik Panchang",
     "dawn": "Muhurta Chintamani, kelionių skyrius, 51; Drik Panchang",
     "godhuli": "Muhurta Chintamani, kelionių skyrius, 51; Drik Panchang",
-    "nishita": "Muhurta Chintamani, kelionių skyrius, 51; Drik Panchang"
+    "nishita": "Muhurta Chintamani, kelionių skyrius, 51; Drik Panchang",
+    "tara": "Kalaprakasika, psl. 166–167; Brihat Samhita 98.12–15; Muhurta Chintamani 1.42; Drik Panchang",
+    "chandra": "Brihat Samhita 98.12–15; Kalaprakasika, psl. 167; Drik Panchang",
+    "janma": "Muhurta Chintamani 1.34–35"
   },
   "leads": {
     "firstHalf": "pirmoji",

@@ -1,0 +1,107 @@
+// Personal layer (SPEC 13.6; rules.md P1, P2, R17, C1): Tarabala and Chandrabala against
+// Drik's Tarabalam and Chandrabalam lists, the birth Moon from a birth instant, and the
+// worked example 3 with its sample birth chart (.planning/research/examples.md).
+import { readdirSync, readFileSync } from 'node:fs'
+import { describe, expect, it } from 'vitest'
+import { computeDay, skyAt } from '../src/core/panchang'
+import { birthOf, chandraOf, daySegments, taraOf, type Birth } from '../src/core/periods'
+import { addDays, zonedTimeToUtc } from '../src/core/time'
+import type { Location } from '../src/core/types'
+import { CITIES } from '../scripts/cities'
+
+const DIR = 'tests/fixtures/drik-extra'
+type States = { name: string; spans: { from: string | null; state: string }[] }[]
+type Extra = { city: string; date: string; tarabalam: States; chandrabalam: States }
+const fixtures: Extra[] = readdirSync(DIR).map((f) => JSON.parse(readFileSync(`${DIR}/${f}`, 'utf8')))
+
+const STARS = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'Purva Phalguni', 'Uttara Phalguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Mula', 'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati']
+const SIGNS = ['Mesha', 'Vrishabha', 'Mithuna', 'Karka', 'Simha', 'Kanya', 'Tula', 'Vrishchika', 'Dhanu', 'Makara', 'Kumbha', 'Meena']
+/** Drik's names of the nine taras, from the birth star on. */
+const TARAS = ['Janma', 'Sampata', 'Vipata', 'Kshema', 'Pratyari', 'Sadhaka', 'Naidhana', 'Mitra', 'Param Mitra']
+/** Drik's Chandrabalam grade for the Moon's place 1–12 from the birth sign. */
+const chandraState = (n: number) => ([1, 3, 6, 7, 10, 11].includes(n) ? 'Good' : [4, 8, 12].includes(n) ? 'Bad' : 'Puja Needed')
+
+const MIN = 60_000
+const moonStar = (t: Date) => Math.floor(skyAt(t).moon / (360 / 27)) + 1
+const moonSign = (t: Date) => Math.floor(skyAt(t).moon / 30) + 1
+
+/** A moment inside each listed span, 5 minutes clear of Drik's minute-rounded edges. */
+function moments(spans: States[number]['spans']): [Date, string][] {
+  return spans.flatMap((s, i) => {
+    if (s.from) return [[new Date(new Date(s.from).getTime() + 5 * MIN), s.state] as [Date, string]]
+    const next = spans[i + 1]?.from
+    return next ? [[new Date(new Date(next).getTime() - 5 * MIN), s.state] as [Date, string]] : []
+  })
+}
+
+describe("Tarabala and Chandrabala match Drik's lists (P2), 3 cities", () => {
+  it.each(fixtures.map((f) => [`${f.city} ${f.date}`, f] as const))('%s', (_, f) => {
+    let checked = 0
+    for (const row of f.tarabalam) {
+      const birth = STARS.indexOf(row.name) + 1
+      expect(birth, row.name).toBeGreaterThan(0)
+      for (const [t, state] of moments(row.spans)) {
+        expect(TARAS[taraOf(birth, moonStar(t)) - 1], `${row.name} at ${t.toISOString()}`).toBe(state.split(' - ')[0])
+        checked++
+      }
+    }
+    for (const row of f.chandrabalam) {
+      const birth = SIGNS.indexOf(row.name) + 1
+      expect(birth, row.name).toBeGreaterThan(0)
+      for (const [t, state] of moments(row.spans)) {
+        expect(chandraState(chandraOf(birth, moonSign(t))), `${row.name} at ${t.toISOString()}`).toBe(state)
+        checked++
+      }
+    }
+    expect(checked).toBeGreaterThan(0)
+  })
+})
+
+const c = CITIES.vilnius
+const VILNIUS: Location = { name: c.drikName, country: '', lat: c.lat, lon: c.lon, elevation: c.elevation, tz: c.tz }
+const L = (date: string, hhmm: string) => {
+  const [y, m, d] = date.split('-').map(Number)
+  const [h, mm] = hhmm.split(':').map(Number)
+  return zonedTimeToUtc(c.tz, y, m, d, h, mm)
+}
+
+describe('the birth Moon (P1, P2, R17)', () => {
+  it("is the day's star, sign, lunar day and month at the birth instant", () => {
+    const at = L('1995-07-15', '14:30')
+    const day = computeDay('1995-07-15', VILNIUS)
+    const b = birthOf(at)
+    const inForce = <T extends { start: Date; end: Date }>(spans: T[]) => spans.find((s) => s.start <= at && at < s.end)!
+    expect(b.star).toBe(inForce(day.nakshatra).index)
+    expect(b.sign).toBe(inForce(day.signs.vedic.moon).index)
+    expect(b.tithi).toBe(inForce(day.tithi).index)
+    expect(b.month).toBe(day.masa.amanta)
+  })
+})
+
+describe('example 3, Vilnius 2026-10-25, with the sample birth (Moon in Kanya, Hasta)', () => {
+  // Invented, not a real person; birth lunar day and month left out (0) so only P1, P2 act.
+  const birth: Birth = { star: 13, sign: 6, tithi: 0, month: 0 }
+  const day = computeDay('2026-10-25', VILNIUS)
+  const prev = computeDay(addDays('2026-10-25', -1), VILNIUS)
+  const at = (t: Date, b: Birth | null) => daySegments(day, prev, 0, null, b).find((s) => s.start <= t && t < s.end)!
+
+  it('morning: Sadhaka tara and the 7th sign — the verdict stays good', () => {
+    expect(at(L('2026-10-25', '07:30'), birth)).toMatchObject({ verdict: 'good' })
+  })
+  it('from 15:52 Vadha (Naidhana) and Chandrashtama: the evening window turns to avoid', () => {
+    expect(at(L('2026-10-25', '20:00'), null).verdict).toBe('good')
+    const s = at(L('2026-10-25', '20:00'), birth)
+    expect(s.verdict).toBe('avoid')
+    expect(s.by.map((p) => p.kind).sort()).toEqual(['chandra', 'tara'])
+  })
+  it('the birth star is avoided until midday, a fallback after it (C1)', () => {
+    const own: Birth = { star: 27, sign: 0, tithi: 0, month: 0 } // Revati, the Moon's star that morning
+    expect(at(L('2026-10-25', '10:00'), own).verdict).toBe('avoid')
+    expect(at(L('2026-10-25', '13:30'), own).by.some((p) => p.kind === 'tara' && p.level === 'fb')).toBe(true)
+  })
+  it('the birth lunar day and the birth month are avoided (R17)', () => {
+    const tithi = day.tithi.find((s) => s.start <= L('2026-10-25', '12:00') && L('2026-10-25', '12:00') < s.end)!.index
+    expect(at(L('2026-10-25', '20:00'), { star: 0, sign: 0, tithi, month: 0 }).by.map((p) => p.kind)).toContain('janma')
+    expect(at(L('2026-10-25', '20:00'), { star: 0, sign: 0, tithi: 0, month: day.masa.amanta }).by.map((p) => p.kind)).toContain('janma')
+  })
+})

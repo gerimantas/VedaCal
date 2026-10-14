@@ -25,6 +25,7 @@ export type PeriodKind =
   | 'baana' | 'month' | 'hora' | 'pushkara' | 'sankranti' | 'anandadi' | 'panchaka'
   | 'dishaShool' | 'dawn' | 'godhuli' | 'nishita'
   | 'choghadiya' | 'base'
+  | 'tara' | 'chandra' | 'janma'
 
 /**
  * veto / fb (fallback: avoid, acceptable only if the act cannot wait) / strong / plus act on a
@@ -112,6 +113,28 @@ function baseLevel(g: ReturnType<typeof baseGrades>): Level {
   if (g.tithi === 'poor' || g.weekday === 'poor' || g.star === 'poor') return 'poor'
   return g.tithi === 'good' && g.star === 'good' ? 'good' : 'neutral'
 }
+
+// ── Personal layer (13.6) ─────────────────────────────────────────────────────────
+
+/** The birth Moon's star 1–27 and sign 1–12, the birth lunar day 1–30 and amanta month 1–12; 0 = not known. */
+export type Birth = { star: number; sign: number; tithi: number; month: number }
+
+/** The birth Moon and lunar day at the birth instant (P1, P2, R17). */
+export function birthOf(at: Date): Birth {
+  const { sun, moon } = skyAt(at)
+  return {
+    star: Math.floor(moon / (360 / 27)) + 1,
+    sign: Math.floor(moon / 30) + 1,
+    tithi: Math.floor((((moon - sun) % 360) + 360) % 360 / 12) + 1,
+    month: masaAt(at).amanta,
+  }
+}
+
+/** Tara 1–9 of the Moon's star counted from the birth star, in sets of nine (P2: Janma … Param Mitra). */
+export const taraOf = (birthStar: number, star: number) => (((star - birthStar + 27) % 27) % 9) + 1
+
+/** Place 1–12 of the Moon's sign counted from the birth sign (P2; 8 = Chandrashtama, P1). */
+export const chandraOf = (birthSign: number, sign: number) => ((sign - birthSign + 12) % 12) + 1
 
 // ── Periods ─────────────────────────────────────────────────────────────────────
 
@@ -287,7 +310,7 @@ function sunStars(a: Date, b: Date): Span[] {
  * Every period active in the day's window — from the start of Brahma Muhurta to the next
  * sunrise (13.1). `prev` is the civil day before (its star-day marks reach past this sunrise).
  */
-export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Interval; periods: Period[]; missing: readonly string[] } {
+export function dayPeriods(day: DayPanchang, prev: DayPanchang, birth: Birth | null = null): { window: Interval; periods: Period[]; missing: readonly string[] } {
   const { sunrise, sunset, nextSunrise } = day
   if (!sunrise || !sunset || !nextSunrise) return { window: { start: sunrise ?? new Date(0), end: sunrise ?? new Date(0) }, periods: [], missing: MISSING }
   const window: Interval = { start: day.windows.brahma?.start ?? sunrise, end: nextSunrise }
@@ -558,6 +581,36 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
     if ((amanta === ASHADHA && !adhika && tithi >= 11) || (amanta > ASHADHA && amanta < KARTIKA) || (amanta === KARTIKA && tithi <= 11)) month(a, b, 'M6', 'chaturmas', [2])
   }
 
+  // Personal layer (13.6), only with birth data.
+  if (birth) {
+    const merged = (a: Span[], b: Span[]) => [...b, ...a].filter((s, i, x) => x.findIndex((y) => y.index === s.index && Math.abs(y.start.getTime() - s.start.getTime()) < MIN) === i)
+      .sort((p, q) => p.start.getTime() - q.start.getTime())
+    // Tarabala (P2): Vipat, Pratyari and Vadha vetoed; the birth star itself until midday, a
+    // fallback after (C1); the good taras shown only.
+    if (birth.star) for (const s of stars) {
+      const tara = taraOf(birth.star, s.index)
+      const extra = { detail: { tara, star: s.index } }
+      if (tara === 1) untilMidday(s.start, s.end, 'tara', 'C1', extra)
+      else if ([3, 5, 7].includes(tara)) add(s.start, s.end, 'tara', 'veto', 'P2', extra)
+      else add(s.start, s.end, 'tara', 'plus', 'P2', { ...extra, decides: false })
+    }
+    // Chandrabala (P2): the 4th and 12th sign vetoed, the 8th too (Chandrashtama, P1); 2, 5, 9
+    // fallback (Drik's "Puja Needed": practice); the good places shown only.
+    if (birth.sign) for (const s of merged(day.signs.vedic.moon, prev.signs.vedic.moon)) {
+      const place = chandraOf(birth.sign, s.index)
+      const extra = { detail: { place, sign: s.index } }
+      if (place === 8) add(s.start, s.end, 'chandra', 'veto', 'P1', extra)
+      else if ([4, 12].includes(place)) add(s.start, s.end, 'chandra', 'veto', 'P2', extra)
+      else if ([2, 5, 9].includes(place)) add(s.start, s.end, 'chandra', 'fb', 'P2', extra)
+      else add(s.start, s.end, 'chandra', 'plus', 'P2', { ...extra, decides: false })
+    }
+    // The birth lunar day and the birth (amanta) month are avoided (R17).
+    for (const s of merged(day.tithi, prev.tithi)) {
+      if (s.index === birth.tithi) add(s.start, s.end, 'janma', 'veto', 'R17', { detail: { what: 'tithi' } })
+      if (birth.month && masaAt(mid(s.start, s.end)).amanta === birth.month) add(s.start, s.end, 'janma', 'veto', 'R17', { detail: { what: 'month' } })
+    }
+  }
+
   // Day base per group (13.3): cut where the weekday, tithi, star or Tuesday's half changes.
   const cuts = [window.start, window.end, sunrise, noon, ...day.tithi.map((s) => s.start), ...day.nakshatra.map((s) => s.start)]
     .filter((t) => t >= window.start && t <= window.end)
@@ -607,8 +660,8 @@ export function verdictOf(active: Period[], group: number, dir?: Direction | nul
 }
 
 /** The day cut into segments with one verdict each, for one group; equal neighbours merged. */
-export function daySegments(day: DayPanchang, prev: DayPanchang, group: number, dir?: Direction | null): Segment[] {
-  const { window, periods } = dayPeriods(day, prev)
+export function daySegments(day: DayPanchang, prev: DayPanchang, group: number, dir?: Direction | null, birth: Birth | null = null): Segment[] {
+  const { window, periods } = dayPeriods(day, prev, birth)
   const cuts = [...new Set([window.start, window.end, ...periods.flatMap((p) => [p.start, p.end])].map((t) => t.getTime()))]
     .filter((t) => t >= window.start.getTime() && t <= window.end.getTime())
     .sort((a, b) => a - b)

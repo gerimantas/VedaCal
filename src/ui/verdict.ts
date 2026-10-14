@@ -47,6 +47,8 @@ const LEVEL_WORD: Record<Level, () => string> = {
 }
 export const levelWord = (p: Period) => LEVEL_WORD[p.level]()
 
+/** The nine taras from the birth star ([KP] p. 166–167). */
+const TARA_NAMES = ['Janma', 'Sampat', 'Vipat', 'Kshema', 'Pratyari', 'Sadhaka', 'Vadha', 'Mitra', 'Param Mitra']
 const tithiName = (i: number) => entry('tithi', i).name
 const yogaName = (i: number) => entry('yoga', i).name
 const dayName = (date: unknown) => new Intl.DateTimeFormat(LOCALE, { month: MONTH, day: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`))
@@ -93,6 +95,9 @@ export function periodName(p: Period): string {
     case 'pushkara': return d.times === 3 ? 'Tri Pushkara' : 'Dwi Pushkara'
     case 'hora': return t('periodHora', { planet: t(`planet_${String(d.planet)}` as 'planet_sun') })
     case 'choghadiya': return `Choghadiya ${(content.choghadiya as Record<string, { name: string }>)[String(d.name)].name}`
+    case 'tara': return t('periodTara', { name: TARA_NAMES[Number(d.tara) - 1] })
+    case 'chandra': return t(Number(d.place) === 8 ? 'periodChandrashtama' : 'periodChandra', { n: Number(d.place) })
+    case 'janma': return t(d.what === 'month' ? 'periodJanmaMonth' : 'periodJanmaTithi')
     case 'base':
       return t('periodBase', { vara: entry('vara', Number(d.vara)).name, tithi: tithiName(Number(d.tithi)), star: entry('nakshatra', Number(d.star)).name })
   }
