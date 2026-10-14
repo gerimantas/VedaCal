@@ -13,10 +13,10 @@ export const GROUPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
 const ALL: readonly number[] = GROUPS
 
 /** Values of SPEC 13.2 not computed yet — the screen says so while the list is not empty. */
-export const MISSING = ['durMuhurtam', 'varjyam', 'amritKalam', 'lagnaGandanta', 'baana', 'monthRules'] as const
+export const MISSING = ['varjyam', 'amritKalam', 'lagnaGandanta', 'baana', 'monthRules'] as const
 
 export type PeriodKind =
-  | 'rahuKaal' | 'yamaganda' | 'gulika' | 'noon' | 'midnight'
+  | 'rahuKaal' | 'yamaganda' | 'gulika' | 'durMuhurtam' | 'noon' | 'midnight'
   | 'tithiGandanta' | 'nakshatraGandanta' | 'pakshaRandhra' | 'yogaPart' | 'vyatipata' | 'vaidhriti'
   | 'bhadraMouth' | 'bhadra' | 'bhadraTail'
   | 'abhijit' | 'brahma' | 'sarvartha' | 'amritSiddhi' | 'ravi'
@@ -127,6 +127,12 @@ const VISHTI = 7
 /** Moon signs (1 Mesha … 12 Meena) where Bhadra lives on earth (R12, [MC] 1.45). */
 const BHADRA_EARTH = [4, 5, 11, 12]
 const RAVI_COUNTS = [4, 6, 9, 10, 13, 20]
+/**
+ * Dur Muhurtam per weekday (R10): muhurtas (1/15 of the day, or of the night) as Drik counts
+ * them — measured from its day pages in 3 cities; [Raman] differs on Mon, Tue, Thu and Fri.
+ */
+const DUR_DAY = [[14], [9, 12], [4], [8], [6, 12], [4, 9], [1, 2]]
+const DUR_NIGHT = [[], [], [7], [], [], [], []]
 const CH_LEVEL = { good: 'plus', neutral: 'neutral', avoid: 'veto' } as const
 const CH_RATING = { amrit: 'good', shubh: 'good', labh: 'good', chal: 'neutral', udveg: 'avoid', rog: 'avoid', kaal: 'avoid' } as const
 
@@ -175,6 +181,14 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
   if (w.abhijit) add(w.abhijit.start, w.abhijit.end, 'abhijit', 'strong', 'R9')
   if (w.brahma) add(w.brahma.start, w.brahma.end, 'brahma', 'plus', 'R20', { groups: [5, 7] })
   add(plus(noon, -10 * PALA), plus(noon, 10 * PALA), 'noon', 'veto', 'R18')
+
+  // Dur Muhurtam (R10): the weekday's bad muhurtas of the day and of the night.
+  const muhurtas = (a: Date, b: Date, list: number[], part: string) => {
+    const len = (b.getTime() - a.getTime()) / 15
+    for (const n of list) add(plus(a, (n - 1) * len), plus(a, n * len), 'durMuhurtam', 'veto', 'R10', { detail: { muhurta: n, part } })
+  }
+  muhurtas(sunrise, sunset, DUR_DAY[day.vara], 'day')
+  muhurtas(sunset, nextSunrise, DUR_NIGHT[day.vara], 'night')
   add(plus(midnight, -10 * PALA), plus(midnight, 10 * PALA), 'midnight', 'veto', 'R18')
 
   // Choghadiya: shown, never decides (R21).

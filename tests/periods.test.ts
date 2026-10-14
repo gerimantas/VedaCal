@@ -1,14 +1,16 @@
 // Day periods and the segment verdict (SPEC 13.2–13.4, PLAN-periods Q4–Q5 step 1).
 // Expected times come from the Drik fixtures and the worked examples in
 // .planning/research/examples.md (Vilnius); verdicts are checked only at moments where no
-// value from the `missing` list (Dur Muhurtam, Varjyam, Amrit Kalam, lagna junctions, Baana,
+// value from the `missing` list (Varjyam, Amrit Kalam, lagna junctions, Baana,
 // eclipse star, month rules) is active.
+import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { computeDay } from '../src/core/panchang'
 import { dayPeriods, daySegments, verdictOf, type Period } from '../src/core/periods'
 import { addDays, zonedTimeToUtc } from '../src/core/time'
 import type { Location } from '../src/core/types'
 import { CITIES } from '../scripts/cities'
+import { range } from '../scripts/fetch-drik'
 
 const c = CITIES.vilnius
 const VILNIUS: Location = { name: c.drikName, country: '', lat: c.lat, lon: c.lon, elevation: c.elevation, tz: c.tz }
@@ -279,6 +281,38 @@ describe('eclipses seen here (E1)', () => {
   it('not seen here, not counted: New Delhi 2026-08-12', () => {
     expect(day('new-delhi', '2026-08-10').eclipses.filter((x) => x.body === 'sun')).toHaveLength(0)
     expect(spoiled('new-delhi', '2026-08-10')).toBe(false)
+  })
+})
+
+// Dur Muhurtam (R10): every Drik day fixture, 3 cities, all 7 weekdays. Drik's list per
+// weekday (Sun 14; Mon 9, 12; Tue 4 and night 7; Wed 8; Thu 6, 12; Fri 4, 9; Sat 1, 2) is
+// measured from these pages, not typed in.
+describe('Dur Muhurtam (R10) against Drik', () => {
+  const files = readdirSync('tests/fixtures/drik')
+  const weekdays = new Set<string>()
+  for (const file of files) {
+    const f = JSON.parse(readFileSync(`tests/fixtures/drik/${file}`, 'utf8'))
+    const drik: string[] = f.raw['Inauspicious Timings']?.['Dur Muhurtam'] ?? []
+    if (!drik.length) continue
+    weekdays.add(f.weekday)
+    it(`${f.city} ${f.date} (${f.weekday})`, () => {
+      const x = CITIES[f.city as keyof typeof CITIES]
+      const place: Location = { name: x.drikName, country: '', lat: x.lat, lon: x.lon, elevation: x.elevation, tz: x.tz }
+      const { periods } = dayPeriods(computeDay(f.date, place), computeDay(addDays(f.date, -1), place))
+      const ours = periods.filter((p) => p.kind === 'durMuhurtam')
+      expect(ours.map((p) => p.level)).toEqual(ours.map(() => 'veto'))
+      expect(ours).toHaveLength(drik.length)
+      drik.forEach((v, i) => {
+        const r = range(f.tz, f.date, v)!
+        near(ours[i].start, new Date(r.start), 2)
+        near(ours[i].end, new Date(r.end), 2)
+      })
+    })
+  }
+  it('the fixtures cover all 7 weekdays', () => expect(weekdays.size).toBe(7))
+  it("Wednesday: the 8th muhurta is Dur Muhurtam, so Abhijit's time is avoided", () => {
+    const t = L('2026-10-07', '12:50')
+    expect(verdictAt('2026-10-07', 0, t).by.map((p) => p.kind)).toContain('durMuhurtam')
   })
 })
 
