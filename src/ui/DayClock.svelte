@@ -170,7 +170,8 @@
   // ── The whole day as a list (user, 2026-10-14): neighbouring parts of one colour as one row,
   // with everything that decided them; a tap moves the hand there and brings the dial into view. ──
   // A tap also opens the row: each period that decided it, with what tradition does then (user,
-  // 2026-10-14, variant A). The row holding the real time is framed in its colour and marked.
+  // 2026-10-14, variant A). The row under the hand is framed in its colour and tagged with the
+  // hand's time, or "Now" while the hand is on the real time (user, 2026-10-14).
   type Row = { start: Date; end: Date; shade: Shade; why: Period[] }
   const rows = $derived.by(() => {
     const out: Row[] = []
@@ -194,6 +195,7 @@
   })
   /** The short label in the row: the base goes by "day base" there, its full name in the opened row. */
   const rowNames = (r: Row) => [...new Set(r.why.map((p) => (p.kind === 'base' ? t('segmentBase') : periodName(p))))]
+  const handTag = $derived(picked === null && nowOnDial ? t('now') : time(cursor, loc))
   let open = $state<number | null>(null)
   $effect(() => {
     void day.date
@@ -327,14 +329,14 @@
     <h3 class="daylist-head">{t('clockDayList')}</h3>
     <ol class="daylist">
       {#each rows as r (r.start.getTime())}
-        {@const isNow = !!nowOnDial && r.start <= now && now < r.end}
+        {@const isHand = r.start <= cursor && cursor < r.end}
         {@const isOpen = open === r.start.getTime()}
-        <li class:current={r.start <= cursor && cursor < r.end} class:now={isNow} style:--row="var({colourVar(r.shade, palette)})">
+        <li class:current={isHand} style:--row="var({colourVar(r.shade, palette)})">
           <button onclick={() => jump(r)} aria-expanded={isOpen}>
             <span class="num when">{time(r.start, loc)}–{time(r.end, loc)}</span>
             <svg viewBox="0 0 24 24" aria-hidden="true">{@render verdictIcon(r.shade)}</svg>
             <span
-              >{#if isNow}<span class="nowtag">{t('now')}</span>{/if}<b style:color="var(--row)">{shadeWord(r.shade, palette)}</b>{#if r.why.length}<span class="why"
+              >{#if isHand}<span class="nowtag num">{handTag}</span>{/if}<b style:color="var(--row)">{shadeWord(r.shade, palette)}</b>{#if r.why.length}<span class="why"
                   >{' · '}{rowNames(r).join(', ')}</span
                 >{/if}</span
             >
@@ -573,8 +575,7 @@
     text-align: left;
     cursor: pointer;
   }
-  .daylist button:hover,
-  .daylist .current button {
+  .daylist button:hover {
     background: var(--color-paper-3);
   }
   .daylist svg {
@@ -585,8 +586,8 @@
   .daylist .why {
     color: var(--color-muted);
   }
-  /* The real time's row: framed in its own colour, over the hand's grey. */
-  .daylist .now button {
+  /* The hand's row: framed in its own colour. */
+  .daylist .current button {
     box-shadow: inset 0 0 0 2px var(--row);
   }
   .nowtag {
