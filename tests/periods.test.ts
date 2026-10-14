@@ -504,6 +504,37 @@ describe('Tri / Dwi Pushkara (R24) against Drik', () => {
   it('the fixtures hold both kinds', () => expect(seen).toBeGreaterThanOrEqual(10))
 })
 
+// Sankranti (R26, [MC] 3.8): 16 ghatikas before the Sun enters Karka, Vrishabha, Simha,
+// Vrishchika or Kumbha; 8 + 8 around Tula and Mesha; 16 after Mithuna, Kanya, Dhanu, Meena,
+// Makara — + for spiritual rites (7). The entry instant is the day mark (checked vs Drik),
+// within 2 min: the mark takes the ayanamsha at the month's start, the day at its own.
+describe('Sankranti window (R26)', () => {
+  const GH = 24 * MIN
+  const span: Record<number, [number, number]> = { 4: [16, 0], 2: [16, 0], 5: [16, 0], 8: [16, 0], 11: [16, 0], 7: [8, 8], 1: [8, 8], 3: [0, 16], 6: [0, 16], 9: [0, 16], 12: [0, 16], 10: [0, 16] }
+  const signs = new Set<number>()
+  for (let i = 0; i < 365; i += 1) {
+    const date = addDays('2026-01-01', i)
+    const mk = computeDay(date, VILNIUS).marks.find((m) => m.kind === 'sankranti')
+    if (!mk || mk.kind !== 'sankranti') continue
+    signs.add(mk.sign)
+    it(`Vilnius ${date}: the Sun enters sign ${mk.sign}`, () => {
+      const [before, after] = span[mk.sign]
+      const from = mk.at.getTime() - before * GH, to = mk.at.getTime() + after * GH
+      // the window may fall on the day before or this one: look at both
+      const ps = [addDays(date, -1), date, addDays(date, 1)].flatMap((d) => periodsOf(d).periods.filter((p) => p.kind === 'sankranti'))
+      expect(ps.length).toBeGreaterThan(0)
+      for (const p of ps) {
+        expect(p).toMatchObject({ level: 'plus', groups: [7], decides: true })
+        expect(p.start.getTime()).toBeGreaterThanOrEqual(from - 2 * MIN)
+        expect(p.end.getTime()).toBeLessThanOrEqual(to + 2 * MIN)
+      }
+      expect(Math.abs(Math.min(...ps.map((p) => p.start.getTime())) - from)).toBeLessThan(2 * MIN)
+      expect(Math.abs(Math.max(...ps.map((p) => p.end.getTime())) - to)).toBeLessThan(2 * MIN)
+    })
+  }
+  it('the year has all 12', () => expect(signs.size).toBe(12))
+})
+
 // Month rules (SPEC 13.3): vetoes for the groups the record names, for as long as they last.
 // M1's Adhika month and M2 for travel, marriage, home, rites and official work; M5 (outside the
 // marriage months) and M6 (Chaturmas) for marriage. M1's combustion: not yet.

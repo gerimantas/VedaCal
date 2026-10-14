@@ -801,7 +801,7 @@
     "ringFixed": "1 plonas žiedas – pastovūs langai. Raudona: Rahu Kaal, Yamaganda, sandūros, vidurdienis ir vidurnaktis. Žalia: Abhijit, Brahma Muhurta, Ravi yoga, Siddhi dienos. Lemia.",
     "ringBase": "2 plonas žiedas – pati diena: savaitės diena, mėnulio diena, žvaigždynas. Pilka neutralu, oranžinė silpna, raudona vengti. Lemia.",
     "ringChoghadiya": "3 plonas žiedas, blyškus – Choghadiya: paplitusi praktika be klasikinio šaltinio. Tik rodoma, nelemia.",
-    "clockMissing": "Dar neskaičiuojama: Anandadi jogos, kelionių taisyklės (Panchaka, Disha Shool, Godhuli) ir Sankranti langas. Kol jų nėra, kai kurie laikai atrodo geresni, nei yra.",
+    "clockMissing": "Dar neskaičiuojama: Anandadi jogos ir kelionių taisyklės (Panchaka, Disha Shool, Godhuli). Kol jų nėra, kai kurie laikai atrodo geresni, nei yra.",
     "clockNow": "Dabar",
     "clockDayList": "Visa diena",
     "segmentBase": "dienos pagrindas",
@@ -845,7 +845,8 @@
     "planet_mercury": "Merkurijaus",
     "planet_jupiter": "Jupiterio",
     "planet_venus": "Veneros",
-    "planet_saturn": "Saturno"
+    "planet_saturn": "Saturno",
+    "periodSankranti": "{sign} Sankranti langas"
   },
   "masa": {
     "1": {

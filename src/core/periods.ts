@@ -13,7 +13,7 @@ export const GROUPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const
 const ALL: readonly number[] = GROUPS
 
 /** Values of SPEC 13.2 not computed yet — the screen says so while the list is not empty. */
-export const MISSING = ['anandadi', 'travel', 'sankranti'] as const
+export const MISSING = ['anandadi', 'travel'] as const
 
 export type PeriodKind =
   | 'rahuKaal' | 'yamaganda' | 'gulika' | 'durMuhurtam' | 'noon' | 'midnight'
@@ -22,7 +22,7 @@ export type PeriodKind =
   | 'varjyam' | 'amritKalam'
   | 'abhijit' | 'brahma' | 'sarvartha' | 'amritSiddhi' | 'ravi'
   | 'eclipse' | 'eclipseDays' | 'eclipseStar'
-  | 'baana' | 'month' | 'hora' | 'pushkara'
+  | 'baana' | 'month' | 'hora' | 'pushkara' | 'sankranti'
   | 'choghadiya' | 'base'
 
 /**
@@ -157,6 +157,9 @@ const horaGroups = (planet: (typeof HORA_ORDER)[number]) => GROUPS.filter((g) =>
 const PUSHKARA_DAYS = [0, 2, 6]
 const PUSHKARA_STARS: Record<number, 3 | 2> = { 16: 3, 12: 3, 25: 3, 7: 3, 3: 3, 21: 3, 23: 2, 14: 2, 5: 2 }
 
+/** Sankranti (R26, [MC] 3.8): ghatikas before and after the Sun enters each sign (1 Mesha … 12 Meena). */
+const SANKRANTI: Record<number, [number, number]> = { 1: [8, 8], 2: [16, 0], 3: [0, 16], 4: [16, 0], 5: [16, 0], 6: [0, 16], 7: [8, 8], 8: [16, 0], 9: [0, 16], 10: [0, 16], 11: [16, 0], 12: [0, 16] }
+
 const sunStar = (t: Date) => Math.floor(skyAt(t).sun / (360 / 27)) + 1
 
 export type Baana = 'mrityu' | 'agni' | 'raja' | 'chora' | 'roga'
@@ -290,6 +293,17 @@ export function dayPeriods(day: DayPanchang, prev: DayPanchang): { window: Inter
         const b = [w.end, t.end, s.end].reduce((m, d) => (d < m ? d : m))
         if (a < b) add(a, b, 'pushkara', 'neutral', 'R24', { decides: false, detail: { times: PUSHKARA_STARS[s.index], star: s.index } })
       }
+
+  // Sankranti (R26): the holy window around the Sun's entry into a sign, + for rites (7). The
+  // entry instants are the day's Sun-sign span edges (the same instant as the day mark); an
+  // entry up to 16 ghatikas outside the day can still reach into it.
+  const entries = [...prev.signs.vedic.sun, ...day.signs.vedic.sun].flatMap((s) => [[s.start, s.index], [s.end, (s.index % 12) + 1]] as const)
+    .filter(([t], i, a) => a.findIndex(([u]) => Math.abs(u.getTime() - t.getTime()) < MIN) === i)
+  for (const [at, sign] of entries)
+    if (at > plus(window.start, -16 * GHATIKA) && at < plus(window.end, 16 * GHATIKA)) {
+      const [before, after] = SANKRANTI[sign]
+      add(plus(at, -before * GHATIKA), plus(at, after * GHATIKA), 'sankranti', 'plus', 'R26', { groups: [7], detail: { sign } })
+    }
 
   // Junctions (D5): the end of Panchami, Dashami, Purnima and the start of the next tithi,
   // 1 ghatika each side; Ashlesha, Jyeshtha, Revati and the next star, 2 each side.
