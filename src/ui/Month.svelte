@@ -63,11 +63,12 @@
         <a class="card event {e.cls}" href="#/day" style="color:inherit;text-decoration:none" onclick={(ev) => (ev.preventDefault(), open(e.date))}>
           <!-- A grid mark's row shows the mark itself, so the list doubles as the legend. -->
           {#if e.swatch}<span class="mark"><i class="sw {e.swatch}"></i></span>{:else}{@html e.svg}{/if}
+          <!-- The date comes first, then what the day is (user, 2026-10-21). -->
+          <span class="when num">{keyDateWhen(e, loc)}</span>
           <div>
             <b>{e.title}</b>{#if e.sub}<small>{e.sub}</small>{/if}
             {#if e.note}<span class="note">{e.note}</span>{/if}
           </div>
-          <span class="when num">{keyDateWhen(e, loc)}</span>
         </a>
       </li>
     {/each}
