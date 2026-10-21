@@ -2,7 +2,7 @@
   // Day clock (PLAN-periods Q7; approved mockup mockups/research/d7-clock.html, decisions in
   // PLAN-periods Q3): a 24-hour dial, 12 at the top, one turn = one day from the start of
   // Brahma Muhurta. The wide ring is the verdict (SPEC 13.4) for the chosen activity, its
-  // edges blended; tap or drag anywhere to move the hand; the centre text steps away from it.
+  // edges blended; tap, or hold then drag, to move the hand; the centre text steps away from it.
   import type { DayPanchang, Location } from '../core/types'
   import { tzOffsetMinutes } from '../core/time'
   import { t, time } from './format'
@@ -95,6 +95,54 @@
     const m = (720 + (Math.atan2(x, -y) / (2 * Math.PI)) * 1440 + 1440) % 1440
     picked = new Date(T0.getTime() + ((((m - minuteOfDay(T0)) % 1440) + 1440) % 1440) * MIN)
   }
+
+  // Touch (user, 2026-10-21): a swipe scrolls the page; a tap moves the hand; holding the finger
+  // still for HOLD_MS, then dragging, moves it. A mouse drags at once, as before.
+  const HOLD_MS = 450
+  const SLOP = 8 // px a tap may wander
+  let dragging = false
+  let press: { id: number; x: number; y: number; at: number; timer: number } | null = null
+  function endPress() {
+    if (press) clearTimeout(press.timer)
+    press = null
+    dragging = false
+  }
+  function onDown(e: PointerEvent) {
+    endPress()
+    if (e.pointerType === 'mouse') {
+      dragging = true
+      pick(e)
+      svg?.setPointerCapture(e.pointerId)
+      return
+    }
+    const timer = window.setTimeout(() => {
+      dragging = true
+      pick(e)
+      navigator.vibrate?.(15)
+      try {
+        svg?.setPointerCapture(e.pointerId)
+      } catch {
+        // the pointer is already gone; the drag still follows pointermove on the dial
+      }
+    }, HOLD_MS)
+    press = { id: e.pointerId, x: e.clientX, y: e.clientY, at: e.timeStamp, timer }
+  }
+  function onMove(e: PointerEvent) {
+    if (dragging) return pick(e)
+    if (press && Math.hypot(e.clientX - press.x, e.clientY - press.y) > SLOP) endPress()
+  }
+  function onUp(e: PointerEvent) {
+    if (press && !dragging && e.timeStamp - press.at < HOLD_MS) pick(e)
+    endPress()
+  }
+  // Once a hold has started a drag, the finger's moves must not scroll the page.
+  $effect(() => {
+    const el = svg
+    if (!el) return
+    const stop = (e: TouchEvent) => dragging && e.cancelable && e.preventDefault()
+    el.addEventListener('touchmove', stop, { passive: false })
+    return () => el.removeEventListener('touchmove', stop)
+  })
 
   // ── Verdict ring: one conic gradient on a canvas, edges blended over up to 20 minutes. ──
   const css = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
@@ -274,11 +322,11 @@
       class="dial"
       role="img"
       aria-label={t('clockAria')}
-      onpointerdown={(e) => {
-        pick(e)
-        svg?.setPointerCapture(e.pointerId)
-      }}
-      onpointermove={(e) => e.buttons && pick(e)}
+      onpointerdown={onDown}
+      onpointermove={onMove}
+      onpointerup={onUp}
+      onpointercancel={endPress}
+      oncontextmenu={(e) => e.preventDefault()}
     >
       <circle cx={c} cy={c} r={c - 1} class="face" />
       <!-- Chapter ring: night dark, day gold; 10-minute ticks on it. -->
@@ -430,8 +478,11 @@
     width: 100%;
     max-width: 440px;
     margin: var(--space-xs) auto 0;
-    touch-action: none;
+    /* Vertical swipes scroll the page; a hold-then-drag is stopped in the touchmove handler. */
+    touch-action: pan-y;
     user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
   }
   .face {
     fill: var(--color-card);
