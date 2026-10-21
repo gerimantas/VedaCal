@@ -62,7 +62,9 @@ export function monthView(days: MonthDay[], loc: Location, today: string, zodiac
     if (d.rhythm.restDay && !days[i - 1]?.rhythm.restDay) {
       let j = i
       while (days[j + 1]?.rhythm.restDay) j++
-      row({ at: noon(d.date), date: d.date, last: j > i ? days[j].date : '', swatch: 'rest', title: t('legendRest') })
+      // The sources' name for these days: "Amavasya parvan" / "Purnima parvan" (user, 2026-10-21).
+      const sub = content.rhythm[d.rhythm.restDay === 'fullMoon' ? 'restFullMoon' : 'restNewMoon'].name
+      row({ at: noon(d.date), date: d.date, last: j > i ? days[j].date : '', swatch: 'rest', title: t('legendRest'), sub })
     }
     if (d.ekadashi) row({ at: noon(d.date), date: d.date, cls: 'ekadashi', swatch: 'ekadashi', title: t('legendEkadashi'), sub: 'Ekadashi' })
     for (const e of d.rhythm.events) {
