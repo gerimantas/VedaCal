@@ -3,10 +3,11 @@
   // to install it, what each tab does, offline/updates/removal, credits; "Glossary" — every
   // term with its explanation and, where it has them, all its values, then how times are
   // calculated.
-  import { content, sheet, t, tradition, traditionSource } from './format'
+  import { sheet, t, tradition, traditionSource } from './format'
+  import { glossaryTerms, searchGlossary, timesMatches } from './glossary'
   import { icon } from './icons'
   import { app } from './state.svelte'
-  import { termGroups, terms, type Term } from './terms'
+  import { termGroups, terms } from './terms'
 
   let part = $state<'use' | 'glossary'>('use')
 
@@ -24,21 +25,12 @@
 
   const steps = ['guideUseDay', 'guideUseTap', 'guideUseMonth', 'guideUseSky', 'guideUseSettings'] as const
 
-  type Value = { title: string; name: string; meaning?: string; source?: string }
-  // Every value a term can take, in calendar order; terms without a list (the day's windows,
-  // the special days) return none.
-  const lists: Partial<Record<Term, Record<string, Value>>> = {
-    tithi: content.tithi,
-    vara: content.vara,
-    masa: content.masa,
-    nakshatra: content.nakshatra,
-    rashi: content.rashi,
-    yoga: content.yoga,
-    karana: content.karana,
-    choghadiya: content.choghadiya,
-    rhythm: content.rhythm,
-  }
-  const values = (key: Term): Value[] => Object.values(lists[key] ?? {})
+  let query = $state('')
+  const all = glossaryTerms()
+  const info = new Map(all.map((g) => [g.key, g]))
+  const byKey = $derived(new Map(searchGlossary(query, all).map((h) => [h.key, h.shown])))
+  const searching = $derived(query.trim() !== '')
+  const timesText = $derived(sheet('times', { city: app.location.name }))
 </script>
 
 <main class="screen">
@@ -81,34 +73,50 @@
     </section>
   {:else}
     <p class="about-lead">{t('guideGlossaryIntro')}</p>
-    {#each termGroups as [title, keys] (title)}
-      <h3 class="about-sub">{title}</h3>
-      <ul class="card terms">
-        {#each keys.map((k) => [k, terms[k]] as const) as [key, [name, sanskrit]] (key)}
-          <li>
-            <details>
-              <summary><b>{name}</b>{#if sanskrit}<span class="sk">{sanskrit}</span>{/if}{@html icon.down}</summary>
-              <!-- What tradition does in this window, then how it is found (the day sheet leads with today). -->
-              {#if tradition(key)}<p>{tradition(key)}</p>{/if}
-              {#if traditionSource(key)}<p class="src">{t('source')}: {traditionSource(key)}</p>{/if}
-              <p>{sheet(key)}</p>
-              {#if values(key).length}
-                <dl class="kinds">
-                  {#each values(key) as v, i (i)}
-                    <dt><b>{v.title}</b><span class="sk">{v.name}</span></dt>
-                    {#if v.meaning}<dd>{v.meaning}</dd>{/if}
-                    {#if v.source}<dd class="src">{t('source')}: {v.source}</dd>{/if}
-                  {/each}
-                </dl>
-              {/if}
-            </details>
-          </li>
-        {/each}
-      </ul>
-    {/each}
+    <label class="card search">
+      {@html icon.search}
+      <input type="search" placeholder={t('searchGlossary')} autocomplete="off" bind:value={query} />
+    </label>
+    {#if searching && !byKey.size}<p class="footnote">{t('glossaryNothing')}</p>{/if}
+    <!-- Keyed on the query: open is set from the match when the query changes; a tap on a term
+         still opens or closes it after that (user, 2026-10-21). -->
+    {#key query.trim()}
+      {#each termGroups as [title, keys] (title)}
+        {#if keys.some((k) => byKey.has(k))}
+          <h3 class="about-sub">{title}</h3>
+          <ul class="card terms">
+            {#each keys.filter((k) => byKey.has(k)) as key (key)}
+              {@const [name, sanskrit] = terms[key]}
+              {@const shown = byKey.get(key) ?? []}
+              <li>
+                <details open={searching}>
+                  <summary><b>{name}</b>{#if sanskrit}<span class="sk">{sanskrit}</span>{/if}{@html icon.down}</summary>
+                  <!-- What tradition does in this window, then how it is found (the day sheet leads with today). -->
+                  {#if tradition(key)}<p>{tradition(key)}</p>{/if}
+                  {#if traditionSource(key)}<p class="src">{t('source')}: {traditionSource(key)}</p>{/if}
+                  <p>{sheet(key)}</p>
+                  {#if shown.length}
+                    <dl class="kinds">
+                      {#each shown as i (i)}
+                        {@const v = info.get(key)!.values[i]}
+                        <dt><b>{v.title}</b><span class="sk">{v.name}</span></dt>
+                        {#if v.meaning}<dd>{v.meaning}</dd>{/if}
+                        {#if v.source}<dd class="src">{t('source')}: {v.source}</dd>{/if}
+                      {/each}
+                    </dl>
+                  {/if}
+                </details>
+              </li>
+            {/each}
+          </ul>
+        {/if}
+      {/each}
+    {/key}
 
-    <section class="card about-intro">
-      <p>{sheet('times', { city: app.location.name })}</p>
-    </section>
+    {#if timesMatches(query, timesText)}
+      <section class="card about-intro">
+        <p>{timesText}</p>
+      </section>
+    {/if}
   {/if}
 </main>

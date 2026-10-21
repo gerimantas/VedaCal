@@ -886,6 +886,8 @@
     "guideOfflineHead": "Be interneto, atnaujinimai ir pašalinimas",
     "guideOfflineText": "Po pirmojo apsilankymo VedaCal pasilieka savo kopiją telefone, apie 2 MB: atsidaro akimirksniu, skaičiuoja be interneto ir niekur nieko nesiunčia. Išleidus naują versiją, ji parsisiunčia fone, o juostelė pasiūlo atnaujinti. Norėdami pašalinti programėlę, palaikykite pirštą ant jos piktogramos ir pasirinkite „Pašalinti“. Miestas ir nustatymai laikomi tik šiame telefone, todėl pašalinus programėlę jie dingsta.",
     "guideGlossaryIntro": "Kiekvienas programėlėje vartojamas pavadinimas paprastais žodžiais. Atidarykite jį ir perskaitysite, ką jis reiškia, o kur yra – ir visas jo reikšmes.",
+    "searchGlossary": "Ieškoti žodyne…",
+    "glossaryNothing": "Nieko nerasta.",
     "updateReady": "Yra nauja versija.",
     "updateNow": "Atnaujinti",
     "moreAbout": "Daugiau apie {name}",

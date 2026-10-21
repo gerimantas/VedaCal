@@ -886,6 +886,8 @@
     "guideOfflineHead": "Offline, updates and removal",
     "guideOfflineText": "After the first visit VedaCal keeps its own copy on the phone, about 2 MB: it opens instantly, calculates without internet and sends nothing anywhere. When a new version is out, it downloads in the background and a bar offers to update. To remove the app, press and hold its icon and choose Uninstall. Your city and settings live only on this phone, so removing the app removes them too.",
     "guideGlossaryIntro": "Every name the app uses, in plain words. Open one to read what it means and, where it has them, all its values.",
+    "searchGlossary": "Search the glossary…",
+    "glossaryNothing": "Nothing found.",
     "updateReady": "A new version is ready.",
     "updateNow": "Update",
     "moreAbout": "More about {name}",
