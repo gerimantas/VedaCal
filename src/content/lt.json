@@ -1003,7 +1003,14 @@
     "birthYear": "Metai",
     "birthMonth": "Mėnuo",
     "birthDay": "Diena",
-    "birthNoCity": "Tokio miesto sąraše nėra (jame miestai nuo 15 000 gyventojų). Įveskite artimiausią didesnį miestą toje pačioje šalyje."
+    "birthNoCity": "Tokio miesto sąraše nėra (jame miestai nuo 15 000 gyventojų). Įveskite artimiausią didesnį miestą toje pačioje šalyje.",
+    "birthPlaceNone": "Nepasirinkta",
+    "birthUnknownPart": "Nežinau",
+    "birthNothing": "Iš šių duomenų asmeniškai nieko apskaičiuoti negalima: nežinoma nei gimimo žvaigždė, nei Mėnulio ženklas.",
+    "birthNeedDate": "Pasirinkite gimimo datą.",
+    "birthNeedPlace": "Pasirinkite gimimo vietą.",
+    "birthNeedTime": "Pasirinkite gimimo laiką arba pažymėkite „Laiko nežinau“.",
+    "birthNeedPart": "Pasirinkite paros dalį arba „Nežinau“."
   },
   "masa": {
     "1": {

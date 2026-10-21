@@ -45,8 +45,10 @@
 
   // ── My data (PLAN-periods Q7.1): birth date, time and place, kept only on this phone. ──
   const placeOf = (p: Place) => ({ name: p.name, cc: p.cc, country: p.country, tz: p.tz })
-  const blank = (): BirthInput => ({ date: '', time: null, place: placeOf(app.location), star: null })
-  let draft = $state<BirthInput>(app.birth ? { ...app.birth, place: { ...app.birth.place } } : blank())
+  // The place starts empty: nothing is chosen until the user picks a city (user, 2026-10-21).
+  type Draft = Omit<BirthInput, 'place'> & { place: BirthInput['place'] | null }
+  const blank = (): Draft => ({ date: '', time: null, place: null, star: null })
+  let draft = $state<Draft>(app.birth ? { ...app.birth, place: { ...app.birth.place } } : blank())
   // Hour and minute as two lists, 24-hour: a browser's own time field may ask for AM/PM and
   // stay empty without it (user, 2026-10-14).
   let hour = $state(app.birth?.time?.slice(0, 2) ?? '')
@@ -80,16 +82,22 @@
     if (birthQuery.trim() && !index) loadCities().then((i) => (index = i))
   })
   const birthPlaces = $derived(birthQuery.trim() && index ? search(index, birthQuery).slice(0, 5) : [])
-  /** The form as it stands, or null while the date or the time is missing. */
+  const dateOk = $derived(/^\d{4}-\d{2}-\d{2}$/.test(draft.date))
+  const timeOk = $derived(timeUnknown || !!(hour && minute))
+  /** The form as it stands, or null while the date, the place or the time is missing. */
   const input = $derived<BirthInput | null>(
-    /^\d{4}-\d{2}-\d{2}$/.test(draft.date) && (timeUnknown || (hour && minute))
-      ? { ...$state.snapshot(draft), time: timeUnknown ? null : `${hour}:${minute}` }
-      : null,
+    dateOk && draft.place && timeOk ? { ...$state.snapshot(draft), place: { ...draft.place }, time: timeUnknown ? null : `${hour}:${minute}` } : null,
   )
   const preview = $derived(input ? resolveBirth(input) : null)
   const starName = (n: number) => entry('nakshatra', n).name
   const signName = (n: number) => content.rashi[String(n) as '1'].name
-  const clock = (d: Date) => time(d, { ...app.location, tz: draft.place.tz })
+  const clock = (d: Date) => time(d, { ...app.location, tz: input?.place.tz ?? app.location.tz })
+  // Nothing personal can be computed: star, sign and lunar day all unknown (user, 2026-10-21).
+  const nothing = $derived(!!preview?.birth && !preview.birth.star && !preview.birth.sign && !preview.birth.tithi)
+  /** The first step still missing, in form order, for the line under Save. */
+  const missing = $derived(
+    !dateOk ? 'birthNeedDate' : !draft.place ? 'birthNeedPlace' : !timeOk ? 'birthNeedTime' : preview && !preview.birth ? 'birthNeedPart' : null,
+  )
 
   /** Any change: the star pick and the "saved" note are cleared. */
   function changed() {
@@ -114,6 +122,12 @@
   }
 
   const hour12 = $derived(app.settings.hour12 ?? deviceHour12())
+  // Enter in the birth place field takes the first suggestion (user, 2026-10-21).
+  const onPlaceKey = (e: KeyboardEvent) => {
+    if (e.key !== 'Enter') return
+    e.preventDefault()
+    if (birthPlaces[0]) pickPlace(birthPlaces[0])
+  }
   const onKey = (e: KeyboardEvent, p: Place) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), choose(p))
 </script>
 
@@ -176,6 +190,40 @@
         </select>
       </span>
     </div>
+    <label class="field">
+      <span>{t('birthPlace')}</span>
+      <input type="search" placeholder={t('searchCity')} autocomplete="off" bind:value={birthQuery} onkeydown={onPlaceKey} />
+    </label>
+    <!-- mousedown kept from blurring the field: the phone keyboard would close, the page
+         shift, and the tap miss the city (user, 2026-10-14: the city could not be chosen). -->
+    {#if birthPlaces.length}
+      <ul class="cities" role="listbox" aria-label={t('birthPlace')}>
+        {#each birthPlaces as p (`${p.name}${p.lat}${p.lon}`)}
+          <li
+            class="card city"
+            role="option"
+            tabindex="0"
+            aria-selected="false"
+            onmousedown={(e) => e.preventDefault()}
+            onclick={() => pickPlace(p)}
+            onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), pickPlace(p))}
+          >
+            {@html icon.pin}
+            <div><b>{p.name}</b><small>{p.region && p.region !== p.name ? `${p.region}, ` : ''}{countryName(p.cc, p.country)}</small></div>
+          </li>
+        {/each}
+      </ul>
+    {/if}
+    {#if birthQuery.trim() && !index}
+      <p class="quiet">{t('loadingCities')}</p>
+    {:else if birthQuery.trim() && !birthPlaces.length}
+      <p class="quiet">{t('birthNoCity')}</p>
+    {/if}
+    <p class="chosen" class:quiet={!draft.place}>
+      {#if draft.place}{@html icon.pin}<b>{draft.place.name}, {countryName(draft.place.cc, draft.place.country)}</b>{:else}{t('birthPlaceNone')}{/if}
+    </p>
+    <p class="quiet">{t('birthPlaceNote')}</p>
+
     <div class="field">
       <span>{t('birthTime')}</span>
       <div class="hm">
@@ -194,23 +242,6 @@
       <input type="checkbox" bind:checked={timeUnknown} onchange={changed} />
       <span>{t('birthTimeUnknown')}</span>
     </label>
-    <label class="field">
-      <span>{t('birthPlace')}</span>
-      <input type="search" placeholder={t('searchCity')} autocomplete="off" bind:value={birthQuery} />
-    </label>
-    <!-- mousedown kept from blurring the field: the phone keyboard would close, the page
-         shift, and the tap miss the city (user, 2026-10-14: the city could not be chosen). -->
-    {#each birthPlaces as p (`${p.name}${p.lat}${p.lon}`)}
-      <button class="place" onmousedown={(e) => e.preventDefault()} onclick={() => pickPlace(p)}>{p.name}, {countryName(p.cc, p.country)}</button>
-    {/each}
-    {#if birthQuery.trim() && !index}
-      <p class="quiet">{t('loadingCities')}</p>
-    {:else if birthQuery.trim() && !birthPlaces.length}
-      <p class="quiet">{t('birthNoCity')}</p>
-    {/if}
-    <p class="chosen">{@html icon.pin}<b>{draft.place.name}, {countryName(draft.place.cc, draft.place.country)}</b></p>
-    <p class="quiet">{t('birthPlaceNote')}</p>
-
     <!-- No time and the Moon changed star that day: the user picks the part of the day, by clock time. -->
     {#if preview?.parts.length}
       <p>{t('birthPickPart')}</p>
@@ -220,15 +251,18 @@
             {i === 0 ? t('birthBefore', { time: clock(part.end) }) : i === preview.parts.length - 1 ? t('birthAfter', { time: clock(part.start) }) : `${clock(part.start)}–${clock(part.end)}`}
           </button>
         {/each}
+        <button aria-pressed={draft.star === 0} onclick={() => ((draft.star = 0), (saved = false))}>{t('birthUnknownPart')}</button>
       </div>
     {/if}
     {#if preview?.birth}
       <dl class="kinds">
-        <dt>{t('birthStar')}</dt><dd>{starName(preview.birth.star)}</dd>
+        <dt>{t('birthStar')}</dt><dd>{preview.birth.star ? starName(preview.birth.star) : t('birthUnknown')}</dd>
         <dt>{t('birthSign')}</dt><dd>{preview.birth.sign ? signName(preview.birth.sign) : t('birthUnknown')}</dd>
       </dl>
+      {#if nothing}<p class="quiet">{t('birthNothing')}</p>{/if}
     {/if}
     <button class="gps save" onclick={save} disabled={!preview?.birth}><span>{saved ? t('birthSaved') : t('birthSave')}</span></button>
+    {#if missing}<p class="quiet">{t(missing)}</p>{/if}
     {#if app.birth}
       <button class="gps quiet-button" onclick={deleteBirth}><span>{t('birthDelete')}</span></button>
     {/if}

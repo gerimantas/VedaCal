@@ -883,20 +883,6 @@ h3 {
   accent-color: var(--color-accent);
 }
 
-.birth .place {
-  display: block;
-  width: 100%;
-  margin-top: var(--space-3xs);
-  padding: var(--space-xs);
-  border: var(--rule-hair) solid var(--color-card-line);
-  border-radius: var(--radius-md);
-  background: none;
-  color: inherit;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
 .birth .chosen {
   display: flex;
   align-items: center;

@@ -1003,7 +1003,14 @@
     "birthYear": "Year",
     "birthMonth": "Month",
     "birthDay": "Day",
-    "birthNoCity": "No such city in the list (it holds cities of 15,000 people or more). Type the nearest bigger city in the same country."
+    "birthNoCity": "No such city in the list (it holds cities of 15,000 people or more). Type the nearest bigger city in the same country.",
+    "birthPlaceNone": "Not chosen",
+    "birthUnknownPart": "I don't know",
+    "birthNothing": "Nothing personal can be computed from this: neither the birth star nor the Moon sign is known.",
+    "birthNeedDate": "Choose the birth date.",
+    "birthNeedPlace": "Choose the birth place.",
+    "birthNeedTime": "Choose the birth time or tick \"I don't know the time\".",
+    "birthNeedPart": "Choose the part of the day or \"I don't know\"."
   },
   "masa": {
     "1": {

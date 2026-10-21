@@ -131,6 +131,10 @@ describe('example 3, Vilnius 2026-10-25, with the sample birth (Moon in Kanya, H
     expect(tara(L('2026-10-14', '17:15'))).toMatchObject({ level: 'fb', detail: { tara: 5 } })
     expect(seg(L('2026-10-14', '17:15')).verdict).toBe('fb')
   })
+  it('a birth with star, sign and lunar day all unknown adds no personal periods', () => {
+    const none = dayPeriods(day, prev, { star: 0, sign: 0, tithi: 0, month: 0 }).periods
+    expect(none.filter((p) => ['tara', 'chandra', 'janma'].includes(p.kind))).toEqual([])
+  })
   it('the birth lunar day is avoided (R17); the birth month is shown, not counted (user, 2026-10-14)', () => {
     const tithi = day.tithi.find((s) => s.start <= L('2026-10-25', '12:00') && L('2026-10-25', '12:00') < s.end)!.index
     expect(at(L('2026-10-25', '20:00'), { star: 0, sign: 0, tithi, month: 0 }).by.map((p) => p.kind)).toContain('janma')
@@ -182,6 +186,20 @@ describe('birth data from Settings (Q7.1)', () => {
     const dates = Array.from({ length: 60 }, (_, i) => addDays('2026-10-01', i))
     const whole = dates.map((date) => resolveBirth({ date, time: null, place, star: null })).find((r) => !r.parts.length)
     expect(whole?.birth?.star).toBeGreaterThan(0)
+  })
+  it('"I do not know" (star 0): star unknown, the rest read over the whole day (user, 2026-10-21)', () => {
+    // 2026-10-01: the Moon goes Rohini (3) to Mrigashira (4) but stays in sign 2 all day.
+    const same = resolveBirth({ date: '2026-10-01', time: null, place, star: 0 })
+    expect(same.birth).toEqual({ star: 0, sign: 2, tithi: 0, month: 6 })
+    expect(same.parts.map((p) => p.star)).toEqual([3, 4])
+    // 2026-10-02: the star (4 to 5) and the sign both change, so the sign is unknown too.
+    expect(resolveBirth({ date: '2026-10-02', time: null, place, star: 0 }).birth).toMatchObject({ star: 0, sign: 0, tithi: 0 })
+  })
+  it('one star all day or a known time ignores star 0', () => {
+    const date = addDays('2026-10-01', 0)
+    const whole = Array.from({ length: 60 }, (_, i) => addDays('2026-10-01', i)).find((d) => !resolveBirth({ date: d, time: null, place, star: null }).parts.length)!
+    expect(resolveBirth({ date: whole, time: null, place, star: 0 })).toEqual(resolveBirth({ date: whole, time: null, place, star: null }))
+    expect(resolveBirth({ date, time: '14:30', place, star: 0 }).birth).toEqual(birthOf(L(date, '14:30')))
   })
 })
 

@@ -8,7 +8,10 @@ export type BirthInput = {
   date: string // YYYY-MM-DD
   time: string | null // HH:MM, null = not known
   place: { name: string; cc: string; country: string; tz: string }
-  /** With no time and a star change that day: the star of the part of the day the user picked. */
+  /**
+   * With no time and a star change that day: the star of the part of the day the user picked;
+   * 0 = the user does not know which part (user, 2026-10-21); null = not picked yet.
+   */
   star: number | null
 }
 
@@ -22,6 +25,7 @@ const starAt = (t: number) => birthOf(new Date(t)).star
  * The Birth for the entered data. With no time, the day is cut where the Moon's star changes
  * (to the minute): one part is enough; two or more → `parts`, and the user's pick (or none)
  * decides. A sign, lunar day or month that changes within the picked part is left unknown (0).
+ * Star 0 ("I don't know"): the star is unknown (0) and the rest is read over the whole day.
  */
 export function resolveBirth(b: BirthInput): { birth: Birth | null; parts: DayPart[] } {
   const [y, m, d] = b.date.split('-').map(Number)
@@ -46,9 +50,9 @@ export function resolveBirth(b: BirthInput): { birth: Birth | null; parts: DayPa
     parts[parts.length - 1].end = at
     parts.push({ star: starAt(next), start: at, end: new Date(end) })
   }
-  const star = parts.length === 1 ? parts[0].star : b.star !== null && parts.some((p) => p.star === b.star) ? b.star : null
+  const star = parts.length === 1 ? parts[0].star : b.star === 0 ? 0 : b.star !== null && parts.some((p) => p.star === b.star) ? b.star : null
   if (star === null) return { birth: null, parts }
-  const part = parts.find((p) => p.star === star)!
+  const part = star === 0 ? { start: new Date(start), end: new Date(end) } : parts.find((p) => p.star === star)!
   const samples: Birth[] = []
   for (let t = part.start.getTime(); t < part.end.getTime(); t += 30 * MIN) samples.push(birthOf(new Date(t)))
   samples.push(birthOf(new Date(part.end.getTime() - 1)))

@@ -261,6 +261,8 @@
     {#if app.birth}
       {#if resolved && !resolved.birth}
         <p class="mine-note" role="alert"><a href="#/settings/mydata">{t('mineNeedsStar')}</a></p>
+      {:else if birth && !birth.star && !birth.sign && !birth.tithi}
+        <p class="mine-note" role="alert"><a href="#/settings/mydata">{t('birthNothing')}</a></p>
       {:else if mineNow.length}
         <p class="mine-note">{t('mineNow')}: {mineNow.map((p) => `${periodName(p)} (${levelWord(p)})`).join(' · ')}</p>
       {/if}
