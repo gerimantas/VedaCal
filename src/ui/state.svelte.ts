@@ -27,7 +27,7 @@ function stored(): Place | null {
 const saved = stored()
 
 export type Theme = 'system' | 'dark' | 'light'
-/** Day clock colours (user, 2026-10-10): current by default, rainbow as an option. */
+/** Day clock colours (user, 2026-10-10): rainbow by default since 2026-10-21 (user), current as an option. */
 export type Palette = 'current' | 'rainbow'
 /**
  * SPEC 5.3. hour12 null = the device's habit until the user picks one; lang null = the device's language.
@@ -50,7 +50,7 @@ function storedSettings(): Settings {
     theme: s.theme === 'dark' || s.theme === 'light' ? s.theme : 'system',
     lang: s.lang === 'en' || s.lang === 'lt' ? s.lang : null,
     activity: Number.isInteger(s.activity) && (s.activity as number) >= 0 && (s.activity as number) <= 9 ? (s.activity as number) : 0,
-    palette: s.palette === 'rainbow' ? 'rainbow' : 'current',
+    palette: s.palette === 'current' ? 'current' : 'rainbow',
     travelDir: DIRECTIONS.includes(s.travelDir as Direction) ? (s.travelDir as Direction) : null,
     mine: s.mine === true,
   }
