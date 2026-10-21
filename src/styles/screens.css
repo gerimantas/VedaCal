@@ -742,16 +742,20 @@ h3 {
   color: var(--color-accent);
 }
 
+/* Title and its Sanskrit name share one line: "Palanki diena · Ravi Pushya" (user, 2026-10-21). */
 .event b {
-  display: block;
   font-size: var(--text-sm);
   font-weight: 650;
 }
 
 .event small {
-  display: block;
   color: var(--color-moon);
   font-size: var(--text-sm);
+}
+
+.event b + small::before {
+  content: ' · ';
+  color: var(--color-muted);
 }
 
 .event .when {
