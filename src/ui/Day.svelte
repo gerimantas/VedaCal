@@ -1,6 +1,7 @@
 <script lang="ts">
   // Day screen (SPEC 5.1): renders dayView() from ./day and the day clock, so every value on
   // screen is the engine's output.
+  import ModeChip from './ModeChip.svelte'
   import VersionTag from './VersionTag.svelte'
   import { computeDay } from '../core/panchang'
   import { addDays, civilDate } from '../core/time'
@@ -96,6 +97,7 @@
     {#if !atNow}
       <button class="chip nowchip" onclick={() => ((app.date = null), (picked = null))}>↺ {t('clockNow')}</button>
     {/if}
+    <ModeChip />
     <VersionTag />
   </header>
 

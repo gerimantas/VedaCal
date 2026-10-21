@@ -71,6 +71,10 @@
     draft.date = year && month && dayOfMonth ? `${year}-${month}-${dayOfMonth}` : ''
     changed()
   }
+  // The mode chip opens "#/settings/mydata": scroll to this section once the screen is drawn.
+  $effect(() => {
+    if (location.hash === '#/settings/mydata') requestAnimationFrame(() => document.getElementById('mydata')?.scrollIntoView())
+  })
   let birthQuery = $state('')
   $effect(() => {
     if (birthQuery.trim() && !index) loadCities().then((i) => (index = i))
@@ -152,7 +156,7 @@
     <p class="footnote">{t('noCities')}</p>
   {/if}
 
-  <h2 class="about-head">{t('myData')}</h2>
+  <h2 class="about-head" id="mydata">{t('myData')}</h2>
   <section class="card about-intro birth">
     <p class="quiet">{t('birthPrivacy')}</p>
     <div class="field">

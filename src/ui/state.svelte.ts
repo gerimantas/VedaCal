@@ -33,7 +33,7 @@ export type Palette = 'current' | 'rainbow'
  * SPEC 5.3. hour12 null = the device's habit until the user picks one; lang null = the device's language.
  * activity: the day clock's activity group, 0 "General" by default (PLAN-periods Q3 decisions).
  * travelDir: the direction for travel (group 1), null = not chosen (user, 2026-10-14).
- * mine: the day clock counts the user's birth data (the "For me" switch, Q7.1).
+ * mine: the day clock counts the user's birth data (the app bar's mode chip, Q7.1).
  */
 type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme; lang: Lang | null; activity: number; palette: Palette; travelDir: Direction | null; mine: boolean }
 const DIRECTIONS: Direction[] = ['north', 'east', 'south', 'west']
@@ -83,7 +83,7 @@ function storedBirth(): BirthInput | null {
 /** `date`: the day the Day screen shows, null = today (so it rolls over at midnight). */
 export const app = $state({ location: saved ?? VILNIUS, settings, date: null as string | null, birth: storedBirth() })
 
-/** Save or (null) delete the birth data; saving turns the "For me" switch on. */
+/** Save or (null) delete the birth data; saving turns the personal view on. */
 export function setBirth(b: BirthInput | null) {
   app.birth = b
   try {
@@ -124,6 +124,7 @@ export type Route = 'day' | 'month' | 'sky' | 'settings' | 'about'
 const ROUTES: Route[] = ['day', 'month', 'sky', 'settings', 'about']
 
 export const routeFromHash = (hash: string): Route => {
-  const r = hash.replace(/^#\/?/, '') as Route
+  // "#/settings/mydata" is Settings scrolled to My data (user, 2026-10-21).
+  const r = hash.replace(/^#\/?/, '').split('/')[0] as Route
   return ROUTES.includes(r) ? r : 'day'
 }

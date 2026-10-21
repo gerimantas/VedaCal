@@ -151,6 +151,24 @@ h3 {
   flex-shrink: 0;
 }
 
+/* The mode chip keeps its size like the date; "General" is muted, "Personal" takes the accent. */
+.appbar .modechip {
+  flex-shrink: 0;
+  padding: 0 var(--space-3xs);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+/* The chip's jump to My data stops below the sticky bar (57 px at 360 px wide), not under it. */
+#mydata {
+  scroll-margin-top: calc(4.5rem + env(safe-area-inset-top));
+}
+
+.appbar .modechip.on {
+  border-color: color-mix(in oklch, var(--color-accent) 75%, transparent);
+  color: var(--color-accent);
+}
+
 /* On a narrow phone the city gives way ("Vilni…"), never the date or its arrows. */
 .appbar .chip {
   min-width: 0;

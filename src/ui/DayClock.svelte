@@ -24,7 +24,7 @@
   const group = $derived(app.settings.activity)
   // Travel rules count only for a chosen direction (user, 2026-10-14).
   const dir = $derived(group === 1 ? app.settings.travelDir : null)
-  // The user's birth data counts while the "For me" switch is on (Q7.1).
+  // The user's birth data counts while the personal view is on (app bar mode chip, Q7.1).
   const resolved = $derived(app.birth && app.settings.mine ? resolveBirth(app.birth) : null)
   const birth = $derived(resolved?.birth ?? null)
   const model = $derived(clockModel(day, prev, group, dir, birth))
@@ -81,7 +81,7 @@
   const cursor = $derived(picked ?? onDial(now))
   const nowOnDial = $derived(now >= T0 && now < T1 ? now : null)
   const seg = $derived(model?.segments.find((s) => s.start <= cursor && cursor < s.end) ?? model?.segments[0])
-  // What the user's own values are at the hand, so "For me" shows what it counts (user, 2026-10-14).
+  // What the user's own values are at the hand, so the personal view shows what it counts (user, 2026-10-14).
   const mineNow = $derived(model && birth ? model.periods.filter((p) => ['tara', 'chandra', 'janma'].includes(p.kind) && p.start <= cursor && cursor < p.end) : [])
   const shade = $derived<Shade>(seg ? shadeOf(seg) : 'neutral')
   const active = $derived(model?.periods.filter((p) => p.start <= cursor && cursor < p.end) ?? [])
@@ -259,12 +259,8 @@
       </label>
     {/if}
     {#if app.birth}
-      <label class="activity mine">
-        <span>{t('mine')}</span>
-        <input type="checkbox" checked={app.settings.mine} onchange={(e) => setSetting('mine', e.currentTarget.checked)} />
-      </label>
       {#if resolved && !resolved.birth}
-        <p class="mine-note" role="alert"><a href="#/settings">{t('mineNeedsStar')}</a></p>
+        <p class="mine-note" role="alert"><a href="#/settings/mydata">{t('mineNeedsStar')}</a></p>
       {:else if mineNow.length}
         <p class="mine-note">{t('mineNow')}: {mineNow.map((p) => `${periodName(p)} (${levelWord(p)})`).join(' · ')}</p>
       {/if}
@@ -411,18 +407,12 @@
     margin-top: var(--space-2xs);
   }
   .mine-note {
-    margin: var(--space-3xs) 0 0 calc(4.5rem + var(--space-xs));
+    margin: var(--space-2xs) 0 0;
     font-size: var(--text-sm);
     color: var(--color-muted);
   }
   .mine-note a {
     color: var(--color-fallback);
-  }
-  .mine input {
-    justify-self: start;
-    width: 1.2rem;
-    height: 1.2rem;
-    accent-color: var(--color-accent);
   }
   .activity select {
     min-width: 0;

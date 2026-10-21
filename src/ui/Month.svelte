@@ -1,6 +1,7 @@
 <script lang="ts">
   // Month screen (SPEC 5.2): renders monthView() from ./month. Tapping a day or a key date
   // opens that day.
+  import ModeChip from './ModeChip.svelte'
   import VersionTag from './VersionTag.svelte'
   import { computeMonth } from '../core/panchang'
   import { civilDate } from '../core/time'
@@ -35,6 +36,7 @@
       <h1 class="num">{v.title}</h1>
       <button aria-label={t('nextMonth')} onclick={() => (shown = shiftMonth(shown, 1))}>{@html icon.right}</button>
     </div>
+    <ModeChip />
     <VersionTag />
   </header>
 
