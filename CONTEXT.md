@@ -1,11 +1,14 @@
 # VedaCal — CONTEXT
 
 ## Status
-Live: everything through S16 (https://gerimantas.github.io/VedaCal/, 05db0b6); nothing local.
+Live: everything through S17 (https://gerimantas.github.io/VedaCal/, cd4161b); nothing local.
+S17 fixed what the user's review found (Archive S17); the user lists further fixes before
+anyone else sees the app. View mode is an app-bar chip (`src/ui/ModeChip.svelte`); it only
+changes the Day clock.
 Periods work (`.planning/PLAN-periods.md`): the day clock (`src/ui/DayClock.svelte`) with
 "Visa diena" under it; engine `src/core/periods.ts` has every SPEC 13.2 value and, since
 S16, the personal layer (SPEC 13.6): Settings → "Mano duomenys" (kept only in
-`localStorage`), the clock's "Man" switch. Tara / Chandrabala follow MC 4.4, 4.11–13 (not
+`localStorage`). Tara / Chandrabala follow MC 4.4, 4.11–13 (not
 Drik's grading); personal faults are fallback, Chandrashtama and the birth tithi veto, the
 birth month shown only. Ravi yoga cancels the elements' own faults (SPEC 13.4 step 0).
 "Veto beats any +" is a model choice (SPEC 13.4), not a source rule — the user asked.
@@ -21,6 +24,8 @@ only on the user's command.
 ## Next Tasks
 - **Fix the app first** (user, 2026-10-21): it is not ready for other people to see and needs
   many fixes. Ask the user what to fix; collect the list before changing code.
+- Personal view on Month (and Sky?): today only the Day clock uses birth data, though the
+  chip shows on every screen. Ask the user whether the month should mark personal days.
 - Personal layer, general form (SPEC 13.6, no birth data): which birth stars / signs the
   moment favours, Chandrashtama star — not built. Ask the user first whether it is wanted.
 - Further 13.4 review (user asked, option 2 done only for Ravi yoga): other source-backed
@@ -36,6 +41,10 @@ only on the user's command.
 
 ## Done Log
 
+### 2026-10-21 (S17)
+- View chip in the app bar; My data form logic; key dates layout + parvan names; glossary search
+- Rainbow palette default; clock touch: swipe scrolls, tap / hold-drag moves the hand; deployed (cd4161b)
+
 ### 2026-10-14 (S16)
 - Source audit: every meaning rewritten from a source and cited; days of restraint replace rest days
 - Personal layer + "Mano duomenys" + "Man" switch; Ravi yoga cancels element faults; deployed (05db0b6)
@@ -49,7 +58,10 @@ only on the user's command.
 - Deploy = push to `main` (only on the user's command); `.github/workflows/ci.yml` tests and
   publishes. Check: `gh run list --limit 1`. The dev server restarts itself on every commit
   (`vite.config.ts` liveVersion); the top bar shows the commit (dev only, `VersionTag.svelte`);
-  the browser still needs F5 (the CSP blocks Vite's reload worker).
+  the browser still needs F5 (the CSP blocks Vite's reload worker). An old service worker
+  can serve a stale build (S17): Ctrl+F5, or in Playwright unregister it first. Check the
+  user's real state in their Chrome (Claude in Chrome): settings live per device in
+  `localStorage` (`vedacal.settings`, `.birth`, `.location`).
 - After any dependency change: `npm run scan` (security scan, also runs in CI)
 - Drik fixture scripts go through `scripts/drik-page.ts`: pages cached in `.cache/drik/`
   (re-parse without re-fetching), 12 s between requests (`DRIK_DELAY_MS`), stop at the first
@@ -106,6 +118,15 @@ only on the user's command.
 ## Archive
 
 Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation, newest first). This section keeps the most recent 10 sessions.
+
+### Session 2026-10-21 (S17) — fixes from the user's review; P7 pilot on hold; deployed (cd4161b)
+
+- **Done:** app-bar view chip "Bendras" / "★ Asmeninis" on Day, Month, Sky (replaces the clock's "Man" switch; no birth data → Settings #/settings/mydata); My data form: date → place → time, place empty until chosen, Enter picks a city, "Nežinau" for the part of the day (star 0, sign/tithi/month only if constant all day), a line names what is missing; key dates: date first, title · Sanskrit on one line, one text size and colour, days of restraint show "Amavasya / Purnima parvan"; glossary search with suggestions like the city search; rainbow palette is the default; clock on touch: swipe scrolls, tap moves the hand, hold 450 ms then drag.
+- **Decided / overturned:** P7 pilot on hold until the user says the app is ready; "Susilaikymo diena" kept (sources: Ap 2.1.1.4 fast, Manu 4.128 chastity, Manu 4.113 no study); Ap 2.1.1.7–9 refer to the wedding anniversary, not parvan days (rules.md H1); vite 8.3.5 (CI audit failed on 8.3.2).
+- **Code:** `src/ui/ModeChip.svelte` (new), `glossary.ts` (new), `About.svelte`, `DayClock.svelte`, `LocationPicker.svelte`, `birth.ts`, `month.ts`, `Month.svelte`, `state.svelte.ts`, `screens.css`, `lt.json`/`en.json`, `tests/glossary.test.ts` (new), `tests/personal.test.ts`; `.planning/SPEC.md` 13.6, `research/rules.md` H1; `.ai-skills` session scripts check nested repos.
+- **Entry point:** `npm run dev` → http://localhost:5173/VedaCal/; deploy = `git push` (CI).
+- **Not measured:** real-phone scroll over the clock was tested by the user (works), not by a test; the personal view changes only the Day clock (Month and Sky do not use birth data).
+- **Delegation:** 5 sonnet (mode chip, birth form, restraint-term research, glossary filter, glossary suggestions); inline: single-edit CSS/TS fixes and browser checks (exception: one tool call); DayClock touch handling written inline over several edits — violation.
 
 ### Session 2026-10-14 (S16) — every meaning sourced; personal layer built and live; Ravi yoga cancels element faults
 
@@ -192,23 +213,3 @@ Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation,
 - **Code:** `src/core/panchang.ts` (star days, eclipse `seen`, `limbUp`), `src/ui/day.ts` (rows, tracks, leads), `src/ui/month.ts`, `src/ui/marks.ts`, `src/ui/Sheet.svelte`, `src/content/*.json` (`leads`, `tradition`, rashi/masa meanings), `scripts/fetch-marks.ts` (Amrit, Sarvartha, Bhadra, Vyatipata, Vaidhriti), `tests/fixtures/marks/*`.
 - **Entry point:** `npm run dev`; `npm test` (1197); `node scripts/fetch-marks.ts <city> 2026`. Rules: SPEC 4.11, 5.1, 5.2.
 - **Not measured:** new moon 18:49 (tithi end) vs 18:50 (key dates) — two methods ~40 s apart. Library moonrise 4–10 min off Drik (not shown; Drik = centre, no refraction). Other day sheets still carry general text below the lead.
-
-### Session 2026-10-07 (S7) — Yamaganda/Gulika/Choghadiya on the day screen; no-card redesign
-
-- **Done:** Yamaganda + Gulika rows and dial arcs; Choghadiya folded under the rows (16 parts,
-  last night's parts before sunrise). Good time and an overlapping avoid window cancel out:
-  both rows trimmed, note line under the good time. Checked vs Drik (48 day fixtures; new
-  Choghadiya fixtures for all 7 weekdays).
-- **Done:** About split into "Using the app" (install/use/offline, texts after BakeStack) and
-  "Glossary" (every term with all its values). Top bar sticky on Day/Month/Sky; bars edge to
-  edge on the page sky with an amber line. No cards anywhere (lines between sections). One text
-  size per row (tabs excepted). Background lights after vakruska.lt. Pushed, CI green (6136f80).
-- **Decided / overturned:** Choghadiya is our own code — panchangam-js 3.0.0 swaps Rog/Shubh in
-  its Sun/Mon/Wed/Fri day tables. The cancel-out rule is the user's product choice; those two
-  rows differ from Drik by the shared part. Rules recorded in SPEC 4.5, 5, 5.1, 5.4.
-- **Code:** `src/core/panchang.ts`, `types.ts`, `src/ui/day.ts`, `Day.svelte`, `About.svelte`,
-  `Month.svelte`, `Sky.svelte`, `fireflies.ts`, `screens.css`, `scripts/fetch-choghadiya.ts`,
-  `tests/choghadiya.test.ts`, `tests/fixtures/choghadiya/`
-- **Entry point:** `npm test` (1159 pass); `node scripts/fetch-choghadiya.ts <city> <dates>`
-- **Not measured:** the background lights' battery/CPU cost on a real phone; mockups for
-  About/Sky not updated to the no-card look.

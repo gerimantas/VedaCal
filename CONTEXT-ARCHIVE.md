@@ -2,6 +2,25 @@
 
 Older session entries moved out of `CONTEXT.md`.
 
+## Session 2026-10-07 (S7) — Yamaganda/Gulika/Choghadiya on the day screen; no-card redesign
+
+- **Done:** Yamaganda + Gulika rows and dial arcs; Choghadiya folded under the rows (16 parts,
+  last night's parts before sunrise). Good time and an overlapping avoid window cancel out:
+  both rows trimmed, note line under the good time. Checked vs Drik (48 day fixtures; new
+  Choghadiya fixtures for all 7 weekdays).
+- **Done:** About split into "Using the app" (install/use/offline, texts after BakeStack) and
+  "Glossary" (every term with all its values). Top bar sticky on Day/Month/Sky; bars edge to
+  edge on the page sky with an amber line. No cards anywhere (lines between sections). One text
+  size per row (tabs excepted). Background lights after vakruska.lt. Pushed, CI green (6136f80).
+- **Decided / overturned:** Choghadiya is our own code — panchangam-js 3.0.0 swaps Rog/Shubh in
+  its Sun/Mon/Wed/Fri day tables. The cancel-out rule is the user's product choice; those two
+  rows differ from Drik by the shared part. Rules recorded in SPEC 4.5, 5, 5.1, 5.4.
+- **Code:** `src/core/panchang.ts`, `types.ts`, `src/ui/day.ts`, `Day.svelte`, `About.svelte`,
+  `Month.svelte`, `Sky.svelte`, `fireflies.ts`, `screens.css`, `scripts/fetch-choghadiya.ts`,
+  `tests/choghadiya.test.ts`, `tests/fixtures/choghadiya/`
+- **Entry point:** `npm test` (1159 pass); `node scripts/fetch-choghadiya.ts <city> <dates>`
+- **Not measured:** the background lights' battery/CPU cost on a real phone; mockups for
+  About/Sky not updated to the no-card look.
 ## Session 2026-10-06 (S6) — tablet install fixed; Chrome 154 install-sheet bug found
 
 - **Done:** VedaCal installed as a real app (WebAPK, scope `/VedaCal/`) on the user's Galaxy Tab
