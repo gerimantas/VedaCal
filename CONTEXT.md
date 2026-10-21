@@ -19,9 +19,8 @@ the top bar shows the commit); show proposals before changing code; commit local
 only on the user's command.
 
 ## Next Tasks
-- **P7 pilot** (everything is live): the user shares the link with 5–10 people and collects
-  what confuses them; fix what the pilot reports first, then the user picks the next backlog
-  items (SPEC 10). plan: `.planning/PLAN.md` P7.
+- **Fix the app first** (user, 2026-10-21): it is not ready for other people to see and needs
+  many fixes. Ask the user what to fix; collect the list before changing code.
 - Personal layer, general form (SPEC 13.6, no birth data): which birth stars / signs the
   moment favours, Chandrashtama star — not built. Ask the user first whether it is wanted.
 - Further 13.4 review (user asked, option 2 done only for Ravi yoga): other source-backed
@@ -32,6 +31,8 @@ only on the user's command.
   methods ~40 s apart (SPEC 11). Use one instant for both. Code: `src/core/panchang.ts`.
 - Optional: find the uniform ~57 s Moon offset vs Drik (`npm run accuracy`; mypanchang agrees
   with us on tithi to 8 s). Inside the gate, so only if the user asks. rules: SPEC 4.11.
+- P7 pilot (5–10 people try the app) — ON HOLD. Do not propose it until the user says the app
+  is ready to show (user, 2026-10-21). plan: `.planning/PLAN.md` P7.
 
 ## Done Log
 
