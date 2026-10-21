@@ -1,38 +1,42 @@
 import { describe, expect, it } from 'vitest'
-import { glossaryTerms, searchGlossary } from '../src/ui/glossary'
+import { glossaryTerms, suggestGlossary, type GlossaryTerm } from '../src/ui/glossary'
 
 const all = glossaryTerms()
-const hit = (q: string) => searchGlossary(q, all)
+const synth: GlossaryTerm[] = [
+  { key: 'tithi', name: 'Žvaigždė', sanskrit: '', values: [['1', { title: 'Mėnulio žvaigždė', name: 'Rohini' }], ['2', { title: 'Žvaigždynas', name: 'Ardra' }]] },
+]
 
-describe('glossary search', () => {
-  it('an empty query shows every term with every value', () => {
-    for (const q of ['', '   ']) {
-      const h = hit(q)
-      expect(h.map((x) => x.key)).toEqual(all.map((g) => g.key))
-      h.forEach((x, i) => expect(x.shown).toHaveLength(all[i].values.length))
-    }
+describe('suggestGlossary', () => {
+  it('an empty query gives nothing', () => {
+    expect(suggestGlossary('', all)).toEqual([])
+    expect(suggestGlossary('   ', all)).toEqual([])
   })
 
-  it('a value name finds only its term and only that value', () => {
-    const h = hit('rohini')
-    // Amrit Siddhi's own text names Rohini, so it matches too; only the nakshatra list is narrowed.
-    expect(h.map((x) => x.key)).toEqual(['nakshatra', 'amritSiddhi'])
-    expect(h[0].shown).toHaveLength(1)
-    expect(all.find((g) => g.key === 'nakshatra')!.values[h[0].shown[0]].name).toBe('Rohini')
+  it('"rohini" suggests the Rohini value of nakshatra first', () => {
+    const [first] = suggestGlossary('rohini', all)
+    expect(first.id.startsWith('g-nakshatra-')).toBe(true)
+    expect(first.sanskrit).toBe('Rohini')
+    expect(first.parent).toBe(all.find((g) => g.key === 'nakshatra')!.name)
+  })
+
+  it('a name starting with the query beats a later-word match', () => {
+    // "zvaig" starts "Žvaigždė" and "Žvaigždynas"; only "Mėnulio žvaigždė" has it as a later word.
+    expect(suggestGlossary('zvaig', synth).map((s) => s.id)).toEqual(['g-tithi', 'g-tithi-2', 'g-tithi-1'])
   })
 
   it('ignores case and accents', () => {
-    const word = [{ key: 'tithi' as const, name: 'Žvaigždė', sanskrit: '', texts: [''], values: [{ title: 'Šviesa', name: 'x' }] }]
-    expect(searchGlossary('ZVAIGZDE', word)).toEqual([{ key: 'tithi', shown: [0] }])
-    expect(searchGlossary('sviesa', [{ ...word[0], name: 'a' }])).toEqual([{ key: 'tithi', shown: [0] }])
+    expect(suggestGlossary('ZVAIGZDE', synth).map((s) => s.title)).toContain('Žvaigždė')
+    expect(suggestGlossary('menulio', synth)).toHaveLength(1)
   })
 
-  it('a term name shows all its values', () => {
-    const n = hit('Nakshatra').find((x) => x.key === 'nakshatra')!
-    expect(n.shown).toHaveLength(all.find((g) => g.key === 'nakshatra')!.values.length)
+  it('respects the limit and has no duplicates', () => {
+    const s = suggestGlossary('a', all)
+    expect(s).toHaveLength(8)
+    expect(new Set(s.map((x) => x.id)).size).toBe(8)
+    expect(suggestGlossary('a', all, 3)).toHaveLength(3)
   })
 
   it('no match gives nothing', () => {
-    expect(hit('qqqzzz')).toEqual([])
+    expect(suggestGlossary('qqqzzz', all)).toEqual([])
   })
 })

@@ -990,6 +990,33 @@ h3 {
   }
 }
 
+/* The glossary row a suggestion was picked for: amber outline that fades out (user, 2026-10-21). */
+.flash {
+  animation: flash 2s ease-out;
+}
+
+@keyframes flash {
+  0%,
+  60% {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    background: color-mix(in oklch, var(--color-accent) 18%, transparent);
+  }
+  100% {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    background: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flash {
+    animation: none;
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
 /* ── About page ──────────────────────────────────────────────────────────── */
 .about-head {
   margin: var(--space-md) 0 0;
