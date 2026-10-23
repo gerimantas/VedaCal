@@ -34,7 +34,7 @@
   --glow: oklch(76.7% 0.139 91 / 0.28);
   --color-card: oklch(20.5% 0.02 264);
   --color-card-line: oklch(34% 0.025 264);
-  /* Day clock verdicts (SPEC 13.4): fallback = "only if it cannot wait"; rainbow palette (Settings). */
+  /* Day clock verdicts (SPEC 13.4): fallback = "only if it cannot wait". */
   --color-fallback: #f0a43a;
   --color-sun: #e2a72e;
   --rb-red: #ff5a4f;
@@ -71,7 +71,7 @@
   --glow: oklch(74% 0.13 88 / 0.22);
   --color-card: oklch(99% 0.004 264);
   --color-card-line: oklch(86% 0.012 264);
-  /* Day clock verdicts (SPEC 13.4): fallback = "only if it cannot wait"; rainbow palette (Settings). */
+  /* Day clock verdicts (SPEC 13.4): fallback = "only if it cannot wait". */
   --color-fallback: #b8690b;
   --color-sun: #e2a72e;
   --rb-red: #d62828;
@@ -109,7 +109,7 @@
     --glow: oklch(74% 0.13 88 / 0.22);
     --color-card: oklch(99% 0.004 264);
     --color-card-line: oklch(86% 0.012 264);
-    /* Day clock verdicts (SPEC 13.4): fallback = "only if it cannot wait"; rainbow palette (Settings). */
+    /* Day clock verdicts (SPEC 13.4): fallback = "only if it cannot wait". */
     --color-fallback: #b8690b;
     --color-sun: #e2a72e;
     --rb-red: #d62828;

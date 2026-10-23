@@ -65,7 +65,7 @@ describe('the verdict rule (SPEC 13.4) on its own', () => {
     expect(verdictOf([base('poor'), p('brahma', 'plus')], 0).verdict).toBe('neutral')
     expect(verdictOf([base('poor')], 0).verdict).toBe('fb')
   })
-  it('the tier names the deciding step (rainbow palette, 2026-10-23)', () => {
+  it('the tier names the deciding step (rainbow scale, 2026-10-23)', () => {
     const tier = (list: Period[]) => verdictOf(list, 0).tier
     expect(tier([p('rahuKaal', 'veto'), p('abhijit', 'strong'), base('good')])).toBe('avoid')
     expect(tier([p('vaidhriti', 'fb'), base('good')])).toBe('fb')
@@ -703,7 +703,7 @@ it('every moment of the day belongs to exactly one segment, for every group', ()
   }
 })
 
-it('the day clock names every period and colours every shade in both palettes', async () => {
+it('the day clock names every period and colours every shade', async () => {
   const { periodName, periodWhy, levelWord, colourVar, clockModel } = await import('../src/ui/verdict')
   for (const date of ['2026-10-10', '2026-10-06', '2026-10-25', '2026-05-10']) {
     const day = computeDay(date, VILNIUS), prev = computeDay(addDays(date, -1), VILNIUS)
@@ -712,7 +712,7 @@ it('the day clock names every period and colours every shade in both palettes', 
       expect(levelWord(p), p.kind).toMatch(/\S/)
       // every period that can decide says why, with its source (user, 2026-10-14)
       if (p.decides) expect(periodWhy(p).text && periodWhy(p).source, `${p.kind} ${JSON.stringify(p.detail)}`).toMatch(/\S/)
-      for (const palette of ['current', 'rainbow'] as const) expect(colourVar(p.level, palette)).toMatch(/^--/)
+      expect(colourVar(p.level)).toMatch(/^--/)
     }
     expect(clockModel(day, prev, 0)?.segments.length).toBeGreaterThan(0)
   }

@@ -9,7 +9,7 @@
   import { app, setSetting } from './state.svelte'
   import type { Direction, Period } from '../core/periods'
   import { resolveBirth } from './birth'
-  import { clockModel, colourVar, FADE, GROUP_LABELS, legendShades, levelWord, periodName, periodNote, periodWhy, RAINBOW_ORDER, ringOf, scalePos, shadeKey, shadeOf, shadeWord, type Shade } from './verdict'
+  import { clockModel, colourVar, FADE, GROUP_LABELS, levelWord, periodName, periodNote, periodWhy, RAINBOW_ORDER, ringOf, scalePos, shadeOf, shadeWord, type Shade } from './verdict'
 
   // `picked`: the moment the hand was moved to, null = now; bound, so the top bar's Now resets it.
   let { day, prev, loc, now, picked = $bindable(null) }: { day: DayPanchang; prev: DayPanchang; loc: Location; now: Date; picked?: Date | null } = $props()
@@ -20,7 +20,6 @@
   const MIN = 60_000
 
   const DIRECTIONS: Direction[] = ['north', 'east', 'south', 'west']
-  const palette = $derived(app.settings.palette)
   const group = $derived(app.settings.activity)
   // Travel rules count only for a chosen direction (user, 2026-10-14).
   const dir = $derived(group === 1 ? app.settings.travelDir : null)
@@ -88,7 +87,7 @@
   // overrides the word (and shows a tick) until tapped again or the hand moves.
   const handPos = $derived(model ? scalePos(model.segments, cursor) : 3)
   const pct = (pos: number) => `${((pos + 0.5) / RAINBOW_ORDER.length) * 100}%`
-  const barGradient = `linear-gradient(to right, ${RAINBOW_ORDER.map((s, i) => `var(${colourVar(s, 'rainbow')}) ${((i + 0.5) / RAINBOW_ORDER.length) * 100}%`).join(', ')})`
+  const barGradient = `linear-gradient(to right, ${RAINBOW_ORDER.map((s, i) => `var(${colourVar(s)}) ${((i + 0.5) / RAINBOW_ORDER.length) * 100}%`).join(', ')})`
   let tapped = $state<Shade | null>(null)
   $effect(() => {
     void cursor.getTime()
@@ -173,7 +172,7 @@
     const g = cv.getContext('2d')
     if (!probe || !g || !('createConicGradient' in g)) return null
     const rgb = new Map<Shade, number[]>()
-    for (const s of ['best', 'goodBase', 'goodPlus', 'neutral', 'neutralPlus', 'fb', 'avoid'] as Shade[]) rgb.set(s, rgbOf(css(colourVar(s, palette)), probe))
+    for (const s of ['best', 'goodBase', 'goodPlus', 'neutral', 'neutralPlus', 'fb', 'avoid'] as Shade[]) rgb.set(s, rgbOf(css(colourVar(s)), probe))
     const segs = model.segments
     const mix = (a: number[], b: number[], f: number) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * f)).join(',')})`
     // Rainbow: the colour at a position on the shared 7-step scale (also read by the legend marker).
@@ -184,20 +183,8 @@
       const hi = Math.min(scaleRgb.length - 1, Math.ceil(pos))
       return mix(scaleRgb[lo], scaleRgb[hi], pos - lo)
     }
-    const softCurrent = (t: Date) => {
-      const i = Math.max(0, segs.findIndex((s) => s.start <= t && t < s.end))
-      const s = segs[i]
-      const fade = Math.min(FADE, (s.end.getTime() - s.start.getTime()) / 2)
-      const dl = t.getTime() - s.start.getTime()
-      const dr = s.end.getTime() - t.getTime()
-      const own = rgb.get(shadeOf(s))!
-      if (segs[i - 1] && dl < fade) return mix(own, rgb.get(shadeOf(segs[i - 1]))!, 0.5 * (1 - dl / fade))
-      if (segs[i + 1] && dr < fade) return mix(own, rgb.get(shadeOf(segs[i + 1]))!, 0.5 * (1 - dr / fade))
-      return mix(own, own, 0)
-    }
-    const soft = palette === 'rainbow' ? softRainbow : softCurrent
     const grad = g.createConicGradient(ang(T0) - Math.PI / 2, c * k, c * k)
-    for (let m = 0; m <= 1440; m += 2) grad.addColorStop(m / 1440, soft(new Date(T0.getTime() + Math.min(m, 1439.5) * MIN)))
+    for (let m = 0; m <= 1440; m += 2) grad.addColorStop(m / 1440, softRainbow(new Date(T0.getTime() + Math.min(m, 1439.5) * MIN)))
     g.strokeStyle = grad
     g.lineWidth = verW * k
     g.beginPath()
@@ -212,7 +199,7 @@
       ? model.periods
           .map((p) => ({ p, ring: ringOf(p), ...clip(p.start, p.end) }))
           .filter((x) => x.ring !== null && x.a < x.b)
-          .map((x) => ({ d: arc(x.a, x.b, rIn[x.ring!]), colour: `var(${colourVar(x.p.level, palette)})`, opacity: !x.p.decides ? (x.p.kind === 'gulika' ? 0.3 : 0.5) : 0.95 }))
+          .map((x) => ({ d: arc(x.a, x.b, rIn[x.ring!]), colour: `var(${colourVar(x.p.level)})`, opacity: !x.p.decides ? (x.p.kind === 'gulika' ? 0.3 : 0.5) : 0.95 }))
       : [],
   )
 
@@ -258,7 +245,7 @@
       const add = (r: Row) => {
         for (const p of why) if (!r.why.some((q) => periodName(q) === periodName(p))) r.why.push(p)
       }
-      if (last && shadeKey(last.shade, palette) === shadeKey(shadeOf(s), palette)) {
+      if (last && last.shade === shadeOf(s)) {
         last.end = s.end
         add(last)
       } else {
@@ -288,10 +275,10 @@
 </script>
 
 {#snippet verdictIcon(s: Shade)}
-  {@const f = `var(${colourVar(s, palette)})`}
-  {#if s === 'best' && palette === 'rainbow'}
+  {@const f = `var(${colourVar(s)})`}
+  {#if s === 'best'}
     <path d="M12 1.2l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.3l-6.4 3.5 1.4-7.1-5.3-5 7.2-.9Z" style:fill={f} style:stroke={f} stroke-width="1.2" stroke-linejoin="round" />
-  {:else if s === 'goodBase' || s === 'goodPlus' || s === 'best'}
+  {:else if s === 'goodBase' || s === 'goodPlus'}
     <circle cx="12" cy="12" r="11" style:fill={f} />
     <path d="M6.6 12.4l3.6 3.6 7.2-7.8" class="glyph" />
   {:else if s === 'neutral' || s === 'neutralPlus'}
@@ -393,37 +380,29 @@
 
       <text x={c} y={label.y0} class="c-time" font-size={label.ft}>{label.timeText}</text>
       <svg x={label.iconX} y={label.iconY} width={label.iz} height={label.iz} viewBox="0 0 24 24" overflow="visible">{@render verdictIcon(shade)}</svg>
-      <text x={label.textX} y={label.lineY} class="c-span" font-size={label.fl} style:fill="var({colourVar(shade, palette)})">{span}</text>
+      <text x={label.textX} y={label.lineY} class="c-span" font-size={label.fl} style:fill="var({colourVar(shade)})">{span}</text>
     </svg>
 
-    {#if palette === 'rainbow'}
-      <div class="rbar">
-        <div class="rbar-ends"><span>{t('timeUnfavourable')}</span><span>{t('timeFavourable')}</span></div>
-        <p class="rbar-word" style:color="var({colourVar(shownShade, palette)})" aria-live="polite">{shadeWord(shownShade, palette)}</p>
-        <div class="rbar-track">
-          <span class="rbar-mark" style:left={pct(handPos)} aria-hidden="true"></span>
-        </div>
-        <div class="rbar-bar" style:background={barGradient}>
-          {#if tapped}<span class="rbar-tick" style:left={pct(RAINBOW_ORDER.indexOf(tapped))} aria-hidden="true"></span>{/if}
-          {#each RAINBOW_ORDER as s (s)}
-            <button
-              type="button"
-              class="rbar-btn"
-              aria-label={shadeWord(s, palette)}
-              aria-pressed={s === shownShade}
-              onclick={() => (tapped = tapped === s ? null : s)}
-            ></button>
-          {/each}
-        </div>
+    <div class="rbar">
+      <div class="rbar-ends"><span>{t('timeUnfavourable')}</span><span>{t('timeFavourable')}</span></div>
+      <p class="rbar-word" style:color="var({colourVar(shownShade)})" aria-live="polite">{shadeWord(shownShade)}</p>
+      <div class="rbar-track">
+        <span class="rbar-mark" style:left={pct(handPos)} aria-hidden="true"></span>
       </div>
-    {:else}
-      <ul class="legend">
-        {#each legendShades(palette) as s (s)}
-          <li><svg viewBox="0 0 24 24" aria-hidden="true">{@render verdictIcon(s)}</svg>{shadeWord(s, palette)}</li>
+      <div class="rbar-bar" style:background={barGradient}>
+        {#if tapped}<span class="rbar-tick" style:left={pct(RAINBOW_ORDER.indexOf(tapped))} aria-hidden="true"></span>{/if}
+        {#each RAINBOW_ORDER as s (s)}
+          <button
+            type="button"
+            class="rbar-btn"
+            aria-label={shadeWord(s)}
+            aria-pressed={s === shownShade}
+            onclick={() => (tapped = tapped === s ? null : s)}
+          ></button>
         {/each}
-      </ul>
-    {/if}
-    {#if palette === 'rainbow'}<p class="palnote">{t('paletteNote')}</p>{/if}
+      </div>
+    </div>
+    <p class="palnote">{t('paletteNote')}</p>
     <p class="sunkey num">↑ {t('sunrise')} {time(model.sunrise, loc)} · ☀ {t('solarNoon')} {time(model.noon, loc)} · ↓ {t('sunset')} {time(model.sunset, loc)} · ✦ {t('dayStart')} {time(T0, loc)}</p>
 
     <button class="disclose" aria-expanded={showInputs} onclick={() => (showInputs = !showInputs)}>
@@ -440,7 +419,7 @@
     <div class="readout" aria-live="polite">
       <p class="head">
         <svg viewBox="0 0 24 24" aria-hidden="true">{@render verdictIcon(shade)}</svg>
-        <b class="num" style:color="var({colourVar(shade, palette)})">{time(cursor, loc)} · {shadeWord(shade, palette)}</b>
+        <b class="num" style:color="var({colourVar(shade)})">{time(cursor, loc)} · {shadeWord(shade)}</b>
         <span class="quiet">({GROUP_LABELS[group]})</span>
       </p>
       <ul>
@@ -458,12 +437,12 @@
       {#each rows as r (r.start.getTime())}
         {@const isHand = r.start <= cursor && cursor < r.end}
         {@const isOpen = open === r.start.getTime()}
-        <li class:current={isHand} style:--row="var({colourVar(r.shade, palette)})">
+        <li class:current={isHand} style:--row="var({colourVar(r.shade)})">
           <button onclick={() => jump(r)} aria-expanded={isOpen}>
             <span class="num when">{time(r.start, loc)}–{time(r.end, loc)}</span>
             <svg viewBox="0 0 24 24" aria-hidden="true">{@render verdictIcon(r.shade)}</svg>
             <span
-              >{#if isHand}<span class="nowtag num">{handTag}</span>{/if}<b style:color="var(--row)">{shadeWord(r.shade, palette)}</b>{#if r.why.length}<span class="why"
+              >{#if isHand}<span class="nowtag num">{handTag}</span>{/if}<b style:color="var(--row)">{shadeWord(r.shade)}</b>{#if r.why.length}<span class="why"
                   >{' · '}{rowNames(r).join(', ')}</span
                 >{/if}</span
             >
@@ -634,18 +613,6 @@
   .dot {
     fill: var(--color-card);
   }
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-3xs) var(--space-sm);
-    margin: var(--space-2xs) 0 0;
-    padding: 0;
-    list-style: none;
-    font-size: var(--text-xs);
-    color: var(--color-muted);
-  }
-  .legend svg,
   .readout .head svg {
     width: 1rem;
     height: 1rem;

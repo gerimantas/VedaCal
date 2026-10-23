@@ -51,7 +51,7 @@ export type Period = Interval & {
 }
 
 export type Verdict = 'good' | 'neutral' | 'fb' | 'avoid'
-/** Which step of the verdict rule (13.4) decided: the finer split of `verdict` the rainbow palette shows (user, 2026-10-23). */
+/** Which step of the verdict rule (13.4) decided: the finer split of `verdict` the rainbow scale shows (user, 2026-10-23). */
 export type Tier = 'best' | 'goodBase' | 'goodPlus' | 'neutral' | 'neutralPlus' | 'fb' | 'avoid'
 
 export type Segment = Interval & { verdict: Verdict; strong: boolean; tier: Tier; by: Period[]; active: Period[]; cancelled: Period[] }

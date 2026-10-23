@@ -1,6 +1,6 @@
 <script lang="ts">
   // Week screen (user, 2026-10-23): a summary row of seven day colours, then one bar per day on a
-  // shared hour axis. Always the rainbow scale: the average and the bars are built on its 7 steps.
+  // shared hour axis. The average and the bars are built on its 7 steps.
   import AppBar from './AppBar.svelte'
   import { computeDay } from '../core/panchang'
   import { addDays, civilDate } from '../core/time'
@@ -52,7 +52,7 @@
     if (!probe) return null
     return RAINBOW_ORDER.map((s) => {
       probe.clearRect(0, 0, 1, 1)
-      probe.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(colourVar(s, 'rainbow')).trim()
+      probe.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(colourVar(s)).trim()
       probe.fillRect(0, 0, 1, 1)
       return [...probe.getImageData(0, 0, 1, 1).data.slice(0, 3)]
     })

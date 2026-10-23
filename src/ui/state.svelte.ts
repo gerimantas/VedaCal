@@ -27,15 +27,13 @@ function stored(): Place | null {
 const saved = stored()
 
 export type Theme = 'system' | 'dark' | 'light'
-/** Day clock colours (user, 2026-10-10): rainbow by default since 2026-10-21 (user), current as an option. */
-export type Palette = 'current' | 'rainbow'
 /**
  * SPEC 5.3. hour12 null = the device's habit until the user picks one; lang null = the device's language.
  * activity: the day clock's activity group, 0 "General" by default (PLAN-periods Q3 decisions).
  * travelDir: the direction for travel (group 1), null = not chosen (user, 2026-10-14).
  * mine: the day clock counts the user's birth data (the app bar's mode chip, Q7.1).
  */
-type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme; lang: Lang | null; activity: number; palette: Palette; travelDir: Direction | null; mine: boolean }
+type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme; lang: Lang | null; activity: number; travelDir: Direction | null; mine: boolean }
 const DIRECTIONS: Direction[] = ['north', 'east', 'south', 'west']
 function storedSettings(): Settings {
   let s: Record<string, unknown> = {}
@@ -50,7 +48,6 @@ function storedSettings(): Settings {
     theme: s.theme === 'dark' || s.theme === 'light' ? s.theme : 'system',
     lang: s.lang === 'en' || s.lang === 'lt' ? s.lang : null,
     activity: Number.isInteger(s.activity) && (s.activity as number) >= 0 && (s.activity as number) <= 9 ? (s.activity as number) : 0,
-    palette: s.palette === 'current' ? 'current' : 'rainbow',
     travelDir: DIRECTIONS.includes(s.travelDir as Direction) ? (s.travelDir as Direction) : null,
     mine: s.mine === true,
   }
