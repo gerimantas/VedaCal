@@ -161,3 +161,27 @@ export function clockModel(day: DayPanchang, prev: DayPanchang, group: number, d
     sunset: day.sunset,
   }
 }
+
+/** The rainbow scale, worst to best; a shade's index is its place on the legend bar. */
+export const RAINBOW_ORDER: Shade[] = ['avoid', 'fb', 'neutralPlus', 'neutral', 'goodPlus', 'goodBase', 'best']
+
+/** Segment edges blend over up to this long (the ring and the legend marker share it). */
+export const FADE = 20 * 60_000
+
+/**
+ * Where the colour at moment `t` sits on the rainbow scale (0..6, fractional). A segment is its own shade's
+ * index; within the fade of an edge it moves half-way towards the neighbour, so the position is continuous.
+ */
+export function scalePos(segs: Segment[], t: Date): number {
+  const i = Math.max(0, segs.findIndex((s) => s.start <= t && t < s.end))
+  const s = segs[i]
+  if (!s) return 3
+  const idx = (x: Segment) => RAINBOW_ORDER.indexOf(shadeOf(x))
+  const fade = Math.min(FADE, (s.end.getTime() - s.start.getTime()) / 2)
+  const dl = t.getTime() - s.start.getTime()
+  const dr = s.end.getTime() - t.getTime()
+  const own = idx(s)
+  if (segs[i - 1] && dl < fade) return own + (idx(segs[i - 1]) - own) * 0.5 * (1 - dl / fade)
+  if (segs[i + 1] && dr < fade) return own + (idx(segs[i + 1]) - own) * 0.5 * (1 - dr / fade)
+  return own
+}

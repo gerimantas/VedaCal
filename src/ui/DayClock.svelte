@@ -9,7 +9,7 @@
   import { app, setSetting } from './state.svelte'
   import type { Direction, Period } from '../core/periods'
   import { resolveBirth } from './birth'
-  import { clockModel, colourVar, GROUP_LABELS, legendShades, levelWord, periodName, periodNote, periodWhy, ringOf, shadeKey, shadeOf, shadeWord, type Shade } from './verdict'
+  import { clockModel, colourVar, FADE, GROUP_LABELS, legendShades, levelWord, periodName, periodNote, periodWhy, RAINBOW_ORDER, ringOf, scalePos, shadeKey, shadeOf, shadeWord, type Shade } from './verdict'
 
   // `picked`: the moment the hand was moved to, null = now; bound, so the top bar's Now resets it.
   let { day, prev, loc, now, picked = $bindable(null) }: { day: DayPanchang; prev: DayPanchang; loc: Location; now: Date; picked?: Date | null } = $props()
@@ -84,8 +84,11 @@
   // What the user's own values are at the hand, so the personal view shows what it counts (user, 2026-10-14).
   const mineNow = $derived(model && birth ? model.periods.filter((p) => ['tara', 'chandra', 'janma'].includes(p.kind) && p.start <= cursor && cursor < p.end) : [])
   const shade = $derived<Shade>(seg ? shadeOf(seg) : 'neutral')
-  // Rainbow colour bar: worst → best. A tapped block overrides the hand's shade until tapped again or the hand moves.
-  const RAINBOW_ORDER: Shade[] = ['avoid', 'fb', 'neutralPlus', 'neutral', 'goodPlus', 'goodBase', 'best']
+  // Rainbow colour bar: worst → best. The marker sits at the ring's colour under the hand; a tapped shade
+  // overrides the word (and shows a tick) until tapped again or the hand moves.
+  const handPos = $derived(model ? scalePos(model.segments, cursor) : 3)
+  const pct = (pos: number) => `${((pos + 0.5) / RAINBOW_ORDER.length) * 100}%`
+  const barGradient = `linear-gradient(to right, ${RAINBOW_ORDER.map((s, i) => `var(${colourVar(s, 'rainbow')}) ${((i + 0.5) / RAINBOW_ORDER.length) * 100}%`).join(', ')})`
   let tapped = $state<Shade | null>(null)
   $effect(() => {
     void cursor.getTime()
@@ -161,7 +164,6 @@
     const d = ctx.getImageData(0, 0, 1, 1).data
     return [d[0], d[1], d[2]]
   }
-  const FADE = 20 * MIN
   const ring = $derived.by(() => {
     void app.settings.theme
     if (!model || typeof document === 'undefined') return null
@@ -174,7 +176,15 @@
     for (const s of ['best', 'goodBase', 'goodPlus', 'neutral', 'neutralPlus', 'fb', 'avoid'] as Shade[]) rgb.set(s, rgbOf(css(colourVar(s, palette)), probe))
     const segs = model.segments
     const mix = (a: number[], b: number[], f: number) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * f)).join(',')})`
-    const soft = (t: Date) => {
+    // Rainbow: the colour at a position on the shared 7-step scale (also read by the legend marker).
+    const scaleRgb = RAINBOW_ORDER.map((s) => rgb.get(s)!)
+    const softRainbow = (t: Date) => {
+      const pos = scalePos(segs, t)
+      const lo = Math.floor(pos)
+      const hi = Math.min(scaleRgb.length - 1, Math.ceil(pos))
+      return mix(scaleRgb[lo], scaleRgb[hi], pos - lo)
+    }
+    const softCurrent = (t: Date) => {
       const i = Math.max(0, segs.findIndex((s) => s.start <= t && t < s.end))
       const s = segs[i]
       const fade = Math.min(FADE, (s.end.getTime() - s.start.getTime()) / 2)
@@ -185,6 +195,7 @@
       if (segs[i + 1] && dr < fade) return mix(own, rgb.get(shadeOf(segs[i + 1]))!, 0.5 * (1 - dr / fade))
       return mix(own, own, 0)
     }
+    const soft = palette === 'rainbow' ? softRainbow : softCurrent
     const grad = g.createConicGradient(ang(T0) - Math.PI / 2, c * k, c * k)
     for (let m = 0; m <= 1440; m += 2) grad.addColorStop(m / 1440, soft(new Date(T0.getTime() + Math.min(m, 1439.5) * MIN)))
     g.strokeStyle = grad
@@ -379,13 +390,15 @@
       <div class="rbar">
         <div class="rbar-ends"><span>{t('timeUnfavourable')}</span><span>{t('timeFavourable')}</span></div>
         <p class="rbar-word" style:color="var({colourVar(shownShade, palette)})" aria-live="polite">{shadeWord(shownShade, palette)}</p>
-        <div class="rbar-row">
+        <div class="rbar-track">
+          <span class="rbar-mark" style:left={pct(handPos)} aria-hidden="true"></span>
+        </div>
+        <div class="rbar-bar" style:background={barGradient}>
+          {#if tapped}<span class="rbar-tick" style:left={pct(RAINBOW_ORDER.indexOf(tapped))} aria-hidden="true"></span>{/if}
           {#each RAINBOW_ORDER as s (s)}
             <button
               type="button"
-              class="rbar-blk"
-              class:sel={s === shownShade}
-              style:background="var({colourVar(s, palette)})"
+              class="rbar-btn"
               aria-label={shadeWord(s, palette)}
               aria-pressed={s === shownShade}
               onclick={() => (tapped = tapped === s ? null : s)}
@@ -634,26 +647,49 @@
     font-size: var(--text-sm);
     font-weight: 600;
   }
-  .rbar-row {
-    display: flex;
-    gap: 3px;
+  .rbar-track {
+    position: relative;
+    height: 0.7rem;
   }
-  .rbar-blk {
+  .rbar-mark {
+    position: absolute;
+    bottom: 1px;
+    width: 0;
+    height: 0;
+    border-left: 0.45rem solid transparent;
+    border-right: 0.45rem solid transparent;
+    border-top: 0.6rem solid var(--color-ink);
+    transform: translateX(-50%);
+    transition: left 0.25s ease;
+  }
+  .rbar-bar {
+    position: relative;
+    display: flex;
+    height: 1.75rem;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .rbar-tick {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    width: 2px;
+    margin-left: -1px;
+    background: var(--color-ink);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .rbar-btn {
     flex: 1 1 0;
     min-width: 0;
-    height: 1.75rem;
     padding: 0;
     border: 0;
-    border-radius: 3px;
+    background: transparent;
     cursor: pointer;
   }
-  .rbar-blk.sel {
+  .rbar-btn:focus-visible {
     outline: 2px solid var(--color-ink);
-    outline-offset: 2px;
-  }
-  .rbar-blk:focus-visible {
-    outline: 2px solid var(--color-ink);
-    outline-offset: 2px;
+    outline-offset: -2px;
   }
   .palnote {
     text-align: center;
