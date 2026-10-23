@@ -369,6 +369,16 @@
         {#if arrow}<text {x} {y} class="sun-arrow">{arrow}</text>{/if}
       {/each}
 
+      <!-- Day start (T0): the ring's start meets its end here, so the hard colour edge is marked. -->
+      {#each [pt(T0, rVer - verW / 2 - 3)] as [x1, y1] (0)}
+        {@const [x2, y2] = pt(T0, rVer + verW / 2 + 3)}
+        <g class="daystart" aria-hidden="true">
+          <title>{t('dayStart')}</title>
+          <line {x1} {y1} {x2} {y2} class="daystart-halo" />
+          <line {x1} {y1} {x2} {y2} class="daystart-line" />
+        </g>
+      {/each}
+
       {#if outlineD}<path d={outlineD} class="outline" />{/if}
       {#if nowOnDial}
         {@const [nx, ny] = pt(nowOnDial, outer + 3)}
@@ -414,7 +424,7 @@
       </ul>
     {/if}
     {#if palette === 'rainbow'}<p class="palnote">{t('paletteNote')}</p>{/if}
-    <p class="sunkey num">↑ {t('sunrise')} {time(model.sunrise, loc)} · ☀ {t('solarNoon')} {time(model.noon, loc)} · ↓ {t('sunset')} {time(model.sunset, loc)}</p>
+    <p class="sunkey num">↑ {t('sunrise')} {time(model.sunrise, loc)} · ☀ {t('solarNoon')} {time(model.noon, loc)} · ↓ {t('sunset')} {time(model.sunset, loc)} · ✦ {t('dayStart')} {time(T0, loc)}</p>
 
     <button class="disclose" aria-expanded={showInputs} onclick={() => (showInputs = !showInputs)}>
       <span class="mk">{showInputs ? '−' : '+'}</span>{showInputs ? t('clockHideRings') : t('clockShowRings')}
@@ -571,6 +581,19 @@
     font-weight: 700;
     text-anchor: middle;
     dominant-baseline: central;
+  }
+  .daystart {
+    pointer-events: none;
+  }
+  .daystart-halo {
+    stroke: var(--color-card);
+    stroke-width: 5;
+    stroke-linecap: round;
+  }
+  .daystart-line {
+    stroke: var(--color-ink);
+    stroke-width: 2.2;
+    stroke-linecap: round;
   }
   .outline {
     fill: none;
