@@ -65,6 +65,21 @@ describe('the verdict rule (SPEC 13.4) on its own', () => {
     expect(verdictOf([base('poor'), p('brahma', 'plus')], 0).verdict).toBe('neutral')
     expect(verdictOf([base('poor')], 0).verdict).toBe('fb')
   })
+  it('the tier names the deciding step (rainbow palette, 2026-10-23)', () => {
+    const tier = (list: Period[]) => verdictOf(list, 0).tier
+    expect(tier([p('rahuKaal', 'veto'), p('abhijit', 'strong'), base('good')])).toBe('avoid')
+    expect(tier([p('vaidhriti', 'fb'), base('good')])).toBe('fb')
+    expect(tier([p('abhijit', 'strong'), base('poor')])).toBe('best')
+    expect(tier([base('good')])).toBe('goodBase')
+    expect(tier([base('good'), p('brahma', 'plus')])).toBe('goodBase')
+    expect(tier([base('neutral'), p('brahma', 'plus')])).toBe('goodPlus')
+    expect(tier([base('neutral')])).toBe('neutral')
+    expect(tier([base('poor'), p('brahma', 'plus')])).toBe('neutralPlus')
+    expect(tier([base('poor')])).toBe('fb')
+    // the verdict stays what it was
+    expect(verdictOf([base('good')], 0).verdict).toBe('good')
+    expect(verdictOf([base('poor'), p('brahma', 'plus')], 0).verdict).toBe('neutral')
+  })
   it('notes, disputed values and other groups never decide', () => {
     expect(verdictOf([p('choghadiya', 'veto', { decides: false }), p('gulika', 'veto', { decides: false }), base('neutral')], 0).verdict).toBe('neutral')
     expect(verdictOf([p('rahuKaal', 'veto', { groups: [7] }), base('neutral')], 0).verdict).toBe('neutral')

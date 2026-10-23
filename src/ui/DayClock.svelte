@@ -9,7 +9,7 @@
   import { app, setSetting } from './state.svelte'
   import type { Direction, Period } from '../core/periods'
   import { resolveBirth } from './birth'
-  import { clockModel, colourVar, GROUP_LABELS, legendShades, levelWord, periodName, periodNote, periodWhy, ringOf, shadeOf, shadeWord, type Shade } from './verdict'
+  import { clockModel, colourVar, GROUP_LABELS, legendShades, levelWord, periodName, periodNote, periodWhy, ringOf, shadeKey, shadeOf, shadeWord, type Shade } from './verdict'
 
   // `picked`: the moment the hand was moved to, null = now; bound, so the top bar's Now resets it.
   let { day, prev, loc, now, picked = $bindable(null) }: { day: DayPanchang; prev: DayPanchang; loc: Location; now: Date; picked?: Date | null } = $props()
@@ -163,7 +163,7 @@
     const g = cv.getContext('2d')
     if (!probe || !g || !('createConicGradient' in g)) return null
     const rgb = new Map<Shade, number[]>()
-    for (const s of ['best', 'good', 'neutral', 'fb', 'avoid'] as Shade[]) rgb.set(s, rgbOf(css(colourVar(s, palette)), probe))
+    for (const s of ['best', 'goodBase', 'goodPlus', 'neutral', 'neutralPlus', 'fb', 'avoid'] as Shade[]) rgb.set(s, rgbOf(css(colourVar(s, palette)), probe))
     const segs = model.segments
     const mix = (a: number[], b: number[], f: number) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * f)).join(',')})`
     const soft = (t: Date) => {
@@ -239,7 +239,7 @@
       const add = (r: Row) => {
         for (const p of why) if (!r.why.some((q) => periodName(q) === periodName(p))) r.why.push(p)
       }
-      if (last && last.shade === shadeOf(s)) {
+      if (last && shadeKey(last.shade, palette) === shadeKey(shadeOf(s), palette)) {
         last.end = s.end
         add(last)
       } else {
@@ -272,10 +272,10 @@
   {@const f = `var(${colourVar(s, palette)})`}
   {#if s === 'best' && palette === 'rainbow'}
     <path d="M12 1.2l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.3l-6.4 3.5 1.4-7.1-5.3-5 7.2-.9Z" style:fill={f} style:stroke={f} stroke-width="1.2" stroke-linejoin="round" />
-  {:else if s === 'good' || s === 'best'}
+  {:else if s === 'goodBase' || s === 'goodPlus' || s === 'best'}
     <circle cx="12" cy="12" r="11" style:fill={f} />
     <path d="M6.6 12.4l3.6 3.6 7.2-7.8" class="glyph" />
-  {:else if s === 'neutral'}
+  {:else if s === 'neutral' || s === 'neutralPlus'}
     <rect x="1.5" y="1.5" width="21" height="21" rx="5" style:fill={f} />
     <path d="M7 12h10" class="glyph" />
   {:else if s === 'fb'}
@@ -372,6 +372,7 @@
         <li><svg viewBox="0 0 24 24" aria-hidden="true">{@render verdictIcon(s)}</svg>{shadeWord(s, palette)}</li>
       {/each}
     </ul>
+    {#if palette === 'rainbow'}<p class="palnote">{t('paletteNote')}</p>{/if}
     <p class="sunkey num">↑ {t('sunrise')} {time(model.sunrise, loc)} · ☀ {t('solarNoon')} {time(model.noon, loc)} · ↓ {t('sunset')} {time(model.sunset, loc)}</p>
 
     <button class="disclose" aria-expanded={showInputs} onclick={() => (showInputs = !showInputs)}>
@@ -586,6 +587,12 @@
     height: 1rem;
     vertical-align: -0.2rem;
     margin-right: 4px;
+  }
+  .palnote {
+    text-align: center;
+    font-size: var(--text-xs);
+    color: var(--color-muted);
+    margin: var(--space-3xs) 0 0;
   }
   .sunkey {
     text-align: center;

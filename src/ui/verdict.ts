@@ -1,40 +1,57 @@
 // Day clock view model (PLAN-periods Q7, mockup mockups/research/d7-clock.html): what the clock
 // draws and says, built from the engine's periods and segments (src/core/periods.ts).
-import { daySegments, dayPeriods, dirCounts, type Birth, type Direction, type Level, type Period, type Segment, type Verdict } from '../core/periods'
+import { daySegments, dayPeriods, dirCounts, type Birth, type Direction, type Level, type Period, type Segment, type Tier, type Verdict } from '../core/periods'
 import type { DayPanchang, Interval } from '../core/types'
 import { content, entry, LOCALE, MONTH, t, tradition, traditionSource } from './format'
 import type { Palette } from './state.svelte'
 
-/** What the clock colours a moment: the verdict, with "good by a strong +" apart for the rainbow palette. */
-export type Shade = Verdict | 'best'
+/** What the clock colours a moment: the step of the verdict rule that decided (rainbow palette shows all 7). */
+export type Shade = Tier
 
-export const shadeOf = (s: Pick<Segment, 'verdict' | 'strong'>): Shade => (s.verdict === 'good' && s.strong ? 'best' : s.verdict)
+export const shadeOf = (s: Pick<Segment, 'tier'>): Shade => s.tier
+
+/** The verdict a shade belongs to; the current palette shows only this. */
+const VERDICT_OF: Record<Shade, Verdict> = { best: 'good', goodBase: 'good', goodPlus: 'good', neutral: 'neutral', neutralPlus: 'neutral', fb: 'fb', avoid: 'avoid' }
 
 export const GROUP_LABELS = Array.from({ length: 10 }, (_, g) => t(`group${g}` as 'group0'))
 
 const SHADE_WORD: Record<Shade, () => string> = {
   best: () => t('verdictBest'),
-  good: () => t('verdictGood'),
+  goodBase: () => t('verdictGoodBase'),
+  goodPlus: () => t('verdictGoodPlus'),
   neutral: () => t('verdictNeutral'),
+  neutralPlus: () => t('verdictNeutralPlus'),
   fb: () => t('verdictFallback'),
   avoid: () => t('verdictAvoid'),
 }
-/** "Best" exists only in the rainbow palette; elsewhere it is plain "Good". */
-export const shadeWord = (s: Shade, palette: Palette) => SHADE_WORD[s === 'best' && palette !== 'rainbow' ? 'good' : s]()
+/** The 7 words exist only in the rainbow palette; elsewhere a shade reads as its verdict. */
+const VERDICT_WORD: Record<Verdict, () => string> = { good: () => t('verdictGood'), neutral: SHADE_WORD.neutral, fb: SHADE_WORD.fb, avoid: SHADE_WORD.avoid }
+export const shadeWord = (s: Shade, palette: Palette) => (palette === 'rainbow' ? SHADE_WORD[s] : VERDICT_WORD[VERDICT_OF[s]])()
 
-/** CSS colour token for a shade or a period level, per palette. */
-const CURRENT: Record<Shade | Level, string> = {
-  best: '--color-good', good: '--color-good', strong: '--color-good', plus: '--color-good',
-  neutral: '--color-neutral', poor: '--color-fallback', fb: '--color-fallback', avoid: '--color-avoid', veto: '--color-avoid',
+/** CSS colour token for a shade or a period level, per palette. A level's colour mirrors the shade it leads to. */
+const CURRENT_SHADE: Record<Verdict, string> = { good: '--color-good', neutral: '--color-neutral', fb: '--color-fallback', avoid: '--color-avoid' }
+const CURRENT_LEVEL: Record<Level, string> = {
+  strong: '--color-good', plus: '--color-good', good: '--color-good',
+  neutral: '--color-neutral', poor: '--color-fallback', fb: '--color-fallback', veto: '--color-avoid',
 }
-const RAINBOW: Record<Shade | Level, string> = {
-  best: '--rb-blue', strong: '--rb-blue', good: '--rb-green', plus: '--rb-green',
-  neutral: '--rb-yellow', poor: '--rb-orange', fb: '--rb-orange', avoid: '--rb-red', veto: '--rb-red',
+const RAINBOW_SHADE: Record<Shade, string> = {
+  best: '--rb-violet', goodBase: '--rb-indigo', goodPlus: '--rb-blue', neutral: '--rb-green', neutralPlus: '--rb-yellow', fb: '--rb-orange', avoid: '--rb-red',
 }
-export const colourVar = (k: Shade | Level, palette: Palette) => (palette === 'rainbow' ? RAINBOW : CURRENT)[k]
+// "neutral" and "fb" are both a shade and a level and read the same colour. The old level colours (blue strong, green good, yellow neutral) move one step to match the shades.
+const RAINBOW_LEVEL: Record<Level, string> = {
+  strong: '--rb-violet', plus: '--rb-blue', good: '--rb-indigo', neutral: '--rb-green', poor: '--rb-orange', fb: '--rb-orange', veto: '--rb-red',
+}
+export const colourVar = (k: Shade | Level, palette: Palette): string =>
+  palette === 'rainbow'
+    ? (RAINBOW_SHADE as Record<string, string>)[k] ?? (RAINBOW_LEVEL as Record<string, string>)[k]
+    : k in VERDICT_OF ? CURRENT_SHADE[VERDICT_OF[k as Shade]] : CURRENT_LEVEL[k as Level]
+
+/** The shade as this palette tells it apart: the current palette folds the 7 shades into 4. */
+export const shadeKey = (s: Shade, palette: Palette): string => (palette === 'rainbow' ? s : VERDICT_OF[s])
 
 /** Legend order, best first. */
-export const legendShades = (palette: Palette): Shade[] => (palette === 'rainbow' ? ['best', 'good', 'neutral', 'fb', 'avoid'] : ['good', 'neutral', 'fb', 'avoid'])
+export const legendShades = (palette: Palette): Shade[] =>
+  palette === 'rainbow' ? ['best', 'goodBase', 'goodPlus', 'neutral', 'neutralPlus', 'fb', 'avoid'] : ['goodBase', 'neutral', 'fb', 'avoid']
 
 const LEVEL_WORD: Record<Level, () => string> = {
   veto: () => t('levelVeto'),

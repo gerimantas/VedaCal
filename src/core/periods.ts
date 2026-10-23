@@ -51,7 +51,10 @@ export type Period = Interval & {
 }
 
 export type Verdict = 'good' | 'neutral' | 'fb' | 'avoid'
-export type Segment = Interval & { verdict: Verdict; strong: boolean; by: Period[]; active: Period[]; cancelled: Period[] }
+/** Which step of the verdict rule (13.4) decided: the finer split of `verdict` the rainbow palette shows (user, 2026-10-23). */
+export type Tier = 'best' | 'goodBase' | 'goodPlus' | 'neutral' | 'neutralPlus' | 'fb' | 'avoid'
+
+export type Segment = Interval & { verdict: Verdict; strong: boolean; tier: Tier; by: Period[]; active: Period[]; cancelled: Period[] }
 
 const MIN = 60_000
 const GHATIKA = 24 * MIN // a ghatika (= danda) taken as 24 minutes (D3, D5, R12, R17)
@@ -670,7 +673,7 @@ export const dirCounts = (p: Period, dir?: Direction | null) =>
 export const RAVI_CANCELS: readonly PeriodKind[] = ['pakshaRandhra', 'yogaPart', 'varjyam', 'tithiGandanta', 'nakshatraGandanta', 'lagnaGandanta', 'base']
 
 /** SPEC 13.4 for the periods active at one moment, for one group (and travel direction). */
-export function verdictOf(active: Period[], group: number, dir?: Direction | null): { verdict: Verdict; strong: boolean; by: Period[]; cancelled: Period[] } {
+export function verdictOf(active: Period[], group: number, dir?: Direction | null): { verdict: Verdict; strong: boolean; tier: Tier; by: Period[]; cancelled: Period[] } {
   const counting = active.filter((p) => p.decides && p.groups.includes(group) && dirCounts(p, dir))
   const ravi = counting.some((p) => p.kind === 'ravi')
   const cancelled = ravi ? counting.filter((p) => (p.level === 'veto' || p.level === 'fb') && RAVI_CANCELS.includes(p.kind)) : []
@@ -678,17 +681,17 @@ export function verdictOf(active: Period[], group: number, dir?: Direction | nul
   const of = (level: Level) => deciding.filter((p) => p.kind !== 'base' && p.level === level)
   const base = deciding.find((p) => p.kind === 'base')
   const vetoes = deciding.filter((p) => p.level === 'veto') // the base's Amavasya veto too
-  if (vetoes.length) return { verdict: 'avoid', strong: false, by: vetoes, cancelled }
+  if (vetoes.length) return { verdict: 'avoid', strong: false, tier: 'avoid', by: vetoes, cancelled }
   const fbs = of('fb')
-  if (fbs.length) return { verdict: 'fb', strong: false, by: fbs, cancelled }
+  if (fbs.length) return { verdict: 'fb', strong: false, tier: 'fb', by: fbs, cancelled }
   const strong = of('strong')
-  if (strong.length) return { verdict: 'good', strong: true, by: strong, cancelled }
+  if (strong.length) return { verdict: 'good', strong: true, tier: 'best', by: strong, cancelled }
   const pluses = of('plus')
   const b = base?.level ?? 'neutral'
   const withBase = (list: Period[]) => (base ? [base, ...list] : list)
-  if (b === 'good' || (b === 'neutral' && pluses.length)) return { verdict: 'good', strong: false, by: pluses.length ? pluses : withBase([]), cancelled }
-  if (b === 'neutral' || (b === 'poor' && pluses.length)) return { verdict: 'neutral', strong: false, by: withBase(pluses), cancelled }
-  return { verdict: 'fb', strong: false, by: withBase([]), cancelled }
+  if (b === 'good' || (b === 'neutral' && pluses.length)) return { verdict: 'good', strong: false, tier: b === 'good' ? 'goodBase' : 'goodPlus', by: pluses.length ? pluses : withBase([]), cancelled }
+  if (b === 'neutral' || (b === 'poor' && pluses.length)) return { verdict: 'neutral', strong: false, tier: b === 'neutral' ? 'neutral' : 'neutralPlus', by: withBase(pluses), cancelled }
+  return { verdict: 'fb', strong: false, tier: 'fb', by: withBase([]), cancelled }
 }
 
 /** The day cut into segments with one verdict each, for one group; equal neighbours merged. */
@@ -702,7 +705,7 @@ export function daySegments(day: DayPanchang, prev: DayPanchang, group: number, 
     const m = new Date((cuts[i] + cuts[i + 1]) / 2)
     const active = periods.filter((p) => p.start <= m && m < p.end && p.groups.includes(group))
     const v = verdictOf(active, group, dir)
-    const key = (s: { verdict: Verdict; strong: boolean; by: Period[] }) => `${s.verdict}|${s.strong}|${s.by.map((p) => p.kind + p.rule).join(',')}`
+    const key = (s: { verdict: Verdict; strong: boolean; tier: Tier; by: Period[] }) => `${s.verdict}|${s.strong}|${s.tier}|${s.by.map((p) => p.kind + p.rule).join(',')}`
     const last = out[out.length - 1]
     if (last && key(last) === key(v)) {
       last.end = new Date(cuts[i + 1])

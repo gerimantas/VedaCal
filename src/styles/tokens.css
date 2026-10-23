@@ -42,6 +42,8 @@
   --rb-yellow: #f2cf1d;
   --rb-green: #4cc96b;
   --rb-blue: #4ea8ff;
+  --rb-indigo: #6468ff;
+  --rb-violet: #c261ff;
   --stars: oklch(90% 0.02 264 / 0.55);
 }
 
@@ -77,6 +79,8 @@
   --rb-yellow: #c49600;
   --rb-green: #2b9348;
   --rb-blue: #1d6fd6;
+  --rb-indigo: #3a2fd0;
+  --rb-violet: #9a2fd8;
   --stars: transparent;
 }
 
@@ -113,6 +117,8 @@
     --rb-yellow: #c49600;
     --rb-green: #2b9348;
     --rb-blue: #1d6fd6;
+    --rb-indigo: #3a2fd0;
+    --rb-violet: #9a2fd8;
     --stars: transparent;
   }
 }
