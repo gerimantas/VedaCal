@@ -9,6 +9,7 @@ export const icon = {
   pin: stroke('<path d="M12 21s-6-5.6-6-10.5a6 6 0 0 1 12 0C18 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.2"/>', 18),
   down: stroke('<path d="M7 10l5 5 5-5"/>', 16),
   day: stroke('<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>'),
+  week: stroke('<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M7.5 8.5h5M7.5 12h9M7.5 15.5h6.5"/>'),
   month: stroke('<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>'),
   settings: stroke('<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>'),
   sky: stroke('<circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="12" r="8.5"/><circle cx="18" cy="6" r="1.8" fill="currentColor"/>'),

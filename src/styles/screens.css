@@ -518,7 +518,7 @@ h3 {
   inset: auto 0 0;
   z-index: 3;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: var(--space-3xs);
   padding: var(--space-3xs) max(var(--space-sm), calc((100% - 26rem) / 2)) calc(var(--space-3xs) + env(safe-area-inset-bottom));
   border-top: 1px solid color-mix(in oklch, var(--color-accent) 75%, transparent);

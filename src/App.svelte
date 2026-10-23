@@ -1,5 +1,5 @@
 <script lang="ts">
-  // App shell: five tabs (SPEC 5.4, Sky 5.5) routed by the URL hash, plus the explanation sheet.
+  // App shell: six tabs (SPEC 5.4, Sky 5.5) routed by the URL hash, plus the explanation sheet.
   import About from './ui/About.svelte'
   import Day from './ui/Day.svelte'
   import LocationPicker from './ui/LocationPicker.svelte'
@@ -7,6 +7,7 @@
   import Sheet from './ui/Sheet.svelte'
   import Sky from './ui/Sky.svelte'
   import UpdateBar from './ui/UpdateBar.svelte'
+  import Week from './ui/Week.svelte'
   import { t } from './ui/format'
   import { icon } from './ui/icons'
   import { needsLocation, routeFromHash, type Route } from './ui/state.svelte'
@@ -25,6 +26,7 @@
 
   const tabs: [Route, string][] = [
     ['day', t('day')],
+    ['week', t('week')],
     ['month', t('month')],
     ['sky', t('sky')],
     ['settings', t('settings')],
@@ -38,6 +40,8 @@
   <LocationPicker />
 {:else if route === 'about'}
   <About />
+{:else if route === 'week'}
+  <Week />
 {:else if route === 'sky'}
   <Sky />
 {:else}
