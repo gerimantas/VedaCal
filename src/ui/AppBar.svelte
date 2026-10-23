@@ -43,7 +43,7 @@
   </div>
   {#if open}
     <div id="appbar-more" class="appbar-more">
-      <a class="chip" href="#/settings">{@html icon.navigate}<span>{app.location.name}, {app.location.cc}</span></a>
+      <a class="chip" href="#/settings">{@html icon.pin}<span>{app.location.name}, {app.location.cc}</span></a>
       <ModeChip />
     </div>
   {/if}
