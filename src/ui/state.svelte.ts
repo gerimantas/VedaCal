@@ -34,8 +34,9 @@ export type Palette = 'current' | 'rainbow'
  * activity: the day clock's activity group, 0 "General" by default (PLAN-periods Q3 decisions).
  * travelDir: the direction for travel (group 1), null = not chosen (user, 2026-10-14).
  * mine: the day clock counts the user's birth data (the app bar's mode chip, Q7.1).
+ * barOpen: the top bar's second row (place and mode) is open; closed by default (user, 2026-10-23).
  */
-type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme; lang: Lang | null; activity: number; palette: Palette; travelDir: Direction | null; mine: boolean }
+type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme; lang: Lang | null; activity: number; palette: Palette; travelDir: Direction | null; mine: boolean; barOpen: boolean }
 const DIRECTIONS: Direction[] = ['north', 'east', 'south', 'west']
 function storedSettings(): Settings {
   let s: Record<string, unknown> = {}
@@ -53,6 +54,7 @@ function storedSettings(): Settings {
     palette: s.palette === 'current' ? 'current' : 'rainbow',
     travelDir: DIRECTIONS.includes(s.travelDir as Direction) ? (s.travelDir as Direction) : null,
     mine: s.mine === true,
+    barOpen: s.barOpen === true,
   }
 }
 

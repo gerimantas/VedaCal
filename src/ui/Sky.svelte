@@ -2,9 +2,7 @@
   // Sky screen (user, 2026-10-05): a top-down chart of the Sun, the Moon and the Earth over
   // the 30 lunar days, 27 Moon stars and 12 signs (./sky), then the facts it shows, a folded
   // legend and a time slider (±15 days).
-  import Menu from './Menu.svelte'
-  import ModeChip from './ModeChip.svelte'
-  import VersionTag from './VersionTag.svelte'
+  import AppBar from './AppBar.svelte'
   import { civilDate } from '../core/time'
   import { LOCALE, barDate, entry, t } from './format'
   import { icon } from './icons'
@@ -44,17 +42,13 @@
 </script>
 
 <main class="screen sky">
-  <header class="appbar">
-    <a class="chip" href="#/settings">{@html icon.navigate}<span>{app.location.name}, {app.location.cc}</span></a>
+  <AppBar>
     <div class="datechip">
       <button aria-label={t('previousDay')} onclick={() => (base -= DAY)}>{@html icon.left}</button>
       <span class="num">{shortDate}</span>
       <button aria-label={t('nextDay')} onclick={() => (base += DAY)}>{@html icon.right}</button>
     </div>
-    <ModeChip />
-    <VersionTag />
-    <Menu />
-  </header>
+  </AppBar>
 
   <section class="card sky-card">{@html v.svg}</section>
 

@@ -1,9 +1,7 @@
 <script lang="ts">
   // Day screen (SPEC 5.1): renders dayView() from ./day and the day clock, so every value on
   // screen is the engine's output.
-  import Menu from './Menu.svelte'
-  import ModeChip from './ModeChip.svelte'
-  import VersionTag from './VersionTag.svelte'
+  import AppBar from './AppBar.svelte'
   import { computeDay } from '../core/panchang'
   import { addDays, civilDate } from '../core/time'
   import DayClock from './DayClock.svelte'
@@ -68,8 +66,7 @@
 {/snippet}
 
 <main class="screen">
-  <header class="appbar">
-    <a class="chip" href="#/settings">{@html icon.navigate}<span>{loc.name}, {loc.cc}</span></a>
+  <AppBar>
     <div class="datechip">
       <button aria-label={t('previousDay')} onclick={() => go(-1)}>{@html icon.left}</button>
       <!-- Tap the date for the system calendar: any day in one step (user, 2026-10-14). -->
@@ -98,10 +95,7 @@
     {#if !atNow}
       <button class="chip nowchip" onclick={() => ((app.date = null), (picked = null))}>↺ {t('clockNow')}</button>
     {/if}
-    <ModeChip />
-    <VersionTag />
-    <Menu />
-  </header>
+  </AppBar>
 
   <section class="hero" aria-label={v.tithi.name} data-sheet="tithi" data-sheet-lead-title={v.tithi.lead.title} data-sheet-lead={v.tithi.lead.text}>
     {@html realisticMoon(v.moon.illumination, v.moon.waxing, 150, v.moon.label)}

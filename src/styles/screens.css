@@ -131,14 +131,48 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
   gap: var(--space-2xs);
   margin: calc(-1 * var(--space-sm)) calc(50% - 50vw) 0;
   padding: calc(var(--space-2xs) + env(safe-area-inset-top)) calc(50vw - 50%) var(--space-2xs);
   border-bottom: 1px solid color-mix(in oklch, var(--color-accent) 75%, transparent);
   box-shadow: 0 1px 6px color-mix(in oklch, var(--color-accent) 35%, transparent);
+}
+
+.appbar-row,
+.appbar-more {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.appbar-row {
+  justify-content: space-between;
+}
+
+/* The second row (user, 2026-10-23): the place at the left in full, the mode chip at the
+   right; it wraps rather than scroll sideways. */
+.appbar-more {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.bar-toggle {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.bar-toggle[aria-expanded='true'] {
+  color: var(--color-accent);
+}
+
+.bar-star {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.2rem;
+  color: var(--color-accent);
+  font-size: 0.625rem;
+  line-height: 1;
 }
 
 .appbar .chip,
@@ -169,37 +203,22 @@ h3 {
   color: var(--color-accent);
 }
 
-/* On a narrow phone the city gives way ("Vilni…"), never the date or its arrows. */
-.appbar .chip {
-  min-width: 0;
-}
-
-.appbar .chip span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Four things plus the ☰ button share the bar on a phone: the arrows and the menu button
-   narrow to 2rem wide (still 2.5rem tall) so nothing runs past the edge at 360 px. */
+/* Four things share the first row on a phone (toggle, date with arrows, menu): the toggle,
+   the arrows and the menu button narrow to 2rem wide (still 2.5rem tall) so nothing runs
+   past the edge at 360 px. */
 @media (max-width: 400px) {
-  .appbar {
+  .appbar-row {
     gap: var(--space-3xs);
   }
 
   .appbar .datechip button,
+  .appbar .bar-toggle,
   .appbar .menu-btn {
     width: 2rem;
   }
 
-  /* The week's range drops its first year ("10-19 – 10-25"); the year shows on wider screens. */
-  .wk-long {
-    display: none;
-  }
-}
-
-@media (min-width: 401px) {
-  .wk-short {
-    display: none;
+  .bar-star {
+    right: 0;
   }
 }
 

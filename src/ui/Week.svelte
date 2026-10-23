@@ -1,9 +1,7 @@
 <script lang="ts">
   // Week screen (user, 2026-10-23): a summary row of seven day colours, then one bar per day on a
   // shared hour axis. Always the rainbow scale: the average and the bars are built on its 7 steps.
-  import Menu from './Menu.svelte'
-  import ModeChip from './ModeChip.svelte'
-  import VersionTag from './VersionTag.svelte'
+  import AppBar from './AppBar.svelte'
   import { computeDay } from '../core/panchang'
   import { addDays, civilDate } from '../core/time'
   import { resolveBirth } from './birth'
@@ -90,17 +88,13 @@
 </script>
 
 <main class="screen">
-  <header class="appbar">
-    <a class="chip" href="#/settings">{@html icon.navigate}<span>{loc.name}, {loc.cc}</span></a>
+  <AppBar>
     <div class="datechip">
       <button aria-label={t('previousWeek')} onclick={() => (shown = addDays(shown, -7))}>{@html icon.left}</button>
-      <h1 class="num"><span class="wk-long">{weekLabel(dates)}</span><span class="wk-short">{weekLabel(dates).replace(/^\d{4}-/, '')}</span></h1>
+      <h1 class="num">{weekLabel(dates)}</h1>
       <button aria-label={t('nextWeek')} onclick={() => (shown = addDays(shown, 7))}>{@html icon.right}</button>
     </div>
-    <ModeChip />
-    <VersionTag />
-    <Menu />
-  </header>
+  </AppBar>
 
   <div class="summary" role="group" aria-label={t('week')}>
     {#each rows as r (r.date)}

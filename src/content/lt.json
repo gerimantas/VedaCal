@@ -723,6 +723,8 @@
     "month": "Mėnuo",
     "week": "Savaitė",
     "menu": "Meniu",
+    "barShow": "Rodyti vietą ir režimą",
+    "barHide": "Slėpti vietą ir režimą",
     "settings": "Nustatymai",
     "location": "Vieta",
     "useMyLocation": "Naudoti mano vietą",

@@ -723,6 +723,8 @@
     "month": "Month",
     "week": "Week",
     "menu": "Menu",
+    "barShow": "Show place and mode",
+    "barHide": "Hide place and mode",
     "settings": "Settings",
     "location": "Location",
     "useMyLocation": "Use my location",

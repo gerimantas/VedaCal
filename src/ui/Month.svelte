@@ -1,9 +1,7 @@
 <script lang="ts">
   // Month screen (SPEC 5.2): renders monthView() from ./month. Tapping a day or a key date
   // opens that day.
-  import Menu from './Menu.svelte'
-  import ModeChip from './ModeChip.svelte'
-  import VersionTag from './VersionTag.svelte'
+  import AppBar from './AppBar.svelte'
   import { computeMonth } from '../core/panchang'
   import { civilDate } from '../core/time'
   import { t } from './format'
@@ -30,17 +28,13 @@
 
 <main class="screen">
   <!-- The same top bar as the Day screen: city, then the month with ‹ › (user, 2026-10-06). -->
-  <header class="appbar">
-    <a class="chip" href="#/settings">{@html icon.navigate}<span>{loc.name}, {app.location.cc}</span></a>
+  <AppBar>
     <div class="datechip">
       <button aria-label={t('previousMonth')} onclick={() => (shown = shiftMonth(shown, -1))}>{@html icon.left}</button>
       <h1 class="num">{v.title}</h1>
       <button aria-label={t('nextMonth')} onclick={() => (shown = shiftMonth(shown, 1))}>{@html icon.right}</button>
     </div>
-    <ModeChip />
-    <VersionTag />
-    <Menu />
-  </header>
+  </AppBar>
 
   <div class="grid">
     {#each v.weekdays as w, i (i)}<span class="dow" aria-hidden="true">{w}</span>{/each}
