@@ -913,6 +913,8 @@
     "verdictNeutralPlus": "Weak day, but a +",
     "paletteNote": "The colour scale is the app's choice, not a rule of the tradition.",
     "verdictFallback": "Only if it cannot wait",
+    "timeUnfavourable": "Unfavourable time",
+    "timeFavourable": "Favourable time",
     "verdictAvoid": "Avoid",
     "solarNoon": "Solar noon",
     "clockShowRings": "Show what the colour is made of",

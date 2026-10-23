@@ -913,6 +913,8 @@
     "verdictNeutralPlus": "Silpna diena, bet yra +",
     "paletteNote": "Spalvų skalė – programos sprendimas, ne tradicijos taisyklė.",
     "verdictFallback": "Tik jei negalima atidėti",
+    "timeUnfavourable": "Nepalankus laikas",
+    "timeFavourable": "Palankus laikas",
     "verdictAvoid": "Vengti",
     "solarNoon": "Saulės vidurdienis",
     "clockShowRings": "Parodyti, iš ko sudaryta spalva",

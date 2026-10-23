@@ -84,6 +84,14 @@
   // What the user's own values are at the hand, so the personal view shows what it counts (user, 2026-10-14).
   const mineNow = $derived(model && birth ? model.periods.filter((p) => ['tara', 'chandra', 'janma'].includes(p.kind) && p.start <= cursor && cursor < p.end) : [])
   const shade = $derived<Shade>(seg ? shadeOf(seg) : 'neutral')
+  // Rainbow colour bar: worst → best. A tapped block overrides the hand's shade until tapped again or the hand moves.
+  const RAINBOW_ORDER: Shade[] = ['avoid', 'fb', 'neutralPlus', 'neutral', 'goodPlus', 'goodBase', 'best']
+  let tapped = $state<Shade | null>(null)
+  $effect(() => {
+    void cursor.getTime()
+    tapped = null
+  })
+  const shownShade = $derived<Shade>(tapped ?? shade)
   const active = $derived(model?.periods.filter((p) => p.start <= cursor && cursor < p.end) ?? [])
 
   let svg = $state<SVGSVGElement>()
@@ -367,11 +375,31 @@
       <text x={label.textX} y={label.lineY} class="c-span" font-size={label.fl} style:fill="var({colourVar(shade, palette)})">{span}</text>
     </svg>
 
-    <ul class="legend">
-      {#each legendShades(palette) as s (s)}
-        <li><svg viewBox="0 0 24 24" aria-hidden="true">{@render verdictIcon(s)}</svg>{shadeWord(s, palette)}</li>
-      {/each}
-    </ul>
+    {#if palette === 'rainbow'}
+      <div class="rbar">
+        <div class="rbar-ends"><span>{t('timeUnfavourable')}</span><span>{t('timeFavourable')}</span></div>
+        <p class="rbar-word" style:color="var({colourVar(shownShade, palette)})" aria-live="polite">{shadeWord(shownShade, palette)}</p>
+        <div class="rbar-row">
+          {#each RAINBOW_ORDER as s (s)}
+            <button
+              type="button"
+              class="rbar-blk"
+              class:sel={s === shownShade}
+              style:background="var({colourVar(s, palette)})"
+              aria-label={shadeWord(s, palette)}
+              aria-pressed={s === shownShade}
+              onclick={() => (tapped = tapped === s ? null : s)}
+            ></button>
+          {/each}
+        </div>
+      </div>
+    {:else}
+      <ul class="legend">
+        {#each legendShades(palette) as s (s)}
+          <li><svg viewBox="0 0 24 24" aria-hidden="true">{@render verdictIcon(s)}</svg>{shadeWord(s, palette)}</li>
+        {/each}
+      </ul>
+    {/if}
     {#if palette === 'rainbow'}<p class="palnote">{t('paletteNote')}</p>{/if}
     <p class="sunkey num">↑ {t('sunrise')} {time(model.sunrise, loc)} · ☀ {t('solarNoon')} {time(model.noon, loc)} · ↓ {t('sunset')} {time(model.sunset, loc)}</p>
 
@@ -587,6 +615,45 @@
     height: 1rem;
     vertical-align: -0.2rem;
     margin-right: 4px;
+  }
+  .rbar {
+    margin: var(--space-2xs) auto 0;
+    max-width: 22rem;
+  }
+  .rbar-ends {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-xs);
+    font-size: var(--text-xs);
+    color: var(--color-muted);
+  }
+  .rbar-word {
+    margin: var(--space-3xs) 0;
+    min-height: 1.4em;
+    text-align: center;
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+  .rbar-row {
+    display: flex;
+    gap: 3px;
+  }
+  .rbar-blk {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 1.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .rbar-blk.sel {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+  .rbar-blk:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
   }
   .palnote {
     text-align: center;
