@@ -14,6 +14,7 @@ export const icon = {
   settings: stroke('<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>'),
   sky: stroke('<circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="12" r="8.5"/><circle cx="18" cy="6" r="1.8" fill="currentColor"/>'),
   about: stroke('<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.1"/>'),
+  menu: stroke('<path d="M4 7h16M4 12h16M4 17h16"/>'),
   search: stroke('<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>', 18),
   locate: stroke('<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>', 18),
   navigate: stroke('<path d="M3 11l18-8-8 18-2-8-8-2z"/>', 16),

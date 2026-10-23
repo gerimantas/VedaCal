@@ -1,6 +1,7 @@
 <script lang="ts">
   // Settings tab (SPEC 5.3, 6): the location picker — the real GeoNames search, offline, every
   // city above 15,000 people — then zodiac signs (Vedic by default), time format and theme.
+  import Menu from './Menu.svelte'
   import VersionTag from './VersionTag.svelte'
   import { loadCities, nearest, search, type CityIndex, type Place } from './cities'
   import { resolveBirth, type BirthInput } from './birth'
@@ -135,6 +136,7 @@
   <header class="appbar">
     <a class="chip" href="#/day" aria-label={t('back')}>{@html icon.left}<span>{t('back')}</span></a>
     <VersionTag />
+    <Menu />
   </header>
   <h1 class="page-title">{t('settings')}</h1>
   <h2 class="about-head">{t('location')}</h2>

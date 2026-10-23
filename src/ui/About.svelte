@@ -7,6 +7,8 @@
   import { sheet, t, tradition, traditionSource } from './format'
   import { glossaryTerms, suggestGlossary, type Suggestion } from './glossary'
   import { icon } from './icons'
+  import Menu from './Menu.svelte'
+  import VersionTag from './VersionTag.svelte'
   import { app } from './state.svelte'
   import { termGroups, terms } from './terms'
 
@@ -56,6 +58,11 @@
 </script>
 
 <main class="screen">
+  <header class="appbar">
+    <a class="chip" href="#/day" aria-label={t('back')}>{@html icon.left}<span>{t('back')}</span></a>
+    <VersionTag />
+    <Menu />
+  </header>
   <h1 class="page-title">{t('about')}</h1>
 
   <div class="segmented about-parts" role="group" aria-label={t('about')}>

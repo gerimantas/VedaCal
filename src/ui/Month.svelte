@@ -1,6 +1,7 @@
 <script lang="ts">
   // Month screen (SPEC 5.2): renders monthView() from ./month. Tapping a day or a key date
   // opens that day.
+  import Menu from './Menu.svelte'
   import ModeChip from './ModeChip.svelte'
   import VersionTag from './VersionTag.svelte'
   import { computeMonth } from '../core/panchang'
@@ -38,6 +39,7 @@
     </div>
     <ModeChip />
     <VersionTag />
+    <Menu />
   </header>
 
   <div class="grid">

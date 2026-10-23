@@ -1,6 +1,7 @@
 <script lang="ts">
   // Day screen (SPEC 5.1): renders dayView() from ./day and the day clock, so every value on
   // screen is the engine's output.
+  import Menu from './Menu.svelte'
   import ModeChip from './ModeChip.svelte'
   import VersionTag from './VersionTag.svelte'
   import { computeDay } from '../core/panchang'
@@ -99,6 +100,7 @@
     {/if}
     <ModeChip />
     <VersionTag />
+    <Menu />
   </header>
 
   <section class="hero" aria-label={v.tithi.name} data-sheet="tithi" data-sheet-lead-title={v.tithi.lead.title} data-sheet-lead={v.tithi.lead.text}>
