@@ -1,10 +1,12 @@
 # VedaCal — CONTEXT
 
 ## Status
-Live: everything through S17 (https://gerimantas.github.io/VedaCal/, cd4161b); nothing local.
-S17 fixed what the user's review found (Archive S17); the user lists further fixes before
-anyone else sees the app. View mode is an app-bar chip (`src/ui/ModeChip.svelte`); it only
-changes the Day clock.
+Live: everything through S18 (https://gerimantas.github.io/VedaCal/, 7d33178); nothing local.
+S18 (Archive S18): one rainbow scale of 7 shades (the old palette is gone), ring + legend bar
+share `scalePos` (`src/ui/verdict.ts`); Week screen (`src/ui/Week.svelte`, `week.ts`); top bar
+is `src/ui/AppBar.svelte` (☰ `Menu.svelte` holds Settings and About; second row with place
+and the two-word mode switch, closed by default); 4 bottom tabs. The view mode only changes
+the Day clock and Week. The user still lists fixes before anyone else sees the app.
 Periods work (`.planning/PLAN-periods.md`): the day clock (`src/ui/DayClock.svelte`) with
 "Visa diena" under it; engine `src/core/periods.ts` has every SPEC 13.2 value and, since
 S16, the personal layer (SPEC 13.6): Settings → "Mano duomenys" (kept only in
@@ -22,6 +24,11 @@ the top bar shows the commit); show proposals before changing code; commit local
 only on the user's command.
 
 ## Next Tasks
+- **User's three tasks for S19** (2026-10-23, understanding confirmed): (1) Week: tapping a day
+  opens a short explanation (why this colour, best / worst times, main reasons, "Open day");
+  (2) split About into Glossary, How to use, short About — all in the ☰ menu; (3) Sky: Sun in
+  the centre, Earth and Moon placed by time, plus a line Earth → Sun → zodiac so signs match
+  the geocentric values. Show a proposal for each before code.
 - **Fix the app first** (user, 2026-10-21): it is not ready for other people to see and needs
   many fixes. Ask the user what to fix; collect the list before changing code.
 - Personal view on Month (and Sky?): today only the Day clock uses birth data, though the
@@ -41,6 +48,10 @@ only on the user's command.
 
 ## Done Log
 
+### 2026-10-23 (S18)
+- 7-shade rainbow clock + gradient legend with marker; day-start tick; Week screen
+- ☰ menu, 4 tabs, collapsible bar row, Now on every screen; old palette removed; deployed (7d33178)
+
 ### 2026-10-21 (S17)
 - View chip in the app bar; My data form logic; key dates layout + parvan names; glossary search
 - Rainbow palette default; clock touch: swipe scrolls, tap / hold-drag moves the hand; deployed (cd4161b)
@@ -48,10 +59,6 @@ only on the user's command.
 ### 2026-10-14 (S16)
 - Source audit: every meaning rewritten from a source and cited; days of restraint replace rest days
 - Personal layer + "Mano duomenys" + "Man" switch; Ravi yoga cancels element faults; deployed (05db0b6)
-
-### 2026-10-14 (S15)
-- Engine: Hora, Anandadi, Tri/Dwi Pushkara, Sankranti, Panchaka, travel by direction — `MISSING` empty
-- "Visa diena": hand's row framed; tap opens sourced reasons; all `tradition` texts sourced
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
@@ -118,6 +125,15 @@ only on the user's command.
 ## Archive
 
 Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation, newest first). This section keeps the most recent 10 sessions.
+
+### Session 2026-10-23 (S18) — 7-shade rainbow clock, Week screen, new top bar and menu; deployed (7d33178)
+
+- **Done:** clock shows the deciding step of SPEC 13.4 as 7 rainbow shades; ring and legend gradient bar share one scale position (`scalePos`, 20-min edge fade) with a marker at the hand; day-start tick at Brahma Muhurta start; Week screen (daytime-average summary row, ★ for a ≥48-min Best/Good-day window, 7 day bars); 4 bottom tabs + ☰ menu (Settings, About); collapsible second bar row (place, two-word mode switch), closes on scroll / route change; "↺ Dabar" on Day, Week, Month, Sky; old "current" palette removed.
+- **Decided / overturned:** chakra colours have no Vedic source — the rainbow scale is the app's choice (legend note says so; sources: Woodroffe 1919, Leland 2017, in scratchpad only); day start = sunrise − 2/15 of the night (library formula), not "96 min".
+- **Code:** `src/core/periods.ts` (`Tier`), `src/ui/verdict.ts`, `DayClock.svelte`, `week.ts` + `Week.svelte` (new), `AppBar.svelte` + `Menu.svelte` (new), `ModeChip.svelte`, `Day/Month/Sky/About/LocationPicker.svelte`, `state.svelte.ts`, `icons.ts`, `screens.css`, `tokens.css`, `lt.json`/`en.json`, `tests/scalepos.test.ts`, `tests/week.test.ts` (new); `.planning/SPEC.md` 13.4.
+- **Entry point:** `npm run dev` → http://localhost:5173/VedaCal/#/week; deploy = `git push` (CI).
+- **Not measured:** light theme of the new bar row and Week; EN labels in the app; Week tap-through on a real device.
+- **Delegation:** 2 haiku (chakra primary texts, rainbow-scheme history), 9 sonnet (all code changes); inline: greps / single reads, review of each diff, tests, commits (exception: single tool calls).
 
 ### Session 2026-10-21 (S17) — fixes from the user's review; P7 pilot on hold; deployed (cd4161b)
 
@@ -205,11 +221,3 @@ Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation,
 - **Code:** `src/ui/Sheet.svelte`, `src/ui/Day.svelte`, `src/ui/day.ts`, `src/content/en.json`, `lt.json`; `.planning/SPEC.md` 5.1, `.planning/PLAN-periods.md` (planning repo).
 - **Entry point:** `npm run dev`; `npm test` (1197).
 - **Not measured:** Q0 catalogue file not written; Drik Chandrabalam/Tarabalam and Panchaka Rahita sections are empty in fixtures (fetcher does not capture them).
-
-### Session 2026-10-10 (S8) — favoured/avoid days, day tracks, every day sheet about that day
-
-- **Done:** Amrit Siddhi = green favoured day (month grid, key dates); Sarvartha Siddhi day screen only. Key dates replace the legend (grid swatch + note on first row); rest days stronger violet; today glows. Day time list adds Bhadra, Vyatipata, Vaidhriti, eclipse window and the favoured window; one shared day track per row, red stripes where avoid overlaps good. Every day sheet leads with that day (times, why, tradition); Choghadiya sheets hold only the part tapped, general text folds out. Live at 950f429.
-- **Decided / overturned:** Moon-light curve built then reverted (user: no use). Days to avoid NOT on the month (Drik Oct 2026: 19/31 days). Abhijit cancel-out rule (S7) overturned: nothing cut, as Drik. Chal stays neutral. New-moon rest stays one day; text says why.
-- **Code:** `src/core/panchang.ts` (star days, eclipse `seen`, `limbUp`), `src/ui/day.ts` (rows, tracks, leads), `src/ui/month.ts`, `src/ui/marks.ts`, `src/ui/Sheet.svelte`, `src/content/*.json` (`leads`, `tradition`, rashi/masa meanings), `scripts/fetch-marks.ts` (Amrit, Sarvartha, Bhadra, Vyatipata, Vaidhriti), `tests/fixtures/marks/*`.
-- **Entry point:** `npm run dev`; `npm test` (1197); `node scripts/fetch-marks.ts <city> 2026`. Rules: SPEC 4.11, 5.1, 5.2.
-- **Not measured:** new moon 18:49 (tithi end) vs 18:50 (key dates) — two methods ~40 s apart. Library moonrise 4–10 min off Drik (not shown; Drik = centre, no refraction). Other day sheets still carry general text below the lead.
