@@ -42,7 +42,7 @@
 </script>
 
 <main class="screen sky">
-  <AppBar>
+  <AppBar now={{ show: offset !== 0 || civilDate(app.location.tz, when) !== civilDate(app.location.tz, new Date()), reset: now }}>
     <div class="datechip">
       <button aria-label={t('previousDay')} onclick={() => (base -= DAY)}>{@html icon.left}</button>
       <span class="num">{shortDate}</span>

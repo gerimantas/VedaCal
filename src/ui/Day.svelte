@@ -66,7 +66,8 @@
 {/snippet}
 
 <main class="screen">
-  <AppBar>
+  <!-- Today and now in one button, on the bar so it stays in reach while the page scrolls (user, 2026-10-14). -->
+  <AppBar now={{ show: !atNow, reset: () => ((app.date = null), (picked = null)) }}>
     <div class="datechip">
       <button aria-label={t('previousDay')} onclick={() => go(-1)}>{@html icon.left}</button>
       <!-- Tap the date for the system calendar: any day in one step (user, 2026-10-14). -->
@@ -91,10 +92,6 @@
       </label>
       <button aria-label={t('nextDay')} onclick={() => go(1)}>{@html icon.right}</button>
     </div>
-    <!-- Today and now in one button, on the bar so it stays in reach while the page scrolls (user, 2026-10-14). -->
-    {#if !atNow}
-      <button class="chip nowchip" onclick={() => ((app.date = null), (picked = null))}>↺ {t('clockNow')}</button>
-    {/if}
   </AppBar>
 
   <section class="hero" aria-label={v.tithi.name} data-sheet="tithi" data-sheet-lead-title={v.tithi.lead.title} data-sheet-lead={v.tithi.lead.text}>

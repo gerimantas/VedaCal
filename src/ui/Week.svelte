@@ -88,7 +88,7 @@
 </script>
 
 <main class="screen">
-  <AppBar>
+  <AppBar now={{ show: shown !== mondayOf(today) || app.date !== null, reset: () => ((app.date = null), (picked = null), (shown = mondayOf(today))) }}>
     <div class="datechip">
       <button aria-label={t('previousWeek')} onclick={() => (shown = addDays(shown, -7))}>{@html icon.left}</button>
       <h1 class="num">{weekLabel(dates)}</h1>

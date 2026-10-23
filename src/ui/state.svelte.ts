@@ -34,9 +34,8 @@ export type Palette = 'current' | 'rainbow'
  * activity: the day clock's activity group, 0 "General" by default (PLAN-periods Q3 decisions).
  * travelDir: the direction for travel (group 1), null = not chosen (user, 2026-10-14).
  * mine: the day clock counts the user's birth data (the app bar's mode chip, Q7.1).
- * barOpen: the top bar's second row (place and mode) is open; closed by default (user, 2026-10-23).
  */
-type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme; lang: Lang | null; activity: number; palette: Palette; travelDir: Direction | null; mine: boolean; barOpen: boolean }
+type Settings = { zodiac: Zodiac; hour12: boolean | null; theme: Theme; lang: Lang | null; activity: number; palette: Palette; travelDir: Direction | null; mine: boolean }
 const DIRECTIONS: Direction[] = ['north', 'east', 'south', 'west']
 function storedSettings(): Settings {
   let s: Record<string, unknown> = {}
@@ -54,7 +53,6 @@ function storedSettings(): Settings {
     palette: s.palette === 'current' ? 'current' : 'rainbow',
     travelDir: DIRECTIONS.includes(s.travelDir as Direction) ? (s.travelDir as Direction) : null,
     mine: s.mine === true,
-    barOpen: s.barOpen === true,
   }
 }
 
@@ -84,6 +82,12 @@ function storedBirth(): BirthInput | null {
 
 /** `date`: the day the Day screen shows, null = today (so it rolls over at midnight). */
 export const app = $state({ location: saved ?? VILNIUS, settings, date: null as string | null, birth: storedBirth() })
+
+/**
+ * UI-only state, never stored: `barOpen` is the top bar's second row (place and mode). It starts
+ * closed and closes itself on scroll or route change (user, 2026-10-23).
+ */
+export const ui = $state({ barOpen: false })
 
 /** Save or (null) delete the birth data; saving turns the personal view on. */
 export function setBirth(b: BirthInput | null) {
