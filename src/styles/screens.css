@@ -1190,11 +1190,7 @@ h3 {
   margin-top: var(--space-3xs);
 }
 
-/* About in two parts (user, 2026-10-06): "Using the app" and "Glossary". */
-.about-parts {
-  margin-top: var(--space-sm);
-}
-
+/* Glossary intro line (the old two-part About, 2026-10-06; own screen since 2026-10-24). */
 .about-lead {
   margin: var(--space-sm) 0 0;
   color: var(--color-muted);

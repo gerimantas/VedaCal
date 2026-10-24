@@ -123,8 +123,8 @@ export function setLocation(p: Place) {
   }
 }
 
-export type Route = 'day' | 'week' | 'month' | 'sky' | 'settings' | 'about'
-const ROUTES: Route[] = ['day', 'week', 'month', 'sky', 'settings', 'about']
+export type Route = 'day' | 'week' | 'month' | 'sky' | 'settings' | 'guide' | 'glossary' | 'about'
+const ROUTES: Route[] = ['day', 'week', 'month', 'sky', 'settings', 'guide', 'glossary', 'about']
 
 export const routeFromHash = (hash: string): Route => {
   // "#/settings/mydata" is Settings scrolled to My data (user, 2026-10-21).

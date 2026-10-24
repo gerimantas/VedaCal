@@ -1,6 +1,6 @@
 <script lang="ts">
-  // The ☰ menu at the right end of every top bar (user, 2026-10-23): Settings and About live
-  // here, so the bottom bar keeps four tabs. Closes on an item tap, Escape, a tap outside and
+  // The ☰ menu at the right end of every top bar (user, 2026-10-23): Settings, How to use,
+  // Glossary and About live here (split 2026-10-24), so the bottom bar keeps four tabs. Closes on an item tap, Escape, a tap outside and
   // any route change; Escape returns focus to the button.
   import { t } from './format'
   import { icon } from './icons'
@@ -8,6 +8,8 @@
 
   const items = [
     ['settings', 'settings'],
+    ['guide', 'guideUseHead'],
+    ['glossary', 'guideGlossary'],
     ['about', 'about'],
   ] as const
 

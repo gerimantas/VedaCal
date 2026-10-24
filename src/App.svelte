@@ -1,7 +1,9 @@
 <script lang="ts">
-  // App shell: four tabs (Settings and About sit in the top bar's menu) (SPEC 5.4, Sky 5.5) routed by the URL hash, plus the explanation sheet.
+  // App shell: four tabs (Settings, How to use, Glossary and About sit in the top bar's menu) (SPEC 5.4, Sky 5.5) routed by the URL hash, plus the explanation sheet.
   import About from './ui/About.svelte'
   import Day from './ui/Day.svelte'
+  import Glossary from './ui/Glossary.svelte'
+  import Guide from './ui/Guide.svelte'
   import LocationPicker from './ui/LocationPicker.svelte'
   import Month from './ui/Month.svelte'
   import Sheet from './ui/Sheet.svelte'
@@ -36,6 +38,10 @@
   <Day />
 {:else if route === 'settings'}
   <LocationPicker />
+{:else if route === 'guide'}
+  <Guide />
+{:else if route === 'glossary'}
+  <Glossary />
 {:else if route === 'about'}
   <About />
 {:else if route === 'week'}
