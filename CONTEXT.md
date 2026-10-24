@@ -1,12 +1,15 @@
 # VedaCal — CONTEXT
 
 ## Status
-Live: everything through S18 (https://gerimantas.github.io/VedaCal/, 7d33178); nothing local.
-S18 (Archive S18): one rainbow scale of 7 shades (the old palette is gone), ring + legend bar
-share `scalePos` (`src/ui/verdict.ts`); Week screen (`src/ui/Week.svelte`, `week.ts`); top bar
-is `src/ui/AppBar.svelte` (☰ `Menu.svelte` holds Settings and About; second row with place
-and the two-word mode switch, closed by default); 4 bottom tabs. The view mode only changes
-the Day clock and Week. The user still lists fixes before anyone else sees the app.
+Live: everything through S18 (https://gerimantas.github.io/VedaCal/, 7d33178). LOCAL, NOT
+PUSHED: S19's 13 commits (to 369b7b5) — push only on the user's command.
+S19 (Archive S19): Week day sheet on tap (`week.ts` `daySummary`); ☰ menu = Settings, How to
+use (`Guide.svelte`), Glossary (`Glossary.svelte`), About; Sky has two tabs (Earth / Sun in the
+centre, `sky.ts` `skyViewSun`), Play on rAF with static ring layers, tap the chart to play.
+Rule (user): Sanskrit is yellow everywhere (`.sk`; `format.ts` `labelHtml` / `markSanskrit`,
+`verdict.ts` `periodNameHtml`); Lithuanian-spelt forms and brand names stay plain.
+S18: one rainbow scale of 7 shades, ring + legend bar share `scalePos` (`verdict.ts`); top bar
+`AppBar.svelte`; 4 bottom tabs. The user still lists fixes before anyone else sees the app.
 Periods work (`.planning/PLAN-periods.md`): the day clock (`src/ui/DayClock.svelte`) with
 "Visa diena" under it; engine `src/core/periods.ts` has every SPEC 13.2 value and, since
 S16, the personal layer (SPEC 13.6): Settings → "Mano duomenys" (kept only in
@@ -24,11 +27,12 @@ the top bar shows the commit); show proposals before changing code; commit local
 only on the user's command.
 
 ## Next Tasks
-- **User's three tasks for S19** (2026-10-23, understanding confirmed): (1) Week: tapping a day
-  opens a short explanation (why this colour, best / worst times, main reasons, "Open day");
-  (2) split About into Glossary, How to use, short About — all in the ☰ menu; (3) Sky: Sun in
-  the centre, Earth and Moon placed by time, plus a line Earth → Sun → zodiac so signs match
-  the geocentric values. Show a proposal for each before code.
+- **Set up graphify + code-review-graph for VedaCal** (user agreed, 2026-10-24): (1) build
+  `graphify update .` and `code-review-graph build` (CLI only, never `install`); (2) write a
+  short project `CLAUDE.md` code map; (3) refresh both on every commit; (4) PreToolUse guard
+  that denies broad search before graphify. Why/how: vault `wiki/cli-tools/code-review-graph.md`,
+  `wiki/agents/agent-ignores-project-tools.md`. Both tools parse `.svelte` (checked).
+- Push S19 when the user says so; ask the user to check Sky Play smoothness on the phone.
 - **Fix the app first** (user, 2026-10-21): it is not ready for other people to see and needs
   many fixes. Ask the user what to fix; collect the list before changing code.
   Collected so far: (a) on the menu pages (Settings, How to use, Glossary, About) at 360 px
@@ -51,17 +55,13 @@ only on the user's command.
 
 ## Done Log
 
+### 2026-10-24 (S19)
+- Week day sheet; ☰ menu split (How to use, Glossary, About); Sky Sun-centred tab; smooth Play + tap
+- Sanskrit yellow everywhere; Open day outlined; not pushed (369b7b5)
+
 ### 2026-10-23 (S18)
 - 7-shade rainbow clock + gradient legend with marker; day-start tick; Week screen
 - ☰ menu, 4 tabs, collapsible bar row, Now on every screen; old palette removed; deployed (7d33178)
-
-### 2026-10-21 (S17)
-- View chip in the app bar; My data form logic; key dates layout + parvan names; glossary search
-- Rainbow palette default; clock touch: swipe scrolls, tap / hold-drag moves the hand; deployed (cd4161b)
-
-### 2026-10-14 (S16)
-- Source audit: every meaning rewritten from a source and cited; days of restraint replace rest days
-- Personal layer + "Mano duomenys" + "Man" switch; Ravi yoga cancels element faults; deployed (05db0b6)
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
@@ -128,6 +128,15 @@ only on the user's command.
 ## Archive
 
 Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation, newest first). This section keeps the most recent 10 sessions.
+
+### Session 2026-10-24 (S19) — Week day sheet, menu split, Sun-centred Sky tab, smooth Play, Sanskrit in yellow; local only
+
+- **Done:** Week: tap a day → bottom sheet (why this colour, best / worst daylight times, top 3 reasons, Open day). ☰ menu: Settings, How to use, Glossary, About (three screens from the old About). Sky: second tab "Saulė centre" (Earth opposite the Sun, one line Earth → Sun → rings hits the geocentric sign exactly); Play on requestAnimationFrame with static ring layers (chart 7 → 3 ms Earth view, 0.75 ms Sun view, desktop), tap on chart toggles Play, phase labels hold still while playing. Sanskrit yellow everywhere (labels and running text), Sky Sanskrit sign names full size.
+- **Decided / overturned:** Sanskrit = `.sk` yellow everywhere incl. prose; Lithuanian-spelt forms (Agnis, Ganeša, ghatikų) and brand names stay plain. "Open day" = outlined button.
+- **Code:** `src/ui/Week.svelte`, `week.ts` (`daySummary`), `verdict.ts` (`dayRows`, `periodNameHtml`), `format.ts` (`markSanskrit`, `labelHtml`, `SANSKRIT_NAMES`, `PROTECTED_PHRASES`, `duration`), `sky.ts` (`skyViewSun`, `sunCentredLayout`, 4 layers, `skyWrap`), `Sky.svelte`, new `Guide.svelte`, `Glossary.svelte`; `About.svelte`, `Menu.svelte`, `state.svelte.ts` routes; tests `week`, `ui`, `mark-sanskrit`, `period-name-html`, fixture `tests/fixtures/sky-old.json`.
+- **Entry point:** `npm run dev` → `http://localhost:5173/VedaCal/` (#/week, #/sky, ☰ menu); `npm test` (2536 pass).
+- **Not measured:** Play smoothness on a real phone; nothing pushed (13 commits local, 369b7b5).
+- **Delegation:** 7 sonnet (all code changes); 0 haiku. Inline: proposals from single file reads, browser checks and timing measurements (Playwright), small CSS/string fixes; the graphify/CRG and Sky-jank probes were inline searches — violation of "search goes to Haiku".
 
 ### Session 2026-10-23 (S18) — 7-shade rainbow clock, Week screen, new top bar and menu; deployed (7d33178)
 
@@ -215,12 +224,3 @@ Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation,
 - **Code:** `scripts/fetch-drik-extra.ts`, `tests/fixtures/drik-extra/*`; planning repo: `PLAN-periods.md`, `SPEC.md` 13, `research/{catalogue,rules,examples}.md`.
 - **Entry point:** `node scripts/fetch-drik-extra.ts <city> [dates]` (12 s spacing, cached).
 - **Not measured:** example 4 (2026-08-12 eclipse) needs its Drik pages; combustion orbs, karana quality, Pitru Paksha unsourced.
-
-### Session 2026-10-10 (S9) — brief day sheets; plan for one view of the day's periods
-
-- **Done:** Every sheet with a lead is brief: general text folds out ("More about …"), closed on each opening; `data-sheet-brief` gone. Rhythm card has its own fold label. Nakshatra/Yoga/Ritu general texts lose "shown when you tap the row". Rahu Kaal/Yamaganda/Gulika lead writes the weekday lower-case mid-sentence (LT "; šeštadienis:").
-- **Done:** Plan `.planning/PLAN-periods.md`: catalogue → source registry (tiers, fake checks, links) → combination model with worked examples → graphic research + mockups + phone task test → engine values one at a time with `scripts/day-trace.ts` → combination engine → texts → views → release. Personal values (default = Drik-style general lists; "My data" switch) run through all phases.
-- **Decided / overturned:** One view replaces time list + folded Choghadiya (Gulika/Rahu/Yamaganda = Choghadiya parts 1/3/6). No "hour" level: a day is periods. Q1 evidence, not the user, decides what enters. No invented default birth date.
-- **Code:** `src/ui/Sheet.svelte`, `src/ui/Day.svelte`, `src/ui/day.ts`, `src/content/en.json`, `lt.json`; `.planning/SPEC.md` 5.1, `.planning/PLAN-periods.md` (planning repo).
-- **Entry point:** `npm run dev`; `npm test` (1197).
-- **Not measured:** Q0 catalogue file not written; Drik Chandrabalam/Tarabalam and Panchaka Rahita sections are empty in fixtures (fetcher does not capture them).
