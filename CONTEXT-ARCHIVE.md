@@ -2,6 +2,15 @@
 
 Older session entries moved out of `CONTEXT.md`.
 
+## Session 2026-10-10 (S11) — Q3.1 design survey; D5 graded day graph
+
+- **Done:** Drik extra fixtures completed: New Delhi's 10 missing dates; all 16 Vilnius dates refetched to add Do Ghati (only `fetchedAt` changed otherwise); Vilnius 2026-08-12 day + extra pages for example 4.
+- **Done:** Q3.1 survey page: 18 phone-width screenshots (Drik, Prokerala, Shubh, DekhoPanchang, timeanddate, yr, meteoblue, GitHub, Gantt, hypnogram, VedaCal) with works/fails lines; directions D1–D4 (day), M1–M2 (month).
+- **Done:** D5 (user's idea): graded 24 h chart — hour axis, verdict levels; verdict line + one chart per system; tap shows what is active and what decides. Computes SPEC 13.4 from Drik times; group 0 matches example 1 segment for segment; group 7 (rites) toggle.
+- **Decided / overturned:** User: a thick coloured band is not informative — wants a graded 24 h chart (hours + levels). Verdicts are never summed (a sum would let pluses cancel a veto). Graph variants are next session's work; no directions picked yet.
+- **Code:** `mockups/research/{index.html,d5-graph.html,shots/*.webp}`; `tests/fixtures/drik-extra/*`, `tests/fixtures/drik/vilnius-2026-08-12.json`.
+- **Entry point:** `npm run dev` → http://localhost:5173/VedaCal/mockups/research/ (D5: `d5-graph.html`, `?theme=dark`).
+- **Not measured:** D5 on a real phone; Prokerala's "overlapped by vaar vela" rule not checked against the registry; example 4 still not worked.
 ## Session 2026-10-10 (S10) — plan audit; Q0 catalogue, Q1 source registry, Q2 model
 
 - **Done:** Audit of PLAN-periods (16 findings fixed, files `PLAN-periods_AUDIT_*`). Q0: `research/catalogue.md`; `scripts/fetch-drik-extra.ts` (Drik Hora, Gowri, Lagna, Panchaka Rahita, Chandrabalam, Tarabalam, Do Ghati per day).

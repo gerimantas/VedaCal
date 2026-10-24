@@ -1,14 +1,14 @@
 # VedaCal — CONTEXT
 
 ## Status
-Live: everything through S18 (https://gerimantas.github.io/VedaCal/, 7d33178). LOCAL, NOT
-PUSHED: S19's 13 commits + S20's tooling commit (to 481bf0d) — push only on the user's command.
+Live: everything through S21 (https://gerimantas.github.io/VedaCal/, ec7ec3d); nothing
+unpushed. S21 (Archive S21): Sky Play runs on past the slider end (no 30-day jump back,
+`Sky.svelte` `step`); `npm audit fix` after CI failed on new advisories; graphify 0.9.95.
 S20 (Archive S20): code graphs for agents — `CLAUDE.md` code map, `graphify-out/` and
 `.code-review-graph/` (both ignored by git) refreshed by `.git/hooks/post-commit`; guard
-`.claude/hooks/graphify-guard.py` denies broad code search until a graph answered this task
-(active after a Claude Code restart). graphify upgraded 0.9.26 → 0.9.95 (S21): it now reads
-`.svelte` scripts; calls in `$derived(...)`/markup still show only as imports — use
-`code-review-graph query callers_of` (CLAUDE.md "Known blind spots").
+`.claude/hooks/graphify-guard.py` denies broad code search until a graph answered this task.
+graphify ≥ 0.9.76 reads `.svelte` scripts; calls in `$derived(...)`/markup still show only as
+imports — use `code-review-graph query callers_of` (CLAUDE.md "Known blind spots").
 S19 (Archive S19): Week day sheet on tap (`week.ts` `daySummary`); ☰ menu = Settings, How to
 use (`Guide.svelte`), Glossary (`Glossary.svelte`), About; Sky has two tabs (Earth / Sun in the
 centre, `sky.ts` `skyViewSun`), Play on rAF with static ring layers, tap the chart to play.
@@ -33,7 +33,8 @@ the top bar shows the commit); show proposals before changing code; commit local
 only on the user's command.
 
 ## Next Tasks
-- Push S19 + S20 when the user says so; ask the user to check Sky Play smoothness on the phone.
+- Ask the user how Sky Play looks on the phone (live ec7ec3d): smooth, and no jump back on
+  Saulė centre. Then continue with "Fix the app first" below.
 - **Fix the app first** (user, 2026-10-21): it is not ready for other people to see and needs
   many fixes. Ask the user what to fix; collect the list before changing code.
   Collected so far: (a) on the menu pages (Settings, How to use, Glossary, About) at 360 px
@@ -58,12 +59,11 @@ only on the user's command.
 
 ## Done Log
 
+### 2026-10-24 (S21)
+- S19 + S20 pushed and deployed; npm audit fix; graphify 0.9.95; Sky Play no jump back (ec7ec3d)
+
 ### 2026-10-24 (S20)
 - graphify + code-review-graph built; CLAUDE.md code map; post-commit refresh; search guard (481bf0d)
-
-### 2026-10-24 (S19)
-- Week day sheet; ☰ menu split (How to use, Glossary, About); Sky Sun-centred tab; smooth Play + tap
-- Sanskrit yellow everywhere; Open day outlined; not pushed (369b7b5)
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
@@ -130,6 +130,15 @@ only on the user's command.
 ## Archive
 
 Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation, newest first). This section keeps the most recent 10 sessions.
+
+### Session 2026-10-24 (S21) — pushed S19+S20; graphify 0.9.95; Sky Play no jump back; deployed (ec7ec3d)
+
+- **Done:** Pushed S19 + S20. First CI run failed on `npm audit` (new advisories in fast-uri, serialize-javascript); `npm audit fix` → 0 vulnerabilities, 2536 tests pass, deployed. graphify upgraded 0.9.26 → 0.9.95 (`uv tool upgrade graphifyy`), graph rebuilt; CLAUDE.md "Known blind spots" rewritten. Sky Play no longer jumps from +15 d back to −15 d: at the slider end `base` moves 30 days on. Live site carries ec7ec3d (checked in the bundle).
+- **Decided / overturned:** S20's notes overturned: 0.9.26 parsed a whole `.svelte` as JS (markup → parse error, only imports kept; fixed upstream in 0.9.76); arrow definitions were never missed — `explain` picked a junk same-name node in `Sheet.svelte`. Still: a call in a top-level `$derived(...)` shows only as `imports`.
+- **Code:** `src/ui/Sky.svelte` (Play `step`), `package-lock.json`, `CLAUDE.md`, `CONTEXT.md`.
+- **Entry point:** `npm run dev` → Dangus → Saulė centre → ▶; `graphify explain "daySummary"`.
+- **Not measured:** Play smoothness on the user's phone; the user has not yet checked the fix live.
+- **Delegation:** 0 haiku, 1 sonnet (graphify root cause in its source; key claims checked by Opus in `extract.py`, `cli.py`, graph.json, release notes). Inline: push/CI/audit, upgrade and graph checks (single commands); Play bug read inline (`sky.ts`, `Sky.svelte`, single-file greps) though the posted plan named Sonnet — plan breach; Playwright check of the fix (run, not search).
 
 ### Session 2026-10-24 (S20) — code graphs for agents: CLAUDE.md map, post-commit refresh, search guard
 
@@ -215,13 +224,3 @@ Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation,
 - **Code:** `src/core/periods.ts`, `src/ui/{DayClock.svelte,verdict.ts,Day.svelte,LocationPicker.svelte,state.svelte.ts}`, `src/styles/tokens.css`, `src/content/{en,lt}.json`, `tests/periods.test.ts`, `mockups/research/{d6-variants,d7-clock}.html`; planning: SPEC 13.2, rules R21/C4/C5, examples.md.
 - **Entry point:** `npm run dev` → http://localhost:5173/VedaCal/ (Day screen); mockup `/VedaCal/mockups/research/d7-clock.html`; `npx vitest run tests/periods.test.ts`.
 - **Not measured:** the clock on a real phone; user has not reviewed the app clock yet.
-
-### Session 2026-10-10 (S11) — Q3.1 design survey; D5 graded day graph
-
-- **Done:** Drik extra fixtures completed: New Delhi's 10 missing dates; all 16 Vilnius dates refetched to add Do Ghati (only `fetchedAt` changed otherwise); Vilnius 2026-08-12 day + extra pages for example 4.
-- **Done:** Q3.1 survey page: 18 phone-width screenshots (Drik, Prokerala, Shubh, DekhoPanchang, timeanddate, yr, meteoblue, GitHub, Gantt, hypnogram, VedaCal) with works/fails lines; directions D1–D4 (day), M1–M2 (month).
-- **Done:** D5 (user's idea): graded 24 h chart — hour axis, verdict levels; verdict line + one chart per system; tap shows what is active and what decides. Computes SPEC 13.4 from Drik times; group 0 matches example 1 segment for segment; group 7 (rites) toggle.
-- **Decided / overturned:** User: a thick coloured band is not informative — wants a graded 24 h chart (hours + levels). Verdicts are never summed (a sum would let pluses cancel a veto). Graph variants are next session's work; no directions picked yet.
-- **Code:** `mockups/research/{index.html,d5-graph.html,shots/*.webp}`; `tests/fixtures/drik-extra/*`, `tests/fixtures/drik/vilnius-2026-08-12.json`.
-- **Entry point:** `npm run dev` → http://localhost:5173/VedaCal/mockups/research/ (D5: `d5-graph.html`, `?theme=dark`).
-- **Not measured:** D5 on a real phone; Prokerala's "overlapped by vaar vela" rule not checked against the registry; example 4 still not worked.
