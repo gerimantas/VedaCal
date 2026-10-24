@@ -31,6 +31,9 @@ only on the user's command.
   the geocentric values. Show a proposal for each before code.
 - **Fix the app first** (user, 2026-10-21): it is not ready for other people to see and needs
   many fixes. Ask the user what to fix; collect the list before changing code.
+  Collected so far: (a) on the menu pages (Settings, How to use, Glossary, About) at 360 px
+  the top bar wraps — "Back" on one row, ☰ and the version tag below it (seen 2026-10-24;
+  the same `header.appbar` as the old About, so not new).
 - Personal view on Month (and Sky?): today only the Day clock uses birth data, though the
   chip shows on every screen. Ask the user whether the month should mark personal days.
 - Personal layer, general form (SPEC 13.6, no birth data): which birth stars / signs the
