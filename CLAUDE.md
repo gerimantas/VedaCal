@@ -17,13 +17,14 @@ recursive grep/rg/find until one of them has returned a real answer in the curre
 | A file or symbol with its neighbours | `graphify explain "<name>"` |
 | How do A and B connect? | `graphify path "A" "B"` |
 
-Known blind spots, measured 2026-10-24:
-- graphify links a `.svelte` file to the modules it imports, not to the functions it calls.
-  `daySummary` showed only its test as a caller; `Week.svelte:87` was missing. Use
-  `callers_of` for "who calls".
-- graphify misses `export const f = () => …` definitions. `graphify explain "labelHtml"`
-  answered with a same-name helper in `Sheet.svelte`, not `format.ts:197`. Locate symbols
-  with `code-review-graph search`.
+Known blind spots, measured 2026-10-24 with graphify 0.9.95 (needs ≥ 0.9.76; 0.9.26 parsed
+a whole `.svelte` file as JS, failed on the markup and kept only its imports):
+- graphify sees calls inside `.svelte` functions (`dayclock_inner → ringOf`), but a call in
+  a top-level `$derived(...)` or in the markup shows only as an `imports` edge:
+  `explain "daySummary"` lists `Week.svelte [imports] L12`, not the call at L87. For exact
+  call sites use `code-review-graph query callers_of`.
+- `graphify explain` takes the first node when two share a name. Locate symbols with
+  `code-review-graph search`.
 - A file added since the last commit is in neither index. Run `code-review-graph build`
   and `graphify update .` by hand if you need it before committing.
 

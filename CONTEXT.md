@@ -6,8 +6,9 @@ PUSHED: S19's 13 commits + S20's tooling commit (to 481bf0d) — push only on th
 S20 (Archive S20): code graphs for agents — `CLAUDE.md` code map, `graphify-out/` and
 `.code-review-graph/` (both ignored by git) refreshed by `.git/hooks/post-commit`; guard
 `.claude/hooks/graphify-guard.py` denies broad code search until a graph answered this task
-(active after a Claude Code restart). graphify misses Svelte calls and `const f = () =>` —
-use `code-review-graph search` / `query callers_of` (CLAUDE.md "Known blind spots").
+(active after a Claude Code restart). graphify upgraded 0.9.26 → 0.9.95 (S21): it now reads
+`.svelte` scripts; calls in `$derived(...)`/markup still show only as imports — use
+`code-review-graph query callers_of` (CLAUDE.md "Known blind spots").
 S19 (Archive S19): Week day sheet on tap (`week.ts` `daySummary`); ☰ menu = Settings, How to
 use (`Guide.svelte`), Glossary (`Glossary.svelte`), About; Sky has two tabs (Earth / Sun in the
 centre, `sky.ts` `skyViewSun`), Play on rAF with static ring layers, tap the chart to play.
