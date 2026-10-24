@@ -9,7 +9,7 @@
   import { app, setSetting } from './state.svelte'
   import type { Direction, Period } from '../core/periods'
   import { resolveBirth } from './birth'
-  import { clockModel, colourVar, FADE, GROUP_LABELS, levelWord, periodName, periodNote, periodWhy, RAINBOW_ORDER, ringOf, scalePos, shadeOf, shadeWord, type Shade } from './verdict'
+  import { clockModel, colourVar, dayRows, FADE, GROUP_LABELS, levelWord, periodName, periodNote, periodWhy, RAINBOW_ORDER, ringOf, scalePos, shadeOf, shadeWord, type DayRow, type Shade } from './verdict'
 
   // `picked`: the moment the hand was moved to, null = now; bound, so the top bar's Now resets it.
   let { day, prev, loc, now, picked = $bindable(null) }: { day: DayPanchang; prev: DayPanchang; loc: Location; now: Date; picked?: Date | null } = $props()
@@ -235,27 +235,8 @@
   // A tap also opens the row: each period that decided it, with what tradition does then (user,
   // 2026-10-14, variant A). The row under the hand is framed in its colour and tagged with the
   // hand's time, or "Now" while the hand is on the real time (user, 2026-10-14).
-  type Row = { start: Date; end: Date; shade: Shade; why: Period[] }
-  const rows = $derived.by(() => {
-    const out: Row[] = []
-    for (const s of model?.segments ?? []) {
-      const named = s.by.filter((p) => p.kind !== 'base')
-      const why = named.length ? named : s.by
-      const last = out[out.length - 1]
-      const add = (r: Row) => {
-        for (const p of why) if (!r.why.some((q) => periodName(q) === periodName(p))) r.why.push(p)
-      }
-      if (last && last.shade === shadeOf(s)) {
-        last.end = s.end
-        add(last)
-      } else {
-        const r: Row = { start: s.start, end: s.end, shade: shadeOf(s), why: [] }
-        add(r)
-        out.push(r)
-      }
-    }
-    return out
-  })
+  type Row = DayRow
+  const rows = $derived(dayRows(model?.segments ?? []))
   /** The short label in the row: the base goes by "day base" there, its full name in the opened row. */
   const rowNames = (r: Row) => [...new Set(r.why.map((p) => (p.kind === 'base' ? t('segmentBase') : periodName(p))))]
   const handTag = $derived(picked === null && nowOnDial ? t('now') : time(cursor, loc))

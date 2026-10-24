@@ -164,3 +164,31 @@ export function scalePos(segs: Segment[], t: Date): number {
   if (segs[i + 1] && dr < fade) return own + (idx(segs[i + 1]) - own) * 0.5 * (1 - dr / fade)
   return own
 }
+
+/** One row of the day as a list: neighbouring parts of one shade, with everything that decided them. */
+export type DayRow = { start: Date; end: Date; shade: Shade; why: Period[] }
+
+/**
+ * Neighbouring segments of one shade as one row (user, 2026-10-14). `why` is each segment's `by`
+ * without the day base, unless the base is all there is; a period of the same name is listed once.
+ */
+export function dayRows(segments: Segment[]): DayRow[] {
+  const out: DayRow[] = []
+  for (const s of segments) {
+    const named = s.by.filter((p) => p.kind !== 'base')
+    const why = named.length ? named : s.by
+    const last = out[out.length - 1]
+    const add = (r: DayRow) => {
+      for (const p of why) if (!r.why.some((q) => periodName(q) === periodName(p))) r.why.push(p)
+    }
+    if (last && last.shade === shadeOf(s)) {
+      last.end = s.end
+      add(last)
+    } else {
+      const r: DayRow = { start: s.start, end: s.end, shade: shadeOf(s), why: [] }
+      add(r)
+      out.push(r)
+    }
+  }
+  return out
+}

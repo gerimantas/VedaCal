@@ -5,11 +5,11 @@
   import { computeDay } from '../core/panchang'
   import { addDays, civilDate } from '../core/time'
   import { resolveBirth } from './birth'
-  import { t } from './format'
+  import { duration, LOCALE, MONTH, t, time } from './format'
   import { icon } from './icons'
   import { app } from './state.svelte'
-  import { colourVar, RAINBOW_ORDER } from './verdict'
-  import { axisStartHour, axisWindow, axisX, barGradient, mondayOf, scaleColour, weekDates, weekLabel, weekModel } from './week'
+  import { colourVar, levelWord, periodName, RAINBOW_ORDER, shadeWord, type DayRow } from './verdict'
+  import { axisStartHour, axisWindow, axisX, barGradient, daySummary, mondayOf, scaleColour, weekDates, weekLabel, weekModel } from './week'
 
   const loc = $derived(app.location)
   // The clock only moves the "now" marker: twice a minute and when the app comes back to the foreground.
@@ -81,6 +81,17 @@
     picked = date
     document.getElementById(`wk-${date}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' })
   }
+  // A tap on a day opens its sheet (user, 2026-10-24); a polar day has no model, so it only highlights.
+  let dialog: HTMLDialogElement
+  const sheetRow = $derived(rows.find((r) => r.date === picked))
+  const sum = $derived(sheetRow?.w ? daySummary(sheetRow.w.model) : null)
+  const title = $derived(sheetRow ? new Intl.DateTimeFormat(LOCALE, { weekday: 'long', month: MONTH, day: 'numeric', timeZone: 'UTC' }).format(new Date(`${sheetRow.date}T12:00:00Z`)) : '')
+  function tap(date: string) {
+    pick(date)
+    if (rows.find((r) => r.date === date)?.w) dialog.showModal()
+  }
+  /** The row's label: the base goes by "day base", as in the Day screen's list. */
+  const rowNames = (r: DayRow) => [...new Set(r.why.map((p) => (p.kind === 'base' ? t('segmentBase') : periodName(p))))].join(', ')
   function open(date: string) {
     app.date = date === today ? null : date
     location.hash = '#/day'
@@ -98,7 +109,7 @@
 
   <div class="summary" role="group" aria-label={t('week')}>
     {#each rows as r (r.date)}
-      <button class="block" class:today={r.isToday} class:picked={picked === r.date} onclick={() => pick(r.date)} aria-label="{r.name} {r.n}{r.w?.star ? `, ★ ${t('weekStarAria')}` : ''}">
+      <button class="block" class:today={r.isToday} class:picked={picked === r.date} onclick={() => tap(r.date)} aria-label="{r.name} {r.n}{r.w?.star ? `, ★ ${t('weekStarAria')}` : ''}">
         <span class="sw" style:background={r.colour ?? 'var(--color-card)'}>{#if r.w?.star}<b class="star">★</b>{/if}</span>
         <span class="dow">{r.name}</span>
       </button>
@@ -111,7 +122,7 @@
       <span class="ticks num">{#each hours as h (h.x)}<span style:left="{h.x * 100}%">{h.label}</span>{/each}</span>
     </div>
     {#each rows as r (r.date)}
-      <a id="wk-{r.date}" class="row" class:picked={picked === r.date} class:today={r.isToday} href="#/day" aria-label="{r.name} {r.n}" onclick={(e) => (e.preventDefault(), open(r.date))}>
+      <a id="wk-{r.date}" class="row" class:picked={picked === r.date} class:today={r.isToday} href="#/day" aria-label="{r.name} {r.n}" onclick={(e) => (e.preventDefault(), r.w ? tap(r.date) : open(r.date))}>
         <span class="lab num">{r.name} {r.n}</span>
         <span class="bar" style:background-image={r.bar}>
           {#each hours as h (h.x)}<i class="hr" style:left="{h.x * 100}%"></i>{/each}
@@ -125,6 +136,45 @@
   <p class="note">{t('paletteNote')}</p>
   <p class="note">{t('weekNote')}</p>
 </main>
+
+{#snippet times(list: DayRow[])}
+  {#if list.length}
+    <ul class="times">
+      {#each list as r (r.start.getTime())}
+        <li><i class="dot" style:background="var({colourVar(r.shade)})"></i><span class="num">{time(r.start, loc)}–{time(r.end, loc)}</span><span class="why">{rowNames(r)}</span></li>
+      {/each}
+    </ul>
+  {:else}
+    <p class="none">{t('daySheetNone')}</p>
+  {/if}
+{/snippet}
+
+<dialog class="sheet" bind:this={dialog} onclick={(e) => e.target === dialog && dialog.close()}>
+  <div class="sheet-body">
+    {#if sheetRow?.w && sum}
+      <h3 class="dtitle">{title}
+        <span class="sw dsw" style:background={sheetRow.colour ?? 'var(--color-card)'}></span>
+        <span class="dword">{shadeWord(RAINBOW_ORDER[Math.round(sheetRow.w.avg)])}{#if sheetRow.w.star} <b class="star">★</b>{/if}</span>
+      </h3>
+      <h4>{t('daySheetWhy')}</h4>
+      <p class="none">{t('daySheetAvg')}</p>
+      <div class="share" aria-hidden="true">
+        {#each sum.shares as x (x.shade)}<i style:flex="{x.ms} 0 0" style:background="var({colourVar(x.shade)})"></i>{/each}
+      </div>
+      <p class="shares">{sum.shares.map((x) => `${shadeWord(x.shade)} ${duration(x.ms)}`).join(' · ')}</p>
+      <h4>{t('daySheetBest')}</h4>
+      {@render times(sum.best)}
+      <h4>{t('daySheetWorst')}</h4>
+      {@render times(sum.worst)}
+      <h4>{t('daySheetReasons')}</h4>
+      <ul class="times">
+        {#each sum.reasons as p (periodName(p))}<li><span class="why">{periodName(p)} — {levelWord(p)}</span></li>{/each}
+      </ul>
+      <button class="sheet-close open" onclick={() => (dialog.close(), open(sheetRow.date))}>{t('daySheetOpen')}</button>
+    {/if}
+    <button class="sheet-close" onclick={() => dialog.close()}>{t('close')}</button>
+  </div>
+</dialog>
 
 <style>
   .summary {
@@ -245,6 +295,66 @@
     border-radius: 50%;
     background: var(--color-ink);
     box-shadow: 0 0 0 2px var(--color-card);
+  }
+  .dtitle {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+  .dsw {
+    display: inline-block;
+    width: 1.75rem;
+    height: 1.25rem;
+  }
+  .dword {
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+  .sheet h4 {
+    margin: var(--space-sm) 0 var(--space-3xs, 2px);
+    font-size: var(--text-sm);
+    font-weight: 650;
+  }
+  .none,
+  .shares {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+  .share {
+    display: flex;
+    height: 0.6rem;
+    margin: var(--space-3xs, 2px) 0;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .times {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-sm);
+  }
+  .times li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2xs);
+    padding: 2px 0;
+  }
+  .times .why {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .dot {
+    flex: none;
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 50%;
+  }
+  .sheet-close.open {
+    background: var(--color-accent);
+    color: var(--color-paper);
+    border-color: transparent;
   }
   .note {
     margin: var(--space-2xs) 0 0;

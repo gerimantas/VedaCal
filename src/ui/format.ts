@@ -96,6 +96,13 @@ export function time(d: Date | null, loc: Location): string {
   return f.format(d)
 }
 
+/** A span as "1 h 10 min", "40 min" or "4 h" (the same in both languages). */
+export function duration(ms: number): string {
+  const m = Math.round(ms / 60_000)
+  const h = Math.floor(m / 60)
+  return [h ? `${h} h` : '', m % 60 || !h ? `${m % 60} min` : ''].filter(Boolean).join(' ')
+}
+
 /** "until 21:43", "until 01:23 tomorrow", "until Tue 03:10" within a week, "until Oct 17" later (the Sun's sign). */
 export function until(end: Date, day: DayPanchang, loc: Location): string {
   const endDay = civilDate(loc.tz, end)

@@ -1,10 +1,10 @@
 // Week screen as plain data: the Monday–Sunday dates, each day's clock model, the daytime
 // average colour position, the star rule and the shared hour axis. Week.svelte draws it; the
 // verdicts themselves come from clockModel/scalePos (./verdict), nothing is re-derived here.
-import type { Birth, Direction, Segment } from '../core/periods'
+import type { Birth, Direction, Period, Segment } from '../core/periods'
 import { addDays, tzOffsetMinutes, zonedTimeToUtc } from '../core/time'
 import type { DayPanchang } from '../core/types'
-import { clockModel, scalePos, type ClockModel } from './verdict'
+import { clockModel, dayRows, periodName, RAINBOW_ORDER, scalePos, shadeOf, type ClockModel, type DayRow, type Shade } from './verdict'
 
 const MIN = 60_000
 const DAY = 86_400_000
@@ -133,4 +133,68 @@ export function barGradient(model: ClockModel, win: { start: Date; end: Date }, 
   }
   stops.push(`transparent ${pct(last)}`)
   return `linear-gradient(to right, ${stops.join(', ')})`
+}
+
+/** Rows listed under "Best times" / "Worst times" per day (user, 2026-10-24). */
+export const SUMMARY_ROWS = 2
+/** Main reasons listed per day (user, 2026-10-24). */
+export const SUMMARY_REASONS = 3
+const BEST_SHADES: Shade[] = ['best', 'goodBase', 'goodPlus']
+const WORST_SHADES: Shade[] = ['avoid', 'fb']
+
+/** The segments cut to [from, to): parts outside are dropped, the rest keep their shade and reasons. */
+export function clipSegments(segs: Segment[], from: Date, to: Date): Segment[] {
+  return segs
+    .filter((s) => s.end > from && s.start < to)
+    .map((s) => ({ ...s, start: s.start < from ? from : s.start, end: s.end > to ? to : s.end }))
+}
+
+export type DaySummary = {
+  /** Minutes of daylight per shade, best first; only shades that occur. */
+  shares: { shade: Shade; ms: number }[]
+  /** Up to SUMMARY_ROWS rows of the best shades, in time order. */
+  best: DayRow[]
+  /** Up to SUMMARY_ROWS rows of the worst shades, in time order. */
+  worst: DayRow[]
+  /** The periods that decided most of the daylight, longest first (distinct by name). */
+  reasons: Period[]
+}
+
+/** The rows of `shades`: best shade first, then longest; the first SUMMARY_ROWS, shown in time order. */
+function pickRows(rows: DayRow[], shades: Shade[]): DayRow[] {
+  const len = (r: DayRow) => r.end.getTime() - r.start.getTime()
+  const rank = (r: DayRow) => shades.indexOf(r.shade)
+  return rows
+    .filter((r) => rank(r) >= 0)
+    .sort((a, b) => rank(a) - rank(b) || len(b) - len(a))
+    .slice(0, SUMMARY_ROWS)
+    .sort((a, b) => a.start.getTime() - b.start.getTime())
+}
+
+/**
+ * What the tapped day's sheet says, all clipped to sunrise → sunset: how long each shade lasts,
+ * the best and the worst rows (shade order 'best, goodBase, goodPlus' and 'avoid, fb'), and the
+ * three periods whose segments cover the most daylight (user, 2026-10-24).
+ */
+export function daySummary(model: ClockModel): DaySummary {
+  const segs = clipSegments(model.segments, model.sunrise, model.sunset)
+  const ms = new Map<Shade, number>()
+  const cover = new Map<string, { p: Period; ms: number }>()
+  for (const s of segs) {
+    const len = s.end.getTime() - s.start.getTime()
+    ms.set(shadeOf(s), (ms.get(shadeOf(s)) ?? 0) + len)
+    // a period counts once per segment, even if two periods of one name decided it
+    for (const name of new Set(s.by.map(periodName))) {
+      const hit = cover.get(name)
+      if (hit) hit.ms += len
+      else cover.set(name, { p: s.by.find((p) => periodName(p) === name)!, ms: len })
+    }
+  }
+  const rows = dayRows(segs)
+  return {
+    shares: [...RAINBOW_ORDER].reverse().flatMap((shade) => (ms.get(shade) ? [{ shade, ms: ms.get(shade)! }] : [])),
+    best: pickRows(rows, BEST_SHADES),
+    worst: pickRows(rows, WORST_SHADES),
+    reasons: [...cover.values()].sort((a, b) => b.ms - a.ms).slice(0, SUMMARY_REASONS).map((x) => x.p),
+  }
 }
