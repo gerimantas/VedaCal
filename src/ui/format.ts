@@ -157,7 +157,7 @@ export function markSanskrit(text: string, names: readonly string[], protect: re
 }
 
 // Sanskrit words that sit inside UI text and are not an entry name.
-const EXTRA_SANSKRIT = ['Ekadashi', 'Parana', 'Bhadra', 'Vishti', 'Amavasya', 'Purnima', 'parvan', 'Tithi', 'Vara', 'Masa', 'Nakshatra', 'Rashi', 'Yoga', 'Karana', 'Ritu', 'Choghadiya', 'Brahma Muhurta', 'Abhijit Muhurta', 'Rahu Kaal', 'Yamaganda', 'Gulika', 'Vyatipata', 'Vaidhriti', 'Sankranti', 'Grahan', 'Amrit Siddhi', 'Sarvartha Siddhi', 'Guru Pushya', 'Ravi Pushya']
+const EXTRA_SANSKRIT = ['Ekadashi', 'Parana', 'Bhadra', 'Vishti', 'Amavasya', 'Purnima', 'parvan', 'Tithi', 'Vara', 'Masa', 'Nakshatra', 'Rashi', 'Yoga', 'Karana', 'Ritu', 'Choghadiya', 'Brahma Muhurta', 'Abhijit Muhurta', 'Rahu Kaal', 'Yamaganda', 'Gulika', 'Vyatipata', 'Vaidhriti', 'Sankranti', 'Grahan', 'Amrit Siddhi', 'Sarvartha Siddhi', 'Guru Pushya', 'Ravi Pushya', 'Nanda', 'Jaya', 'Rikta', 'Purna']
 // Sanskrit words found in running text (sheets, meanings, traditions, guide). Lowercase forms are
 // listed where the prose writes them lowercase. Matching is whole-word and case-sensitive.
 const PROSE_SANSKRIT = [
