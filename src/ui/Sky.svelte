@@ -47,9 +47,15 @@
     if (!playing) return stop()
     let last = performance.now()
     const step = (ts: number) => {
-      const next = offset + (ts - last) * HOURS_PER_MS
+      let next = offset + (ts - last) * HOURS_PER_MS
       last = ts
-      offset = next > 360 ? -360 : next
+      // user, 2026-10-24: no jump back at the slider's end. Time runs on; the base moves 30 days
+      // forward and the slider starts again from its left end.
+      if (next > 360) {
+        base += 30 * DAY
+        next -= 720
+      }
+      offset = next
       frame = requestAnimationFrame(step)
     }
     frame = requestAnimationFrame(step)
