@@ -11,6 +11,11 @@
   box-sizing: border-box;
 }
 
+/* Sanskrit is yellow wherever it appears (user, 2026-10-24); the rules below only add size or spacing. */
+.sk {
+  color: var(--color-moon);
+}
+
 html,
 body {
   overflow-x: clip;
@@ -1309,7 +1314,8 @@ h3 {
 .sky-chart .num { fill: var(--color-neutral); font-size: 6px; }
 .sky-chart .current { fill: var(--color-ink); font-size: 8px; font-weight: 700; }
 .sky-chart .sign { fill: var(--color-muted); font-size: 8px; font-weight: 600; }
-.sky-chart .sign.sk { fill: var(--color-neutral); font-size: 6.5px; font-weight: 400; }
+/* Sanskrit sign names: as large as the plain name and yellow, like Sanskrit everywhere (user, 2026-10-24). */
+.sky-chart .sign.sk { fill: var(--color-moon); font-weight: 400; }
 .sky-chart .sign.on { fill: var(--color-ink); }
 .sky-chart .sign.on.sk { fill: var(--color-moon); }
 .sky-chart .phase {
