@@ -1,10 +1,12 @@
-// Sky screen chart (user, 2026-10-05): the Sun, the Moon and
+// Sky screen charts (user, 2026-10-05): the Sun, the Moon and
 // the Earth share one plane, so a top-down chart says it all. Earth in the centre; the Moon's
 // orbit cut into the 30 lunar days counted from the Sun; the Sun in its direction; a ring of
 // the 27 Moon stars; and an outer ring of the 12 signs. Not to scale: only directions are true.
 // Stars and signs stay fixed, as in the sky; the Sun and the Moon move across them.
 // Text rules: only short marks on the chart (names live in the panel), and labels give way
 // to the Sun and the Moon. Colours come from screens.css (.sky-chart), so both themes work.
+// Second view (user, 2026-10-24): Sun in the centre as a second tab (skyViewSun). The Earth
+// circles the Sun on a thin orbit with the small Moon ring around it; the same two outer rings.
 import { skyAt } from '../core/panchang'
 import { content, entry, t } from './format'
 
@@ -15,16 +17,18 @@ const rad = (deg: number) => (deg * Math.PI) / 180
 const C = 200
 const R = { earth: 12, moon: 56, orbitIn: 76, orbitOut: 94, dayNum: 85, sun: 112.5, nakIn: 120, nakOut: 138, signOut: 164 }
 const screen = (lon: number) => 180 + lon
-const xy = (deg: number, r: number) => [C + r * Math.cos(rad(deg)), C - r * Math.sin(rad(deg))] as const
+type Pt = readonly [number, number]
+const MID: Pt = [C, C]
+const xy = (deg: number, r: number, c: Pt = MID) => [c[0] + r * Math.cos(rad(deg)), c[1] - r * Math.sin(rad(deg))] as const
 const f = (n: number) => n.toFixed(2)
 
 /** Annulus sector from angle a to b (counter-clockwise). */
-function sector(a: number, b: number, r1: number, r2: number): string {
+function sector(a: number, b: number, r1: number, r2: number, c: Pt = MID): string {
   const large = b - a > 180 ? 1 : 0
-  const [x1, y1] = xy(a, r2)
-  const [x2, y2] = xy(b, r2)
-  const [x3, y3] = xy(b, r1)
-  const [x4, y4] = xy(a, r1)
+  const [x1, y1] = xy(a, r2, c)
+  const [x2, y2] = xy(b, r2, c)
+  const [x3, y3] = xy(b, r1, c)
+  const [x4, y4] = xy(a, r1, c)
   return `M${f(x1)} ${f(y1)}A${r2} ${r2} 0 ${large} 0 ${f(x2)} ${f(y2)}L${f(x3)} ${f(y3)}A${r1} ${r1} 0 ${large} 1 ${f(x4)} ${f(y4)}Z`
 }
 
@@ -44,8 +48,8 @@ function arcText2(deg: number, r: number, gap: number, plain: string, sanskrit: 
 }
 
 /** A disc lit on the half that faces the Sun (true geometry seen from above). */
-function body(deg: number, r: number, size: number, sunDeg: number, cls: string): string {
-  const [x, y] = xy(deg, r)
+function body(deg: number, r: number, size: number, sunDeg: number, cls: string, c: Pt = MID): string {
+  const [x, y] = xy(deg, r, c)
   const p = (a: number) => [x + size * Math.cos(rad(a)), y - size * Math.sin(rad(a))]
   const [sx, sy] = p(sunDeg + 90)
   const [ex, ey] = p(sunDeg - 90)
@@ -66,18 +70,8 @@ export interface SkyView {
   illumination: number
 }
 
-export function skyView(when: Date): SkyView {
-  const { sun, moon } = skyAt(when)
-  const elong = norm(moon - sun)
-  const tithi = Math.floor(elong / 12) + 1
-  const nak = Math.floor(moon / (360 / 27)) + 1
-  const moonSign = Math.floor(moon / 30) + 1
-  const sunSign = Math.floor(sun / 30) + 1
-  const sunDeg = screen(sun)
-  const moonDeg = screen(moon)
-  const shapes: string[] = []
-  const labels: string[] = [] // drawn over the pointer lines
-
+/** The two outer rings, shared by both views: 12 signs and 27 Moon stars, Sun/Moon highlighted. */
+function outerRings(sunSign: number, moonSign: number, nak: number, shapes: string[], labels: string[]): void {
   // Signs (outer ring), two-line names.
   for (let k = 0; k < 12; k++) {
     const a = screen(k * 30)
@@ -95,6 +89,38 @@ export function skyView(when: Date): SkyView {
     shapes.push(`<path class="${on ? 'moon-fill' : k % 2 ? 'alt' : 'base'}" d="${sector(a, a + 360 / 27, R.nakIn, R.nakOut)}"/>`)
     labels.push(arcText(a + 180 / 27, (R.nakIn + R.nakOut) / 2, String(k + 1), on ? 'current' : 'num'))
   }
+}
+
+function chart(shapes: string[], labels: string[], bodies: string[]): string {
+  return `<svg class="sky-chart" viewBox="34 34 332 332" role="img" aria-label="${t('skyTitle')}">
+    <defs>
+      <radialGradient id="sky-glow"><stop offset="0" stop-color="#ffd76a" stop-opacity="0.9"/><stop offset="1" stop-color="#ffb300" stop-opacity="0"/></radialGradient>
+      <marker id="sky-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="arrow" d="M0 0L10 5L0 10z"/></marker>
+    </defs>
+    ${shapes.join('')}${labels.join('')}${bodies.join('')}
+  </svg>`
+}
+
+function facts(sun: number, moon: number) {
+  const elong = norm(moon - sun)
+  return {
+    elong,
+    tithi: Math.floor(elong / 12) + 1,
+    nak: Math.floor(moon / (360 / 27)) + 1,
+    moonSign: Math.floor(moon / 30) + 1,
+    sunSign: Math.floor(sun / 30) + 1,
+  }
+}
+
+export function skyView(when: Date): SkyView {
+  const { sun, moon } = skyAt(when)
+  const { elong, tithi, nak, moonSign, sunSign } = facts(sun, moon)
+  const sunDeg = screen(sun)
+  const moonDeg = screen(moon)
+  const shapes: string[] = []
+  const labels: string[] = [] // drawn over the pointer lines
+
+  outerRings(sunSign, moonSign, nak, shapes, labels)
 
   // The Moon's orbit: 30 lunar days from the Sun, waxing half lighter, the current day lit.
   shapes.push(`<path class="wax" d="${sector(sunDeg, sunDeg + 180, R.orbitIn, R.orbitOut)}"/>`)
@@ -147,12 +173,64 @@ export function skyView(when: Date): SkyView {
     body(0, 0, R.earth, sunDeg, 'earth'),
   ]
 
-  const svg = `<svg class="sky-chart" viewBox="34 34 332 332" role="img" aria-label="${t('skyTitle')}">
-    <defs>
-      <radialGradient id="sky-glow"><stop offset="0" stop-color="#ffd76a" stop-opacity="0.9"/><stop offset="1" stop-color="#ffb300" stop-opacity="0"/></radialGradient>
-      <marker id="sky-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="arrow" d="M0 0L10 5L0 10z"/></marker>
-    </defs>
-    ${shapes.join('')}${labels.join('')}${bodies.join('')}
-  </svg>`
+  const svg = chart(shapes, labels, bodies)
   return { svg, elongation: elong, tithi, nakshatra: nak, moonSign, sunSign, illumination: (1 - Math.cos(rad(elong))) / 2 }
+}
+
+const SUN = { orbit: 72, ringIn: 18, ringOut: 28, moon: 23, earth: 7, moonSize: 4 }
+
+/** Pure geometry of the Sun-centred view (screen angles in degrees, points in chart units). */
+export function sunCentredLayout(sun: number, moon: number) {
+  const sunDeg = screen(sun)
+  const moonDeg = screen(moon)
+  const earthDeg = sunDeg + 180 // opposite the direction in which the Earth sees the Sun
+  const earth = xy(earthDeg, SUN.orbit)
+  return {
+    sunDeg,
+    moonDeg,
+    earthDeg,
+    earth,
+    // Earth → Sun → zodiac is one straight line through the centre, so it meets the rings
+    // exactly at the Sun's geocentric longitude. That is the point of this design.
+    sunEnd: xy(sunDeg, R.nakOut),
+    moon: xy(moonDeg, SUN.moon, earth),
+  }
+}
+
+/** Sun in the centre: the Earth on a thin orbit, the Moon ring around the Earth. Same facts. */
+export function skyViewSun(when: Date): SkyView {
+  const { sun, moon } = skyAt(when)
+  const { elong, tithi, nak, moonSign, sunSign } = facts(sun, moon)
+  const { sunDeg, moonDeg, earth, sunEnd } = sunCentredLayout(sun, moon)
+  const shapes: string[] = []
+  const labels: string[] = []
+  outerRings(sunSign, moonSign, nak, shapes, labels)
+
+  shapes.push(`<circle class="orbit" cx="${C}" cy="${C}" r="${SUN.orbit}"/>`)
+  // Moon ring around the Earth: waxing and waning halves counted from the Sun's direction.
+  const { ringIn, ringOut } = SUN
+  shapes.push(`<path class="wax" d="${sector(sunDeg, sunDeg + 180, ringIn, ringOut, earth)}"/>`)
+  shapes.push(`<path class="wane" d="${sector(sunDeg + 180, sunDeg + 360, ringIn, ringOut, earth)}"/>`)
+  const t0 = sunDeg + (tithi - 1) * 12
+  shapes.push(`<path class="day-fill" d="${sector(t0, t0 + 12, ringIn, ringOut, earth)}"/>`)
+  for (const k of [0, 15]) {
+    const [x1, y1] = xy(sunDeg + k * 12, ringIn, earth)
+    const [x2, y2] = xy(sunDeg + k * 12, ringOut, earth)
+    shapes.push(`<line class="tick major" x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}"/>`)
+  }
+
+  shapes.push(`<line class="ptr sun" x1="${f(earth[0])}" y1="${f(earth[1])}" x2="${f(sunEnd[0])}" y2="${f(sunEnd[1])}"/>`)
+  const [mx, my] = xy(moonDeg, SUN.moon - SUN.moonSize, earth)
+  shapes.push(`<line class="ptr moon" x1="${f(earth[0])}" y1="${f(earth[1])}" x2="${f(mx)}" y2="${f(my)}"/>`)
+
+  // A mark on the star ring's inner edge shows which star and sign the Moon is in.
+  const [kx, ky] = xy(moonDeg, R.nakIn - 6)
+  labels.push(`<text class="moon-mark" x="${f(kx)}" y="${f(ky)}" text-anchor="middle" dominant-baseline="central">☾</text>`)
+
+  const bodies = [
+    `<circle class="glow" cx="${C}" cy="${C}" r="16" fill="url(#sky-glow)"/><circle class="sun-disc" cx="${C}" cy="${C}" r="9"/>`,
+    body(0, 0, SUN.earth, sunDeg, 'earth', earth),
+    body(moonDeg, SUN.moon, SUN.moonSize, sunDeg, 'moon-body', earth),
+  ]
+  return { svg: chart(shapes, labels, bodies), elongation: elong, tithi, nakshatra: nak, moonSign, sunSign, illumination: (1 - Math.cos(rad(elong))) / 2 }
 }

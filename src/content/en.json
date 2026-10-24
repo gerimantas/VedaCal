@@ -770,6 +770,8 @@
     "skyFullMoon": "full moon",
     "skyWaxing": "waxing",
     "skyWaning": "waning",
+    "skyTabEarth": "Earth in the centre",
+    "skyTabSun": "Sun in the centre",
     "skyLegendTitle": "How to read the chart",
     "skyLegendOrbit": "Inner ring: the 30 lunar days (Tithi) of 12°, counted from the Sun. The lighter half is waxing, the darker half waning. “New moon” and “full moon” mark where the Moon stands at those moments.",
     "skyLegendStars": "Middle ring: the 27 Moon stars (Nakshatra). The one the Moon is in now is highlighted.",

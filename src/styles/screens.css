@@ -1271,6 +1271,10 @@ h3 {
   padding: var(--space-sm);
 }
 
+.sky > .sky-tabs {
+  margin: 0 0 var(--space-sm);
+}
+
 .sky > .sky-card {
   padding: var(--space-2xs);
 }
@@ -1312,6 +1316,8 @@ h3 {
 .sky-chart .ptr { stroke-width: 1.2; stroke-dasharray: 4 3; }
 .sky-chart .ptr.moon { stroke: var(--sky-moon); }
 .sky-chart .ptr.sun { stroke: var(--sky-sun); }
+.sky-chart .orbit { fill: none; stroke: var(--color-neutral); stroke-width: 0.8; stroke-dasharray: 3 3; }
+.sky-chart .moon-mark { fill: var(--sky-moon); font-size: 9px; font-weight: 700; }
 .sky-chart .angle { fill: none; stroke: var(--sky-sun); stroke-width: 1.5; }
 .sky-chart .arrow { fill: var(--sky-sun); }
 .sky-chart .deg { fill: var(--sky-sun); font-size: 9px; font-weight: 700; }

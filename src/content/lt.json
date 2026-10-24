@@ -770,6 +770,8 @@
     "skyFullMoon": "pilnatis",
     "skyWaxing": "priešpilnis",
     "skyWaning": "delčia",
+    "skyTabEarth": "Žemė centre",
+    "skyTabSun": "Saulė centre",
     "skyLegendTitle": "Kaip skaityti brėžinį",
     "skyLegendOrbit": "Vidinis žiedas: 30 Mėnulio dienų (Tithi) po 12°, skaičiuojant nuo Saulės. Šviesesnė pusė – priešpilnis, tamsesnė – delčia. „Jaunatis“ ir „pilnatis“ žymi, kur tą akimirką būna Mėnulis.",
     "skyLegendStars": "Vidurinis žiedas: 27 Mėnulio žvaigždės (Nakshatra). Paryškinta ta, kurioje dabar Mėnulis.",

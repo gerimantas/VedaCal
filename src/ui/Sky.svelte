@@ -7,7 +7,7 @@
   import { LOCALE, barDate, entry, t } from './format'
   import { icon } from './icons'
   import { realisticMoon } from './moon'
-  import { rashi, skyView } from './sky'
+  import { rashi, skyView, skyViewSun } from './sky'
   import { app } from './state.svelte'
 
   const HOUR = 3600_000
@@ -17,7 +17,8 @@
   let playing = $state(false)
 
   const when = $derived(new Date(base + offset * HOUR))
-  const v = $derived(skyView(when))
+  let tab = $state<'earth' | 'sun'>('earth') // nothing is remembered between visits
+  const v = $derived(tab === 'sun' ? skyViewSun(when) : skyView(when))
   const day = $derived(entry('tithi', v.tithi))
   const star = $derived(entry('nakshatra', v.nakshatra))
   const num = (n: number) => n.toLocaleString(LOCALE, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
@@ -49,6 +50,12 @@
       <button aria-label={t('nextDay')} onclick={() => (base += DAY)}>{@html icon.right}</button>
     </div>
   </AppBar>
+
+  <div class="segmented sky-tabs" role="group" aria-label={t('skyTitle')}>
+    {#each [['earth', t('skyTabEarth')], ['sun', t('skyTabSun')]] as const as [value, label] (value)}
+      <button aria-pressed={tab === value} onclick={() => (tab = value)}>{label}</button>
+    {/each}
+  </div>
 
   <section class="card sky-card">{@html v.svg}</section>
 

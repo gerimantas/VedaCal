@@ -10,7 +10,7 @@ import { civilDate } from '../src/core/time'
 import { buildIndex, nearest, search, type CityData } from '../src/ui/cities'
 import { activeAt, dayView } from '../src/ui/day'
 import { content, entry, sourced, time, until } from '../src/ui/format'
-import { skyView } from '../src/ui/sky'
+import { skyView, skyViewSun, sunCentredLayout } from '../src/ui/sky'
 import { termGroups, terms } from '../src/ui/terms'
 
 const index = buildIndex(data as unknown as CityData)
@@ -154,6 +154,30 @@ it('Sky chart agrees with the day screen at sunrise', () => {
     const v = skyView(at)
     expect(v.tithi, q).toBe(day.tithi[0].index)
     expect(v.nakshatra, q).toBe(day.nakshatra[0].index)
+  }
+})
+
+// User, 2026-10-24: Sun-centred chart as a second tab — same facts, Earth opposite the Sun.
+it('Sun-centred chart: same facts, Earth opposite the Sun, line ends in the Sun sign', () => {
+  const at = new Date('2026-10-24T09:00:00Z')
+  const a = skyView(at)
+  const b = skyViewSun(at)
+  expect({ ...b, svg: '' }).toEqual({ ...a, svg: '' })
+  expect(b.svg).not.toBe(a.svg)
+  for (const sun of [0, 29.9, 30, 123.4, 359.9]) {
+    const moon = (sun + 77) % 360
+    const L = sunCentredLayout(sun, moon)
+    expect((((L.earthDeg - L.sunDeg) % 360) + 360) % 360).toBeCloseTo(180)
+    // End point of the Earth → Sun line, as an angle around the centre, lies in the Sun's sign.
+    const ang = (Math.atan2(200 - L.sunEnd[1], L.sunEnd[0] - 200) * 180) / Math.PI
+    const lon = (((ang - 180) % 360) + 360) % 360
+    expect(Math.floor((lon + 1e-6) / 30), String(sun)).toBe(Math.floor(sun / 30))
+    // Earth, centre and line end are collinear.
+    const cross = (200 - L.earth[0]) * (L.sunEnd[1] - L.earth[1]) - (200 - L.earth[1]) * (L.sunEnd[0] - L.earth[0])
+    expect(Math.abs(cross)).toBeLessThan(1e-6)
+    expect(Math.hypot(L.moon[0] - L.earth[0], L.moon[1] - L.earth[1])).toBeCloseTo(23)
+    const dir = (Math.atan2(L.earth[1] - L.moon[1], L.moon[0] - L.earth[0]) * 180) / Math.PI
+    expect((((dir - L.moonDeg) % 360) + 540) % 360 - 180).toBeCloseTo(0)
   }
 })
 
