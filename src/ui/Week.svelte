@@ -91,7 +91,7 @@
     if (rows.find((r) => r.date === date)?.w) dialog.showModal()
   }
   /** The row's label: the base goes by "day base", as in the Day screen's list. */
-  const rowNames = (r: DayRow) => [...new Set(r.why.map((p) => (p.kind === 'base' ? t('segmentBase') : periodName(p))))].join(', ')
+  const rowNames = (r: DayRow) => [...new Set(r.why.map((p) => (p.kind === 'base' ? t('segmentBase') : periodName(p))))].join(' · ')
   function open(date: string) {
     app.date = date === today ? null : date
     location.hash = '#/day'
@@ -154,7 +154,7 @@
     {#if sheetRow?.w && sum}
       <h3 class="dtitle">{title}
         <span class="sw dsw" style:background={sheetRow.colour ?? 'var(--color-card)'}></span>
-        <span class="dword">{shadeWord(RAINBOW_ORDER[Math.round(sheetRow.w.avg)])}{#if sheetRow.w.star} <b class="star">★</b>{/if}</span>
+        <span class="dword">{shadeWord(RAINBOW_ORDER[Math.round(sheetRow.w.avg)])}{#if sheetRow.w.star}{' '}<b class="star">★</b>{/if}</span>
       </h3>
       <h4>{t('daySheetWhy')}</h4>
       <p class="none">{t('daySheetAvg')}</p>
@@ -335,14 +335,20 @@
     list-style: none;
     font-size: var(--text-sm);
   }
+  /* The time on the dot's line, the names under it: a 12-hour clock or a long list then never wraps the time. */
   .times li {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: baseline;
-    gap: var(--space-2xs);
+    column-gap: var(--space-2xs);
     padding: 2px 0;
   }
+  .times .num {
+    white-space: nowrap;
+  }
   .times .why {
-    min-width: 0;
+    grid-column: 2;
+    color: var(--color-muted);
     overflow-wrap: anywhere;
   }
   .dot {
