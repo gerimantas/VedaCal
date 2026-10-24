@@ -10,7 +10,7 @@ import { civilDate } from '../src/core/time'
 import { buildIndex, nearest, search, type CityData } from '../src/ui/cities'
 import { activeAt, dayView } from '../src/ui/day'
 import { content, entry, sourced, time, until } from '../src/ui/format'
-import { skyView, skyViewSun, sunCentredLayout } from '../src/ui/sky'
+import { skyView, skyViewSun, skyWrap, sunCentredLayout } from '../src/ui/sky'
 import { termGroups, terms } from '../src/ui/terms'
 
 const index = buildIndex(data as unknown as CityData)
@@ -157,13 +157,41 @@ it('Sky chart agrees with the day screen at sunrise', () => {
   }
 })
 
+// User, 2026-10-24: smooth Play splits the chart into a rings layer and a moving layer.
+it('Sky layers: rings depend only on the highlights; labels hold still while playing', () => {
+  const a = new Date('2026-10-24T09:00:00Z')
+  const b = new Date(a.getTime() + 60_000) // same Sun sign, Moon sign and star
+  for (const view of [skyView, skyViewSun]) {
+    expect(view(a).rings).toBe(view(b).rings)
+    expect(view(a).moving).not.toBe(view(b).moving)
+    expect(view(new Date('2026-11-24T09:00:00Z')).rings).not.toBe(view(a).rings)
+  }
+  // Labels take their natural angle when still; at some moment they otherwise give way.
+  const diff = Array.from({ length: 30 }, (_, i) => new Date(a.getTime() + i * 24 * 3600_000)).some(
+    (d) => skyView(d).moving !== skyView(d, { still: true }).moving,
+  )
+  expect(diff).toBe(true)
+})
+
+// The old single-string chart (captured before the split) has the same nodes as wrapper + rings + moving.
+it('Sky layers add up to the old single-string chart (same nodes)', () => {
+  const old = JSON.parse(readFileSync(new URL('./fixtures/sky-old.json', import.meta.url), 'utf8')) as Record<string, string>
+  const nodes = (svg: string) => svg.replace(/>\s+</g, '><').match(/<[^>]+>[^<]*(?:<tspan[^>]*>[^<]*<\/tspan>)?[^<]*(?:<\/text>)?/g)!.map((x) => x.trim()).sort()
+  for (const [key, svg] of Object.entries(old)) {
+    const at = new Date(key.slice(1))
+    const v = key[0] === 'e' ? skyView(at) : skyViewSun(at)
+    expect(nodes(skyWrap(v.rings, v.moving)), key).toEqual(nodes(svg))
+  }
+})
+
 // User, 2026-10-24: Sun-centred chart as a second tab — same facts, Earth opposite the Sun.
 it('Sun-centred chart: same facts, Earth opposite the Sun, line ends in the Sun sign', () => {
   const at = new Date('2026-10-24T09:00:00Z')
   const a = skyView(at)
   const b = skyViewSun(at)
-  expect({ ...b, svg: '' }).toEqual({ ...a, svg: '' })
-  expect(b.svg).not.toBe(a.svg)
+  const bare = (x: typeof a) => ({ ...x, rings: '', moving: '' })
+  expect(bare(b)).toEqual(bare(a))
+  expect(b.moving).not.toBe(a.moving)
   for (const sun of [0, 29.9, 30, 123.4, 359.9]) {
     const moon = (sun + 77) % 360
     const L = sunCentredLayout(sun, moon)

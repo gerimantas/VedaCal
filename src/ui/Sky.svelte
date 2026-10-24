@@ -2,23 +2,26 @@
   // Sky screen (user, 2026-10-05): a top-down chart of the Sun, the Moon and the Earth over
   // the 30 lunar days, 27 Moon stars and 12 signs (./sky), then the facts it shows, a folded
   // legend and a time slider (±15 days).
+  // Smooth Play (user, 2026-10-24): the signs/stars rings are their own group and redraw only when
+  // their highlights change; Play runs on requestAnimationFrame at 2 h per 60 ms; a short tap on
+  // the chart starts/stops it; the panel Moon is rebuilt only when its percent or phase changes.
   import AppBar from './AppBar.svelte'
   import { civilDate } from '../core/time'
   import { LOCALE, barDate, entry, t } from './format'
   import { icon } from './icons'
   import { realisticMoon } from './moon'
-  import { rashi, skyView, skyViewSun } from './sky'
+  import { SKY_DEFS, rashi, skyView, skyViewSun } from './sky'
   import { app } from './state.svelte'
 
   const HOUR = 3600_000
   let base = $state(Date.now())
   let offset = $state(0) // hours from base
-  let timer = 0
+  let frame = 0
   let playing = $state(false)
 
   const when = $derived(new Date(base + offset * HOUR))
   let tab = $state<'earth' | 'sun'>('earth') // nothing is remembered between visits
-  const v = $derived(tab === 'sun' ? skyViewSun(when) : skyView(when))
+  const v = $derived(tab === 'sun' ? skyViewSun(when) : skyView(when, { still: playing }))
   const day = $derived(entry('tithi', v.tithi))
   const star = $derived(entry('nakshatra', v.nakshatra))
   const num = (n: number) => n.toLocaleString(LOCALE, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
@@ -34,12 +37,44 @@
     base = Date.now()
     offset = 0
   }
+  const HOURS_PER_MS = 2 / 60 // same speed as before: 2 h per 60 ms
+  const stop = () => {
+    cancelAnimationFrame(frame)
+    frame = 0
+  }
   const toggle = () => {
     playing = !playing
-    if (!playing) return clearInterval(timer)
-    timer = window.setInterval(() => (offset = offset >= 360 ? -360 : offset + 2), 60)
+    if (!playing) return stop()
+    let last = performance.now()
+    const step = (ts: number) => {
+      const next = offset + (ts - last) * HOURS_PER_MS
+      last = ts
+      offset = next > 360 ? -360 : next
+      frame = requestAnimationFrame(step)
+    }
+    frame = requestAnimationFrame(step)
   }
-  $effect(() => () => clearInterval(timer))
+  $effect(() => stop)
+
+  // A short tap on the chart toggles Play; a long press or a drag (scroll) does not.
+  let down: { t: number; x: number; y: number } | null = null
+  const pointerdown = (e: PointerEvent) => (down = { t: e.timeStamp, x: e.clientX, y: e.clientY })
+  const pointerup = (e: PointerEvent) => {
+    if (down && e.timeStamp - down.t < 300 && Math.hypot(e.clientX - down.x, e.clientY - down.y) < 10) toggle()
+    down = null
+  }
+  const keydown = (e: KeyboardEvent) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return
+    e.preventDefault()
+    toggle()
+  }
+
+  // Panel Moon: a primitive key first, so the string (and the DOM) is the same between frames.
+  const moonKey = $derived(`${Math.round(v.illumination * 100)}:${v.elongation < 180 ? 1 : 0}`)
+  const moonSvg = $derived.by(() => {
+    const [pct, waxing] = moonKey.split(':')
+    return realisticMoon(Number(pct) / 100, waxing === '1', 28, t('skyFromEarth'))
+  })
 </script>
 
 <main class="screen sky">
@@ -57,7 +92,22 @@
     {/each}
   </div>
 
-  <section class="card sky-card">{@html v.svg}</section>
+  <div
+    class="card sky-card"
+    role="button"
+    tabindex="0"
+    aria-label={playing ? 'Pause' : 'Play'}
+    onpointerdown={pointerdown}
+    onpointerup={pointerup}
+    onpointercancel={() => (down = null)}
+    onkeydown={keydown}
+  >
+    <svg class="sky-chart" viewBox="34 34 332 332" role="img" aria-label={t('skyTitle')}>
+      <defs>{@html SKY_DEFS}</defs>
+      <g>{@html v.rings}</g>
+      <g>{@html v.moving}</g>
+    </svg>
+  </div>
 
   <section class="card sky-facts">
     <dl>
@@ -76,7 +126,7 @@
       <dd><span class="sun-text">{rashi(v.sunSign).title}</span> <span class="sk">· {rashi(v.sunSign).name}</span></dd>
       <dt>{t('skyFromEarth')}</dt>
       <dd class="seen">
-        {@html realisticMoon(v.illumination, v.elongation < 180, 28, t('skyFromEarth'))}
+        {@html moonSvg}
         {t('skyLit', { percent: Math.round(v.illumination * 100) })}
       </dd>
     </dl>
