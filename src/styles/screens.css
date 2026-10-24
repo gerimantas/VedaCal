@@ -1250,6 +1250,14 @@ h3 {
   outline: none;
 }
 
+/* Sanskrit names in the Week day sheet and the Day clock lists: yellow, size unchanged. */
+.times .sk,
+.readout .sk,
+.daylist .sk,
+.mine-note .sk {
+  color: var(--color-moon);
+}
+
 .sheet-close {
   width: 100%;
   margin-top: var(--space-md);

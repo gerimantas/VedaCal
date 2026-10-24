@@ -8,7 +8,7 @@
   import { duration, LOCALE, MONTH, t, time } from './format'
   import { icon } from './icons'
   import { app } from './state.svelte'
-  import { colourVar, levelWord, periodName, RAINBOW_ORDER, shadeWord, type DayRow } from './verdict'
+  import { colourVar, esc, levelWord, periodNameHtml, RAINBOW_ORDER, shadeWord, type DayRow } from './verdict'
   import { axisStartHour, axisWindow, axisX, barGradient, daySummary, mondayOf, scaleColour, weekDates, weekLabel, weekModel } from './week'
 
   const loc = $derived(app.location)
@@ -91,7 +91,7 @@
     if (rows.find((r) => r.date === date)?.w) dialog.showModal()
   }
   /** The row's label: the base goes by "day base", as in the Day screen's list. */
-  const rowNames = (r: DayRow) => [...new Set(r.why.map((p) => (p.kind === 'base' ? t('segmentBase') : periodName(p))))].join(' · ')
+  const rowNames = (r: DayRow) => [...new Set(r.why.map((p) => (p.kind === 'base' ? esc(t('segmentBase')) : periodNameHtml(p))))].join(' · ')
   function open(date: string) {
     app.date = date === today ? null : date
     location.hash = '#/day'
@@ -141,7 +141,7 @@
   {#if list.length}
     <ul class="times">
       {#each list as r (r.start.getTime())}
-        <li><i class="dot" style:background="var({colourVar(r.shade)})"></i><span class="num">{time(r.start, loc)}–{time(r.end, loc)}</span><span class="why">{rowNames(r)}</span></li>
+        <li><i class="dot" style:background="var({colourVar(r.shade)})"></i><span class="num">{time(r.start, loc)}–{time(r.end, loc)}</span><span class="why">{@html rowNames(r)}</span></li>
       {/each}
     </ul>
   {:else}
@@ -168,7 +168,7 @@
       {@render times(sum.worst)}
       <h4>{t('daySheetReasons')}</h4>
       <ul class="times">
-        {#each sum.reasons as p (periodName(p))}<li><span class="why">{periodName(p)} — {levelWord(p)}</span></li>{/each}
+        {#each sum.reasons as p (periodNameHtml(p))}<li><span class="why">{@html periodNameHtml(p)} — {levelWord(p)}</span></li>{/each}
       </ul>
       <button class="sheet-close open" onclick={() => (dialog.close(), open(sheetRow.date))}>{t('daySheetOpen')}</button>
     {/if}
@@ -358,9 +358,8 @@
     border-radius: 50%;
   }
   .sheet-close.open {
-    background: var(--color-accent);
-    color: var(--color-paper);
-    border-color: transparent;
+    border: 2px solid var(--color-accent);
+    padding: calc(var(--space-xs) - (2px - var(--rule-hair)));
   }
   .note {
     margin: var(--space-2xs) 0 0;

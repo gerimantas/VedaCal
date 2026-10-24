@@ -49,55 +49,79 @@ const tithiName = (i: number) => entry('tithi', i).name
 const yogaName = (i: number) => entry('yoga', i).name
 const dayName = (date: unknown) => new Intl.DateTimeFormat(LOCALE, { month: MONTH, day: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`))
 
-/** The name a period goes by in the readout. Sanskrit names stay as they are in both languages. */
-export function periodName(p: Period): string {
+// Sanskrit parts are marked with these two control characters while a name is built, so the
+// plain and the HTML forms come from one switch and cannot drift.
+const SK_OPEN = '\u0001'
+const SK_CLOSE = '\u0002'
+const mark = (s: string) => `${SK_OPEN}${s}${SK_CLOSE}`
+export const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+/** A UI template filled in: `skVars` values and the Sanskrit `words` found in the template are marked. */
+function fill(key: Parameters<typeof t>[0], vars: Record<string, string | number>, skVars: string[] = [], words: string[] = []): string {
+  let tpl = content.ui[key]
+  for (const w of words) tpl = tpl.split(w).join(mark(w))
+  const v: Record<string, string | number> = { ...vars }
+  for (const k of skVars) v[k] = mark(String(v[k]))
+  return tpl.replace(/\{(\w+)\}/g, (_, k: string) => String(v[k] ?? ''))
+}
+
+function nameMarked(p: Period): string {
   const d = p.detail ?? {}
   switch (p.kind) {
-    case 'rahuKaal': return 'Rahu Kaal'
-    case 'yamaganda': return 'Yamaganda'
-    case 'gulika': return 'Gulika'
-    case 'durMuhurtam': return 'Dur Muhurtam'
-    case 'varjyam': return 'Varjyam'
-    case 'amritKalam': return 'Amrit Kalam'
-    case 'abhijit': return 'Abhijit Muhurta'
-    case 'brahma': return 'Brahma Muhurta'
+    case 'rahuKaal': return mark('Rahu Kaal')
+    case 'yamaganda': return mark('Yamaganda')
+    case 'gulika': return mark('Gulika')
+    case 'durMuhurtam': return mark('Dur Muhurtam')
+    case 'varjyam': return mark('Varjyam')
+    case 'amritKalam': return mark('Amrit Kalam')
+    case 'abhijit': return mark('Abhijit Muhurta')
+    case 'brahma': return mark('Brahma Muhurta')
     case 'noon': return t('periodNoon')
     case 'midnight': return t('periodMidnight')
     case 'tithiGandanta': return t('periodTithiJunction')
     case 'nakshatraGandanta': return t('periodStarJunction')
     case 'lagnaGandanta': return t('periodSignJunction')
-    case 'pakshaRandhra': return t('periodFirstHours', { name: tithiName(Number(d.tithi)) })
-    case 'yogaPart': return t('periodYogaStart', { name: yogaName(Number(d.yoga)) })
-    case 'vyatipata': return 'Vyatipata'
-    case 'vaidhriti': return 'Vaidhriti'
-    case 'bhadraMouth': return t('periodBhadraMouth')
-    case 'bhadra': return 'Bhadra'
-    case 'bhadraTail': return t('periodBhadraTail')
-    case 'sarvartha': return 'Sarvartha Siddhi'
-    case 'amritSiddhi': return 'Amrit Siddhi'
-    case 'ravi': return 'Ravi yoga'
+    case 'pakshaRandhra': return fill('periodFirstHours', { name: tithiName(Number(d.tithi)) }, ['name'])
+    case 'yogaPart': return fill('periodYogaStart', { name: yogaName(Number(d.yoga)) }, ['name'])
+    case 'vyatipata': return mark('Vyatipata')
+    case 'vaidhriti': return mark('Vaidhriti')
+    case 'bhadraMouth': return fill('periodBhadraMouth', {}, [], ['Bhadra'])
+    case 'bhadra': return mark('Bhadra')
+    case 'bhadraTail': return fill('periodBhadraTail', {}, [], ['Bhadra'])
+    case 'sarvartha': return mark('Sarvartha Siddhi')
+    case 'amritSiddhi': return mark('Amrit Siddhi')
+    case 'ravi': return mark('Ravi yoga')
     case 'eclipse': return t('periodEclipse')
     case 'eclipseDays': return t('periodEclipseDays', { date: dayName(d.day) })
-    case 'eclipseStar': return t('periodEclipseStar', { star: entry('nakshatra', Number(d.star)).name, date: dayName(d.day) })
-    case 'month': return t(`periodMonth_${String(d.name)}` as 'periodMonth_adhika')
-    case 'baana': return `${String(d.name)[0].toUpperCase()}${String(d.name).slice(1)} Baana`
-    case 'panchaka': return 'Panchaka'
-    case 'dishaShool': return t('periodDishaShool', { dir: t(`dir_${p.dir && 'only' in p.dir ? p.dir.only : 'east'}` as 'dir_east') })
-    case 'dawn': return t('periodDawn')
-    case 'godhuli': return 'Godhuli'
-    case 'nishita': return 'Nishita'
-    case 'anandadi': return t('periodAnandadi', { name: String(d.name) })
-    case 'sankranti': return t('periodSankranti', { sign: (content.rashi as Record<string, { name: string }>)[String(d.sign)].name })
-    case 'pushkara': return d.times === 3 ? 'Tri Pushkara' : 'Dwi Pushkara'
-    case 'hora': return t('periodHora', { planet: t(`planet_${String(d.planet)}` as 'planet_sun') })
-    case 'choghadiya': return `Choghadiya ${(content.choghadiya as Record<string, { name: string }>)[String(d.name)].name}`
-    case 'tara': return t('periodTara', { name: TARA_NAMES[Number(d.tara) - 1] })
-    case 'chandra': return t(Number(d.place) === 8 ? 'periodChandrashtama' : 'periodChandra', { n: Number(d.place) })
+    case 'eclipseStar': return fill('periodEclipseStar', { star: entry('nakshatra', Number(d.star)).name, date: dayName(d.day) }, ['star'])
+    case 'month': {
+      const name = String(d.name)
+      const words = name === 'adhika' ? ['Adhika'] : name === 'chaturmas' ? ['Chaturmas'] : name === 'jupiter' ? ['Magha – P.Phalguni'] : name.endsWith('Asta') ? ['asta'] : []
+      return fill(`periodMonth_${name}` as 'periodMonth_adhika', {}, [], words)
+    }
+    case 'baana': return mark(`${String(d.name)[0].toUpperCase()}${String(d.name).slice(1)} Baana`)
+    case 'panchaka': return mark('Panchaka')
+    case 'dishaShool': return fill('periodDishaShool', { dir: t(`dir_${p.dir && 'only' in p.dir ? p.dir.only : 'east'}` as 'dir_east') }, [], ['Disha Shool'])
+    case 'dawn': return fill('periodDawn', {}, [], ['Pratah Sandhya'])
+    case 'godhuli': return mark('Godhuli')
+    case 'nishita': return mark('Nishita')
+    case 'anandadi': return fill('periodAnandadi', { name: String(d.name) }, ['name'], ['Anandadi'])
+    case 'sankranti': return fill('periodSankranti', { sign: (content.rashi as Record<string, { name: string }>)[String(d.sign)].name }, ['sign'], ['Sankranti'])
+    case 'pushkara': return mark(d.times === 3 ? 'Tri Pushkara' : 'Dwi Pushkara')
+    case 'hora': return fill('periodHora', { planet: t(`planet_${String(d.planet)}` as 'planet_sun') }, [], ['hora'])
+    case 'choghadiya': return mark(`Choghadiya ${(content.choghadiya as Record<string, { name: string }>)[String(d.name)].name}`)
+    case 'tara': return fill('periodTara', { name: TARA_NAMES[Number(d.tara) - 1] }, ['name'], ['tara'])
+    case 'chandra': return fill(Number(d.place) === 8 ? 'periodChandrashtama' : 'periodChandra', { n: Number(d.place) }, [], Number(d.place) === 8 ? ['Chandrashtama'] : [])
     case 'janma': return t(d.what === 'month' ? 'periodJanmaMonth' : 'periodJanmaTithi')
     case 'base':
-      return t('periodBase', { vara: entry('vara', Number(d.vara)).name, tithi: tithiName(Number(d.tithi)), star: entry('nakshatra', Number(d.star)).name })
+      return fill('periodBase', { vara: entry('vara', Number(d.vara)).name, tithi: tithiName(Number(d.tithi)), star: entry('nakshatra', Number(d.star)).name }, ['vara', 'tithi', 'star'])
   }
 }
+
+/** The name a period goes by in the readout. Sanskrit names stay as they are in both languages. */
+export const periodName = (p: Period): string => nameMarked(p).replace(/[\u0001\u0002]/g, '')
+
+/** The same name as HTML: the Sanskrit parts in `<span class="sk">`, everything else escaped. */
+export const periodNameHtml = (p: Period): string => esc(nameMarked(p)).replace(/\u0001/g, '<span class="sk">').replace(/\u0002/g, '</span>')
 
 /** What the sources say of a period and where (content `tradition`, `traditionSource`); '' where none is written. */
 export function periodWhy(p: Period): { text: string; source: string } {

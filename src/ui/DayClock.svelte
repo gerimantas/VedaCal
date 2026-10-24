@@ -9,7 +9,7 @@
   import { app, setSetting } from './state.svelte'
   import type { Direction, Period } from '../core/periods'
   import { resolveBirth } from './birth'
-  import { clockModel, colourVar, dayRows, FADE, GROUP_LABELS, levelWord, periodName, periodNote, periodWhy, RAINBOW_ORDER, ringOf, scalePos, shadeOf, shadeWord, type DayRow, type Shade } from './verdict'
+  import { clockModel, colourVar, dayRows, FADE, GROUP_LABELS, esc, levelWord, periodNameHtml, periodNote, periodWhy, RAINBOW_ORDER, ringOf, scalePos, shadeOf, shadeWord, type DayRow, type Shade } from './verdict'
 
   // `picked`: the moment the hand was moved to, null = now; bound, so the top bar's Now resets it.
   let { day, prev, loc, now, picked = $bindable(null) }: { day: DayPanchang; prev: DayPanchang; loc: Location; now: Date; picked?: Date | null } = $props()
@@ -238,7 +238,7 @@
   type Row = DayRow
   const rows = $derived(dayRows(model?.segments ?? []))
   /** The short label in the row: the base goes by "day base" there, its full name in the opened row. */
-  const rowNames = (r: Row) => [...new Set(r.why.map((p) => (p.kind === 'base' ? t('segmentBase') : periodName(p))))]
+  const rowNames = (r: Row) => [...new Set(r.why.map((p) => (p.kind === 'base' ? esc(t('segmentBase')) : periodNameHtml(p))))]
   const handTag = $derived(picked === null && nowOnDial ? t('now') : time(cursor, loc))
   let open = $state<number | null>(null)
   $effect(() => {
@@ -299,7 +299,7 @@
       {:else if birth && !birth.star && !birth.sign && !birth.tithi}
         <p class="mine-note" role="alert"><a href="#/settings/mydata">{t('birthNothing')}</a></p>
       {:else if mineNow.length}
-        <p class="mine-note">{t('mineNow')}: {mineNow.map((p) => `${periodName(p)} (${levelWord(p)})`).join(' · ')}</p>
+        <p class="mine-note">{t('mineNow')}: {@html mineNow.map((p) => `${periodNameHtml(p)} (${esc(levelWord(p))})`).join(' · ')}</p>
       {/if}
     {/if}
 
@@ -406,7 +406,7 @@
       <ul>
         {#each active as p (p)}
           <li>
-            {periodName(p)} — {levelWord(p)}{#if periodNote(p, dir)}<span class="quiet"> · {periodNote(p, dir)}</span>{/if}{#if seg?.cancelled.includes(p)}<span class="quiet"> · {t('cancelledByRavi')}</span>{/if}{#if seg?.by.includes(p)}
+            {@html periodNameHtml(p)} — {levelWord(p)}{#if periodNote(p, dir)}<span class="quiet"> · {periodNote(p, dir)}</span>{/if}{#if seg?.cancelled.includes(p)}<span class="quiet"> · {t('cancelledByRavi')}</span>{/if}{#if seg?.by.includes(p)}
               <b> ← {t('decides')}</b>{/if}
           </li>
         {/each}
@@ -424,7 +424,7 @@
             <svg viewBox="0 0 24 24" aria-hidden="true">{@render verdictIcon(r.shade)}</svg>
             <span
               >{#if isHand}<span class="nowtag num">{handTag}</span>{/if}<b style:color="var(--row)">{shadeWord(r.shade)}</b>{#if r.why.length}<span class="why"
-                  >{' · '}{rowNames(r).join(', ')}</span
+                  >{' · '}{@html rowNames(r).join(', ')}</span
                 >{/if}</span
             >
           </button>
@@ -433,7 +433,7 @@
               {#each r.why as p (p)}
                 {@const w = periodWhy(p)}
                 <li>
-                  <b>{periodName(p)}</b><span class="quiet"> · {levelWord(p)}</span>
+                  <b>{@html periodNameHtml(p)}</b><span class="quiet"> · {levelWord(p)}</span>
                   {#if w.text}<p>{w.text}</p>{/if}
                   {#if w.source}<p class="src">{t('source')}: {w.source}</p>{/if}
                 </li>
