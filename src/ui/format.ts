@@ -124,3 +124,36 @@ export const progress = (s: Span, at: Date) =>
   Math.min(1, Math.max(0, (at.getTime() - s.start.getTime()) / (s.end.getTime() - s.start.getTime())))
 
 export const percent = (x: number) => Math.round(x * 100)
+
+/** Escapes text for {@html}. */
+export const escHtml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+
+/**
+ * Text as HTML with the given Sanskrit names in `<span class="sk">` (user, 2026-10-24: Sanskrit is
+ * yellow everywhere). Everything else is escaped. Names match whole words only, case-sensitively,
+ * longest first, so "Shukla Pratipada" wins over "Shukla" and "Rog" is not found inside "Rogas".
+ */
+export function markSanskrit(text: string, names: readonly string[]): string {
+  const list = [...new Set(names.filter(Boolean))].sort((a, b) => b.length - a.length)
+  if (!list.length) return escHtml(text)
+  const word = String.raw`[\p{L}\p{N}]`
+  const alt = list.map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
+  const re = new RegExp(`(?<!${word})(?:${alt})(?!${word})`, 'gu')
+  let out = '', last = 0
+  for (const m of text.matchAll(re)) {
+    out += `${escHtml(text.slice(last, m.index))}<span class="sk">${escHtml(m[0])}</span>`
+    last = m.index + m[0].length
+  }
+  return out + escHtml(text.slice(last))
+}
+
+// Sanskrit words that sit inside UI text and are not an entry name.
+const EXTRA_SANSKRIT = ['Ekadashi', 'Parana', 'Bhadra', 'Vishti', 'Amavasya', 'Purnima', 'parvan', 'Tithi', 'Vara', 'Masa', 'Nakshatra', 'Rashi', 'Yoga', 'Karana', 'Ritu', 'Choghadiya', 'Brahma Muhurta', 'Abhijit Muhurta', 'Rahu Kaal', 'Yamaganda', 'Gulika', 'Vyatipata', 'Vaidhriti', 'Sankranti', 'Grahan', 'Amrit Siddhi', 'Sarvartha Siddhi', 'Guru Pushya', 'Ravi Pushya']
+const NAMED_GROUPS = ['tithi', 'vara', 'masa', 'nakshatra', 'rashi', 'yoga', 'karana', 'choghadiya', 'rhythm'] as const
+/** Every Sanskrit name the content knows: entry names plus the words above. */
+export const SANSKRIT_NAMES: readonly string[] = [
+  ...NAMED_GROUPS.flatMap((g) => Object.values(content[g] as Record<string, { name?: string }>).map((e) => e.name ?? '')),
+  ...EXTRA_SANSKRIT,
+].filter(Boolean)
+/** A label as HTML with its Sanskrit words marked. */
+export const labelHtml = (text: string) => markSanskrit(text, SANSKRIT_NAMES)

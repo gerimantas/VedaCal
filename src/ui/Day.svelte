@@ -6,7 +6,7 @@
   import { addDays, civilDate } from '../core/time'
   import DayClock from './DayClock.svelte'
   import { dayView, momentFor, type Fact, type SignLine } from './day'
-  import { t } from './format'
+  import { labelHtml, t } from './format'
   import { icon } from './icons'
   import { realisticMoon } from './moon'
   import { app } from './state.svelte'
@@ -51,7 +51,7 @@
   <li class="fact" data-sheet={f.term} data-sheet-lead-title={f.lead?.title} data-sheet-lead={f.lead?.text}>
     {@html f.icon}
     <div>
-      <span class="label">{f.label}</span><strong>{f.value}</strong><span class="sk">{f.sanskrit}</span>
+      <span class="label">{@html labelHtml(f.label)}</span><strong>{f.value}</strong><span class="sk">{f.sanskrit}</span>
       {#if f.next}<span class="next">{f.next}</span>{/if}
     </div>
     {#if f.right}<span class="right num">{f.right}</span>{/if}
@@ -97,7 +97,7 @@
   <section class="hero" aria-label={v.tithi.name} data-sheet="tithi" data-sheet-lead-title={v.tithi.lead.title} data-sheet-lead={v.tithi.lead.text}>
     {@html realisticMoon(v.moon.illumination, v.moon.waxing, 150, v.moon.label)}
     <h2>{v.tithi.title}</h2>
-    <p class="sub num"><b>{v.tithi.name}</b> · {t('percentLit', { percent: v.tithi.percent })}</p>
+    <p class="sub num"><b><span class="sk">{v.tithi.name}</span></b> · {t('percentLit', { percent: v.tithi.percent })}</p>
     {@render sign(v.moonSign)}
     <div class="track" aria-hidden="true"><span style:width="{(v.tithi.progress * 100).toFixed(1)}%"></span></div>
     <p class="track-label num">{v.tithi.ends}</p>

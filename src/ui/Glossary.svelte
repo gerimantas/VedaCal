@@ -2,7 +2,7 @@
   // Glossary (user, 2026-10-24): every term with its explanation and, where it has them, all its
   // values, then how times are calculated. Split out of the old two-part About screen (2026-10-06).
   import { tick } from 'svelte'
-  import { sheet, t, tradition, traditionSource } from './format'
+  import { labelHtml, sheet, t, tradition, traditionSource } from './format'
   import { glossaryTerms, suggestGlossary, type Suggestion } from './glossary'
   import { icon } from './icons'
   import Menu from './Menu.svelte'
@@ -66,7 +66,7 @@
           onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), pick(s))}
         >
           {@html icon.search}
-          <div><b>{s.title}</b><small>{[s.sanskrit, s.parent].filter(Boolean).join(' · ')}</small></div>
+          <div><b>{@html labelHtml(s.title)}</b><small>{#if s.sanskrit}<span class="sk">{s.sanskrit}</span>{/if}{#if s.sanskrit && s.parent} · {/if}{#if s.parent}{@html labelHtml(s.parent)}{/if}</small></div>
         </li>
       {/each}
     </ul>
@@ -82,7 +82,7 @@
         {@const values = all.find((g) => g.key === key)!.values}
         <li>
           <details id="g-{key}">
-            <summary><b>{name}</b>{#if sanskrit}<span class="sk">{sanskrit}</span>{/if}{@html icon.down}</summary>
+            <summary><b>{@html labelHtml(name)}</b>{#if sanskrit}<span class="sk">{sanskrit}</span>{/if}{@html icon.down}</summary>
             <!-- What tradition does in this window, then how it is found (the day sheet leads with today). -->
             {#if tradition(key)}<p>{tradition(key)}</p>{/if}
             {#if traditionSource(key)}<p class="src">{t('source')}: {traditionSource(key)}</p>{/if}
@@ -90,7 +90,7 @@
             {#if values.length}
               <dl class="kinds">
                 {#each values as [slot, v] (slot)}
-                  <dt id="g-{key}-{slot}"><b>{v.title}</b><span class="sk">{v.name}</span></dt>
+                  <dt id="g-{key}-{slot}"><b>{@html labelHtml(v.title)}</b><span class="sk">{v.name}</span></dt>
                   {#if v.meaning}<dd>{v.meaning}</dd>{/if}
                   {#if v.source}<dd class="src">{t('source')}: {v.source}</dd>{/if}
                 {/each}
