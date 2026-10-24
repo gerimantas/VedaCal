@@ -5,7 +5,7 @@
   import { computeDay } from '../core/panchang'
   import { addDays, civilDate } from '../core/time'
   import { resolveBirth } from './birth'
-  import { duration, LOCALE, MONTH, t, time } from './format'
+  import { duration, labelHtml, LOCALE, MONTH, t, time } from './format'
   import { icon } from './icons'
   import { app } from './state.svelte'
   import { colourVar, esc, levelWord, periodNameHtml, RAINBOW_ORDER, shadeWord, type DayRow } from './verdict'
@@ -133,8 +133,8 @@
     {/each}
   </div>
 
-  <p class="note">{t('paletteNote')}</p>
-  <p class="note">{t('weekNote')}</p>
+  <p class="note">{@html labelHtml(t('paletteNote'))}</p>
+  <p class="note">{@html labelHtml(t('weekNote'))}</p>
 </main>
 
 {#snippet times(list: DayRow[])}
@@ -157,7 +157,7 @@
         <span class="dword">{shadeWord(RAINBOW_ORDER[Math.round(sheetRow.w.avg)])}{#if sheetRow.w.star}{' '}<b class="star">★</b>{/if}</span>
       </h3>
       <h4>{t('daySheetWhy')}</h4>
-      <p class="none">{t('daySheetAvg')}</p>
+      <p class="none">{@html labelHtml(t('daySheetAvg'))}</p>
       <div class="share" aria-hidden="true">
         {#each sum.shares as x (x.shade)}<i style:flex="{x.ms} 0 0" style:background="var({colourVar(x.shade)})"></i>{/each}
       </div>

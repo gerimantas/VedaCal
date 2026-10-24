@@ -4,7 +4,7 @@
   import AppBar from './AppBar.svelte'
   import { computeMonth } from '../core/panchang'
   import { civilDate } from '../core/time'
-  import { t } from './format'
+  import { labelHtml, t } from './format'
   import { icon } from './icons'
   import { keyDateWhen, monthView, shiftMonth } from './month'
   import { realisticMoon } from './moon'
@@ -62,8 +62,8 @@
           <!-- The date comes first, then what the day is (user, 2026-10-21). -->
           <span class="when num">{keyDateWhen(e, loc)}</span>
           <div>
-            <b>{e.title}</b>{#if e.sub}<small><span class="sk">{e.sub}</span></small>{/if}
-            {#if e.note}<span class="note">{e.note}</span>{/if}
+            <b>{@html labelHtml(e.title)}</b>{#if e.sub}<small><span class="sk">{e.sub}</span></small>{/if}
+            {#if e.note}<span class="note">{@html labelHtml(e.note)}</span>{/if}
           </div>
         </a>
       </li>

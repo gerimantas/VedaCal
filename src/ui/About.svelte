@@ -1,7 +1,7 @@
 <script lang="ts">
   // About (SPEC 5.4), short (user, 2026-10-24): what VedaCal is, then credits with the version
   // line. How to use and the Glossary have their own screens in the ☰ menu.
-  import { sheet, t } from './format'
+  import { labelHtml, sheet, t } from './format'
   import { icon } from './icons'
   import Menu from './Menu.svelte'
   import VersionTag from './VersionTag.svelte'
@@ -28,13 +28,13 @@
   <h1 class="page-title">{t('about')}</h1>
 
   <section class="card about-intro">
-    <p>{sheet('about')}</p>
+    <p>{@html labelHtml(sheet('about'))}</p>
   </section>
 
   <h2 class="about-head">{t('credits')}</h2>
   <section class="card about-intro">
     {#each credits as [name, url, key] (name)}
-      <p><a href={url} target="_blank" rel="noopener">{name}</a> – {t(key)}</p>
+      <p><a href={url} target="_blank" rel="noopener">{name}</a> – {@html labelHtml(t(key))}</p>
     {/each}
     <p class="quiet num">{t('version')} {__APP_VERSION__} · {__GIT_COMMIT__} · {__BUILD_TIME__}</p>
   </section>

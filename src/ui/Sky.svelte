@@ -7,7 +7,7 @@
   // the chart starts/stops it; the panel Moon is rebuilt only when its percent or phase changes.
   import AppBar from './AppBar.svelte'
   import { civilDate } from '../core/time'
-  import { LOCALE, barDate, entry, t } from './format'
+  import { LOCALE, barDate, entry, labelHtml, t } from './format'
   import { icon } from './icons'
   import { realisticMoon } from './moon'
   import { SKY_DEFS, rashi, skyView, skyViewSun } from './sky'
@@ -136,10 +136,10 @@
 
   <details class="card sky-legend">
     <summary>{t('skyLegendTitle')}</summary>
-    <p class="key orbit">{t('skyLegendOrbit')}</p>
-    <p class="key stars">{t('skyLegendStars')}</p>
-    <p class="key signs">{t('skyLegendSigns')}</p>
-    <p class="quiet">{t('skyLegendNote')}</p>
+    <p class="key orbit">{@html labelHtml(t('skyLegendOrbit'))}</p>
+    <p class="key stars">{@html labelHtml(t('skyLegendStars'))}</p>
+    <p class="key signs">{@html labelHtml(t('skyLegendSigns'))}</p>
+    <p class="quiet">{@html labelHtml(t('skyLegendNote'))}</p>
   </details>
 
   <section class="card sky-time">

@@ -47,7 +47,7 @@
   </header>
   <h1 class="page-title">{t('guideGlossary')}</h1>
 
-  <p class="about-lead">{t('guideGlossaryIntro')}</p>
+  <p class="about-lead">{@html labelHtml(t('guideGlossaryIntro'))}</p>
   <label class="card search">
     {@html icon.search}
     <input type="search" placeholder={t('searchGlossary')} autocomplete="off" bind:value={query} onkeydown={onSearchKey} />
@@ -84,15 +84,15 @@
           <details id="g-{key}">
             <summary><b>{@html labelHtml(name)}</b>{#if sanskrit}<span class="sk">{sanskrit}</span>{/if}{@html icon.down}</summary>
             <!-- What tradition does in this window, then how it is found (the day sheet leads with today). -->
-            {#if tradition(key)}<p>{tradition(key)}</p>{/if}
-            {#if traditionSource(key)}<p class="src">{t('source')}: {traditionSource(key)}</p>{/if}
-            <p>{sheet(key)}</p>
+            {#if tradition(key)}<p>{@html labelHtml(tradition(key))}</p>{/if}
+            {#if traditionSource(key)}<p class="src">{@html labelHtml(`${t('source')}: ${traditionSource(key)}`)}</p>{/if}
+            <p>{@html labelHtml(sheet(key))}</p>
             {#if values.length}
               <dl class="kinds">
                 {#each values as [slot, v] (slot)}
                   <dt id="g-{key}-{slot}"><b>{@html labelHtml(v.title)}</b><span class="sk">{v.name}</span></dt>
-                  {#if v.meaning}<dd>{v.meaning}</dd>{/if}
-                  {#if v.source}<dd class="src">{t('source')}: {v.source}</dd>{/if}
+                  {#if v.meaning}<dd>{@html labelHtml(v.meaning)}</dd>{/if}
+                  {#if v.source}<dd class="src">{@html labelHtml(`${t('source')}: ${v.source}`)}</dd>{/if}
                 {/each}
               </dl>
             {/if}
@@ -103,6 +103,6 @@
   {/each}
 
   <section class="card about-intro">
-    <p>{timesText}</p>
+    <p>{@html labelHtml(timesText)}</p>
   </section>
 </main>

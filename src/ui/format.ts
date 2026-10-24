@@ -132,16 +132,25 @@ export const escHtml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&l
  * Text as HTML with the given Sanskrit names in `<span class="sk">` (user, 2026-10-24: Sanskrit is
  * yellow everywhere). Everything else is escaped. Names match whole words only, case-sensitively,
  * longest first, so "Shukla Pratipada" wins over "Shukla" and "Rog" is not found inside "Rogas".
+ * `protect` phrases (brand names) are kept whole and left unmarked, so "Drik Panchang" stays plain.
  */
-export function markSanskrit(text: string, names: readonly string[]): string {
-  const list = [...new Set(names.filter(Boolean))].sort((a, b) => b.length - a.length)
+const reCache = new Map<string, RegExp>()
+export function markSanskrit(text: string, names: readonly string[], protect: readonly string[] = []): string {
+  const guard = new Set(protect.filter(Boolean))
+  const list = [...new Set([...names.filter(Boolean), ...guard])].sort((a, b) => b.length - a.length)
   if (!list.length) return escHtml(text)
-  const word = String.raw`[\p{L}\p{N}]`
-  const alt = list.map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
-  const re = new RegExp(`(?<!${word})(?:${alt})(?!${word})`, 'gu')
+  const key = `${list.join('|')}#${[...guard].join('|')}`
+  let re = reCache.get(key)
+  if (!re) {
+    const word = String.raw`[\p{L}\p{N}]`
+    const alt = list.map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
+    re = new RegExp(`(?<!${word})(?:${alt})(?!${word})`, 'gu')
+    reCache.set(key, re)
+  }
   let out = '', last = 0
   for (const m of text.matchAll(re)) {
-    out += `${escHtml(text.slice(last, m.index))}<span class="sk">${escHtml(m[0])}</span>`
+    const hit = escHtml(m[0])
+    out += escHtml(text.slice(last, m.index)) + (guard.has(m[0]) ? hit : `<span class="sk">${hit}</span>`)
     last = m.index + m[0].length
   }
   return out + escHtml(text.slice(last))
@@ -149,11 +158,44 @@ export function markSanskrit(text: string, names: readonly string[]): string {
 
 // Sanskrit words that sit inside UI text and are not an entry name.
 const EXTRA_SANSKRIT = ['Ekadashi', 'Parana', 'Bhadra', 'Vishti', 'Amavasya', 'Purnima', 'parvan', 'Tithi', 'Vara', 'Masa', 'Nakshatra', 'Rashi', 'Yoga', 'Karana', 'Ritu', 'Choghadiya', 'Brahma Muhurta', 'Abhijit Muhurta', 'Rahu Kaal', 'Yamaganda', 'Gulika', 'Vyatipata', 'Vaidhriti', 'Sankranti', 'Grahan', 'Amrit Siddhi', 'Sarvartha Siddhi', 'Guru Pushya', 'Ravi Pushya']
+// Sanskrit words found in running text (sheets, meanings, traditions, guide). Lowercase forms are
+// listed where the prose writes them lowercase. Matching is whole-word and case-sensitive.
+const PROSE_SANSKRIT = [
+  // calendar terms
+  'Panchang', 'Muhurta', 'Muhurtha', 'Muhurtas', 'muhurta', 'muhurtas', 'tithi', 'nakshatra', 'yoga', 'yogas', 'karana', 'vara', 'masa', 'rashi', 'ritu', 'hora', 'tara',
+  'Hora', 'Tara', 'Graha', 'Lagna', 'Sandhya', 'Pratah Sandhya', 'Gandanta', 'Chaturmas', 'Adhika', 'adhika', 'Ayana', 'Paksha', 'paksha', 'paksha-randhra', 'Randhra',
+  'ekadashi', 'choghadiya', 'sankranti', 'bhadra', 'asta', 'Asta', 'ghatika', 'ghatikas', 'pala', 'palas', 'Kaal', 'Dur Muhurtam', 'Disha Shool', 'Anandadi', 'Tarabala', 'Chandrabala', 'Chandrashtama',
+  'Shukla', 'Krishna', 'Rahu', 'Ketu', 'Yama', 'Hari Vasara', 'Vasara', 'Dwadashi', 'Siddhi', 'Sarvartha', 'Amrit', 'Labh', 'Chal', 'Udveg', 'Rog', 'Gulikai', 'Hari-shayana',
+  // seasons
+  'Vasanta', 'Grishma', 'Varsha', 'Sharad', 'Hemanta', 'Shishira',
+  // yogas, signs, stars and months named in prose
+  'Parigha', 'Vishkambha', 'Vajra', 'Shula', 'Ganda', 'Atiganda', 'Vyaghata',
+  'Mesha', 'Vrishabha', 'Mithuna', 'Karka', 'Simha', 'Kanya', 'Tula', 'Vrishchika', 'Dhanu', 'Makara', 'Kumbha', 'Meena',
+  'Ashwini', 'Mrigashira', 'Ashlesha', 'Magha', 'Phalguni', 'P.Phalguni', 'Hasta', 'Chitra', 'Anuradha', 'Jyeshtha', 'Mula', 'Revati', 'Rohini', 'Pushya', 'Krittika', 'Vishakha', 'Purva', 'Ashadha', 'Shravana',
+  'Chaitra', 'Kartika', 'Bhadrapada', 'Janma', 'Vipat', 'Pratyari', 'Vadha',
+  'Mrityu', 'Baana', 'Roga', 'Chora', 'Raja', 'Padma',
+  // festivals
+  'Ugadi', 'Gudi Padwa', 'Navaratri', 'Rama Navami', 'Hanuman Jayanti', 'Akshaya Tritiya', 'Buddha Purnima', 'Ganga Dussehra', 'Dussehra', 'Nirjala', 'Ratha Yatra', 'Devshayani', 'Nag Panchami',
+  'Raksha Bandhan', 'Janmashtami', 'Ganesh Chaturthi', 'Pitru Paksha', 'Diwali', 'Govardhan Puja', 'Bhai Dooj', 'Gita Jayanti', 'Dattatreya Jayanti', 'Vasant Panchami', 'Maha Shivaratri', 'Holi',
+  // books
+  'Muhurta Chintamani', 'Brihat Samhita', 'Kalaprakasika', 'Dharmasutra', 'Ashtanga Hridaya', 'Sutrasthana',
+  // deities named in meanings
+  'Agni', 'Brahma', 'brahma', 'Ganesha', 'Shiva', 'Durga', 'Vishnu', 'Skanda', 'Kartikeya', 'Surya', 'Gauri', 'Kama', 'Chandra', 'Soma', 'Rudra', 'Aditi', 'Brihaspati', 'Bhaga', 'Aryaman', 'Savitar', 'Tvashtar',
+  'Vayu', 'Indra', 'Mitra', 'Nirriti', 'Apah', 'Vasus', 'Varuna', 'Aja Ekapada', 'Ahirbudhnya', 'Pushan', 'Vishvedevas', 'Pitris', 'Ashvins', 'Sarpa', 'Maruta', 'Vrisha',
+]
+// Brand names are never Sanskrit-marked: the whole phrase is skipped.
+export const PROTECTED_PHRASES: readonly string[] = ['Drik Panchang', 'Shubh Panchang', 'mypanchang', 'Mypanchang', 'panchangam-js', 'VedaCal']
 const NAMED_GROUPS = ['tithi', 'vara', 'masa', 'nakshatra', 'rashi', 'yoga', 'karana', 'choghadiya', 'rhythm'] as const
 /** Every Sanskrit name the content knows: entry names plus the words above. */
 export const SANSKRIT_NAMES: readonly string[] = [
   ...NAMED_GROUPS.flatMap((g) => Object.values(content[g] as Record<string, { name?: string }>).map((e) => e.name ?? '')),
   ...EXTRA_SANSKRIT,
+  ...PROSE_SANSKRIT,
 ].filter(Boolean)
-/** A label as HTML with its Sanskrit words marked. */
-export const labelHtml = (text: string) => markSanskrit(text, SANSKRIT_NAMES)
+/** A label or running text as HTML with its Sanskrit words marked; memoised per string. */
+const htmlCache = new Map<string, string>()
+export const labelHtml = (text: string): string => {
+  let out = htmlCache.get(text)
+  if (out === undefined) htmlCache.set(text, (out = markSanskrit(text, SANSKRIT_NAMES, PROTECTED_PHRASES)))
+  return out
+}

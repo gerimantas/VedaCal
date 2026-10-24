@@ -1,7 +1,7 @@
 <script lang="ts">
   // Tap anything marked data-sheet="<term>" and its explanation opens as a bottom sheet —
   // the same text as the About page (one list in en.json).
-  import { sheet, t } from './format'
+  import { labelHtml, sheet, t } from './format'
   import { icon } from './icons'
   import { terms, type Term } from './terms'
 
@@ -37,19 +37,19 @@
        reaches the button, ring and all. -->
   <!-- svelte-ignore a11y_autofocus -->
   <div class="sheet-body" tabindex="-1" autofocus>
-    <h3>{name}{#if sanskrit}{' '}<span class="sk">{sanskrit}</span>{/if}</h3>
+    <h3>{@html labelHtml(name)}{#if sanskrit}{' '}<span class="sk">{sanskrit}</span>{/if}</h3>
     <!-- {' '}: a bare space before {/if} is dropped, which glued "Kanya.The Moon". -->
-    {#if lead}<p>{#if lead.title}<b>{lead.title}.</b>{' '}{/if}{lead.text}</p>{/if}
+    {#if lead}<p>{#if lead.title}<b>{@html labelHtml(lead.title)}.</b>{' '}{/if}{@html labelHtml(lead.text)}</p>{/if}
     {#if lead}
       <!-- Folded again on every opening: the dialog element is reused. -->
       {#key lead}
         <details class="more sheet-more">
-          <summary>{more}{@html icon.down}</summary>
-          <p>{sheet(term)}</p>
+          <summary>{@html labelHtml(more)}{@html icon.down}</summary>
+          <p>{@html labelHtml(sheet(term))}</p>
         </details>
       {/key}
     {:else}
-      <p>{sheet(term)}</p>
+      <p>{@html labelHtml(sheet(term))}</p>
     {/if}
     <button class="sheet-close" onclick={() => dialog.close()}>{t('close')}</button>
   </div>

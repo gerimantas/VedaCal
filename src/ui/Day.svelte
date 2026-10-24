@@ -101,7 +101,7 @@
     {@render sign(v.moonSign)}
     <div class="track" aria-hidden="true"><span style:width="{(v.tithi.progress * 100).toFixed(1)}%"></span></div>
     <p class="track-label num">{v.tithi.ends}</p>
-    <p class="meaning">{v.tithi.meaning}</p>
+    <p class="meaning">{@html labelHtml(v.tithi.meaning)}</p>
   </section>
 
   <DayClock {day} {prev} {loc} now={clock} bind:picked />
@@ -122,7 +122,7 @@
   {#if v.tradition}
     <section class="card tradition" aria-label={t('sectionTradition')} data-sheet="rhythm" data-sheet-lead-title={v.tradition.lead.title} data-sheet-lead={v.tradition.lead.text}>
       <div class="head">{@html icon.leaf}<h3>{v.tradition.title}</h3></div>
-      <p>{v.tradition.meaning}</p>
+      <p>{@html labelHtml(v.tradition.meaning)}</p>
     </section>
   {/if}
 </main>

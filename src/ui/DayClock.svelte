@@ -5,7 +5,7 @@
   // edges blended; tap, or hold then drag, to move the hand; the centre text steps away from it.
   import type { DayPanchang, Location } from '../core/types'
   import { tzOffsetMinutes } from '../core/time'
-  import { t, time } from './format'
+  import { labelHtml, t, time } from './format'
   import { app, setSetting } from './state.svelte'
   import type { Direction, Period } from '../core/periods'
   import { resolveBirth } from './birth'
@@ -295,11 +295,11 @@
     {/if}
     {#if app.birth}
       {#if resolved && !resolved.birth}
-        <p class="mine-note" role="alert"><a href="#/settings/mydata">{t('mineNeedsStar')}</a></p>
+        <p class="mine-note" role="alert"><a href="#/settings/mydata">{@html labelHtml(t('mineNeedsStar'))}</a></p>
       {:else if birth && !birth.star && !birth.sign && !birth.tithi}
-        <p class="mine-note" role="alert"><a href="#/settings/mydata">{t('birthNothing')}</a></p>
+        <p class="mine-note" role="alert"><a href="#/settings/mydata">{@html labelHtml(t('birthNothing'))}</a></p>
       {:else if mineNow.length}
-        <p class="mine-note">{t('mineNow')}: {@html mineNow.map((p) => `${periodNameHtml(p)} (${esc(levelWord(p))})`).join(' · ')}</p>
+        <p class="mine-note">{@html labelHtml(t('mineNow'))}: {@html mineNow.map((p) => `${periodNameHtml(p)} (${esc(levelWord(p))})`).join(' · ')}</p>
       {/if}
     {/if}
 
@@ -383,7 +383,7 @@
         {/each}
       </div>
     </div>
-    <p class="palnote">{t('paletteNote')}</p>
+    <p class="palnote">{@html labelHtml(t('paletteNote'))}</p>
     <p class="sunkey num">↑ {t('sunrise')} {time(model.sunrise, loc)} · ☀ {t('solarNoon')} {time(model.noon, loc)} · ↓ {t('sunset')} {time(model.sunset, loc)} · ✦ {t('dayStart')} {time(T0, loc)}</p>
 
     <button class="disclose" aria-expanded={showInputs} onclick={() => (showInputs = !showInputs)}>
@@ -391,9 +391,9 @@
     </button>
     {#if showInputs}
       <ul class="ringkey">
-        <li>{t('ringFixed')}</li>
-        <li>{t('ringBase')}</li>
-        <li>{t('ringChoghadiya')}</li>
+        <li>{@html labelHtml(t('ringFixed'))}</li>
+        <li>{@html labelHtml(t('ringBase'))}</li>
+        <li>{@html labelHtml(t('ringChoghadiya'))}</li>
       </ul>
     {/if}
 
@@ -406,7 +406,7 @@
       <ul>
         {#each active as p (p)}
           <li>
-            {@html periodNameHtml(p)} — {levelWord(p)}{#if periodNote(p, dir)}<span class="quiet"> · {periodNote(p, dir)}</span>{/if}{#if seg?.cancelled.includes(p)}<span class="quiet"> · {t('cancelledByRavi')}</span>{/if}{#if seg?.by.includes(p)}
+            {@html periodNameHtml(p)} — {levelWord(p)}{#if periodNote(p, dir)}<span class="quiet"> · {@html labelHtml(periodNote(p, dir))}</span>{/if}{#if seg?.cancelled.includes(p)}<span class="quiet"> · {@html labelHtml(t('cancelledByRavi'))}</span>{/if}{#if seg?.by.includes(p)}
               <b> ← {t('decides')}</b>{/if}
           </li>
         {/each}
@@ -434,8 +434,8 @@
                 {@const w = periodWhy(p)}
                 <li>
                   <b>{@html periodNameHtml(p)}</b><span class="quiet"> · {levelWord(p)}</span>
-                  {#if w.text}<p>{w.text}</p>{/if}
-                  {#if w.source}<p class="src">{t('source')}: {w.source}</p>{/if}
+                  {#if w.text}<p>{@html labelHtml(w.text)}</p>{/if}
+                  {#if w.source}<p class="src">{@html labelHtml(`${t('source')}: ${w.source}`)}</p>{/if}
                 </li>
               {/each}
             </ul>

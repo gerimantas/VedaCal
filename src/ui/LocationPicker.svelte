@@ -5,7 +5,7 @@
   import VersionTag from './VersionTag.svelte'
   import { loadCities, nearest, search, type CityIndex, type Place } from './cities'
   import { resolveBirth, type BirthInput } from './birth'
-  import { LANG, LOCALE, content, countryName, deviceHour12, entry, t, time } from './format'
+  import { LANG, LOCALE, content, countryName, deviceHour12, entry, labelHtml, t, time } from './format'
   import { icon } from './icons'
   import { install, promptInstall } from './install.svelte'
   import { app, setBirth, setLocation, setSetting } from './state.svelte'
@@ -174,7 +174,7 @@
 
   <h2 class="about-head" id="mydata">{t('myData')}</h2>
   <section class="card about-intro birth">
-    <p class="quiet">{t('birthPrivacy')}</p>
+    <p class="quiet">{@html labelHtml(t('birthPrivacy'))}</p>
     <div class="field">
       <span>{t('birthDate')}</span>
       <span class="ymd">
@@ -224,7 +224,7 @@
     <p class="chosen" class:quiet={!draft.place}>
       {#if draft.place}{@html icon.pin}<b>{draft.place.name}, {countryName(draft.place.cc, draft.place.country)}</b>{:else}{t('birthPlaceNone')}{/if}
     </p>
-    <p class="quiet">{t('birthPlaceNote')}</p>
+    <p class="quiet">{@html labelHtml(t('birthPlaceNote'))}</p>
 
     <div class="field">
       <span>{t('birthTime')}</span>
@@ -261,7 +261,7 @@
         <dt>{t('birthStar')}</dt><dd>{preview.birth.star ? starName(preview.birth.star) : t('birthUnknown')}</dd>
         <dt>{t('birthSign')}</dt><dd>{preview.birth.sign ? signName(preview.birth.sign) : t('birthUnknown')}</dd>
       </dl>
-      {#if nothing}<p class="quiet">{t('birthNothing')}</p>{/if}
+      {#if nothing}<p class="quiet">{@html labelHtml(t('birthNothing'))}</p>{/if}
     {/if}
     <button class="gps save" onclick={save} disabled={!preview?.birth}><span>{saved ? t('birthSaved') : t('birthSave')}</span></button>
     {#if missing}<p class="quiet">{t(missing)}</p>{/if}
@@ -286,7 +286,7 @@
         <button aria-pressed={app.settings.zodiac === value} onclick={() => setSetting('zodiac', value)}>{label}</button>
       {/each}
     </div>
-    <p class="quiet">{t('zodiacNote')}</p>
+    <p class="quiet">{@html labelHtml(t('zodiacNote'))}</p>
   </section>
 
   <h2 class="about-head">{t('timeFormat')}</h2>
@@ -310,7 +310,7 @@
   {#if install.available}
     <h2 class="about-head">{t('installApp')}</h2>
     <section class="card about-intro">
-      <p class="quiet">{t('installNote')}</p>
+      <p class="quiet">{@html labelHtml(t('installNote'))}</p>
       <button class="gps" onclick={promptInstall}><span>{t('installApp')}</span></button>
     </section>
   {/if}
