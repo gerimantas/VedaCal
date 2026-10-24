@@ -163,24 +163,24 @@ it('Sky layers: rings depend only on the highlights; labels hold still while pla
   const b = new Date(a.getTime() + 60_000) // same Sun sign, Moon sign and star
   for (const view of [skyView, skyViewSun]) {
     expect(view(a).rings).toBe(view(b).rings)
-    expect(view(a).moving).not.toBe(view(b).moving)
+    expect(view(a).ringText).toBe(view(b).ringText)
+    expect(view(a).top).not.toBe(view(b).top)
     expect(view(new Date('2026-11-24T09:00:00Z')).rings).not.toBe(view(a).rings)
   }
   // Labels take their natural angle when still; at some moment they otherwise give way.
   const diff = Array.from({ length: 30 }, (_, i) => new Date(a.getTime() + i * 24 * 3600_000)).some(
-    (d) => skyView(d).moving !== skyView(d, { still: true }).moving,
+    (d) => skyView(d).top !== skyView(d, { still: true }).top,
   )
   expect(diff).toBe(true)
 })
 
-// The old single-string chart (captured before the split) has the same nodes as wrapper + rings + moving.
-it('Sky layers add up to the old single-string chart (same nodes)', () => {
+// The old single-string chart (captured before the split) is exactly the four layers in order.
+it('Sky layers add up to the old single-string chart (exact string)', () => {
   const old = JSON.parse(readFileSync(new URL('./fixtures/sky-old.json', import.meta.url), 'utf8')) as Record<string, string>
-  const nodes = (svg: string) => svg.replace(/>\s+</g, '><').match(/<[^>]+>[^<]*(?:<tspan[^>]*>[^<]*<\/tspan>)?[^<]*(?:<\/text>)?/g)!.map((x) => x.trim()).sort()
   for (const [key, svg] of Object.entries(old)) {
     const at = new Date(key.slice(1))
     const v = key[0] === 'e' ? skyView(at) : skyViewSun(at)
-    expect(nodes(skyWrap(v.rings, v.moving)), key).toEqual(nodes(svg))
+    expect(skyWrap(v), key).toBe(svg)
   }
 })
 
@@ -189,9 +189,9 @@ it('Sun-centred chart: same facts, Earth opposite the Sun, line ends in the Sun 
   const at = new Date('2026-10-24T09:00:00Z')
   const a = skyView(at)
   const b = skyViewSun(at)
-  const bare = (x: typeof a) => ({ ...x, rings: '', moving: '' })
+  const bare = (x: typeof a) => ({ ...x, rings: '', below: '', ringText: '', top: '' })
   expect(bare(b)).toEqual(bare(a))
-  expect(b.moving).not.toBe(a.moving)
+  expect(b.top).not.toBe(a.top)
   for (const sun of [0, 29.9, 30, 123.4, 359.9]) {
     const moon = (sun + 77) % 360
     const L = sunCentredLayout(sun, moon)

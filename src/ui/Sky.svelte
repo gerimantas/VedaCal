@@ -105,7 +105,9 @@
     <svg class="sky-chart" viewBox="34 34 332 332" role="img" aria-label={t('skyTitle')}>
       <defs>{@html SKY_DEFS}</defs>
       <g>{@html v.rings}</g>
-      <g>{@html v.moving}</g>
+      <g>{@html v.below}</g>
+      <g>{@html v.ringText}</g>
+      <g>{@html v.top}</g>
     </svg>
   </div>
 

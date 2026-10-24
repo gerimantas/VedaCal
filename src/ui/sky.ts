@@ -8,8 +8,10 @@
 // Second view (user, 2026-10-24): Sun in the centre as a second tab (skyViewSun). The Earth
 // circles the Sun on a thin orbit with the small Moon ring around it; the same two outer rings.
 // Smooth Play (user, 2026-10-24): each view returns the chart in two layers — `rings` (signs and
-// stars, which change only with the highlights) and `moving` (everything else) — so the screen
-// can leave the rings' DOM alone between frames. `skyWrap` joins them into the old single SVG.
+// stars, which change only with the highlights) and the moving parts — so the screen can leave
+// the rings' DOM alone between frames. Four strings keep the old drawing order: `rings` (ring
+// shapes), `below` (moving shapes), `ringText` (ring labels), `top` (moving labels and bodies).
+// `skyWrap` joins them into the old single SVG.
 import { skyAt } from '../core/panchang'
 import { content, entry, t } from './format'
 
@@ -64,8 +66,10 @@ type Rashi = { name: string; title: string }
 export const rashi = (k: number) => (content.rashi as Record<string, Rashi>)[String(k)]
 
 export interface SkyView {
-  rings: string // depends only on the Sun sign, Moon sign and Moon star
-  moving: string // everything else, drawn over the rings
+  rings: string // ring shapes; depends only on the Sun sign, Moon sign and Moon star
+  below: string // moving shapes (orbit, sectors, ticks, pointer lines, angle arc)
+  ringText: string // ring labels; same dependence as `rings`
+  top: string // moving labels and the bodies
   elongation: number
   tithi: number
   nakshatra: number
@@ -99,9 +103,14 @@ function outerRings(sunSign: number, moonSign: number, nak: number, shapes: stri
 export const SKY_DEFS = `<radialGradient id="sky-glow"><stop offset="0" stop-color="#ffd76a" stop-opacity="0.9"/><stop offset="1" stop-color="#ffb300" stop-opacity="0"/></radialGradient>
       <marker id="sky-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="arrow" d="M0 0L10 5L0 10z"/></marker>`
 
-/** Both layers as one SVG string (what the screen draws as two groups). */
-export function skyWrap(rings: string, moving: string): string {
-  return `<svg class="sky-chart" viewBox="34 34 332 332" role="img" aria-label="${t('skyTitle')}"><defs>${SKY_DEFS}</defs>${rings}${moving}</svg>`
+/** The four layers as one SVG string, in drawing order. */
+export function skyWrap(v: Pick<SkyView, 'rings' | 'below' | 'ringText' | 'top'>): string {
+  return `<svg class="sky-chart" viewBox="34 34 332 332" role="img" aria-label="${t('skyTitle')}">
+    <defs>
+      ${SKY_DEFS}
+    </defs>
+    ${v.rings}${v.below}${v.ringText}${v.top}
+  </svg>`
 }
 
 function facts(sun: number, moon: number) {
@@ -179,7 +188,7 @@ export function skyView(when: Date, opts: { still?: boolean } = {}): SkyView {
     body(0, 0, R.earth, sunDeg, 'earth'),
   ]
 
-  return { rings: ringShapes.join('') + ringLabels.join(''), moving: shapes.join('') + labels.join('') + bodies.join(''), elongation: elong, tithi, nakshatra: nak, moonSign, sunSign, illumination: (1 - Math.cos(rad(elong))) / 2 }
+  return { rings: ringShapes.join(''), below: shapes.join(''), ringText: ringLabels.join(''), top: labels.join('') + bodies.join(''), elongation: elong, tithi, nakshatra: nak, moonSign, sunSign, illumination: (1 - Math.cos(rad(elong))) / 2 }
 }
 
 const SUN = { orbit: 72, ringIn: 18, ringOut: 28, moon: 23, earth: 7, moonSize: 4 }
@@ -239,5 +248,5 @@ export function skyViewSun(when: Date): SkyView {
     body(0, 0, SUN.earth, sunDeg, 'earth', earth),
     body(moonDeg, SUN.moon, SUN.moonSize, sunDeg, 'moon-body', earth),
   ]
-  return { rings: ringShapes.join('') + ringLabels.join(''), moving: shapes.join('') + labels.join('') + bodies.join(''), elongation: elong, tithi, nakshatra: nak, moonSign, sunSign, illumination: (1 - Math.cos(rad(elong))) / 2 }
+  return { rings: ringShapes.join(''), below: shapes.join(''), ringText: ringLabels.join(''), top: labels.join('') + bodies.join(''), elongation: elong, tithi, nakshatra: nak, moonSign, sunSign, illumination: (1 - Math.cos(rad(elong))) / 2 }
 }
