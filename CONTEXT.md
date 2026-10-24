@@ -2,7 +2,12 @@
 
 ## Status
 Live: everything through S18 (https://gerimantas.github.io/VedaCal/, 7d33178). LOCAL, NOT
-PUSHED: S19's 13 commits (to 369b7b5) — push only on the user's command.
+PUSHED: S19's 13 commits + S20's tooling commit (to 481bf0d) — push only on the user's command.
+S20 (Archive S20): code graphs for agents — `CLAUDE.md` code map, `graphify-out/` and
+`.code-review-graph/` (both ignored by git) refreshed by `.git/hooks/post-commit`; guard
+`.claude/hooks/graphify-guard.py` denies broad code search until a graph answered this task
+(active after a Claude Code restart). graphify misses Svelte calls and `const f = () =>` —
+use `code-review-graph search` / `query callers_of` (CLAUDE.md "Known blind spots").
 S19 (Archive S19): Week day sheet on tap (`week.ts` `daySummary`); ☰ menu = Settings, How to
 use (`Guide.svelte`), Glossary (`Glossary.svelte`), About; Sky has two tabs (Earth / Sun in the
 centre, `sky.ts` `skyViewSun`), Play on rAF with static ring layers, tap the chart to play.
@@ -27,12 +32,7 @@ the top bar shows the commit); show proposals before changing code; commit local
 only on the user's command.
 
 ## Next Tasks
-- **Set up graphify + code-review-graph for VedaCal** (user agreed, 2026-10-24): (1) build
-  `graphify update .` and `code-review-graph build` (CLI only, never `install`); (2) write a
-  short project `CLAUDE.md` code map; (3) refresh both on every commit; (4) PreToolUse guard
-  that denies broad search before graphify. Why/how: vault `wiki/cli-tools/code-review-graph.md`,
-  `wiki/agents/agent-ignores-project-tools.md`. Both tools parse `.svelte` (checked).
-- Push S19 when the user says so; ask the user to check Sky Play smoothness on the phone.
+- Push S19 + S20 when the user says so; ask the user to check Sky Play smoothness on the phone.
 - **Fix the app first** (user, 2026-10-21): it is not ready for other people to see and needs
   many fixes. Ask the user what to fix; collect the list before changing code.
   Collected so far: (a) on the menu pages (Settings, How to use, Glossary, About) at 360 px
@@ -48,6 +48,8 @@ only on the user's command.
   E1 eclipse-time veto for group 7.
 - New moon shows 18:49 (tithi end, moon card) and 18:50 (key dates, tradition card): two
   methods ~40 s apart (SPEC 11). Use one instant for both. Code: `src/core/panchang.ts`.
+- Optional: `.planning/` docs are in neither code graph (gitignored nested repo; graphify
+  indexes docs only with an LLM run). Ask the user before spending on it.
 - Optional: find the uniform ~57 s Moon offset vs Drik (`npm run accuracy`; mypanchang agrees
   with us on tithi to 8 s). Inside the gate, so only if the user asks. rules: SPEC 4.11.
 - P7 pilot (5–10 people try the app) — ON HOLD. Do not propose it until the user says the app
@@ -55,13 +57,12 @@ only on the user's command.
 
 ## Done Log
 
+### 2026-10-24 (S20)
+- graphify + code-review-graph built; CLAUDE.md code map; post-commit refresh; search guard (481bf0d)
+
 ### 2026-10-24 (S19)
 - Week day sheet; ☰ menu split (How to use, Glossary, About); Sky Sun-centred tab; smooth Play + tap
 - Sanskrit yellow everywhere; Open day outlined; not pushed (369b7b5)
-
-### 2026-10-23 (S18)
-- 7-shade rainbow clock + gradient legend with marker; day-start tick; Week screen
-- ☰ menu, 4 tabs, collapsible bar row, Now on every screen; old palette removed; deployed (7d33178)
 
 ## Key Facts
 - Live: https://gerimantas.github.io/VedaCal/ · Repo: https://github.com/gerimantas/VedaCal (public)
@@ -128,6 +129,15 @@ only on the user's command.
 ## Archive
 
 Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation, newest first). This section keeps the most recent 10 sessions.
+
+### Session 2026-10-24 (S20) — code graphs for agents: CLAUDE.md map, post-commit refresh, search guard
+
+- **Done:** Built graphify (754 nodes) and code-review-graph (77 files, 837 nodes) indexes, CLI only. Wrote project `CLAUDE.md` (which command for which question, blind spots, layout). `.git/hooks/post-commit` refreshes both (CRG `build` when a commit adds files); checked: graph built from 481bf0d. Guard hook denies Grep over src/tests/scripts and recursive grep/rg/find until a graph returned content; a new user prompt closes the window; 17 sample cases pass.
+- **Decided / overturned:** graphify misses `.svelte` call sites (`daySummary` ← `Week.svelte:87`) and `export const f = () =>` (`labelHtml`); CRG finds both, so CLAUDE.md routes "where / who calls" to CRG. `graphify-out/` gitignored. Polymarket v2's guard scripts no longer exist on disk; guard written fresh.
+- **Code:** `CLAUDE.md`, `.claude/settings.json`, `.claude/hooks/graphify-guard.py`, `.gitignore`, `.git/hooks/post-commit` (untracked by git by nature).
+- **Entry point:** `code-review-graph query callers_of <name>`; `graphify explain "<name>"`; guard live after a Claude Code restart.
+- **Not measured:** guard inside a live session (only fed sample JSON); `.planning/` docs not indexed.
+- **Delegation:** 0 haiku, 0 sonnet. Inline: index builds and hook/CLAUDE.md config (single commands, Opus edits CLAUDE.md); greps that checked graph answers against source (Opus checks claims). `find` over the home folder for the old guard scripts — violation of "search goes to Haiku".
 
 ### Session 2026-10-24 (S19) — Week day sheet, menu split, Sun-centred Sky tab, smooth Play, Sanskrit in yellow; local only
 
@@ -214,13 +224,3 @@ Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation,
 - **Code:** `mockups/research/{index.html,d5-graph.html,shots/*.webp}`; `tests/fixtures/drik-extra/*`, `tests/fixtures/drik/vilnius-2026-08-12.json`.
 - **Entry point:** `npm run dev` → http://localhost:5173/VedaCal/mockups/research/ (D5: `d5-graph.html`, `?theme=dark`).
 - **Not measured:** D5 on a real phone; Prokerala's "overlapped by vaar vela" rule not checked against the registry; example 4 still not worked.
-
-### Session 2026-10-10 (S10) — plan audit; Q0 catalogue, Q1 source registry, Q2 model
-
-- **Done:** Audit of PLAN-periods (16 findings fixed, files `PLAN-periods_AUDIT_*`). Q0: `research/catalogue.md`; `scripts/fetch-drik-extra.ts` (Drik Hora, Gowri, Lagna, Panchaka Rahita, Chandrabalam, Tarabalam, Do Ghati per day).
-- **Done:** Q1: `research/rules.md` — ~55 records from Muhurta Chintamani (clean Hindi ed. 1939), Kalaprakasika, Brihat Samhita, Ashtanga Hridaya, Raman, Drik; verdict index for every catalogue row.
-- **Done:** Q2: SPEC 13 (periods model) + `research/examples.md` (Vilnius 10-10, 10-06, 10-25 worked by hand).
-- **Decided / overturned:** User: good AND bad shown at every level (replaces SPEC 4.11's hidden avoid days); verdicts per 10 activity groups; base = Muhurta Chintamani + Drik, regional items later; ignore the current app when deciding. Rejected: "Abhijit cancels all doshas" (that is Ravi yoga), "Panchaka bad for everything" (5 acts only).
-- **Code:** `scripts/fetch-drik-extra.ts`, `tests/fixtures/drik-extra/*`; planning repo: `PLAN-periods.md`, `SPEC.md` 13, `research/{catalogue,rules,examples}.md`.
-- **Entry point:** `node scripts/fetch-drik-extra.ts <city> [dates]` (12 s spacing, cached).
-- **Not measured:** example 4 (2026-08-12 eclipse) needs its Drik pages; combustion orbs, karana quality, Pitru Paksha unsourced.
