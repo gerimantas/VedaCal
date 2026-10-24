@@ -16,3 +16,5 @@ __pycache__/
 .playwright-mcp/
 # Pages fetched from drikpanchang.com by scripts/drik-page.ts (re-parse without re-fetching)
 .cache/
+# Code graphs (rebuilt by .git/hooks/post-commit)
+graphify-out/
