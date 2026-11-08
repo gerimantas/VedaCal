@@ -49,16 +49,39 @@ def response_text(resp):
     return str(resp or "")
 
 
-def is_broad_grep(tool_input):
-    path = (tool_input.get("path") or ".").replace("\\", "/").rstrip("/")
+def real_session(data):
+    # The transcript folder names the real cwd; the MyAI relay rewrites the hook's cwd.
+    return "vedacal" in str(data.get("transcript_path") or "").lower()
+
+
+def other_project(text):
+    names = re.findall(r"/projects/([^/\s\"']+)", text.replace("\\", "/"), re.I)
+    return bool(names) and not any(n.lower() == "vedacal" for n in names)
+
+
+def is_broad_grep(tool_input, real):
+    path = (tool_input.get("path") or "").replace("\\", "/").rstrip("/")
+    if other_project(path):
+        return False
     rel = path.split("/VedaCal/", 1)[-1] if "/VedaCal/" in path else path
+    glob = tool_input.get("glob") or ""
+    ftype = tool_input.get("type") or ""
     if rel in (".", "") or rel.lower().endswith("projects/vedacal"):
-        glob = tool_input.get("glob") or ""
-        ftype = tool_input.get("type") or ""
-        return not (glob.endswith(".md") or ftype == "md")
+        if glob.endswith(".md") or ftype == "md":
+            return False
+        return real or re.match("(" + "|".join(CODE_DIRS) + ")/", glob) is not None
     top = rel.lstrip("./").split("/", 1)[0]
     is_file = os.path.splitext(rel)[1] != ""
     return top in CODE_DIRS and not is_file
+
+
+def is_broad_shell(command, real):
+    if not SHELL_SEARCH.search(command) or ".planning" in command or other_project(command):
+        return False
+    names_code = re.search(
+        r"(^|[\s/\"'])(" + "|".join(CODE_DIRS) + r")(/|\s|$|[\"'])", command
+    )
+    return real or bool(names_code) or "vedacal" in command.lower()
 
 
 def main():
@@ -85,9 +108,9 @@ def main():
     if event != "PreToolUse" or os.path.exists(window):
         return
     if tool == "Grep":
-        broad = is_broad_grep(tool_input)
+        broad = is_broad_grep(tool_input, real_session(data))
     elif tool in ("Bash", "PowerShell"):
-        broad = bool(SHELL_SEARCH.search(command)) and ".planning" not in command
+        broad = is_broad_shell(command, real_session(data))
     else:
         broad = False
     if broad:
