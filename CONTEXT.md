@@ -2,35 +2,20 @@
 
 ## Status
 Live: everything through S21 (https://gerimantas.github.io/VedaCal/, ec7ec3d); nothing
-unpushed. S21 (Archive S21): Sky Play runs on past the slider end (no 30-day jump back,
-`Sky.svelte` `step`); `npm audit fix` after CI failed on new advisories; graphify 0.9.95.
-S20 (Archive S20): code graphs for agents — `CLAUDE.md` code map, `graphify-out/` and
-`.code-review-graph/` (both ignored by git) refreshed by `.git/hooks/post-commit`; guard
-`.claude/hooks/graphify-guard.py` denies broad code search until a graph answered this task.
-graphify ≥ 0.9.76 reads `.svelte` scripts; calls in `$derived(...)`/markup still show only as
-imports — use `code-review-graph query callers_of` (CLAUDE.md "Known blind spots").
-S19 (Archive S19): Week day sheet on tap (`week.ts` `daySummary`); ☰ menu = Settings, How to
-use (`Guide.svelte`), Glossary (`Glossary.svelte`), About; Sky has two tabs (Earth / Sun in the
-centre, `sky.ts` `skyViewSun`), Play on rAF with static ring layers, tap the chart to play.
-Rule (user): Sanskrit is yellow everywhere (`.sk`; `format.ts` `labelHtml` / `markSanskrit`,
-`verdict.ts` `periodNameHtml`); Lithuanian-spelt forms and brand names stay plain.
-S18: one rainbow scale of 7 shades, ring + legend bar share `scalePos` (`verdict.ts`); top bar
-`AppBar.svelte`; 4 bottom tabs. The user still lists fixes before anyone else sees the app.
-Periods work (`.planning/PLAN-periods.md`): the day clock (`src/ui/DayClock.svelte`) with
-"Visa diena" under it; engine `src/core/periods.ts` has every SPEC 13.2 value and, since
-S16, the personal layer (SPEC 13.6): Settings → "Mano duomenys" (kept only in
-`localStorage`). Tara / Chandrabala follow MC 4.4, 4.11–13 (not
-Drik's grading); personal faults are fallback, Chandrashtama and the birth tithi veto, the
-birth month shown only. Ravi yoga cancels the elements' own faults (SPEC 13.4 step 0).
-"Veto beats any +" is a model choice (SPEC 13.4), not a source rule — the user asked.
-Rule: every product claim needs a source — all texts now carry one (`tradition` +
-`traditionSource`, every meaning's `source`; `tests/content.test.ts`); records in
-`.planning/research/rules.md` ("Meanings").
-Open: E1's eclipse-time veto for group 7; SPEC day start BM (13.1) vs sunrise (13.5); D3
-paksha-randhra remainder neutral or fallback.
-Workflow: the user reviews on localhost (the dev server restarts itself on every commit;
-the top bar shows the commit); show proposals before changing code; commit locally, push
-only on the user's command.
+unpushed. S22 (2026-11-12): no app change; commit 9714364 (2026-11-08) limits
+`.claude/hooks/graphify-guard.py` to VedaCal code. S21: Sky Play runs on past the slider end
+(`Sky.svelte` `step`); `npm audit fix`; graphify 0.9.95.
+Code graphs: `CLAUDE.md` code map; `graphify-out/` + `.code-review-graph/` refreshed by
+`.git/hooks/post-commit`; the guard denies broad code search until a graph answered (blind
+spots: CLAUDE.md). The user still lists fixes before anyone else sees the app.
+Rules (user): Sanskrit is yellow everywhere (`.sk`); every product claim needs a source
+(`tests/content.test.ts`, `.planning/research/rules.md`); "Veto beats any +" is a model
+choice (SPEC 13.4). Periods: engine `src/core/periods.ts` + personal layer (SPEC 13.6,
+`localStorage`); plan `.planning/PLAN-periods.md`.
+Open: E1 eclipse-time veto (group 7); day start BM vs sunrise (13.1 / 13.5); D3 remainder.
+Workflow: the user reviews on localhost (dev server restarts on every commit); show
+proposals before changing code; commit locally, push only on the user's command.
+Older detail: Archive S16-S21.
 
 ## Next Tasks
 - Ask the user how Sky Play looks on the phone (live ec7ec3d): smooth, and no jump back on
@@ -58,6 +43,9 @@ only on the user's command.
   is ready to show (user, 2026-10-21). plan: `.planning/PLAN.md` P7.
 
 ## Done Log
+
+### 2026-11-12 (S22)
+- Card only; guard scoping commit 9714364 recorded; Status trimmed
 
 ### 2026-10-24 (S21)
 - S19 + S20 pushed and deployed; npm audit fix; graphify 0.9.95; Sky Play no jump back (ec7ec3d)
@@ -130,6 +118,14 @@ only on the user's command.
 ## Archive
 
 Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation, newest first). This section keeps the most recent 10 sessions.
+
+### Session 2026-11-12 (S22) — card only; guard scoping commit recorded
+- **Done:** Session opened and closed with no app work. Recorded commit 9714364 (2026-11-08, made outside a VedaCal session): `graphify-guard.py` now acts only on VedaCal code. Status trimmed under the 1,800-byte focus cap (older session detail stays in the Archive).
+- **Decided / overturned:** none
+- **Code:** `.claude/hooks/graphify-guard.py` (9714364)
+- **Entry point:** none (the hook runs on Grep / Bash calls in Claude Code)
+- **Not measured:** Sky Play on the phone (still the first Next Task); the guard change was not tested this session.
+- **Delegation:** 0 haiku, 0 sonnet — close only, inline (session-close exception)
 
 ### Session 2026-10-24 (S21) — pushed S19+S20; graphify 0.9.95; Sky Play no jump back; deployed (ec7ec3d)
 
@@ -214,13 +210,3 @@ Older entries live in `CONTEXT-ARCHIVE.md` (moved there by session-end rotation,
 - **Code:** `src/core/{panchang,periods,types}.ts`, `src/ui/verdict.ts`, `src/content/{en,lt}.json`, `tests/periods.test.ts`; planning: rules.md E1, SPEC 13.3, examples.md example 4.
 - **Entry point:** `npx vitest run tests/periods.test.ts`; app `npm run dev`, Vilnius 2026-10-06 (avoid until 19:47) and 2026-08-10.
 - **Not measured:** user has not seen the clock with E1; cold computeDay 10 → 31 ms on desktop (throttled phone not measured).
-
-### Session 2026-10-10 (S12) — day clock designed (D6, D7), engine step 1, clock in the app
-
-- **Done:** D6 (5 graph variants) → user picked the ring → D7 24 h clock mockup, iterated (12 on top, sun marks, hand B, icons, inner rings hidden, two days). Audit: SPEC 13.4 made every day 43–65 % "avoid", mostly Choghadiya → Choghadiya now shown only (R21).
-- **Done:** Engine step 1: `src/core/periods.ts` — easy values, day base per group, 13.4 verdict, `MISSING` list; 25 tests from the examples. Examples 1–3 corrected (3 hand errors the tests found), example 5 (2026-05-10) added.
-- **Done:** Step 2: day clock on the Day screen (`DayClock.svelte`), activity setting (10 groups, General default), palette setting (current / rainbow), EN+LT labels.
-- **Decided / overturned:** Choghadiya never decides; group 0 = "General"; group 6 named "Care and remedies" (content test bans "health"); palette in Settings; button style decided later for all pages. All in PLAN-periods Q3 "Decisions so far".
-- **Code:** `src/core/periods.ts`, `src/ui/{DayClock.svelte,verdict.ts,Day.svelte,LocationPicker.svelte,state.svelte.ts}`, `src/styles/tokens.css`, `src/content/{en,lt}.json`, `tests/periods.test.ts`, `mockups/research/{d6-variants,d7-clock}.html`; planning: SPEC 13.2, rules R21/C4/C5, examples.md.
-- **Entry point:** `npm run dev` → http://localhost:5173/VedaCal/ (Day screen); mockup `/VedaCal/mockups/research/d7-clock.html`; `npx vitest run tests/periods.test.ts`.
-- **Not measured:** the clock on a real phone; user has not reviewed the app clock yet.

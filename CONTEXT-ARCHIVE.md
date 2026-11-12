@@ -2,6 +2,15 @@
 
 Older session entries moved out of `CONTEXT.md`.
 
+## Session 2026-10-10 (S12) — day clock designed (D6, D7), engine step 1, clock in the app
+
+- **Done:** D6 (5 graph variants) → user picked the ring → D7 24 h clock mockup, iterated (12 on top, sun marks, hand B, icons, inner rings hidden, two days). Audit: SPEC 13.4 made every day 43–65 % "avoid", mostly Choghadiya → Choghadiya now shown only (R21).
+- **Done:** Engine step 1: `src/core/periods.ts` — easy values, day base per group, 13.4 verdict, `MISSING` list; 25 tests from the examples. Examples 1–3 corrected (3 hand errors the tests found), example 5 (2026-05-10) added.
+- **Done:** Step 2: day clock on the Day screen (`DayClock.svelte`), activity setting (10 groups, General default), palette setting (current / rainbow), EN+LT labels.
+- **Decided / overturned:** Choghadiya never decides; group 0 = "General"; group 6 named "Care and remedies" (content test bans "health"); palette in Settings; button style decided later for all pages. All in PLAN-periods Q3 "Decisions so far".
+- **Code:** `src/core/periods.ts`, `src/ui/{DayClock.svelte,verdict.ts,Day.svelte,LocationPicker.svelte,state.svelte.ts}`, `src/styles/tokens.css`, `src/content/{en,lt}.json`, `tests/periods.test.ts`, `mockups/research/{d6-variants,d7-clock}.html`; planning: SPEC 13.2, rules R21/C4/C5, examples.md.
+- **Entry point:** `npm run dev` → http://localhost:5173/VedaCal/ (Day screen); mockup `/VedaCal/mockups/research/d7-clock.html`; `npx vitest run tests/periods.test.ts`.
+- **Not measured:** the clock on a real phone; user has not reviewed the app clock yet.
 ## Session 2026-10-10 (S11) — Q3.1 design survey; D5 graded day graph
 
 - **Done:** Drik extra fixtures completed: New Delhi's 10 missing dates; all 16 Vilnius dates refetched to add Do Ghati (only `fetchedAt` changed otherwise); Vilnius 2026-08-12 day + extra pages for example 4.
